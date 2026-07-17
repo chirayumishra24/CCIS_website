@@ -93,7 +93,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Header />
-        <main id="main-content" className="min-h-screen pt-[116px] md:pt-[124px]">
+        <main id="main-content" className="min-h-screen pt-[80px] sm:pt-[116px] md:pt-[124px]">
           {children}
         </main>
         <Footer />

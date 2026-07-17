@@ -16,7 +16,7 @@ export default function CampusLife() {
     <div className="bg-white">
       {/* Banner */}
       <section className="relative bg-navy text-white py-20 overflow-hidden border-b-4 border-gold">
-        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('/images/hero1.webp')" }} />
+        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('/images/campus_life_hero.png')" }} />
         <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col gap-4">
           <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit mx-auto">
             Beyond Academics

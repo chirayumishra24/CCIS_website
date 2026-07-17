@@ -55,7 +55,7 @@ export default function Contact() {
     <div className="bg-white">
       {/* Banner */}
       <section className="relative bg-navy text-white py-20 overflow-hidden border-b-4 border-gold">
-        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('/images/hero1.webp')" }} />
+        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('/images/contact_hero.png')" }} />
         <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col gap-4">
           <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit mx-auto">
             Get In Touch
@@ -205,9 +205,9 @@ export default function Contact() {
       </section>
 
       {/* Map Embed Section */}
-      <section className="w-full h-[400px] relative border-t border-cream-line">
+      <section className="w-full h-[400px] relative border-y-2 border-gold">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8872658936663!2d75.7661556752763!3d26.843534576689816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5dc35555555%3A0xe9f79ca41e127ee7!2sCambridge%20Court%20International%20School!5e0!3m2!1sen!2sin!4v1721200000000!5m2!1sen!2sin"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8974514332857!2d75.76652407630713!3d26.843213076690045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5dc35555555%3A0xe9f79ca41e127ee7!2sCambridge%20Court%20International%20School!5e0!3m2!1sen!2sin!4v1721200000000!5m2!1sen!2sin"
           className="w-full h-full border-0"
           allowFullScreen
           loading="lazy"

@@ -25,17 +25,17 @@ const studentReviews = [
 
 const heroSlides = [
   {
-    img: '/images/hero1.webp',
+    img: '/images/home_hero1.png',
     title: 'Dual Advantage: CBSE &amp; IB curriculum',
     desc: 'Empowering future global leaders through world-class academic pathways and deep-rooted Indian values.'
   },
   {
-    img: '/images/hero2.webp',
+    img: '/images/home_hero2.png',
     title: 'Holistic Development &amp; Modern Labs',
     desc: 'State-of-the-art sports complexes, advanced technology arenas, and active learning studios.'
   },
   {
-    img: '/images/hero3.webp',
+    img: '/images/home_hero3.png',
     title: 'Cultivating Critical Thinkers',
     desc: 'Inspiring creative query, research focus, and innovative reasoning in every child.'
   }
@@ -679,9 +679,9 @@ export default function Home() {
       </section>
 
       {/* 13. Map Embed Section */}
-      <section className="w-full h-80 relative border-b border-cream-line">
+      <section className="w-full h-80 relative border-y-2 border-gold">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8872658936663!2d75.7661556752763!3d26.843534576689816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5dc35555555%3A0xe9f79ca41e127ee7!2sCambridge%20Court%20International%20School!5e0!3m2!1sen!2sin!4v1721200000000!5m2!1sen!2sin"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8974514332857!2d75.76652407630713!3d26.843213076690045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5dc35555555%3A0xe9f79ca41e127ee7!2sCambridge%20Court%20International%20School!5e0!3m2!1sen!2sin!4v1721200000000!5m2!1sen!2sin"
           className="w-full h-full border-0"
           allowFullScreen
           loading="lazy"

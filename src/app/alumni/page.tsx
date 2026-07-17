@@ -113,7 +113,7 @@ export default function Alumni() {
     <div className="bg-white min-h-screen">
       {/* Banner */}
       <section className="relative bg-navy text-white py-20 overflow-hidden border-b-4 border-gold">
-        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1200')" }} />
+        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('/images/alumni_hero.png')" }} />
         <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col gap-4">
           <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit mx-auto">
             CCIS Alumni Association
