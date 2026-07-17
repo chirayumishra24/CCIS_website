@@ -678,16 +678,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 13. Map Embed Section */}
-      <section className="w-full h-80 relative border-y-2 border-gold">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8974514332857!2d75.76652407630713!3d26.843213076690045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5dc35555555%3A0xe9f79ca41e127ee7!2sCambridge%20Court%20International%20School!5e0!3m2!1sen!2sin!4v1721200000000!5m2!1sen!2sin"
-          className="w-full h-full border-0"
-          allowFullScreen
-          loading="lazy"
-          title="CCIS Jaipur Campus Location"
-        />
-      </section>
 
       <VideoModal
         isOpen={isVideoModalOpen}
