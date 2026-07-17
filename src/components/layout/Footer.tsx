@@ -10,14 +10,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* About Section */}
         <div className="flex flex-col gap-4">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white rounded-full overflow-hidden flex items-center justify-center border-2 border-gold shadow-glow-gold">
-              <img src="/images/logo.webp" alt="CCIS Logo" className="w-full h-full object-contain" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif font-bold text-white text-lg leading-none">CCIS</span>
-              <span className="font-sans text-[9px] text-cream-dark uppercase tracking-widest leading-none mt-1">International School</span>
-            </div>
+          <Link href="/" className="flex items-center w-fit bg-white py-1.5 px-3 rounded-lg shadow-sm">
+            <img src="/images/logo.webp" alt="CCIS Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
           <p className="text-sm text-cream-dark/70 leading-relaxed mt-2">
             Where Learning Meets Life! Providing dual CBSE and IB curriculum pathways to nurture future global leaders with solid traditional Indian values.

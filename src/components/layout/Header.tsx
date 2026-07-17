@@ -9,7 +9,6 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Academics", href: "/academics" },
-  { name: "Admissions", href: "/admissions" },
   { name: "Campus Life", href: "/campus-life" },
   { name: "Faculty", href: "/faculty" },
   { name: "News & Events", href: "/news-events" },
@@ -67,19 +66,8 @@ export default function Header() {
       {/* Main Navigation */}
       <nav className={`transition-all duration-300 ${isScrolled ? "bg-navy/95 backdrop-blur-md shadow-nav py-3" : "bg-navy py-5"} border-b border-white/10`}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-          {/* Logo / Brand */}
-          <Link href="/" className="flex items-center gap-3 group focus:outline-none">
-            <div className="w-10 h-10 bg-white rounded-full overflow-hidden flex items-center justify-center border-2 border-gold shadow-glow-gold transition-transform group-hover:scale-105">
-              <img src="/images/logo.webp" alt="CCIS Logo" className="w-full h-full object-contain" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif font-bold text-white text-lg md:text-xl leading-none tracking-tight group-hover:text-gold-light transition-colors">
-                CCIS
-              </span>
-              <span className="font-sans text-[10px] text-cream-dark uppercase tracking-widest leading-none mt-1">
-                International School
-              </span>
-            </div>
+          <Link href="/" className="flex items-center group focus:outline-none bg-white py-1.5 px-3 rounded-lg shadow-sm">
+            <img src="/images/logo.webp" alt="CCIS Logo" className="h-8 md:h-10 w-auto object-contain transition-transform group-hover:scale-105" />
           </Link>
 
           {/* Desktop Nav Links */}
