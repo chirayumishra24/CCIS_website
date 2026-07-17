@@ -85,14 +85,14 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Main Navigation */}
+      {/* Main Navigation - White theme with Gold bottom border */}
       <nav className={`w-full transition-all duration-300 ${
         isScrolled 
-          ? "bg-navy/95 backdrop-blur-md shadow-md py-3" 
-          : "bg-navy py-5"
-      } border-b border-white/10`}>
+          ? "bg-white/95 backdrop-blur-md shadow-md py-3" 
+          : "bg-white py-5"
+      } border-b-2 border-gold`}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center group focus:outline-none bg-white py-1.5 px-3 rounded-lg shadow-sm">
+          <Link href="/" className="flex items-center group focus:outline-none py-1">
             <img src="/images/logo.webp" alt="CCIS Logo" className="h-8 md:h-10 w-auto object-contain transition-transform group-hover:scale-105" />
           </Link>
 
@@ -107,20 +107,20 @@ export default function Header() {
                     className="relative group py-2"
                   >
                     <button
-                      className={`font-sans text-sm font-semibold uppercase tracking-wider transition-colors flex items-center gap-1.5 focus:outline-none ${isItemActive ? "text-gold" : "text-white/80 hover:text-white"}`}
+                      className={`font-sans text-sm font-semibold uppercase tracking-wider transition-colors flex items-center gap-1.5 focus:outline-none ${isItemActive ? "text-gold" : "text-navy hover:text-gold"}`}
                     >
                       {item.name}
-                      <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                      <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180 text-navy-light group-hover:text-gold" />
                     </button>
                     {/* Dropdown Menu */}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-navy/95 border border-white/10 rounded-xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-md">
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-white border border-cream-line rounded-xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-md">
                       {item.dropdown.map((sub) => {
                         const isSubActive = pathname === sub.href;
                         return (
                           <Link
                             key={sub.name}
                             href={sub.href}
-                            className={`block px-4 py-2 text-sm font-sans font-semibold hover:bg-white/5 transition-colors ${isSubActive ? "text-gold" : "text-white/80 hover:text-white"}`}
+                            className={`block px-4 py-2 text-sm font-sans font-semibold hover:bg-cream/15 transition-colors ${isSubActive ? "text-gold" : "text-navy hover:text-gold"}`}
                           >
                             {sub.name}
                           </Link>
@@ -135,7 +135,7 @@ export default function Header() {
                   <Link
                     key={item.name}
                     href={item.href || "/"}
-                    className={`font-sans text-sm font-semibold uppercase tracking-wider transition-colors relative py-1.5 focus:outline-none ${isActive ? "text-gold" : "text-white/80 hover:text-white"}`}
+                    className={`font-sans text-sm font-semibold uppercase tracking-wider transition-colors relative py-1.5 focus:outline-none ${isActive ? "text-gold" : "text-navy hover:text-gold"}`}
                   >
                     {item.name}
                     {isActive && (
@@ -155,7 +155,7 @@ export default function Header() {
           {/* Mobile Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden text-white/95 hover:text-white p-1 focus:outline-none"
+            className="lg:hidden text-navy hover:text-gold p-1 focus:outline-none"
             aria-label="Toggle menu"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -173,18 +173,18 @@ export default function Header() {
 
       {/* Mobile Slide-out Drawer */}
       <div 
-        className={`lg:hidden fixed top-0 right-0 w-[300px] sm:w-[320px] h-full bg-navy border-l border-white/10 shadow-2xl z-[995] flex flex-col transition-transform duration-300 ease-out transform ${
+        className={`lg:hidden fixed top-0 right-0 w-[300px] sm:w-[320px] h-full bg-white border-l border-cream-line shadow-2xl z-[995] flex flex-col transition-transform duration-300 ease-out transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Drawer Header */}
-        <div className="flex items-center justify-between p-5 border-b border-white/10 bg-navy-dark/30">
-          <div className="bg-white py-1 px-3 rounded shadow-sm">
+        <div className="flex items-center justify-between p-5 border-b border-cream-line bg-cream/10">
+          <div className="py-1 px-3">
             <img src="/images/logo.webp" alt="CCIS Logo" className="h-7 w-auto object-contain" />
           </div>
           <button 
             onClick={() => setIsOpen(false)}
-            className="text-white/80 hover:text-white p-1 focus:outline-none"
+            className="text-navy hover:text-gold p-1 focus:outline-none"
             aria-label="Close menu"
           >
             <X className="w-6 h-6" />
@@ -197,13 +197,13 @@ export default function Header() {
             if (item.dropdown) {
               const isExpanded = mobileExpanded[item.name];
               return (
-                <div key={item.name} className="flex flex-col border-b border-white/5 pb-2">
+                <div key={item.name} className="flex flex-col border-b border-cream-line pb-2">
                   <button
                     onClick={() => setMobileExpanded(prev => ({ ...prev, [item.name]: !prev[item.name] }))}
-                    className="font-sans text-base font-bold uppercase tracking-wide py-2 flex items-center justify-between text-white/80 hover:text-white focus:outline-none w-full"
+                    className="font-sans text-base font-bold uppercase tracking-wide py-2 flex items-center justify-between text-navy hover:text-gold focus:outline-none w-full"
                   >
                     {item.name}
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180 text-gold" : "text-white/40"}`} />
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180 text-gold" : "text-navy/40"}`} />
                   </button>
                   {/* Accordion content with smooth transition */}
                   <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-48 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
@@ -214,7 +214,7 @@ export default function Header() {
                           <Link
                             key={sub.name}
                             href={sub.href}
-                            className={`font-sans text-sm font-semibold transition-colors ${isSubActive ? "text-gold" : "text-white/60 hover:text-white"}`}
+                            className={`font-sans text-sm font-semibold transition-colors ${isSubActive ? "text-gold" : "text-navy-light hover:text-gold"}`}
                           >
                             {sub.name}
                           </Link>
@@ -230,7 +230,7 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href || "/"}
-                  className={`font-sans text-base font-bold uppercase tracking-wide py-3 border-b border-white/5 transition-colors ${isActive ? "text-gold" : "text-white/80 hover:text-white"}`}
+                  className={`font-sans text-base font-bold uppercase tracking-wide py-3 border-b border-cream-line transition-colors ${isActive ? "text-gold" : "text-navy hover:text-gold"}`}
                 >
                   {item.name}
                 </Link>
@@ -245,10 +245,10 @@ export default function Header() {
         </div>
 
         {/* Drawer Footer */}
-        <div className="p-6 border-t border-white/10 bg-navy-dark/40 flex flex-col gap-3">
-          <span className="text-white/50 text-xs font-sans">For Inquiries:</span>
-          <a href="tel:+919660551977" className="text-white/80 hover:text-gold text-sm font-semibold transition-colors">+91 9660551977</a>
-          <a href="mailto:info@ccischool.org" className="text-white/80 hover:text-gold text-sm font-semibold transition-colors">info@ccischool.org</a>
+        <div className="p-6 border-t border-cream-line bg-cream/20 flex flex-col gap-3">
+          <span className="text-navy-light text-xs font-sans">For Inquiries:</span>
+          <a href="tel:+919660551977" className="text-navy hover:text-gold text-sm font-semibold transition-colors">+91 9660551977</a>
+          <a href="mailto:info@ccischool.org" className="text-navy hover:text-gold text-sm font-semibold transition-colors">info@ccischool.org</a>
         </div>
       </div>
     </header>
