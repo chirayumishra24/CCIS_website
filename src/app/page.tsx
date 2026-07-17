@@ -585,18 +585,22 @@ export default function Home() {
                     setVideoUrl(`https://www.youtube.com/watch?v=${item.videoId}`);
                     setIsVideoModalOpen(true);
                   }}
-                  className={`bg-white rounded-2xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 snap-center cursor-pointer hover:border-gold hover:shadow-card-hover hover:scale-[1.02] transition-all duration-300 ${
-                    activeTestimonialTab === "parent"
-                      ? "w-[280px] md:w-[320px] h-[380px] md:h-[500px]"
-                      : "w-[280px] md:w-[320px] h-[380px] md:h-[500px]"
-                  }`}
+                  className="bg-white rounded-2xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 snap-center cursor-pointer hover:border-gold hover:shadow-card-hover hover:scale-[1.02] transition-all duration-300 w-[280px] md:w-[320px] h-[380px] md:h-[500px]"
                 >
-                  <img
-                    src={`/images/${item.img}`}
-                    alt={`CCIS Testimonial ${idx + 1}`}
-                    className="w-full h-full object-contain rounded-xl"
-                    loading="lazy"
-                  />
+                  <div className="relative w-full h-full rounded-xl overflow-hidden group/item">
+                    <img
+                      src={`/images/${item.img}`}
+                      alt={`CCIS Testimonial ${idx + 1}`}
+                      className="w-full h-full object-contain rounded-xl"
+                      loading="lazy"
+                    />
+                    {/* Play Button Overlay */}
+                    <div className="absolute inset-0 bg-black/10 group-hover/item:bg-black/25 flex items-center justify-center transition-colors duration-300 rounded-xl">
+                      <div className="w-16 h-16 rounded-full bg-gold/90 text-navy flex items-center justify-center shadow-lg group-hover/item:scale-110 group-hover/item:bg-gold transition-all duration-300">
+                        <Play className="w-8 h-8 fill-current ml-1" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
