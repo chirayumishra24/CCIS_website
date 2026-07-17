@@ -172,13 +172,25 @@ export default function Home() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <AnimatedSection animation="fade-in-left">
-            <div className="relative w-full aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-cream-line shadow-card">
+            <div
+              className="relative w-full aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-cream-line shadow-card cursor-pointer group"
+              onClick={() => {
+                setVideoUrl("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
+                setIsVideoModalOpen(true);
+              }}
+            >
               <Image
                 src="/images/about-snapshot.png"
                 alt="School building"
                 fill
-                className="object-cover"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
+              {/* Play Button Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center bg-navy-dark/30 group-hover:bg-navy-dark/20 transition-colors">
+                <div className="w-16 h-16 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform duration-300">
+                  <Play className="w-6 h-6 fill-current ml-1" />
+                </div>
+              </div>
             </div>
           </AnimatedSection>
           <AnimatedSection animation="fade-in-right" className="flex flex-col gap-6">
