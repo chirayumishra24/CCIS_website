@@ -70,7 +70,9 @@ export const metadata: Metadata = {
     images: ["https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1200"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo/Subtitlelogo.png",
+    shortcut: "/logo/Subtitlelogo.png",
+    apple: "/logo/Subtitlelogo.png",
   },
 };
 
