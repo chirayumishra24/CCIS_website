@@ -14,14 +14,15 @@ const steps = [
 
 export default function Admissions() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    grade: "Nursery",
-    message: "",
+    input_1: "",
+    input_4: "",
+    input_3: "",
+    input_14: "",
+    input_5: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+  const formRef = React.useRef<HTMLFormElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,26 +30,41 @@ export default function Admissions() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.grade) {
+    if (!formData.input_1 || !formData.input_4 || !formData.input_3 || !formData.input_14) {
       setToast({ message: "Please fill in all required fields.", type: "error" });
       return;
     }
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/admissions", {
+      // 1. Submit to local API (Firebase / alumni dashboard)
+      const localData = {
+        name: formData.input_1,
+        email: formData.input_4,
+        phone: formData.input_3,
+        grade: formData.input_14,
+        message: formData.input_5
+      };
+      
+      await fetch("/api/admissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(localData),
       });
 
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setToast({ message: "Enquiry submitted successfully! We will contact you shortly.", type: "success" });
-        setFormData({ name: "", email: "", phone: "", grade: "Nursery", message: "" });
-      } else {
-        setToast({ message: data.error || "Failed to submit enquiry.", type: "error" });
+      // 2. Submit to Gravity Forms (remotely) via iframe post
+      if (formRef.current) {
+        formRef.current.submit();
       }
+
+      setToast({ message: "Enquiry submitted successfully! We will contact you shortly.", type: "success" });
+      setFormData({
+        input_1: "",
+        input_4: "",
+        input_3: "",
+        input_14: "",
+        input_5: "",
+      });
     } catch (err) {
       console.error(err);
       setToast({ message: "Something went wrong. Please try again.", type: "error" });
@@ -96,6 +112,15 @@ export default function Admissions() {
         </div>
       </section>
 
+      {/* Hidden Gravity Forms Submitter Iframe */}
+      <iframe
+        style={{ display: "none", width: "0px", height: "0px" }}
+        src="about:blank"
+        name="gform_ajax_frame_1"
+        id="gform_ajax_frame_1"
+        title="Gravity Forms Lead Submitter"
+      ></iframe>
+
       {/* Online Enquiry Form */}
       <section className="py-20 bg-white border-t border-cream-line">
         <div className="max-w-3xl mx-auto px-4">
@@ -103,28 +128,58 @@ export default function Admissions() {
             <h3 className="font-serif font-bold text-2xl text-navy text-center mb-2">Book a Campus Walkthrough</h3>
             <p className="text-xs text-ink-muted text-center mb-8">Fields marked with * are required.</p>
             
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <form
+              ref={formRef}
+              method="POST"
+              action="https://ccischool.org/#gf_1"
+              target="gform_ajax_frame_1"
+              id="gform_1"
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-6"
+            >
+              {/* Hidden Fields for Gravity Forms Validation */}
+              <input type="hidden" name="gform_ajax" value="form_id=1&amp;title=&amp;description=1&amp;tabindex=0&amp;theme=gravity-theme&amp;styles=[]&amp;hash=a8ffb5c231eb659ad316fe73b0d3fe96" />
+              <input type="hidden" name="gform_submission_method" value="iframe" />
+              <input type="hidden" name="gform_theme" value="gravity-theme" />
+              <input type="hidden" name="gform_style_settings" value="[]" />
+              <input type="hidden" name="is_submit_1" value="1" />
+              <input type="hidden" name="gform_submit" value="1" />
+              <input type="hidden" name="gform_currency" value="DKNJaRyb0iUhBUi7ycnOr9D6MjFTAsGKTg/ielOASgTBOdfuQ9OM25drvhdOeGB6mCckgW80Tdj9BCJilU2sR8rbHdTVWY5tyIxpG9j7qZ+MUXY=" />
+              <input type="hidden" name="gform_unique_id" value="" />
+              <input type="hidden" name="state_1" value="WyJ7XCIxNFwiOltcImQxNWQ0MjU5MTNiMDEzZjEzMzUzNTgwMjJiOGQ2YjYwXCIsXCIyNGU5ZTc0OGZhODZhNjNlNjdkZTY4MzBjMGQxNGNlMFwiLFwiMjBhODhkZmM2NWEzM2UwNDEzMzlkZjBjYTEwMzFlNGNcIixcIjM2YTAyODg0ZGJlOWI3NmQ4ZWQ3OGRjOGZiODI2ZTZjXCIsXCIwNGM5ZDgzYzc3ZjUwYzIzMzc0Y2RiMDkyZGZmYTNhZFwiLFwiZjA0NWQ0MzdhMzRhZjFiMDNiNmFiYTQxMmIzZWIwMzdcIixcIjA0ZmE4NTA2NmI0NTM2N2Y3ODQ2ZDI3NmVhYTdiMzYzXCIsXCJjNDVlYTVhZmM1MDI2NmQ4YmEwNGFjMjg0MzVjNjA5YVwiLFwiNmI2MzkyMjJiMjhmMmZjNjc4YWRhMjBmYzM5ZmViY2FcIixcIjJjYTljMGE4ZGM1MzAxN2RiZGNkNDg0MzBmNmU2Y2VlXCIsXCJhZjljMTFiNDdkZDhlMWNhMWU2Njg3ODZhZGViOTEwM1wiLFwiNzRjZDdmODFjZjFhMmU1RrFhMmU1MjJhN2U4OTA2MTA2NTRmYmVcIixcImY4NGU0MzAxZmI1ZTU5MzBkNzA3ZWVkYTk1NTI2YWIyXCIsXCI0NDA4Yzg0OGRmZWNmMGQ5N2JhMjFkY2Y3Yjg4MThiMFwiXX0iLCJkNzJmZGVlM2Q5OTBiMzNkZDhiNzVmOWNkZjc5MDM4MSJd" />
+              <input type="hidden" name="gform_target_page_number_1" value="0" />
+              <input type="hidden" name="gform_source_page_number_1" value="1" />
+              <input type="hidden" name="gform_field_values" value="" />
+              <input type="hidden" name="input_6" value="" />
+              <input type="hidden" name="input_7" value="https://ccischool.org/" />
+              <input type="hidden" name="input_8" value="" />
+              <input type="hidden" name="input_9" value="" />
+              <input type="hidden" name="input_10" value="" />
+              <input type="hidden" name="input_11" value="" />
+              <input type="hidden" name="input_12" value="" />
+              <input type="hidden" name="input_13" value="" />
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="text-xs font-semibold text-navy uppercase tracking-wider">Parent Full Name *</label>
+                  <label htmlFor="input_1_1" className="text-xs font-semibold text-navy uppercase tracking-wider">Student Name *</label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
+                    id="input_1_1"
+                    name="input_1"
                     required
-                    value={formData.name}
+                    value={formData.input_1}
                     onChange={handleChange}
                     className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="text-xs font-semibold text-navy uppercase tracking-wider">Parent Email Address *</label>
+                  <label htmlFor="input_1_4" className="text-xs font-semibold text-navy uppercase tracking-wider">Guardian's Email *</label>
                   <input
                     type="email"
-                    id="email"
-                    name="email"
+                    id="input_1_4"
+                    name="input_4"
                     required
-                    value={formData.email}
+                    value={formData.input_4}
                     onChange={handleChange}
                     className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
                   />
@@ -133,49 +188,60 @@ export default function Admissions() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="phone" className="text-xs font-semibold text-navy uppercase tracking-wider">Mobile Number *</label>
+                  <label htmlFor="input_1_3" className="text-xs font-semibold text-navy uppercase tracking-wider">Guardian's Contact *</label>
                   <input
                     type="tel"
-                    id="phone"
-                    name="phone"
+                    id="input_1_3"
+                    name="input_3"
                     required
-                    value={formData.phone}
+                    value={formData.input_3}
                     onChange={handleChange}
                     className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="grade" className="text-xs font-semibold text-navy uppercase tracking-wider">Grade Requested *</label>
+                  <label htmlFor="input_1_14" className="text-xs font-semibold text-navy uppercase tracking-wider">Seeking Admission Class *</label>
                   <select
-                    id="grade"
-                    name="grade"
-                    value={formData.grade}
+                    id="input_1_14"
+                    name="input_14"
+                    required
+                    value={formData.input_14}
                     onChange={handleChange}
                     className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
                   >
-                    <option value="Nursery">Nursery / KG</option>
-                    <option value="Grades I-V">Grade I - V</option>
-                    <option value="Grades VI-VIII">Grade VI - VIII</option>
-                    <option value="Grades IX-X">Grade IX - X</option>
-                    <option value="Grades XI-XII">Grade XI - XII (CBSE/IB)</option>
+                    <option value="">Seeking Admission in which Class *</option>
+                    <option value="Play Group">Play Group</option>
+                    <option value="NURSERY">NURSERY</option>
+                    <option value="LKG">LKG</option>
+                    <option value="UKG">UKG</option>
+                    <option value="I">I</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                    <option value="V">V</option>
+                    <option value="VI">VI</option>
+                    <option value="VII">VII</option>
+                    <option value="VIII">VIII</option>
+                    <option value="IX">IX</option>
+                    <option value="XI">XI</option>
                   </select>
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-xs font-semibold text-navy uppercase tracking-wider">Additional Message (Optional)</label>
+                <label htmlFor="input_1_5" className="text-xs font-semibold text-navy uppercase tracking-wider">Your Message (Optional)</label>
                 <textarea
-                  id="message"
-                  name="message"
+                  id="input_1_5"
+                  name="input_5"
                   rows={4}
-                  value={formData.message}
+                  value={formData.input_5}
                   onChange={handleChange}
                   className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white resize-none"
                 />
               </div>
 
               <Button type="submit" isLoading={submitting} variant="primary" className="w-full uppercase font-bold tracking-wider py-4 mt-2 rounded-sm">
-                Submit Enquiry
+                Schedule A Call
               </Button>
             </form>
           </div>

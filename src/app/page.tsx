@@ -11,6 +11,18 @@ import Skeleton from '@/components/ui/Skeleton';
 import AccreditationBadges from '@/components/ui/AccreditationBadges';
 import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, MessageSquare } from 'lucide-react';
 
+const parentReviews = [
+  { img: 'parent1.png', videoId: '3adNiVmDkws' },
+  { img: 'parent2.png', videoId: '57c5x8jQINM' },
+  { img: 'parent3.png', videoId: 'NgG6gWQETqU' },
+  { img: 'parent4.png', videoId: 'Kw_p90p20Ns' }
+];
+
+const studentReviews = [
+  { img: 'student1.webp', videoId: 'd66JSRy8GwE' },
+  { img: 'student2.webp', videoId: 'XWpU8A4BoHE' }
+];
+
 const heroSlides = [
   {
     img: '/images/hero1.webp',
@@ -52,26 +64,27 @@ const bentoItems = [
   }
 ];
 
-const directorQuotes = [
-  {
-    name: 'Mr. Aayush Singh Rawat',
-    role: 'Director, CCIS Group',
-    img: '/images/director-aayush.jpg',
-    quote: 'Our vision is to offer Jaipur a dual-curriculum that bridges traditional Indian standards with modern global strategies. We prepare children for international universities while preserving their roots.'
-  },
-  {
-    name: 'Ms. Aarna Singh Rawat',
-    role: 'Managing Director, CCIS',
-    img: '/images/director-aarna.jpg',
-    quote: 'Holistic growth is not secondary; it is the core of our pedagogy. From sports championships to fine arts galleries, CCIS provides an arena for every student to shine.'
-  }
-];
+
 
 export default function Home() {
   const [currentBg, setCurrentBg] = useState(0);
   const [newsList, setNewsList] = useState<any[]>([]);
   const [loadingNews, setLoadingNews] = useState(true);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
+  const [activeTestimonialTab, setActiveTestimonialTab] = useState<"parent" | "student">("parent");
+  const testimonialsRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollTestimonials = (direction: "left" | "right") => {
+    if (testimonialsRef.current) {
+      const container = testimonialsRef.current;
+      const scrollAmount = container.clientWidth * 0.75;
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -138,7 +151,10 @@ export default function Home() {
                 </Button>
               </Link>
               <button
-                onClick={() => setIsVideoModalOpen(true)}
+                onClick={() => {
+                  setVideoUrl("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
+                  setIsVideoModalOpen(true);
+                }}
                 className="flex items-center gap-3 px-6 py-3 border border-white/30 hover:border-white bg-white/5 hover:bg-white/10 text-white rounded transition-all duration-300 font-semibold"
               >
                 <Play className="w-5 h-5 fill-current text-gold" />
@@ -219,7 +235,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Academic Pathways */}
+      {/* AI & Futuristic Education Section */}
+      <section className="py-20 bg-navy text-white relative overflow-hidden border-y-2 border-gold/30">
+        <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: "url('/images/future.jpg')" }} />
+        <div className="relative max-w-7xl mx-auto px-4 z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <AnimatedSection animation="fade-in-left" className="flex flex-col gap-6">
+            <span className="text-gold font-mono font-bold uppercase tracking-wider text-sm bg-white/5 px-3 py-1 rounded w-fit border border-gold/20">
+              Futuristic Learning
+            </span>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-white">
+              Preparing Students for the AI-Driven World
+            </h2>
+            <div className="gold-rule" />
+            <p className="text-cream-dark/90 leading-relaxed">
+              At CCIS, we don't just teach technology—we build AI readiness. Through dedicated robotics labs, coding clubs, and real-world AI applications, our students learn to leverage technology ethically and creatively, preparing them to lead in the automated future.
+            </p>
+            <div className="flex gap-4 mt-2">
+              <button
+                onClick={() => {
+                  setVideoUrl("https://www.youtube.com/watch?v=H8u5p8QiYGQ");
+                  setIsVideoModalOpen(true);
+                }}
+                className="flex items-center gap-3 px-6 py-3 bg-gold hover:bg-gold-light text-navy font-bold rounded shadow-glow-gold transition-all duration-300"
+              >
+                <Play className="w-5 h-5 fill-current" />
+                Watch AI Impact Video
+              </button>
+            </div>
+          </AnimatedSection>
+          <AnimatedSection
+            animation="fade-in-right"
+            className="relative aspect-video rounded-lg overflow-hidden border border-white/10 shadow-2xl group cursor-pointer"
+          >
+            <div
+              className="w-full h-full relative"
+              onClick={() => {
+                setVideoUrl("https://www.youtube.com/watch?v=H8u5p8QiYGQ");
+                setIsVideoModalOpen(true);
+              }}
+            >
+              <Image
+                src="/images/future.jpg"
+                alt="AI and Robotics Lab at CCIS"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+              />
+              {/* Play Button Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center bg-navy-dark/40 group-hover:bg-navy-dark/20 transition-colors">
+                <div className="w-16 h-16 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform">
+                  <Play className="w-6 h-6 fill-current ml-1" />
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
       <section className="py-20 bg-cream/10 border-t border-cream-line">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Dual Curriculum Pathways" subtitle="Flexible Learning" />
@@ -271,35 +341,117 @@ export default function Home() {
       {/* 7. Leadership Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <SectionHeading title="Message from Directors" subtitle="Our Visionaries" />
+          <h2 className="text-3xl md:text-5xl font-serif font-extrabold text-navy text-center mb-16">
+            Our <span className="text-gold">Leaders</span>
+          </h2>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
-            {directorQuotes.map((director, idx) => (
-              <AnimatedSection
-                key={idx}
-                animation="scale-in"
-                delayClass={`stagger-${idx + 1}`}
-                className="bg-cream/25 border border-cream-line/50 p-8 rounded-lg flex flex-col sm:flex-row gap-6 shadow-card hover:shadow-card-hover transition-all duration-300"
-              >
-                <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden shrink-0 border-2 border-gold shadow-card mx-auto sm:mx-0">
+          {/* Top Row: Mentor & Awards */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
+            {/* Mentor Image Card */}
+            <AnimatedSection animation="fade-in-left" className="lg:col-span-5 text-center">
+              <div className="bg-white border border-cream-line rounded-2xl p-4 shadow-card hover:shadow-card-hover transition-all duration-300 max-w-sm mx-auto">
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm">
                   <Image
-                    src={director.img}
-                    alt={director.name}
+                    src="/images/lata-rawat.webp"
+                    alt="Ms. Lata Rawat"
                     fill
                     className="object-cover"
                   />
                 </div>
-                <div className="flex flex-col gap-3 text-center sm:text-left">
-                  <span className="font-serif italic text-navy/80 leading-relaxed text-sm md:text-base">
-                    "{director.quote}"
-                  </span>
-                  <div>
-                    <h4 className="font-serif font-bold text-navy text-lg">{director.name}</h4>
-                    <p className="text-xs text-gold-dark font-sans font-semibold uppercase tracking-wider">{director.role}</p>
+                <h3 className="font-serif font-bold text-navy text-2xl mt-5">Ms. Lata Rawat</h3>
+                <p className="text-ink-muted font-sans font-medium text-sm mt-1">( Mentor )</p>
+              </div>
+            </AnimatedSection>
+
+            {/* Awards Bullet Points */}
+            <AnimatedSection animation="fade-in-right" className="lg:col-span-7 flex flex-col gap-6">
+              {[
+                { bold: "Rajiv Gandhi Education Excellence Award", normal: "for outstanding achievement in the field of education." },
+                { bold: "WOMAN OF EXCELLENCE AWARD", normal: "BY iafindia" },
+                { bold: "The Economic Times Business Leader of Rajasthan Award", normal: "by honourable C.M. Shri Ashok Gehlot Ji" },
+                { bold: "EDU ICON AWARD", normal: "by GSLC (Global School Leaders Consortium)" },
+                { bold: "Golden Educationist of India Award", normal: "from IIEM, New Delhi." }
+              ].map((item, idx) => (
+                <div key={idx} className="flex gap-4 items-start">
+                  <div className="w-5 h-5 rounded border border-gold bg-white flex items-center justify-center shrink-0 mt-1">
+                    <svg className="w-3.5 h-3.5 stroke-gold stroke-[3] fill-none" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
                   </div>
+                  <p className="text-sm md:text-base text-ink-muted leading-relaxed font-sans">
+                    <strong className="text-navy font-bold">{item.bold}</strong> {item.normal}
+                  </p>
                 </div>
-              </AnimatedSection>
-            ))}
+              ))}
+            </AnimatedSection>
+          </div>
+
+          {/* Bottom Row: Directors Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Mr. Aayush Card */}
+            <AnimatedSection animation="scale-in" delayClass="stagger-1" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="relative aspect-[4/3] w-full">
+                  <Image
+                    src="/images/director-aayush.jpg"
+                    alt="Mr. Aayush Singh Rawat"
+                    fill
+                    className="object-cover animate-image-reveal"
+                  />
+                </div>
+                <div className="p-6">
+                  <h4 className="font-serif font-bold text-navy text-lg leading-snug">Mr. Aayush Singh Rawat</h4>
+                  <p className="text-xs text-ink-muted font-sans font-semibold mt-1 uppercase tracking-wider">Director of CCGS</p>
+                </div>
+              </div>
+              <div className="px-6 pb-6 pt-4 border-t border-cream-line/55 flex items-center justify-between">
+                <img src="/images/vit-logo.png" alt="VIT Logo" className="h-6 object-contain opacity-90" />
+                <img src="/images/isb-logo.png" alt="ISB Logo" className="h-6 object-contain opacity-90" />
+              </div>
+            </AnimatedSection>
+
+            {/* Ms. Aarna Card */}
+            <AnimatedSection animation="scale-in" delayClass="stagger-2" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="relative aspect-[4/3] w-full">
+                  <Image
+                    src="/images/director-aarna.jpg"
+                    alt="Ms. Aarna Singh Rawat"
+                    fill
+                    className="object-cover animate-image-reveal"
+                  />
+                </div>
+                <div className="p-6">
+                  <h4 className="font-serif font-bold text-navy text-lg leading-snug">Ms. Aarna Singh Rawat</h4>
+                  <p className="text-xs text-ink-muted font-sans font-semibold mt-1 uppercase tracking-wider">Director of CCGS &amp; Founder of Skillizee</p>
+                </div>
+              </div>
+              <div className="px-6 pb-6 pt-4 border-t border-cream-line/55 flex items-center justify-between">
+                <img src="/images/kellogg.png" alt="Kellogg Logo" className="h-6 object-contain opacity-90" />
+                <img src="/images/isb-logo.png" alt="ISB Logo" className="h-6 object-contain opacity-90" />
+              </div>
+            </AnimatedSection>
+
+            {/* Mrs. Priyanshi Card */}
+            <AnimatedSection animation="scale-in" delayClass="stagger-3" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="relative aspect-[4/3] w-full">
+                  <Image
+                    src="/images/director-priyanshi.jpg"
+                    alt="Mrs. Priyanshi Rawat"
+                    fill
+                    className="object-cover animate-image-reveal"
+                  />
+                </div>
+                <div className="p-6">
+                  <h4 className="font-serif font-bold text-navy text-lg leading-snug">Mrs. Priyanshi Rawat</h4>
+                  <p className="text-xs text-ink-muted font-sans font-semibold mt-1 uppercase tracking-wider">Director of CCGS &amp; CEO of Playbox School</p>
+                </div>
+              </div>
+              <div className="px-6 pb-6 pt-4 border-t border-cream-line/55 flex items-center justify-between">
+                <img src="/images/CA.png" alt="CA India Logo" className="h-6 object-contain opacity-90" />
+              </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -379,30 +531,86 @@ export default function Home() {
       </div>
 
       {/* 10. Testimonials */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 mb-12 text-center">
-          <SectionHeading title="What Our Community Says" subtitle="Testimonials" />
-        </div>
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <SectionHeading title="Testimonials" subtitle="What Our Community Says" />
 
-        {/* Continuous Moving Carousel */}
-        <div className="marquee-container w-full py-4">
-          <div className="animate-marquee flex gap-6">
-            {[
-              'parent1.png', 'parent2.png', 'parent3.png', 'parent4.png', 'student1.webp', 'student2.webp',
-              'parent1.png', 'parent2.png', 'parent3.png', 'parent4.png', 'student1.webp', 'student2.webp'
-            ].map((img, idx) => (
-              <div
-                key={idx}
-                className="w-[260px] md:w-[320px] h-[400px] md:h-[500px] bg-white rounded-xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 hover:border-gold hover:shadow-card-hover transition-all duration-300 hover:scale-[1.02]"
-              >
-                <img
-                  src={`/images/${img}`}
-                  alt={`CCIS Review ${idx + 1}`}
-                  className="w-full h-full object-contain rounded-lg"
-                  loading="lazy"
-                />
-              </div>
-            ))}
+          {/* Parent/Student Tabs */}
+          <div className="flex justify-center gap-4 mt-8 mb-12">
+            <button
+              onClick={() => setActiveTestimonialTab("parent")}
+              className={`px-8 py-3 rounded font-sans font-bold text-sm uppercase tracking-wider transition-all duration-300 border ${
+                activeTestimonialTab === "parent"
+                  ? "bg-navy text-white border-navy shadow-card"
+                  : "bg-cream/40 text-navy/70 border-cream-line hover:border-gold hover:text-gold"
+              }`}
+            >
+              Parent
+            </button>
+            <button
+              onClick={() => setActiveTestimonialTab("student")}
+              className={`px-8 py-3 rounded font-sans font-bold text-sm uppercase tracking-wider transition-all duration-300 border ${
+                activeTestimonialTab === "student"
+                  ? "bg-navy text-white border-navy shadow-card"
+                  : "bg-cream/40 text-navy/70 border-cream-line hover:border-gold hover:text-gold"
+              }`}
+            >
+              Student
+            </button>
+          </div>
+
+          {/* Carousel Slider */}
+          <div className="relative max-w-6xl mx-auto px-4 md:px-12">
+            {/* Left Arrow */}
+            <button
+              onClick={() => scrollTestimonials("left")}
+              className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-navy/5 hover:bg-gold text-navy hover:text-navy rounded-full flex items-center justify-center transition-all duration-300 z-10 border border-cream-line/50 hover:border-gold shadow-sm hidden md:flex"
+              aria-label="Previous testimonial"
+            >
+              <svg className="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Scrollable Container */}
+            <div
+              ref={testimonialsRef}
+              className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none py-4"
+              style={{ scrollbarWidth: "none" }}
+            >
+              {(activeTestimonialTab === "parent" ? parentReviews : studentReviews).map((item, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => {
+                    setVideoUrl(`https://www.youtube.com/watch?v=${item.videoId}`);
+                    setIsVideoModalOpen(true);
+                  }}
+                  className={`bg-white rounded-2xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 snap-center cursor-pointer hover:border-gold hover:shadow-card-hover hover:scale-[1.02] transition-all duration-300 ${
+                    activeTestimonialTab === "parent"
+                      ? "w-[280px] md:w-[320px] h-[380px] md:h-[500px]"
+                      : "w-[280px] md:w-[320px] h-[380px] md:h-[500px]"
+                  }`}
+                >
+                  <img
+                    src={`/images/${item.img}`}
+                    alt={`CCIS Testimonial ${idx + 1}`}
+                    className="w-full h-full object-contain rounded-xl"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Right Arrow */}
+            <button
+              onClick={() => scrollTestimonials("right")}
+              className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-navy/5 hover:bg-gold text-navy hover:text-navy rounded-full flex items-center justify-center transition-all duration-300 z-10 border border-cream-line/50 hover:border-gold shadow-sm hidden md:flex"
+              aria-label="Next testimonial"
+            >
+              <svg className="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
         </div>
       </section>
@@ -476,7 +684,7 @@ export default function Home() {
 
       <VideoModal
         isOpen={isVideoModalOpen}
-        videoUrl="https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Placeholder school video
+        videoUrl={videoUrl}
         onClose={() => setIsVideoModalOpen(false)}
       />
     </div>
