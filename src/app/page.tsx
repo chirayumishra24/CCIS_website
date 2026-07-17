@@ -174,7 +174,7 @@ export default function Home() {
           <AnimatedSection animation="fade-in-left">
             <div className="relative w-full aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-cream-line shadow-card">
               <Image
-                src="/images/about-snapshot.webp"
+                src="/images/about-snapshot.png"
                 alt="School building"
                 fill
                 className="object-cover"

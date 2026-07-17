@@ -24,7 +24,7 @@ export default function About() {
             About Our Institution
           </span>
           <h1 className="text-4xl md:text-5xl font-serif font-extrabold leading-tight">
-            Nurturing Excellence Since 1999
+            Nurturing Excellence Since 1998
           </h1>
           <p className="text-cream-dark max-w-2xl mx-auto leading-relaxed text-sm md:text-base font-medium">
             Discover the legacy, values, and leadership behind Jaipur's premier dual-curriculum school.
@@ -91,10 +91,10 @@ export default function About() {
             {/* Milestones */}
             <div className="relative">
               <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-navy border-2 border-gold" />
-              <span className="font-mono text-sm font-extrabold text-gold-dark">1999</span>
+              <span className="font-mono text-sm font-extrabold text-gold-dark">1998</span>
               <h4 className="font-serif font-bold text-navy text-lg mt-1">Foundation Laid</h4>
               <p className="text-sm text-ink-muted leading-relaxed mt-1">
-                Cambridge Court High School was founded in Mansarovar, Jaipur, to deliver high-quality CBSE board education with character focus.
+                Cambridge Court Group (CCG) was established in Mansarovar, Jaipur, to deliver high-quality education with a strong character focus.
               </p>
             </div>
             
@@ -109,10 +109,10 @@ export default function About() {
 
             <div className="relative">
               <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-navy border-2 border-gold" />
-              <span className="font-mono text-sm font-extrabold text-gold-dark">2024</span>
-              <h4 className="font-serif font-bold text-navy text-lg mt-1">IB Candidate Status Obtained</h4>
+              <span className="font-mono text-sm font-extrabold text-gold-dark">2025</span>
+              <h4 className="font-serif font-bold text-navy text-lg mt-1">CCIS Established</h4>
               <p className="text-sm text-ink-muted leading-relaxed mt-1">
-                CCIS officially achieved IB Primary Years Programme candidacy, introducing conceptual-driven learning.
+                CCIS was established, officially achieving candidacy status for the prestigious International Baccalaureate (IB) Primary Years Programme.
               </p>
             </div>
 
