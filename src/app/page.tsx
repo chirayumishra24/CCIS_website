@@ -344,115 +344,161 @@ export default function Home() {
       {/* 7. Leadership Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl md:text-5xl font-serif font-extrabold text-navy text-center mb-16">
-            Our <span className="text-gold">Leaders</span>
-          </h2>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-gold font-mono font-bold uppercase tracking-wider text-sm">Vision & Direction</span>
+            <h2 className="text-3xl md:text-5xl font-serif font-extrabold text-navy mt-2">
+              Our <span className="text-gold">Leaders</span>
+            </h2>
+            <p className="text-ink-muted text-sm md:text-base mt-4 leading-relaxed font-sans">
+              Guided by distinguished educationists and visionaries, our leadership team is dedicated to pioneering dual-curriculum excellence and shaping global citizens with deep Indian roots.
+            </p>
+          </div>
           
           {/* Top Row: Mentor & Awards */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
-            {/* Mentor Image Card */}
-            <AnimatedSection animation="fade-in-left" className="lg:col-span-5 text-center">
-              <div className="bg-white border border-cream-line rounded-2xl p-4 shadow-card hover:shadow-card-hover transition-all duration-300 max-w-sm mx-auto">
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm">
-                  <Image
-                    src="/images/lata-rawat.webp"
-                    alt="Ms. Lata Rawat"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="font-serif font-bold text-navy text-2xl mt-5">Ms. Lata Rawat</h3>
-                <p className="text-ink-muted font-sans font-medium text-sm mt-1">( Mentor )</p>
-              </div>
-            </AnimatedSection>
-
-            {/* Awards Bullet Points */}
-            <AnimatedSection animation="fade-in-right" className="lg:col-span-7 flex flex-col gap-6">
-              {[
-                { bold: "Rajiv Gandhi Education Excellence Award", normal: "for outstanding achievement in the field of education." },
-                { bold: "WOMAN OF EXCELLENCE AWARD", normal: "BY iafindia" },
-                { bold: "The Economic Times Business Leader of Rajasthan Award", normal: "by honourable C.M. Shri Ashok Gehlot Ji" },
-                { bold: "EDU ICON AWARD", normal: "by GSLC (Global School Leaders Consortium)" },
-                { bold: "Golden Educationist of India Award", normal: "from IIEM, New Delhi." }
-              ].map((item, idx) => (
-                <div key={idx} className="flex gap-4 items-start">
-                  <div className="w-5 h-5 rounded border border-gold bg-white flex items-center justify-center shrink-0 mt-1">
-                    <svg className="w-3.5 h-3.5 stroke-gold stroke-[3] fill-none" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
+          <div className="bg-cream/20 border border-cream-line/60 rounded-3xl p-8 lg:p-12 mb-20 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+              {/* Mentor Image Showcase */}
+              <AnimatedSection animation="fade-in-left" className="lg:col-span-5 flex justify-center">
+                <div className="relative group max-w-sm w-full">
+                  <div className="absolute -inset-2 bg-gradient-to-tr from-gold to-gold-light rounded-2xl opacity-20 blur-sm group-hover:opacity-40 transition duration-500"></div>
+                  <div className="relative bg-white p-4 rounded-2xl border border-cream-line shadow-card flex flex-col items-center">
+                    <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden shadow-inner bg-cream/30">
+                      <Image
+                        src="/images/lata-rawat.webp"
+                        alt="Ms. Lata Rawat"
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <h3 className="font-serif font-bold text-navy text-2xl mt-5">Ms. Lata Rawat</h3>
+                    <p className="text-gold font-sans font-semibold text-xs tracking-wider uppercase mt-1">Founding Mentor</p>
                   </div>
-                  <p className="text-sm md:text-base text-ink-muted leading-relaxed font-sans">
-                    <strong className="text-navy font-bold">{item.bold}</strong> {item.normal}
-                  </p>
                 </div>
-              ))}
-            </AnimatedSection>
+              </AnimatedSection>
+
+              {/* Achievements & Bio */}
+              <AnimatedSection animation="fade-in-right" className="lg:col-span-7 flex flex-col justify-center">
+                <span className="text-gold font-mono text-xs font-bold uppercase tracking-widest mb-2">Lifetime Achievement</span>
+                <h3 className="font-serif font-bold text-navy text-3xl md:text-4xl mb-6">Pioneering Educational Excellence</h3>
+                
+                <div className="grid grid-cols-1 gap-4">
+                  {[
+                    { bold: "Rajiv Gandhi Education Excellence Award", normal: "for outstanding achievement in the field of education." },
+                    { bold: "Woman of Excellence Award", normal: "from the Indian Achievers' Forum (IAF India)." },
+                    { bold: "The Economic Times Business Leader of Rajasthan Award", normal: "conferred by the honourable C.M. Shri Ashok Gehlot Ji." },
+                    { bold: "Edu Icon Award", normal: "awarded by the Global School Leaders Consortium (GSLC)." },
+                    { bold: "Golden Educationist of India Award", normal: "prestigious recognition from the IIEM, New Delhi." }
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex gap-4 p-3.5 bg-white/60 hover:bg-white rounded-xl border border-transparent hover:border-cream-line/50 shadow-sm transition-all duration-300 items-start">
+                      <div className="w-8 h-8 rounded-lg bg-gold/10 text-gold flex items-center justify-center shrink-0 mt-0.5">
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                          <path d="M12 2.2L15.09 8.46L22 9.47L17 14.34L18.18 21.22L12 17.97L5.82 21.22L7 14.34L2 9.47L8.91 8.46L12 2.2Z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm text-ink-muted leading-relaxed font-sans">
+                        <strong className="text-navy font-bold">{item.bold}</strong> &mdash; {item.normal}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </AnimatedSection>
+            </div>
           </div>
 
           {/* Bottom Row: Directors Cards */}
+          <div className="text-center mb-12">
+            <h3 className="font-serif font-bold text-navy text-2xl md:text-3xl">Board of Directors</h3>
+            <div className="w-12 h-[2px] bg-gold mx-auto mt-3"></div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Mr. Aayush Card */}
-            <AnimatedSection animation="scale-in" delayClass="stagger-1" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+            <AnimatedSection animation="scale-in" delayClass="stagger-1" className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="relative aspect-[4/3] w-full">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
                   <Image
                     src="/images/director-aayush.jpg"
                     alt="Mr. Aayush Singh Rawat"
                     fill
-                    className="object-cover animate-image-reveal"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p className="text-white/95 text-xs md:text-sm font-sans italic leading-relaxed">
+                      "Bridging technology, modern management, and global standards to prepare future leaders."
+                    </p>
+                  </div>
                 </div>
                 <div className="p-6">
-                  <h4 className="font-serif font-bold text-navy text-lg leading-snug">Mr. Aayush Singh Rawat</h4>
-                  <p className="text-xs text-ink-muted font-sans font-semibold mt-1 uppercase tracking-wider">Director of CCGS</p>
+                  <h4 className="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors duration-300">Mr. Aayush Singh Rawat</h4>
+                  <p className="text-xs text-gold font-sans font-bold mt-1 uppercase tracking-wider">Director of CCGS</p>
                 </div>
               </div>
-              <div className="px-6 pb-6 pt-4 border-t border-cream-line/55 flex items-center justify-between">
-                <img src="/images/vit-logo.png" alt="VIT Logo" className="h-6 object-contain opacity-90" />
-                <img src="/images/isb-logo.png" alt="ISB Logo" className="h-6 object-contain opacity-90" />
+              <div className="px-6 pb-6 pt-4 border-t border-cream-line/50 bg-cream/5 flex items-center justify-between">
+                <span className="text-xs text-ink-muted font-sans font-semibold">Alumnus of:</span>
+                <div className="flex gap-4 items-center">
+                  <img src="/images/vit-logo.png" alt="VIT Logo" className="h-6 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" title="VIT" />
+                  <img src="/images/isb-logo.png" alt="ISB Logo" className="h-6 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" title="ISB" />
+                </div>
               </div>
             </AnimatedSection>
 
             {/* Ms. Aarna Card */}
-            <AnimatedSection animation="scale-in" delayClass="stagger-2" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+            <AnimatedSection animation="scale-in" delayClass="stagger-2" className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="relative aspect-[4/3] w-full">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
                   <Image
                     src="/images/director-aarna.jpg"
                     alt="Ms. Aarna Singh Rawat"
                     fill
-                    className="object-cover animate-image-reveal"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p className="text-white/95 text-xs md:text-sm font-sans italic leading-relaxed">
+                      "Pioneering active, skill-focused learning ecosystems to foster innovation and self-reliance."
+                    </p>
+                  </div>
                 </div>
                 <div className="p-6">
-                  <h4 className="font-serif font-bold text-navy text-lg leading-snug">Ms. Aarna Singh Rawat</h4>
-                  <p className="text-xs text-ink-muted font-sans font-semibold mt-1 uppercase tracking-wider">Director of CCGS &amp; Founder of Skillizee</p>
+                  <h4 className="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors duration-300">Ms. Aarna Singh Rawat</h4>
+                  <p className="text-xs text-gold font-sans font-bold mt-1 uppercase tracking-wider">Director of CCGS &amp; Founder of Skillizee</p>
                 </div>
               </div>
-              <div className="px-6 pb-6 pt-4 border-t border-cream-line/55 flex items-center justify-between">
-                <img src="/images/kellogg.png" alt="Kellogg Logo" className="h-6 object-contain opacity-90" />
-                <img src="/images/isb-logo.png" alt="ISB Logo" className="h-6 object-contain opacity-90" />
+              <div className="px-6 pb-6 pt-4 border-t border-cream-line/50 bg-cream/5 flex items-center justify-between">
+                <span className="text-xs text-ink-muted font-sans font-semibold">Alumna of:</span>
+                <div className="flex gap-4 items-center">
+                  <img src="/images/kellogg.png" alt="Kellogg Logo" className="h-6 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" title="Kellogg" />
+                  <img src="/images/isb-logo.png" alt="ISB Logo" className="h-6 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" title="ISB" />
+                </div>
               </div>
             </AnimatedSection>
 
             {/* Mrs. Priyanshi Card */}
-            <AnimatedSection animation="scale-in" delayClass="stagger-3" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between">
+            <AnimatedSection animation="scale-in" delayClass="stagger-3" className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
               <div>
-                <div className="relative aspect-[4/3] w-full">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
                   <Image
                     src="/images/director-priyanshi.jpg"
                     alt="Mrs. Priyanshi Rawat"
                     fill
-                    className="object-cover animate-image-reveal"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p className="text-white/95 text-xs md:text-sm font-sans italic leading-relaxed">
+                      "Strategizing financial discipline, operations, and growth metrics to maintain quality standards."
+                    </p>
+                  </div>
                 </div>
                 <div className="p-6">
-                  <h4 className="font-serif font-bold text-navy text-lg leading-snug">Mrs. Priyanshi Rawat</h4>
-                  <p className="text-xs text-ink-muted font-sans font-semibold mt-1 uppercase tracking-wider">Director of CCGS &amp; CEO of Playbox School</p>
+                  <h4 className="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors duration-300">Mrs. Priyanshi Rawat</h4>
+                  <p className="text-xs text-gold font-sans font-bold mt-1 uppercase tracking-wider">Director of CCGS &amp; CEO of Playbox School</p>
                 </div>
               </div>
-              <div className="px-6 pb-6 pt-4 border-t border-cream-line/55 flex items-center justify-between">
-                <img src="/images/CA.png" alt="CA India Logo" className="h-6 object-contain opacity-90" />
+              <div className="px-6 pb-6 pt-4 border-t border-cream-line/50 bg-cream/5 flex items-center justify-between">
+                <span className="text-xs text-ink-muted font-sans font-semibold">Alumna of:</span>
+                <div className="flex gap-4 items-center">
+                  <img src="/images/CA.png" alt="CA India Logo" className="h-6 object-contain grayscale opacity-90 transition-all duration-300" title="Chartered Accountant" />
+                </div>
               </div>
             </AnimatedSection>
           </div>

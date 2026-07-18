@@ -18,7 +18,7 @@ const defaultEvents = [
     title: 'Admissions Open for CBSE and IB Boards: Session 2026-27',
     date: '2026-07-08',
     category: 'General',
-    img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=800',
+    img: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&q=80&w=800',
     desc: 'Cambridge Court International School invites applications for the upcoming academic session. Book a personalized campus walk-through online.',
     type: 'news',
     school: 'CCIS'

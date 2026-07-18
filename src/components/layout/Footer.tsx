@@ -99,14 +99,23 @@ export default function Footer() {
               </span>
             </li>
           </ul>
-          <div className="w-full h-32 rounded-lg overflow-hidden border border-white/10 shadow-md mt-6">
+          <div className="relative group w-full h-40 rounded-xl overflow-hidden border border-white/10 shadow-md mt-6 transition-all duration-300 hover:border-gold/40">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8974514332857!2d75.76652407630713!3d26.843213076690045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5dc35555555%3A0xe9f79ca41e127ee7!2sCambridge%20Court%20International%20School!5e0!3m2!1sen!2sin!4v1721200000000!5m2!1sen!2sin"
-              className="w-full h-full border-0"
+              className="w-full h-full border-0 grayscale-[20%] contrast-[110%] transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105"
               allowFullScreen
               loading="lazy"
               title="CCIS Footer Map"
             />
+            <a 
+              href="https://maps.app.goo.gl/wJk8zYtN3G7X1p3v9" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="absolute inset-0 bg-navy-dark/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300 text-white font-sans text-xs font-semibold gap-1.5"
+            >
+              <MapPin className="w-4 h-4 text-gold" />
+              Open in Google Maps
+            </a>
           </div>
         </div>
       </div>
