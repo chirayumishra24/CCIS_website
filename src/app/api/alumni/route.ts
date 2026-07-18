@@ -32,8 +32,8 @@ export async function GET(request: Request) {
       list = fetchedList;
     }
 
-    // Strip private phone and ensure avatar fields are set
-    const publicList = list.map(({ phone, ...rest }) => {
+    // Strip private phone, limit to top 30, and ensure avatar fields are set
+    const publicList = list.slice(0, 30).map(({ phone, ...rest }) => {
       const avUrl = (rest.user?.avatarUrl && (rest.user.avatarUrl.startsWith('http') || rest.user.avatarUrl.startsWith('data:image/')))
         ? rest.user.avatarUrl
         : `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120`;
