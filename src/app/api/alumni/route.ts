@@ -22,7 +22,6 @@ export async function GET(request: Request) {
       let fetchedList: any[] = [];
 
       const snapshot = await alumniRef
-        .where('school', '==', school)
         .where('isVerified', '==', true)
         .get();
 

@@ -32,7 +32,6 @@ export async function GET() {
   try {
     const snapshot = await firestore
       .collection('alumni_profiles')
-      .where('school', '==', 'CCIS')
       .where('isVerified', '==', true)
       .get();
 
