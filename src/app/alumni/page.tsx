@@ -5,13 +5,14 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import Skeleton from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
 import Toast from "@/components/ui/Toast";
-import { Search, Mail, MapPin, Briefcase, GraduationCap } from "lucide-react";
+import { Search, Mail, MapPin, Briefcase, GraduationCap, X } from "lucide-react";
 
 export default function Alumni() {
   const [alumni, setAlumni] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBatch, setSelectedBatch] = useState("All");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   // Registration Form State
   const [registering, setRegistering] = useState(false);
@@ -30,6 +31,18 @@ export default function Alumni() {
   });
 
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+
+  // Toggle body scroll lock when modal open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isModalOpen]);
 
   useEffect(() => {
     async function fetchAlumni() {
@@ -66,6 +79,7 @@ export default function Alumni() {
       const data = await res.json();
       if (res.ok && data.success) {
         setToast({ message: "Registration successful! Check email for verification link.", type: "success" });
+        setIsModalOpen(false);
         setFormData({
           name: "",
           email: "",
@@ -114,7 +128,7 @@ export default function Alumni() {
       {/* Banner */}
       <section className="relative bg-navy text-white py-20 overflow-hidden border-b-4 border-gold">
         <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('/images/alumni_hero.png')" }} />
-        <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col gap-4">
+        <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col gap-5">
           <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit mx-auto">
             CCIS Alumni Association
           </span>
@@ -124,32 +138,40 @@ export default function Alumni() {
           <p className="text-cream-dark max-w-2xl mx-auto leading-relaxed text-sm md:text-base font-medium">
             Connect with our outstanding alumni network, search profiles, or register your profile to help current students.
           </p>
+          <div className="mt-2">
+            <Button
+              variant="gold"
+              onClick={() => setIsModalOpen(true)}
+              className="font-bold uppercase tracking-wider rounded-sm text-xs py-3 px-8 transition-transform duration-300 hover:scale-105"
+            >
+              Register Your Profile
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* Directory & Register Split */}
+      {/* Directory Section */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-16">
-          {/* Main Directory Area */}
-          <div className="lg:col-span-2 flex flex-col gap-8">
-            <h3 className="font-serif font-bold text-2xl text-navy">Alumni Network Directory</h3>
+        <div className="max-w-7xl mx-auto px-4 flex flex-col gap-10">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-cream-line/40 pb-6">
+            <h3 className="font-serif font-bold text-3xl text-navy">Alumni Network Directory</h3>
             
             {/* Search Filters */}
-            <div className="flex flex-col sm:flex-row gap-4 bg-cream/20 p-4 border border-cream-line rounded-lg">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-3.5 w-4 h-4 text-ink-muted" />
+            <div className="flex flex-col sm:flex-row gap-4 bg-cream/20 p-3 border border-cream-line rounded-lg w-full md:w-auto shadow-sm">
+              <div className="relative w-full md:w-80">
+                <Search className="absolute left-3 top-3 w-4 h-4 text-ink-muted" />
                 <input
                   type="text"
                   placeholder="Search by name, company, role..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-4 py-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
+                  className="w-full pl-9 pr-4 py-2 border border-cream-line rounded font-sans text-xs focus:outline-none focus:ring-1 focus:ring-gold bg-white"
                 />
               </div>
               <select
                 value={selectedBatch}
                 onChange={(e) => setSelectedBatch(e.target.value)}
-                className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white sm:w-44"
+                className="p-2 border border-cream-line rounded font-sans text-xs focus:outline-none focus:ring-1 focus:ring-gold bg-white w-full sm:w-40"
               >
                 <option value="All">All Batches</option>
                 {uniqueBatches.map((b) => (
@@ -157,95 +179,110 @@ export default function Alumni() {
                 ))}
               </select>
             </div>
+          </div>
 
-            {/* List */}
-            {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {[1, 2, 3, 4].map((n) => (
-                  <div key={n} className="flex gap-4 p-4 border border-cream-line rounded-lg">
-                    <Skeleton className="w-16 h-16 rounded-full shrink-0" />
-                    <div className="flex-1 flex flex-col gap-2">
-                      <Skeleton className="h-5 w-3/4" />
-                      <Skeleton className="h-4 w-1/2" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : filteredAlumni.length === 0 ? (
-              <div className="text-center py-16 bg-cream/10 border border-cream-line rounded-lg">
-                <p className="font-serif font-bold text-navy text-base mb-1">No verified alumni profiles listed</p>
-                <p className="text-xs text-ink-muted leading-relaxed">Try adjusting filters or submit your registration profile.</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {filteredAlumni.map((a) => (
-                  <AnimatedSection
-                    key={a.id}
-                    animation="scale-in"
-                    className="bg-cream/5 border border-cream-line p-5 rounded-lg shadow-card flex gap-4 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300"
-                  >
-                    <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0 border border-gold">
+          {/* List */}
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <div key={n} className="flex flex-col gap-4 p-5 border border-cream-line rounded-xl items-center text-center bg-cream/5">
+                  <Skeleton className="w-20 h-20 rounded-full" />
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              ))}
+            </div>
+          ) : filteredAlumni.length === 0 ? (
+            <div className="text-center py-20 bg-cream/10 border border-cream-line rounded-xl">
+              <p className="font-serif font-bold text-navy text-lg mb-1">No verified alumni profiles listed</p>
+              <p className="text-sm text-ink-muted leading-relaxed">Try adjusting filters or submit your registration profile.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {filteredAlumni.map((a) => (
+                <AnimatedSection
+                  key={a.id}
+                  animation="scale-in"
+                  className="group bg-cream/5 border border-cream-line p-5 rounded-xl shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between items-center text-center"
+                >
+                  <div className="flex flex-col items-center w-full">
+                    <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gold shadow-sm">
                       <img
                         src={a.avatar || a.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120'}
                         alt={a.name}
-                        className="object-cover w-full h-full"
+                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <h4 className="font-serif font-bold text-navy text-base leading-snug">{a.name}</h4>
-                      
-                      <div className="flex items-center gap-1.5 text-xs text-gold-dark font-sans font-semibold uppercase tracking-wider">
-                        <GraduationCap className="w-3.5 h-3.5 shrink-0" />
-                        Batch of {a.batch} • {a.program}
-                      </div>
-
-                      {a.role && (
-                        <div className="flex items-center gap-1.5 text-xs text-ink-muted font-sans leading-snug mt-1">
-                          <Briefcase className="w-3.5 h-3.5 shrink-0 text-navy" />
-                          <span>{a.role} at <strong>{a.company}</strong></span>
-                        </div>
-                      )}
-
-                      {a.city && (
-                        <div className="flex items-center gap-1.5 text-[11px] text-ink-muted/80 font-sans mt-0.5">
-                          <MapPin className="w-3.5 h-3.5 shrink-0 text-gold-dark" />
-                          <span>{a.city}</span>
-                        </div>
-                      )}
-
-                      {a.bio && (
-                        <p className="text-[11px] text-ink-muted leading-relaxed mt-2 italic line-clamp-2">
-                          "{a.bio}"
-                        </p>
-                      )}
-
-                      {a.linkedin && (
-                        <a
-                          href={a.linkedin.startsWith("http") ? a.linkedin : `https://${a.linkedin}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-3 text-navy hover:text-gold flex items-center gap-1 text-[10px] uppercase font-bold tracking-widest"
-                        >
-                          LinkedIn Profile <svg className="w-3.5 h-3.5 text-[#0A66C2] fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        </a>
-                      )}
+                    
+                    <h4 className="font-serif font-bold text-navy text-base mt-4 leading-snug line-clamp-1 w-full" title={a.name}>{a.name}</h4>
+                    
+                    <div className="flex items-center justify-center gap-1 text-[10px] text-gold-dark font-sans font-bold uppercase tracking-wider mt-1 w-full">
+                      <GraduationCap className="w-3.5 h-3.5 shrink-0" />
+                      Batch of {a.batch}
                     </div>
-                  </AnimatedSection>
-                ))}
-              </div>
-            )}
-          </div>
+                    <div className="text-[10px] text-ink-muted/70 font-sans font-semibold uppercase tracking-widest mt-0.5">
+                      {a.program}
+                    </div>
 
-          {/* Registration Form Area */}
-          <div className="bg-cream/10 border border-cream-line p-6 rounded-lg shadow-card h-fit flex flex-col gap-6">
+                    {a.role && (
+                      <div className="text-[11px] text-ink-muted font-sans leading-snug mt-2.5 text-center w-full line-clamp-2 px-1 min-h-[2.25rem] flex flex-col justify-center border-t border-cream-line/20 pt-2">
+                        <span>{a.role} <span className="text-navy font-semibold">at {a.company}</span></span>
+                      </div>
+                    )}
+
+                    {a.city && (
+                      <div className="flex items-center justify-center gap-1 text-[10px] text-ink-muted/70 font-sans mt-2">
+                        <MapPin className="w-3 h-3 text-gold-dark shrink-0" />
+                        <span>{a.city}</span>
+                      </div>
+                    )}
+
+                    {a.bio && (
+                      <p className="text-[11px] text-ink-muted leading-relaxed mt-3 italic line-clamp-2 border-t border-cream-line/40 pt-3 w-full px-1">
+                        "{a.bio}"
+                      </p>
+                    )}
+                  </div>
+
+                  {a.linkedin && (
+                    <a
+                      href={a.linkedin.startsWith("http") ? a.linkedin : `https://${a.linkedin}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 w-full py-1.5 border border-cream-line hover:border-gold rounded text-navy hover:text-gold flex items-center justify-center gap-1 text-[10px] uppercase font-bold tracking-widest bg-white shadow-sm transition-all duration-300"
+                    >
+                      <svg className="w-3.5 h-3.5 text-[#0A66C2] fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                      LinkedIn
+                    </a>
+                  )}
+                </AnimatedSection>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Register Profile Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white border-2 border-gold rounded-2xl max-w-lg w-full p-6 md:p-8 shadow-2xl relative my-8 animate-scale-in">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 text-navy/60 hover:text-navy cursor-pointer transition-colors p-1"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
             <div>
-              <h3 className="font-serif font-bold text-navy text-xl">Register Profile</h3>
+              <h3 className="font-serif font-bold text-navy text-2xl">Register Profile</h3>
               <p className="text-xs text-ink-muted leading-relaxed mt-1">
                 Your profile will go live on the directory once verified by school coordinators.
               </p>
             </div>
 
-            <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-4">
+            <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-4 mt-6">
               <div className="flex flex-col gap-1">
                 <label htmlFor="reg-name" className="text-[10px] font-bold text-navy uppercase tracking-wider">Full Name *</label>
                 <input
@@ -385,7 +422,7 @@ export default function Alumni() {
             </form>
           </div>
         </div>
-      </section>
+      )}
 
       {toast && (
         <Toast
