@@ -28,6 +28,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://ccis.skilizee.com"),
   title: {
     default: "Cambridge Court International School | Best IB & CBSE School in Jaipur",
     template: "%s | Cambridge Court International School",
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
       "A premium dual-curriculum day school with a global vision and solid Indian values.",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1200",
+        url: "/images/home_hero1.png",
         width: 1200,
         height: 630,
         alt: "Cambridge Court International School Campus",
@@ -67,7 +68,7 @@ export const metadata: Metadata = {
     title: "Cambridge Court International School",
     description:
       "Best IB & CBSE School in Jaipur — Academic excellence and holistic development.",
-    images: ["https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1200"],
+    images: ["/images/home_hero1.png"],
   },
   icons: {
     icon: "/logo/Subtitlelogo.png",

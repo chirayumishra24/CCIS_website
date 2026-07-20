@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, Phone, Mail, Clock } from "lucide-react";
 import Button from "../ui/Button";
@@ -93,7 +94,7 @@ export default function Header() {
       } border-b-2 border-gold`}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <Link href="/" className="flex items-center group focus:outline-none py-1">
-            <img src="/images/logo.webp" alt="CCIS Logo" className="h-8 md:h-10 w-auto object-contain transition-transform group-hover:scale-105" />
+            <Image src="/images/logo.webp" alt="CCIS Logo" width={160} height={40} className="h-8 md:h-10 w-auto object-contain transition-transform group-hover:scale-105" />
           </Link>
 
           {/* Desktop Nav Links */}
@@ -180,7 +181,7 @@ export default function Header() {
         {/* Drawer Header */}
         <div className="flex items-center justify-between p-5 border-b border-cream-line bg-cream/10">
           <div className="py-1 px-3">
-            <img src="/images/logo.webp" alt="CCIS Logo" className="h-7 w-auto object-contain" />
+            <Image src="/images/logo.webp" alt="CCIS Logo" width={120} height={28} className="h-7 w-auto object-contain" />
           </div>
           <button 
             onClick={() => setIsOpen(false)}

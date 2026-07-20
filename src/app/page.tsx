@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
@@ -9,8 +9,9 @@ import StatsCounter from '@/components/ui/StatsCounter';
 import VideoModal from '@/components/ui/VideoModal';
 import Skeleton from '@/components/ui/Skeleton';
 import AccreditationBadges from '@/components/ui/AccreditationBadges';
-import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, MessageSquare } from 'lucide-react';
+import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell } from 'lucide-react';
 
+/* ─── Data ─── */
 const parentReviews = [
   { img: 'parent1.png', videoId: '3adNiVmDkws' },
   { img: 'parent2.png', videoId: '57c5x8jQINM' },
@@ -26,12 +27,12 @@ const studentReviews = [
 const heroSlides = [
   {
     img: '/images/home_hero1.png',
-    title: 'Dual Advantage: CBSE &amp; IB curriculum',
+    title: 'Dual Advantage: CBSE & IB curriculum',
     desc: 'Empowering future global leaders through world-class academic pathways and deep-rooted Indian values.'
   },
   {
     img: '/images/home_hero2.png',
-    title: 'Holistic Development &amp; Modern Labs',
+    title: 'Holistic Development & Modern Labs',
     desc: 'State-of-the-art sports complexes, advanced technology arenas, and active learning studios.'
   },
   {
@@ -41,39 +42,48 @@ const heroSlides = [
   }
 ];
 
-const bentoItems = [
+const pillars = [
   {
-    icon: <ShieldCheck className="w-8 h-8 text-gold" />,
+    icon: <ShieldCheck className="w-7 h-7" />,
     title: 'Indian Values',
-    desc: 'Rooting students in traditional ethics, respect, and community duty.'
+    desc: 'Rooting students in traditional ethics, respect, and community duty.',
+    accent: 'from-navy to-navy-light'
   },
   {
-    icon: <Compass className="w-8 h-8 text-gold" />,
+    icon: <Compass className="w-7 h-7" />,
     title: 'Real-World Skills',
-    desc: 'Developing critical reasoning, problem-solving, and communication proficiencies.'
+    desc: 'Developing critical reasoning, problem-solving, and communication proficiencies.',
+    accent: 'from-gold-dark to-gold'
   },
   {
-    icon: <Award className="w-8 h-8 text-gold" />,
+    icon: <Award className="w-7 h-7" />,
     title: 'Passion-Driven Sports',
-    desc: 'Professional turf facilities, professional basketball arenas, and track excellence.'
+    desc: 'Professional turf facilities, basketball arenas, and track excellence.',
+    accent: 'from-navy-light to-navy'
   },
   {
-    icon: <BookOpen className="w-8 h-8 text-gold" />,
-    title: 'AI &amp; Tech Readiness',
-    desc: 'Robotics studios, AI-assisted learning spaces, and advanced digital research hubs.'
+    icon: <BookOpen className="w-7 h-7" />,
+    title: 'AI & Tech Readiness',
+    desc: 'Robotics studios, AI-assisted learning spaces, and advanced digital research hubs.',
+    accent: 'from-gold to-gold-dark'
   }
 ];
 
-
-
 export default function Home() {
   const [currentBg, setCurrentBg] = useState(0);
-  const [newsList, setNewsList] = useState<any[]>([]);
+  const [newsList, setNewsList] = useState<Array<{ id: string; title: string; desc: string; img?: string; category: string; date: string; type: string }>>([]);
   const [loadingNews, setLoadingNews] = useState(true);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<"parent" | "student">("parent");
+  const [showNotice, setShowNotice] = useState(true);
+  const [youtubeLoaded, setYoutubeLoaded] = useState(false);
   const testimonialsRef = React.useRef<HTMLDivElement>(null);
+
+  const openVideo = useCallback((url: string) => {
+    setVideoUrl(url);
+    setIsVideoModalOpen(true);
+  }, []);
 
   const scrollTestimonials = (direction: "left" | "right") => {
     if (testimonialsRef.current) {
@@ -98,9 +108,8 @@ export default function Home() {
       try {
         const res = await fetch('/api/news');
         const data = await res.json();
-        // Get top 3 news
-        if (data && data.news) {
-          setNewsList(data.news.filter((item: any) => item.type === 'news').slice(0, 3));
+        if (data?.news) {
+          setNewsList(data.news.filter((item: { type: string }) => item.type === 'news').slice(0, 3));
         }
       } catch (err) {
         console.error('Failed to load homepage news:', err);
@@ -113,179 +122,233 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* 1. Hero Section */}
-      <section className="relative h-[85vh] md:h-[90vh] bg-navy overflow-hidden flex items-center">
+      {/* ━━━ 1. HERO ━━━ */}
+      <section className="relative h-[85vh] md:h-[92vh] bg-navy overflow-hidden flex items-end pb-16 md:pb-20">
         {heroSlides.map((slide, idx) => (
           <div
             key={idx}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === currentBg ? "opacity-45" : "opacity-0 pointer-events-none"}`}
+            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${idx === currentBg ? "opacity-40" : "opacity-0 pointer-events-none"}`}
           >
             <Image
               src={slide.img}
-              alt="CCIS Campus slide"
+              alt="CCIS Campus"
               fill
               priority={idx === 0}
               className={`object-cover ${idx === currentBg ? "animate-ken-burns" : ""}`}
+              sizes="100vw"
             />
           </div>
         ))}
-        {/* Dark Navy Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/70 to-navy/30" />
 
         <div className="relative max-w-7xl mx-auto px-4 z-10 w-full text-white">
-          <div className="max-w-2xl flex flex-col gap-6">
-            <span className="inline-block px-3 py-1 bg-gold text-white font-mono text-xs uppercase tracking-widest rounded-sm font-bold shadow-glow-gold animate-fadeIn">
+          <div className="max-w-2xl flex flex-col gap-5">
+            <span className="inline-block px-3 py-1.5 bg-gold/90 text-white font-sans text-[11px] uppercase tracking-widest rounded font-bold shadow-glow-gold w-fit">
               Admissions Open 2026-27
             </span>
-            <h1
-              className="text-4xl md:text-6xl font-serif font-extrabold leading-tight"
-              dangerouslySetInnerHTML={{ __html: heroSlides[currentBg]?.title || "" }}
-            />
-            <p className="text-lg text-cream-dark/90 leading-relaxed font-sans font-medium">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-extrabold leading-[1.08] tracking-tight">
+              {heroSlides[currentBg]?.title}
+            </h1>
+            <p className="text-base md:text-lg text-white/75 leading-relaxed font-sans max-w-lg">
               {heroSlides[currentBg]?.desc}
             </p>
-            <div className="flex flex-wrap gap-4 mt-2">
+            <div className="flex flex-wrap gap-3 mt-1">
               <Link href="/admissions">
-                <Button variant="gold" size="lg" className="font-bold uppercase tracking-wider rounded-sm">
+                <Button variant="gold" size="lg" className="font-bold uppercase tracking-wider rounded">
                   Apply Online
                 </Button>
               </Link>
               <button
-                onClick={() => {
-                  setVideoUrl("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
-                  setIsVideoModalOpen(true);
-                }}
-                className="flex items-center gap-3 px-6 py-3 border border-white/30 hover:border-white bg-white/5 hover:bg-white/10 text-white rounded transition-all duration-300 font-semibold"
+                onClick={() => openVideo("https://www.youtube.com/watch?v=wJ8RPJgO_Rs")}
+                className="flex items-center gap-2.5 px-5 py-3 border border-white/25 hover:border-white/50 bg-white/5 hover:bg-white/10 text-white rounded transition-all duration-300 font-semibold text-sm"
               >
-                <Play className="w-5 h-5 fill-current text-gold" />
+                <Play className="w-4 h-4 fill-current text-gold" />
                 Virtual Tour
               </button>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* 2. Accreditation Bar */}
-      <AccreditationBadges />
-
-      {/* 3. About Snapshot */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <AnimatedSection animation="fade-in-left" className="w-full">
-            <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-cream-line shadow-card bg-black">
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/wJ8RPJgO_Rs"
-                title="CCIS Infrastructure Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </div>
-          </AnimatedSection>
-          <AnimatedSection animation="fade-in-right" className="flex flex-col gap-6">
-            <span className="text-gold font-mono font-bold uppercase tracking-wider text-sm">Where Learning Meets Life!</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-navy">
-              Inspiring Leaders, Innovators &amp; Global Citizens
-            </h2>
-            <div className="gold-rule" />
-            <p className="text-ink-muted leading-relaxed">
-              Cambridge Court International School (CCIS) combines the global inquiry standards of the International Baccalaureate (IB) framework with the robust national testing standards of the CBSE. Set in Sector-3 Mansarovar, Jaipur, our beautiful cream-toned campus is an arena for educational, athletic, and personal transformation.
-            </p>
-            <div className="flex gap-4 mt-2">
-              <Link href="/about">
-                <Button variant="primary" className="rounded-sm">Read Our Story <ArrowRight className="w-4 h-4 ml-2" /></Button>
-              </Link>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* 4. Key Statistics */}
-      <section className="py-16 bg-cream/30 border-y border-cream-line">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <StatsCounter end={25} suffix="+" label="Years of Excellence" />
-            <StatsCounter end={13500} suffix="+" label="Alumni Network" />
-            <StatsCounter end={8} suffix="+" label="Group Institutions" />
-            <StatsCounter end={100} suffix="%" label="Board Pass Rate" />
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Why Choose CCIS Bento */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <SectionHeading title="Four Pillars of a CCIS Education" subtitle="Why Choose Us" />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {bentoItems.map((item, idx) => (
-              <AnimatedSection
+          {/* Slide Indicators */}
+          <div className="flex gap-2 mt-8">
+            {heroSlides.map((_, idx) => (
+              <button
                 key={idx}
-                animation="scale-in"
-                delayClass={`stagger-${idx + 1}`}
-                className="bg-cream/25 border border-cream-line/50 p-8 rounded-lg flex flex-col gap-4 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="p-3 bg-navy rounded-lg w-fit text-white shadow-glow-navy">
-                  {item.icon}
-                </div>
-                <h3 className="font-serif font-bold text-navy text-xl">{item.title}</h3>
-                <p className="text-sm text-ink-muted leading-relaxed">{item.desc}</p>
-              </AnimatedSection>
+                onClick={() => setCurrentBg(idx)}
+                className={`h-1 rounded-full transition-all duration-500 ${idx === currentBg ? "w-10 bg-gold" : "w-4 bg-white/30 hover:bg-white/50"}`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
             ))}
           </div>
         </div>
+
+        {/* Bottom shape divider */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto" preserveAspectRatio="none">
+            <path d="M0 60V30C360 0 720 0 1080 30C1260 45 1380 55 1440 60V60H0Z" fill="white" />
+          </svg>
+        </div>
       </section>
 
-      {/* AI & Futuristic Education Section */}
-      <section className="py-20 bg-navy text-white relative overflow-hidden border-y-2 border-gold/30">
-        <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: "url('/images/future.jpg')" }} />
-        <div className="relative max-w-7xl mx-auto px-4 z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <AnimatedSection animation="fade-in-left" className="flex flex-col gap-6">
-            <span className="text-gold font-mono font-bold uppercase tracking-wider text-sm bg-white/5 px-3 py-1 rounded w-fit border border-gold/20">
+      {/* ━━━ 2. ACCREDITATION BAR ━━━ */}
+      <AccreditationBadges />
+
+      {/* ━━━ 3. ABOUT SNAPSHOT ━━━ */}
+      <section className="py-20 md:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <AnimatedSection animation="fade-in-left" className="w-full">
+            <div
+              className="relative w-full aspect-video rounded-xl overflow-hidden border border-cream-line shadow-card bg-navy-dark cursor-pointer group"
+              onClick={() => { if (!youtubeLoaded) setYoutubeLoaded(true); else openVideo("https://www.youtube.com/watch?v=wJ8RPJgO_Rs"); }}
+            >
+              {youtubeLoaded ? (
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/wJ8RPJgO_Rs?autoplay=1"
+                  title="CCIS Infrastructure Video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              ) : (
+                <>
+                  <Image
+                    src="/images/home_hero1.png"
+                    alt="CCIS Campus Tour Preview"
+                    fill
+                    className="object-cover opacity-70 group-hover:opacity-85 transition-opacity duration-500"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform duration-300">
+                      <Play className="w-7 h-7 md:w-8 md:h-8 fill-current ml-1" />
+                    </div>
+                  </div>
+                  <span className="absolute bottom-4 left-4 text-white/80 text-xs font-sans font-semibold bg-navy-dark/70 px-3 py-1 rounded backdrop-blur-sm">
+                    Watch Campus Tour
+                  </span>
+                </>
+              )}
+            </div>
+          </AnimatedSection>
+          <AnimatedSection animation="fade-in-right" className="flex flex-col gap-5">
+            <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Where Learning Meets Life!</span>
+            <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-serif font-bold text-navy leading-tight">
+              Inspiring Leaders, Innovators & Global Citizens
+            </h2>
+            <div className="gold-rule" />
+            <p className="text-ink-muted leading-relaxed text-[15px]">
+              Cambridge Court International School (CCIS) combines the global inquiry standards of the International Baccalaureate (IB) framework with the robust national testing standards of the CBSE. Set in Sector-3 Mansarovar, Jaipur, our beautiful campus is an arena for educational, athletic, and personal transformation.
+            </p>
+            <Link href="/about" className="mt-1">
+              <Button variant="primary" className="rounded group/btn">
+                Read Our Story <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* ━━━ 4. KEY STATISTICS — Inline with Dividers ━━━ */}
+      <section className="py-14 bg-navy relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
+        <div className="max-w-5xl mx-auto px-4 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0">
+            <StatInline end={25} suffix="+" label="Years of Excellence" />
+            <div className="hidden md:block w-px h-12 bg-white/15" />
+            <StatInline end={13500} suffix="+" label="Alumni Network" />
+            <div className="hidden md:block w-px h-12 bg-white/15" />
+            <StatInline end={8} suffix="+" label="Group Institutions" />
+            <div className="hidden md:block w-px h-12 bg-white/15" />
+            <StatInline end={100} suffix="%" label="Board Pass Rate" />
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━ 5. FOUR PILLARS — Asymmetric Bento ━━━ */}
+      <section className="py-20 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <SectionHeading title="Four Pillars of a CCIS Education" subtitle="Why Choose Us" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5">
+            {/* Featured first card spans more */}
+            <AnimatedSection
+              animation="scale-in"
+              delayClass="stagger-1"
+              className="lg:col-span-5 bg-navy text-white p-8 md:p-10 rounded-xl flex flex-col gap-5 shadow-glow-navy border border-navy-light/20 relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-40 h-40 bg-gold/5 rounded-full blur-3xl" />
+              <div className="p-3 bg-gold/15 rounded-lg w-fit text-gold">
+                {pillars[0].icon}
+              </div>
+              <h3 className="font-serif font-bold text-2xl">{pillars[0].title}</h3>
+              <p className="text-white/70 leading-relaxed text-sm">{pillars[0].desc}</p>
+            </AnimatedSection>
+
+            {/* Remaining 3 cards */}
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {pillars.slice(1).map((item, idx) => (
+                <AnimatedSection
+                  key={idx}
+                  animation="scale-in"
+                  delayClass={`stagger-${idx + 2}`}
+                  className="bg-cream/20 border border-cream-line/50 p-6 rounded-xl flex flex-col gap-4 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className={`p-2.5 bg-gradient-to-br ${item.accent} rounded-lg w-fit text-white`}>
+                    {item.icon}
+                  </div>
+                  <h3 className="font-serif font-bold text-navy text-lg leading-snug">{item.title}</h3>
+                  <p className="text-xs text-ink-muted leading-relaxed">{item.desc}</p>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━ 6. AI & FUTURISTIC EDUCATION ━━━ */}
+      <section className="py-20 md:py-28 bg-navy text-white relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="/images/future.jpg" alt="" fill className="object-cover opacity-10" sizes="100vw" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy/90 to-navy-dark" />
+        <div className="relative max-w-7xl mx-auto px-4 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <AnimatedSection animation="fade-in-left" className="flex flex-col gap-5">
+            <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs bg-white/5 px-3 py-1.5 rounded w-fit border border-gold/20">
               Futuristic Learning
             </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-white">
+            <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-serif font-bold text-white leading-tight">
               Preparing Students for the AI-Driven World
             </h2>
             <div className="gold-rule" />
-            <p className="text-cream-dark/90 leading-relaxed">
+            <p className="text-white/65 leading-relaxed text-[15px]">
               At CCIS, we don't just teach technology—we build AI readiness. Through dedicated robotics labs, coding clubs, and real-world AI applications, our students learn to leverage technology ethically and creatively, preparing them to lead in the automated future.
             </p>
-            <div className="flex gap-4 mt-2">
-              <button
-                onClick={() => {
-                  setVideoUrl("https://www.youtube.com/watch?v=H8u5p8QiYGQ");
-                  setIsVideoModalOpen(true);
-                }}
-                className="flex items-center gap-3 px-6 py-3 bg-gold hover:bg-gold-light text-navy font-bold rounded shadow-glow-gold transition-all duration-300"
-              >
-                <Play className="w-5 h-5 fill-current" />
-                Watch AI Impact Video
-              </button>
-            </div>
+            <button
+              onClick={() => openVideo("https://www.youtube.com/watch?v=H8u5p8QiYGQ")}
+              className="flex items-center gap-2.5 px-5 py-3 bg-gold hover:bg-gold-light text-navy font-bold rounded shadow-glow-gold transition-all duration-300 w-fit text-sm"
+            >
+              <Play className="w-4 h-4 fill-current" />
+              Watch AI Impact Video
+            </button>
           </AnimatedSection>
           <AnimatedSection
             animation="fade-in-right"
-            className="relative aspect-video rounded-lg overflow-hidden border border-white/10 shadow-2xl group cursor-pointer"
+            className="relative aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl group cursor-pointer"
           >
             <div
               className="w-full h-full relative"
-              onClick={() => {
-                setVideoUrl("https://www.youtube.com/watch?v=H8u5p8QiYGQ");
-                setIsVideoModalOpen(true);
-              }}
+              onClick={() => openVideo("https://www.youtube.com/watch?v=H8u5p8QiYGQ")}
             >
               <Image
                 src="/images/future.jpg"
                 alt="AI and Robotics Lab at CCIS"
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-75"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              {/* Play Button Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center bg-navy-dark/40 group-hover:bg-navy-dark/20 transition-colors">
-                <div className="w-16 h-16 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform">
+              <div className="absolute inset-0 flex items-center justify-center bg-navy-dark/30 group-hover:bg-navy-dark/15 transition-colors duration-300">
+                <div className="w-16 h-16 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform duration-300">
                   <Play className="w-6 h-6 fill-current ml-1" />
                 </div>
               </div>
@@ -293,75 +356,77 @@ export default function Home() {
           </AnimatedSection>
         </div>
       </section>
-      <section className="py-20 bg-cream/10 border-t border-cream-line">
+
+      {/* ━━━ 7. DUAL CURRICULUM PATHWAYS ━━━ */}
+      <section className="py-20 md:py-24 bg-cream/10 border-t border-cream-line relative">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Dual Curriculum Pathways" subtitle="Flexible Learning" />
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 mt-4">
             {/* CBSE */}
-            <AnimatedSection animation="fade-in-left" className="bg-white border border-cream-line p-8 md:p-12 rounded-lg shadow-card flex flex-col gap-6">
-              <span className="inline-block px-3 py-1 bg-navy/5 text-navy font-mono text-xs uppercase tracking-widest rounded-full w-fit font-bold">
+            <AnimatedSection animation="fade-in-left" className="bg-white border border-cream-line p-8 md:p-10 rounded-xl shadow-card flex flex-col gap-5">
+              <span className="inline-block px-3 py-1 bg-navy/5 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full w-fit font-bold">
                 National Standard
               </span>
-              <h3 className="font-serif font-bold text-3xl text-navy">CBSE Curriculum</h3>
-              <p className="text-ink-muted leading-relaxed">
+              <h3 className="font-serif font-bold text-2xl md:text-3xl text-navy">CBSE Curriculum</h3>
+              <p className="text-ink-muted leading-relaxed text-sm">
                 Our Central Board of Secondary Education (CBSE) stream delivers rigorous academic instruction from Nursery up to Grade XII. Featuring comprehensive preparations for national engineering (JEE), medical (NEET), and commerce entrance courses alongside mandatory athletic training.
               </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-semibold text-navy">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm font-semibold text-navy">
                 <li className="flex items-center gap-2">✓ Nursery to Class XII</li>
-                <li className="flex items-center gap-2">✓ Rigorous Science &amp; Commerce</li>
+                <li className="flex items-center gap-2">✓ Rigorous Science & Commerce</li>
                 <li className="flex items-center gap-2">✓ Advanced Elective Options</li>
                 <li className="flex items-center gap-2">✓ Integrated Entrance coaching</li>
               </ul>
-              <Link href="/academics" className="mt-4">
-                <Button variant="secondary" className="w-full sm:w-auto rounded-sm">Explore CBSE Pathway</Button>
+              <Link href="/academics" className="mt-2">
+                <Button variant="secondary" className="w-full sm:w-auto rounded">Explore CBSE Pathway</Button>
               </Link>
             </AnimatedSection>
 
             {/* IB */}
-            <AnimatedSection animation="fade-in-right" className="bg-navy text-white p-8 md:p-12 rounded-lg shadow-glow-navy flex flex-col gap-6 border-2 border-gold">
-              <span className="inline-block px-3 py-1 bg-gold text-white font-mono text-xs uppercase tracking-widest rounded-full w-fit font-bold shadow-glow-gold animate-pulse-gold">
+            <AnimatedSection animation="fade-in-right" className="bg-navy text-white p-8 md:p-10 rounded-xl shadow-glow-navy flex flex-col gap-5 border-2 border-gold/40 relative overflow-hidden">
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-gold/5 rounded-full blur-3xl" />
+              <span className="relative inline-block px-3 py-1 bg-gold text-white font-sans text-[11px] uppercase tracking-widest rounded-full w-fit font-bold shadow-glow-gold animate-pulse-gold">
                 International Baccalaureate
               </span>
-              <h3 className="font-serif font-bold text-3xl text-gold-light">IB Programme</h3>
-              <p className="text-cream-dark/95 leading-relaxed">
+              <h3 className="font-serif font-bold text-2xl md:text-3xl text-gold-light">IB Programme</h3>
+              <p className="text-white/70 leading-relaxed text-sm">
                 As a candidate school for the prestigious International Baccalaureate, CCIS introduces young minds to inquiry-based teaching methodology. Emphasizing international-mindedness, self-directed project studies, and global credit qualifications.
               </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-semibold text-gold-light">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm font-semibold text-gold-light">
                 <li className="flex items-center gap-2">✓ PYP Candidate Framework</li>
                 <li className="flex items-center gap-2">✓ Student-Led Research Studies</li>
                 <li className="flex items-center gap-2">✓ Interdisciplinary Focus</li>
                 <li className="flex items-center gap-2">✓ Global University Credits</li>
               </ul>
-              <Link href="/academics" className="mt-4">
-                <Button variant="gold" className="w-full sm:w-auto rounded-sm">Explore IB Pathway</Button>
+              <Link href="/academics" className="mt-2">
+                <Button variant="gold" className="w-full sm:w-auto rounded">Explore IB Pathway</Button>
               </Link>
             </AnimatedSection>
           </div>
         </div>
       </section>
 
-      {/* 7. Leadership Section */}
-      <section className="py-20 bg-white">
+      {/* ━━━ 8. LEADERSHIP ━━━ */}
+      <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-gold font-mono font-bold uppercase tracking-wider text-sm">Vision & Direction</span>
-            <h2 className="text-3xl md:text-5xl font-serif font-extrabold text-navy mt-2">
+            <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Vision & Direction</span>
+            <h2 className="text-3xl md:text-5xl font-serif font-extrabold text-navy mt-3">
               Our <span className="text-gold">Leaders</span>
             </h2>
-            <p className="text-ink-muted text-sm md:text-base mt-4 leading-relaxed font-sans">
-              Guided by distinguished educationists and visionaries, our leadership team is dedicated to pioneering dual-curriculum excellence and shaping global citizens with deep Indian roots.
+            <p className="text-ink-muted text-sm mt-4 leading-relaxed max-w-xl mx-auto">
+              Guided by distinguished educationists and visionaries, our leadership team is dedicated to pioneering dual-curriculum excellence.
             </p>
           </div>
           
-          {/* Top Row: Mentor & Awards */}
-          <div className="bg-cream/20 border border-cream-line/60 rounded-3xl p-8 lg:p-12 mb-20 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
+          {/* Mentor + Awards */}
+          <div className="bg-cream/15 border border-cream-line/60 rounded-2xl p-8 lg:p-12 mb-20 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -mr-20 -mt-20" />
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
-              {/* Mentor Image Showcase */}
               <AnimatedSection animation="fade-in-left" className="lg:col-span-5 flex justify-center">
                 <div className="relative group max-w-sm w-full">
-                  <div className="absolute -inset-2 bg-gradient-to-tr from-gold to-gold-light rounded-2xl opacity-20 blur-sm group-hover:opacity-40 transition duration-500"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-tr from-gold to-gold-light rounded-2xl opacity-20 blur-sm group-hover:opacity-40 transition duration-500" />
                   <div className="relative bg-white p-4 rounded-2xl border border-cream-line shadow-card flex flex-col items-center">
                     <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden shadow-inner bg-cream/30">
                       <Image
@@ -369,6 +434,7 @@ export default function Home() {
                         alt="Ms. Lata Rawat"
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 1024px) 100vw, 400px"
                       />
                     </div>
                     <h3 className="font-serif font-bold text-navy text-2xl mt-5">Ms. Lata Rawat</h3>
@@ -377,12 +443,11 @@ export default function Home() {
                 </div>
               </AnimatedSection>
 
-              {/* Achievements & Bio */}
               <AnimatedSection animation="fade-in-right" className="lg:col-span-7 flex flex-col justify-center">
-                <span className="text-gold font-mono text-xs font-bold uppercase tracking-widest mb-2">Lifetime Achievement</span>
-                <h3 className="font-serif font-bold text-navy text-3xl md:text-4xl mb-6">Pioneering Educational Excellence</h3>
+                <span className="text-gold font-sans text-xs font-bold uppercase tracking-widest mb-2">Lifetime Achievement</span>
+                <h3 className="font-serif font-bold text-navy text-2xl md:text-3xl mb-6">Pioneering Educational Excellence</h3>
                 
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-1 gap-3">
                   {[
                     { bold: "Rajiv Gandhi Education Excellence Award", normal: "for outstanding achievement in the field of education." },
                     { bold: "Woman of Excellence Award", normal: "from the Indian Achievers' Forum (IAF India)." },
@@ -390,13 +455,13 @@ export default function Home() {
                     { bold: "Edu Icon Award", normal: "awarded by the Global School Leaders Consortium (GSLC)." },
                     { bold: "Golden Educationist of India Award", normal: "prestigious recognition from the IIEM, New Delhi." }
                   ].map((item, idx) => (
-                    <div key={idx} className="flex gap-4 p-3.5 bg-white/60 hover:bg-white rounded-xl border border-transparent hover:border-cream-line/50 shadow-sm transition-all duration-300 items-start">
-                      <div className="w-8 h-8 rounded-lg bg-gold/10 text-gold flex items-center justify-center shrink-0 mt-0.5">
-                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <div key={idx} className="flex gap-3 p-3 bg-white/60 hover:bg-white rounded-lg border border-transparent hover:border-cream-line/50 shadow-sm transition-all duration-300 items-start">
+                      <div className="w-7 h-7 rounded-lg bg-gold/10 text-gold flex items-center justify-center shrink-0 mt-0.5">
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                           <path d="M12 2.2L15.09 8.46L22 9.47L17 14.34L18.18 21.22L12 17.97L5.82 21.22L7 14.34L2 9.47L8.91 8.46L12 2.2Z" />
                         </svg>
                       </div>
-                      <p className="text-sm text-ink-muted leading-relaxed font-sans">
+                      <p className="text-sm text-ink-muted leading-relaxed">
                         <strong className="text-navy font-bold">{item.bold}</strong> &mdash; {item.normal}
                       </p>
                     </div>
@@ -406,120 +471,60 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Bottom Row: Directors Cards */}
-          <div className="text-center mb-12">
-            <h3 className="font-serif font-bold text-navy text-2xl md:text-3xl">Board of Directors</h3>
-            <div className="w-12 h-[2px] bg-gold mx-auto mt-3"></div>
+          {/* Directors */}
+          <div className="text-center mb-10">
+            <h3 className="font-serif font-bold text-navy text-xl md:text-2xl">Board of Directors</h3>
+            <div className="w-12 h-[2px] bg-gold mx-auto mt-3" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Mr. Aayush Card */}
-            <AnimatedSection animation="scale-in" delayClass="stagger-1" className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
-              <div>
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
-                  <Image
-                    src="/images/director-aayush.jpg"
-                    alt="Mr. Aayush Singh Rawat"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <p className="text-white/95 text-xs md:text-sm font-sans italic leading-relaxed">
-                      "Bridging technology, modern management, and global standards to prepare future leaders."
-                    </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { name: "Mr. Aayush Singh Rawat", role: "Director of CCGS", img: "/images/director-aayush.jpg", quote: "Bridging technology, modern management, and global standards to prepare future leaders.", alumniLabel: "Alumnus of:", logos: [{ src: "/images/vit-logo.png", alt: "VIT" }, { src: "/images/isb-logo.png", alt: "ISB" }] },
+              { name: "Ms. Aarna Singh Rawat", role: "Director of CCGS & Founder of Skillizee", img: "/images/director-aarna.jpg", quote: "Pioneering active, skill-focused learning ecosystems to foster innovation and self-reliance.", alumniLabel: "Alumna of:", logos: [{ src: "/images/kellogg.png", alt: "Kellogg" }, { src: "/images/isb-logo.png", alt: "ISB" }] },
+              { name: "Mrs. Priyanshi Rawat", role: "Director of CCGS & CEO of Playbox School", img: "/images/director-priyanshi.jpg", quote: "Strategizing financial discipline, operations, and growth metrics to maintain quality standards.", alumniLabel: "Alumna of:", logos: [{ src: "/images/CA.png", alt: "CA" }] },
+            ].map((dir, idx) => (
+              <AnimatedSection key={idx} animation="scale-in" delayClass={`stagger-${idx + 1}`} className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
+                    <Image src={dir.img} alt={dir.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                      <p className="text-white/95 text-xs font-sans italic leading-relaxed">&ldquo;{dir.quote}&rdquo;</p>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h4 className="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors duration-300">{dir.name}</h4>
+                    <p className="text-xs text-gold font-sans font-bold mt-1 uppercase tracking-wider">{dir.role}</p>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors duration-300">Mr. Aayush Singh Rawat</h4>
-                  <p className="text-xs text-gold font-sans font-bold mt-1 uppercase tracking-wider">Director of CCGS</p>
-                </div>
-              </div>
-              <div className="px-6 pb-6 pt-4 border-t border-cream-line/50 bg-cream/5 flex items-center justify-between">
-                <span className="text-xs text-ink-muted font-sans font-semibold">Alumnus of:</span>
-                <div className="flex gap-4 items-center">
-                  <img src="/images/vit-logo.png" alt="VIT Logo" className="h-6 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" title="VIT" />
-                  <img src="/images/isb-logo.png" alt="ISB Logo" className="h-6 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" title="ISB" />
-                </div>
-              </div>
-            </AnimatedSection>
-
-            {/* Ms. Aarna Card */}
-            <AnimatedSection animation="scale-in" delayClass="stagger-2" className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
-              <div>
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
-                  <Image
-                    src="/images/director-aarna.jpg"
-                    alt="Ms. Aarna Singh Rawat"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <p className="text-white/95 text-xs md:text-sm font-sans italic leading-relaxed">
-                      "Pioneering active, skill-focused learning ecosystems to foster innovation and self-reliance."
-                    </p>
+                <div className="px-5 pb-5 pt-3 border-t border-cream-line/50 bg-cream/5 flex items-center justify-between">
+                  <span className="text-xs text-ink-muted font-sans font-semibold">{dir.alumniLabel}</span>
+                  <div className="flex gap-3 items-center">
+                    {dir.logos.map((logo, li) => (
+                      <Image key={li} src={logo.src} alt={logo.alt} width={60} height={24} className="h-5 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+                    ))}
                   </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors duration-300">Ms. Aarna Singh Rawat</h4>
-                  <p className="text-xs text-gold font-sans font-bold mt-1 uppercase tracking-wider">Director of CCGS &amp; Founder of Skillizee</p>
-                </div>
-              </div>
-              <div className="px-6 pb-6 pt-4 border-t border-cream-line/50 bg-cream/5 flex items-center justify-between">
-                <span className="text-xs text-ink-muted font-sans font-semibold">Alumna of:</span>
-                <div className="flex gap-4 items-center">
-                  <img src="/images/kellogg.png" alt="Kellogg Logo" className="h-6 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" title="Kellogg" />
-                  <img src="/images/isb-logo.png" alt="ISB Logo" className="h-6 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" title="ISB" />
-                </div>
-              </div>
-            </AnimatedSection>
-
-            {/* Mrs. Priyanshi Card */}
-            <AnimatedSection animation="scale-in" delayClass="stagger-3" className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
-              <div>
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
-                  <Image
-                    src="/images/director-priyanshi.jpg"
-                    alt="Mrs. Priyanshi Rawat"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <p className="text-white/95 text-xs md:text-sm font-sans italic leading-relaxed">
-                      "Strategizing financial discipline, operations, and growth metrics to maintain quality standards."
-                    </p>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h4 className="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors duration-300">Mrs. Priyanshi Rawat</h4>
-                  <p className="text-xs text-gold font-sans font-bold mt-1 uppercase tracking-wider">Director of CCGS &amp; CEO of Playbox School</p>
-                </div>
-              </div>
-              <div className="px-6 pb-6 pt-4 border-t border-cream-line/50 bg-cream/5 flex items-center justify-between">
-                <span className="text-xs text-ink-muted font-sans font-semibold">Alumna of:</span>
-                <div className="flex gap-4 items-center">
-                  <img src="/images/CA.png" alt="CA India Logo" className="h-6 object-contain grayscale opacity-90 transition-all duration-300" title="Chartered Accountant" />
-                </div>
-              </div>
-            </AnimatedSection>
+              </AnimatedSection>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 8. Latest News & Events */}
-      <section className="py-20 bg-cream/10 border-y border-cream-line">
+      {/* ━━━ 9. LATEST NEWS ━━━ */}
+      <section className="py-20 md:py-24 bg-cream/10 border-y border-cream-line">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10">
             <div>
-              <span className="text-gold font-mono font-bold uppercase tracking-wider text-sm">Updates &amp; Highlights</span>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-navy mt-2">Latest News &amp; Events</h2>
+              <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Updates & Highlights</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-navy mt-2">Latest News & Events</h2>
             </div>
-            <Link href="/news-events" className="mt-4 sm:mt-0">
-              <Button variant="secondary" size="sm" className="rounded-sm">View All News</Button>
+            <Link href="/news-events" className="mt-3 sm:mt-0">
+              <Button variant="secondary" size="sm" className="rounded">View All News</Button>
             </Link>
           </div>
 
           {loadingNews ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[1, 2, 3].map((n) => (
                 <div key={n} className="flex flex-col gap-4">
                   <Skeleton className="h-48 w-full" />
@@ -528,125 +533,126 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {newsList.map((item: any) => (
-                <AnimatedSection key={item.id} animation="scale-in" className="bg-white border border-cream-line rounded-lg overflow-hidden shadow-card flex flex-col hover:shadow-card-hover transition-all duration-300">
-                  <div className="relative h-48 w-full">
+          ) : newsList.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {newsList.map((item) => (
+                <AnimatedSection key={item.id} animation="scale-in" className="bg-white border border-cream-line rounded-xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover transition-all duration-300 group">
+                  <div className="relative h-48 w-full overflow-hidden">
                     <Image
                       src={item.img || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=800'}
                       alt={item.title}
                       fill
-                      className="object-cover"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <span className="absolute top-4 left-4 bg-navy text-white text-xs px-2 py-1 uppercase font-semibold font-mono rounded">
+                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
+                    <span className="absolute top-3 left-3 bg-navy text-white text-[10px] px-2 py-0.5 uppercase font-semibold font-sans rounded tracking-wide">
                       {item.category}
                     </span>
                   </div>
-                  <div className="p-6 flex flex-col flex-1 justify-between gap-4">
+                  <div className="p-5 flex flex-col flex-1 justify-between gap-3">
                     <div className="flex flex-col gap-2">
-                      <span className="text-xs text-ink-muted flex items-center gap-1.5 font-semibold font-mono">
-                        <Calendar className="w-3.5 h-3.5" />
+                      <span className="text-[11px] text-ink-muted flex items-center gap-1.5 font-semibold">
+                        <Calendar className="w-3 h-3" />
                         {new Date(item.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
-                      <h3 className="font-serif font-bold text-navy text-lg line-clamp-2 hover:text-gold transition-colors">
+                      <h3 className="font-serif font-bold text-navy text-base line-clamp-2 hover:text-gold transition-colors leading-snug">
                         <Link href="/news-events">{item.title}</Link>
                       </h3>
-                      <p className="text-sm text-ink-muted line-clamp-3">{item.desc}</p>
+                      <p className="text-xs text-ink-muted line-clamp-3 leading-relaxed">{item.desc}</p>
                     </div>
-                    <Link href="/news-events" className="text-gold-dark hover:text-gold font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 mt-2">
-                      Read Details <ArrowRight className="w-3.5 h-3.5" />
+                    <Link href="/news-events" className="text-gold-dark hover:text-gold font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-1 mt-1">
+                      Read Details <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
                 </AnimatedSection>
               ))}
             </div>
+          ) : (
+            <p className="text-center text-ink-muted text-sm py-8">No news items available at the moment.</p>
           )}
         </div>
       </section>
 
-      {/* 9. Notice Board Ticker */}
-      <div className="bg-navy-dark text-white py-3 px-4 overflow-hidden border-b border-gold/30">
-        <div className="max-w-7xl mx-auto flex items-center gap-4">
-          <span className="bg-gold text-navy text-[10px] font-mono font-extrabold uppercase px-2.5 py-1 tracking-widest rounded-sm shrink-0 shadow-glow-gold">
-            NOTICES
-          </span>
-          <div className="flex-1 relative overflow-hidden h-5">
-            <p className="absolute whitespace-nowrap animate-ticker text-sm text-cream font-medium">
-              ★ CBSE Board Registrations for Grade X &amp; XII start on August 1st, 2026. Submit documents by the deadline. | ★ Admissions Walkthrough slot bookings for CBSE &amp; IB pathways are active now. | ★ Annual Sports coaching registrations are open in portal.
+      {/* ━━━ 10. NOTICE BAR — Static Dismissible ━━━ */}
+      {showNotice && (
+        <div className="bg-navy-dark text-white py-3 px-4 border-b border-gold/30 relative">
+          <div className="max-w-7xl mx-auto flex items-center gap-3">
+            <span className="bg-gold text-navy text-[10px] font-sans font-extrabold uppercase px-2 py-0.5 tracking-widest rounded shrink-0 shadow-glow-gold flex items-center gap-1">
+              <Bell className="w-3 h-3" /> NOTICE
+            </span>
+            <p className="text-sm text-cream/90 font-medium flex-1 line-clamp-1">
+              CBSE Board Registrations for Grade X & XII start on August 1st, 2026. Submit documents by the deadline.
             </p>
+            <div className="flex items-center gap-3 shrink-0">
+              <Link href="/news-events" className="text-gold text-xs font-bold hover:underline hidden sm:inline">
+                View All Notices
+              </Link>
+              <button
+                onClick={() => setShowNotice(false)}
+                className="text-white/50 hover:text-white transition-colors p-0.5"
+                aria-label="Dismiss notice"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* 10. Testimonials */}
-      <section className="py-20 bg-white">
+      {/* ━━━ 11. TESTIMONIALS ━━━ */}
+      <section className="py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <SectionHeading title="Testimonials" subtitle="What Our Community Says" />
+          <SectionHeading title="What Our Community Says" subtitle="Testimonials" />
 
-          {/* Parent/Student Tabs */}
-          <div className="flex justify-center gap-4 mt-8 mb-12">
-            <button
-              onClick={() => setActiveTestimonialTab("parent")}
-              className={`px-8 py-3 rounded font-sans font-bold text-sm uppercase tracking-wider transition-all duration-300 border ${
-                activeTestimonialTab === "parent"
-                  ? "bg-navy text-white border-navy shadow-card"
-                  : "bg-cream/40 text-navy/70 border-cream-line hover:border-gold hover:text-gold"
-              }`}
-            >
-              Parent
-            </button>
-            <button
-              onClick={() => setActiveTestimonialTab("student")}
-              className={`px-8 py-3 rounded font-sans font-bold text-sm uppercase tracking-wider transition-all duration-300 border ${
-                activeTestimonialTab === "student"
-                  ? "bg-navy text-white border-navy shadow-card"
-                  : "bg-cream/40 text-navy/70 border-cream-line hover:border-gold hover:text-gold"
-              }`}
-            >
-              Student
-            </button>
+          <div className="flex justify-center gap-3 mt-6 mb-10">
+            {(["parent", "student"] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTestimonialTab(tab)}
+                className={`px-6 py-2.5 rounded-full font-sans font-bold text-xs uppercase tracking-wider transition-all duration-300 border ${
+                  activeTestimonialTab === tab
+                    ? "bg-navy text-white border-navy shadow-card"
+                    : "bg-cream/30 text-navy/60 border-cream-line hover:border-gold hover:text-gold"
+                }`}
+              >
+                {tab === "parent" ? "Parents" : "Students"}
+              </button>
+            ))}
           </div>
 
-          {/* Carousel Slider */}
           <div className="relative max-w-6xl mx-auto px-4 md:px-12">
-            {/* Left Arrow */}
             <button
               onClick={() => scrollTestimonials("left")}
-              className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-navy/5 hover:bg-gold text-navy hover:text-navy rounded-full flex items-center justify-center transition-all duration-300 z-10 border border-cream-line/50 hover:border-gold shadow-sm hidden md:flex"
+              className="absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 bg-white hover:bg-gold text-navy hover:text-navy rounded-full flex items-center justify-center transition-all duration-300 z-10 border border-cream-line hover:border-gold shadow-sm hidden md:flex"
               aria-label="Previous testimonial"
             >
-              <svg className="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
               </svg>
             </button>
 
-            {/* Scrollable Container */}
             <div
               ref={testimonialsRef}
-              className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none py-4"
-              style={{ scrollbarWidth: "none" }}
+              className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none py-4"
             >
               {(activeTestimonialTab === "parent" ? parentReviews : studentReviews).map((item, idx) => (
                 <div
                   key={idx}
-                  onClick={() => {
-                    setVideoUrl(`https://www.youtube.com/watch?v=${item.videoId}`);
-                    setIsVideoModalOpen(true);
-                  }}
-                  className="bg-white rounded-2xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 snap-center cursor-pointer hover:border-gold hover:shadow-card-hover hover:scale-[1.02] transition-all duration-300 w-[280px] md:w-[320px] h-[380px] md:h-[500px]"
+                  onClick={() => openVideo(`https://www.youtube.com/watch?v=${item.videoId}`)}
+                  className="bg-white rounded-2xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 snap-center cursor-pointer hover:border-gold hover:shadow-card-hover hover:scale-[1.02] transition-all duration-300 w-[260px] md:w-[300px] h-[360px] md:h-[480px]"
                 >
                   <div className="relative w-full h-full rounded-xl overflow-hidden group/item">
-                    <img
+                    <Image
                       src={`/images/${item.img}`}
                       alt={`CCIS Testimonial ${idx + 1}`}
-                      className="w-full h-full object-contain rounded-xl"
-                      loading="lazy"
+                      fill
+                      className="object-contain rounded-xl"
+                      sizes="300px"
                     />
-                    {/* Play Button Overlay */}
-                    <div className="absolute inset-0 bg-black/10 group-hover/item:bg-black/25 flex items-center justify-center transition-colors duration-300 rounded-xl">
-                      <div className="w-16 h-16 rounded-full bg-gold/90 text-navy flex items-center justify-center shadow-lg group-hover/item:scale-110 group-hover/item:bg-gold transition-all duration-300">
-                        <Play className="w-8 h-8 fill-current ml-1" />
+                    <div className="absolute inset-0 bg-black/5 group-hover/item:bg-black/20 flex items-center justify-center transition-colors duration-300 rounded-xl">
+                      <div className="w-14 h-14 rounded-full bg-gold/90 text-navy flex items-center justify-center shadow-lg group-hover/item:scale-110 group-hover/item:bg-gold transition-all duration-300">
+                        <Play className="w-7 h-7 fill-current ml-0.5" />
                       </div>
                     </div>
                   </div>
@@ -654,69 +660,70 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Right Arrow */}
             <button
               onClick={() => scrollTestimonials("right")}
-              className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-navy/5 hover:bg-gold text-navy hover:text-navy rounded-full flex items-center justify-center transition-all duration-300 z-10 border border-cream-line/50 hover:border-gold shadow-sm hidden md:flex"
+              className="absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 bg-white hover:bg-gold text-navy hover:text-navy rounded-full flex items-center justify-center transition-all duration-300 z-10 border border-cream-line hover:border-gold shadow-sm hidden md:flex"
               aria-label="Next testimonial"
             >
-              <svg className="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
               </svg>
             </button>
-          </div>
-        </div>
-      </section>
 
-      {/* 11. Achievements Showcase */}
-      <section className="py-16 bg-cream/25 border-y border-cream-line">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <SectionHeading title="Recognized for Excellence" subtitle="Our Accolades" />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-center">
-            <div className="flex flex-col items-center gap-2 opacity-85 hover:opacity-100 transition-opacity">
-              <div className="text-3xl font-bold font-serif text-navy">#1 Ranked</div>
-              <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider">Co-Ed Day School in Jaipur</p>
-            </div>
-            <div className="flex flex-col items-center gap-2 opacity-85 hover:opacity-100 transition-opacity">
-              <div className="text-3xl font-bold font-serif text-navy">Top Academic</div>
-              <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider">CBSE Board Performance</p>
-            </div>
-            <div className="flex flex-col items-center gap-2 opacity-85 hover:opacity-100 transition-opacity">
-              <div className="text-3xl font-bold font-serif text-navy">Best-in-Class</div>
-              <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider">AI &amp; Coding Infrastructure</p>
-            </div>
-            <div className="flex flex-col items-center gap-2 opacity-85 hover:opacity-100 transition-opacity">
-              <div className="text-3xl font-bold font-serif text-navy">Global Edge</div>
-              <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider">Certified IB PYP Curriculum</p>
+            {/* Pagination dots */}
+            <div className="flex justify-center gap-1.5 mt-6">
+              {(activeTestimonialTab === "parent" ? parentReviews : studentReviews).map((_, idx) => (
+                <div key={idx} className="w-1.5 h-1.5 rounded-full bg-cream-line" />
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 12. Call to Action */}
-      <section className="py-20 bg-navy text-white text-center relative overflow-hidden border-b-4 border-gold">
-        {/* Decorative Background Accents */}
-        <div className="absolute top-0 left-0 w-32 h-32 bg-gold/5 rounded-full blur-2xl" />
-        <div className="absolute bottom-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />
+      {/* ━━━ 12. ACHIEVEMENTS ━━━ */}
+      <section className="py-14 bg-cream/20 border-y border-cream-line">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 text-center">
+            {[
+              { label: "#1 Ranked", sub: "Co-Ed Day School in Jaipur" },
+              { label: "Top Academic", sub: "CBSE Board Performance" },
+              { label: "Best-in-Class", sub: "AI & Coding Infrastructure" },
+              { label: "Global Edge", sub: "Certified IB PYP Curriculum" },
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center gap-1.5">
+                <div className="text-2xl md:text-3xl font-bold font-serif text-navy">{item.label}</div>
+                <p className="text-[11px] font-semibold text-ink-muted uppercase tracking-wider">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        <div className="relative max-w-3xl mx-auto px-4 flex flex-col items-center gap-6 z-10">
-          <span className="text-gold font-mono font-bold uppercase tracking-wider text-xs bg-white/5 px-3 py-1 rounded-sm border border-gold/25">
+      {/* ━━━ 13. CTA ━━━ */}
+      <section className="py-20 md:py-28 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="/images/home_hero3.png" alt="" fill className="object-cover" sizes="100vw" />
+        </div>
+        <div className="absolute inset-0 bg-navy-dark/88" />
+
+        <div className="relative max-w-3xl mx-auto px-4 flex flex-col items-center gap-5 z-10 text-center text-white">
+          <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs bg-white/5 px-3 py-1.5 rounded border border-gold/25">
             Admissions Walkthrough
           </span>
           <h2 className="text-3xl md:text-5xl font-serif font-extrabold leading-tight">
-            Begin Your Child's Academic Journey Today
+            Begin Your Child&apos;s Academic Journey Today
           </h2>
-          <p className="text-cream-dark/80 max-w-xl mx-auto leading-relaxed">
+          <p className="text-white/60 max-w-xl mx-auto leading-relaxed text-[15px]">
             Schedule a personal walk-through of our Sector-3 Mansarovar campus, explore our labs, and meet our academic counseling heads.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mt-2">
+          <div className="flex flex-col sm:flex-row gap-3 mt-2">
             <Link href="/admissions">
-              <Button variant="gold" size="lg" className="font-bold uppercase tracking-wider rounded-sm w-full sm:w-auto">
+              <Button variant="gold" size="lg" className="font-bold uppercase tracking-wider rounded w-full sm:w-auto">
                 Schedule Tour
               </Button>
             </Link>
             <Link href="/contact">
-              <Button variant="ghost" size="lg" className="text-white hover:text-gold border border-white/20 hover:border-gold rounded-sm w-full sm:w-auto">
+              <Button variant="ghost" size="lg" className="text-white hover:text-gold border border-white/20 hover:border-gold rounded w-full sm:w-auto">
                 Inquire Online
               </Button>
             </Link>
@@ -724,12 +731,20 @@ export default function Home() {
         </div>
       </section>
 
-
       <VideoModal
         isOpen={isVideoModalOpen}
         videoUrl={videoUrl}
         onClose={() => setIsVideoModalOpen(false)}
       />
+    </div>
+  );
+}
+
+/* ─── Inline Stat for the dark stats bar ─── */
+function StatInline({ end, suffix, label }: { end: number; suffix: string; label: string }) {
+  return (
+    <div className="flex-1 flex flex-col items-center px-6 md:px-8 py-2">
+      <StatsCounter end={end} suffix={suffix} label={label} />
     </div>
   );
 }

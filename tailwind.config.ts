@@ -81,6 +81,10 @@ const config: Config = {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(-100%)" },
         },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.6s ease-out forwards",
@@ -90,6 +94,7 @@ const config: Config = {
         shimmer: "shimmer 1.5s infinite linear",
         "ken-burns": "ken-burns 12s ease-in-out infinite",
         ticker: "ticker 20s linear infinite",
+        float: "float 3s ease-in-out infinite",
       },
     },
   },

@@ -20,9 +20,9 @@ export default function SectionHeading({
   };
 
   return (
-    <div className={`flex flex-col mb-12 ${alignmentClasses[align]} ${className}`}>
+    <div className={`flex flex-col mb-10 ${alignmentClasses[align]} ${className}`}>
       {subtitle && (
-        <span className="text-gold font-mono font-semibold uppercase tracking-wider text-sm mb-2 block animate-fadeIn">
+        <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs mb-2 block">
           {subtitle}
         </span>
       )}

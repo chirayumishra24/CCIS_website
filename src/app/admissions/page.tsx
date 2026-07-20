@@ -1,260 +1,145 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Button from "@/components/ui/Button";
-import Toast from "@/components/ui/Toast";
+import { FileText, Users, ClipboardCheck, PartyPopper } from "lucide-react";
 
 const steps = [
-  { step: "01", title: "Submit Online Enquiry", desc: "Fill out our online walkthrough form with your contact details and child's academic grade preference." },
-  { step: "02", title: "Personal Campus Tour", desc: "Our counseling head will schedule a walk-through of the Sector-3 campus, labs, and sports arenas." },
-  { step: "03", title: "Student Interaction", desc: "An informal interaction to understand your child's capabilities, interests, and curricular path compatibility." },
-  { step: "04", title: "Seat Confirmation", desc: "Review documents, finalize CBSE or IB pathway choices, and submit the enrollment fee portfolio." },
+  { icon: <FileText className="w-5 h-5" />, title: "Submit Application", desc: "Fill out the online form with academic transcripts, identity proofs, and recent photographs." },
+  { icon: <Users className="w-5 h-5" />, title: "Interaction Round", desc: "The student and parents attend a campus walkthrough, interview with the academic coordinator." },
+  { icon: <ClipboardCheck className="w-5 h-5" />, title: "Assessment & Review", desc: "Students undertake grade-appropriate assessments. Results reviewed by the admissions panel." },
+  { icon: <PartyPopper className="w-5 h-5" />, title: "Confirmation & Onboarding", desc: "Receive the acceptance letter, complete fee formalities, and join the CCIS family." },
+];
+
+const feeHighlights = [
+  "Transparent fee structure — no hidden charges",
+  "Sibling discounts and early-bird concessions available",
+  "Installment plans for annual fee payments",
+  "Additional scholarships for academic and sports merit",
 ];
 
 export default function Admissions() {
-  const [formData, setFormData] = useState({
-    input_1: "",
-    input_4: "",
-    input_3: "",
-    input_14: "",
-    input_5: "",
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
-  const formRef = React.useRef<HTMLFormElement>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.input_1 || !formData.input_4 || !formData.input_3 || !formData.input_14) {
-      setToast({ message: "Please fill in all required fields.", type: "error" });
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      // 1. Submit to local API (Firebase / alumni dashboard)
-      const localData = {
-        name: formData.input_1,
-        email: formData.input_4,
-        phone: formData.input_3,
-        grade: formData.input_14,
-        message: formData.input_5
-      };
-      
-      await fetch("/api/admissions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(localData),
-      });
-
-      // 2. Submit to Gravity Forms (remotely) via iframe post
-      if (formRef.current) {
-        formRef.current.submit();
-      }
-
-      setToast({ message: "Enquiry submitted successfully! We will contact you shortly.", type: "success" });
-      setFormData({
-        input_1: "",
-        input_4: "",
-        input_3: "",
-        input_14: "",
-        input_5: "",
-      });
-    } catch (err) {
-      console.error(err);
-      setToast({ message: "Something went wrong. Please try again.", type: "error" });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "sent">("idle");
 
   return (
     <div className="bg-white">
-      {/* Banner */}
-      <section className="relative bg-navy text-white py-20 overflow-hidden border-b-4 border-gold">
-        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('/images/admissions_hero.png')" }} />
-        <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col gap-4">
-          <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit mx-auto">
-            Enrollment 2026-27
+      {/* ━━━ Hero — Gradient with left-aligned text ━━━ */}
+      <section className="relative bg-navy text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="/images/admissions_hero.png" alt="" fill className="object-cover opacity-15" sizes="100vw" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-navy-dark via-navy to-navy-light/30" />
+        <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-24 z-10 flex flex-col gap-4">
+          <span className="text-gold font-sans uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit">
+            Join CCIS Family
           </span>
-          <h1 className="text-4xl md:text-5xl font-serif font-extrabold leading-tight">
-            Admissions Process
+          <h1 className="text-4xl md:text-5xl font-serif font-extrabold leading-tight max-w-2xl">
+            Admissions 2026-27
           </h1>
-          <p className="text-cream-dark max-w-2xl mx-auto leading-relaxed text-sm md:text-base font-medium">
-            Join the Cambridge Court family. Learn about our simple 4-step admission process and submit an online request.
+          <p className="text-white/55 max-w-lg leading-relaxed text-sm">
+            Begin your child&apos;s journey at Jaipur&apos;s leading dual-curriculum school. Applications are now open for Nursery through Grade XI.
           </p>
         </div>
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gold via-gold-light to-gold" />
       </section>
 
-      {/* Steps Section */}
-      <section className="py-20 bg-cream/10">
-        <div className="max-w-7xl mx-auto px-4">
-          <SectionHeading title="Admission Roadmap" subtitle="Four Simple Steps" />
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {steps.map((st, idx) => (
+      {/* ━━━ Admission Process — Horizontal Stepper ━━━ */}
+      <section className="py-20 md:py-24 bg-cream/10 border-b border-cream-line">
+        <div className="max-w-5xl mx-auto px-4">
+          <SectionHeading title="Admission Process" subtitle="How to Apply" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+            {/* Connecting line (desktop only) */}
+            <div className="hidden md:block absolute top-10 left-[12%] right-[12%] h-[2px] bg-cream-line z-0" />
+            
+            {steps.map((step, idx) => (
               <AnimatedSection
                 key={idx}
                 animation="scale-in"
                 delayClass={`stagger-${idx + 1}`}
-                className="bg-white border border-cream-line p-6 rounded-lg shadow-card flex flex-col gap-3 relative"
+                className="relative z-10 flex flex-col items-center text-center gap-3"
               >
-                <div className="text-3xl font-mono font-bold text-gold">{st.step}</div>
-                <h4 className="font-serif font-bold text-navy text-lg">{st.title}</h4>
-                <p className="text-xs text-ink-muted leading-relaxed">{st.desc}</p>
+                <div className="w-14 h-14 rounded-full bg-navy text-gold flex items-center justify-center shadow-card border-4 border-cream">
+                  {step.icon}
+                </div>
+                <span className="text-[10px] font-sans font-extrabold text-gold-dark uppercase tracking-widest">
+                  Step {idx + 1}
+                </span>
+                <h4 className="font-serif font-bold text-navy text-base">{step.title}</h4>
+                <p className="text-xs text-ink-muted leading-relaxed">{step.desc}</p>
               </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Hidden Gravity Forms Submitter Iframe */}
-      <iframe
-        style={{ display: "none", width: "0px", height: "0px" }}
-        src="about:blank"
-        name="gform_ajax_frame_1"
-        id="gform_ajax_frame_1"
-        title="Gravity Forms Lead Submitter"
-      ></iframe>
-
-      {/* Online Enquiry Form */}
-      <section className="py-20 bg-white border-t border-cream-line">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="bg-cream/10 border border-cream-line p-8 md:p-12 rounded-lg shadow-card">
-            <h3 className="font-serif font-bold text-2xl text-navy text-center mb-2">Book a Campus Walkthrough</h3>
-            <p className="text-xs text-ink-muted text-center mb-8">Fields marked with * are required.</p>
-            
-            <form
-              ref={formRef}
-              method="POST"
-              action="https://ccischool.org/#gf_1"
-              target="gform_ajax_frame_1"
-              id="gform_1"
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-6"
-            >
-              {/* Hidden Fields for Gravity Forms Validation */}
-              <input type="hidden" name="gform_ajax" value="form_id=1&amp;title=&amp;description=1&amp;tabindex=0&amp;theme=gravity-theme&amp;styles=[]&amp;hash=a8ffb5c231eb659ad316fe73b0d3fe96" />
-              <input type="hidden" name="gform_submission_method" value="iframe" />
-              <input type="hidden" name="gform_theme" value="gravity-theme" />
-              <input type="hidden" name="gform_style_settings" value="[]" />
-              <input type="hidden" name="is_submit_1" value="1" />
-              <input type="hidden" name="gform_submit" value="1" />
-              <input type="hidden" name="gform_currency" value="DKNJaRyb0iUhBUi7ycnOr9D6MjFTAsGKTg/ielOASgTBOdfuQ9OM25drvhdOeGB6mCckgW80Tdj9BCJilU2sR8rbHdTVWY5tyIxpG9j7qZ+MUXY=" />
-              <input type="hidden" name="gform_unique_id" value="" />
-              <input type="hidden" name="state_1" value="WyJ7XCIxNFwiOltcImQxNWQ0MjU5MTNiMDEzZjEzMzUzNTgwMjJiOGQ2YjYwXCIsXCIyNGU5ZTc0OGZhODZhNjNlNjdkZTY4MzBjMGQxNGNlMFwiLFwiMjBhODhkZmM2NWEzM2UwNDEzMzlkZjBjYTEwMzFlNGNcIixcIjM2YTAyODg0ZGJlOWI3NmQ4ZWQ3OGRjOGZiODI2ZTZjXCIsXCIwNGM5ZDgzYzc3ZjUwYzIzMzc0Y2RiMDkyZGZmYTNhZFwiLFwiZjA0NWQ0MzdhMzRhZjFiMDNiNmFiYTQxMmIzZWIwMzdcIixcIjA0ZmE4NTA2NmI0NTM2N2Y3ODQ2ZDI3NmVhYTdiMzYzXCIsXCJjNDVlYTVhZmM1MDI2NmQ4YmEwNGFjMjg0MzVjNjA5YVwiLFwiNmI2MzkyMjJiMjhmMmZjNjc4YWRhMjBmYzM5ZmViY2FcIixcIjJjYTljMGE4ZGM1MzAxN2RiZGNkNDg0MzBmNmU2Y2VlXCIsXCJhZjljMTFiNDdkZDhlMWNhMWU2Njg3ODZhZGViOTEwM1wiLFwiNzRjZDdmODFjZjFhMmU1RrFhMmU1MjJhN2U4OTA2MTA2NTRmYmVcIixcImY4NGU0MzAxZmI1ZTU5MzBkNzA3ZWVkYTk1NTI2YWIyXCIsXCI0NDA4Yzg0OGRmZWNmMGQ5N2JhMjFkY2Y3Yjg4MThiMFwiXX0iLCJkNzJmZGVlM2Q5OTBiMzNkZDhiNzVmOWNkZjc5MDM4MSJd" />
-              <input type="hidden" name="gform_target_page_number_1" value="0" />
-              <input type="hidden" name="gform_source_page_number_1" value="1" />
-              <input type="hidden" name="gform_field_values" value="" />
-              <input type="hidden" name="input_6" value="" />
-              <input type="hidden" name="input_7" value="https://ccischool.org/" />
-              <input type="hidden" name="input_8" value="" />
-              <input type="hidden" name="input_9" value="" />
-              <input type="hidden" name="input_10" value="" />
-              <input type="hidden" name="input_11" value="" />
-              <input type="hidden" name="input_12" value="" />
-              <input type="hidden" name="input_13" value="" />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="input_1_1" className="text-xs font-semibold text-navy uppercase tracking-wider">Student Name *</label>
-                  <input
-                    type="text"
-                    id="input_1_1"
-                    name="input_1"
-                    required
-                    value={formData.input_1}
-                    onChange={handleChange}
-                    className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="input_1_4" className="text-xs font-semibold text-navy uppercase tracking-wider">Guardian's Email *</label>
-                  <input
-                    type="email"
-                    id="input_1_4"
-                    name="input_4"
-                    required
-                    value={formData.input_4}
-                    onChange={handleChange}
-                    className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="input_1_3" className="text-xs font-semibold text-navy uppercase tracking-wider">Guardian's Contact *</label>
-                  <input
-                    type="tel"
-                    id="input_1_3"
-                    name="input_3"
-                    required
-                    value={formData.input_3}
-                    onChange={handleChange}
-                    className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="input_1_14" className="text-xs font-semibold text-navy uppercase tracking-wider">Seeking Admission Class *</label>
-                  <select
-                    id="input_1_14"
-                    name="input_14"
-                    required
-                    value={formData.input_14}
-                    onChange={handleChange}
-                    className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
-                  >
-                    <option value="">Seeking Admission in which Class *</option>
-                    <option value="Play Group">Play Group</option>
-                    <option value="NURSERY">NURSERY</option>
-                    <option value="LKG">LKG</option>
-                    <option value="UKG">UKG</option>
-                    <option value="I">I</option>
-                    <option value="II">II</option>
-                    <option value="III">III</option>
-                    <option value="IV">IV</option>
-                    <option value="V">V</option>
-                    <option value="VI">VI</option>
-                    <option value="VII">VII</option>
-                    <option value="VIII">VIII</option>
-                    <option value="IX">IX</option>
-                    <option value="XI">XI</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label htmlFor="input_1_5" className="text-xs font-semibold text-navy uppercase tracking-wider">Your Message (Optional)</label>
-                <textarea
-                  id="input_1_5"
-                  name="input_5"
-                  rows={4}
-                  value={formData.input_5}
-                  onChange={handleChange}
-                  className="p-3 border border-cream-line rounded font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white resize-none"
-                />
-              </div>
-
-              <Button type="submit" isLoading={submitting} variant="primary" className="w-full uppercase font-bold tracking-wider py-4 mt-2 rounded-sm">
-                Schedule A Call
+      {/* ━━━ Fee Highlights ━━━ */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <AnimatedSection animation="fade-in" className="bg-cream/20 border border-cream-line rounded-xl p-8 md:p-10 flex flex-col md:flex-row gap-8 items-center shadow-card">
+            <div className="flex-1">
+              <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs mb-2 block">Fee Information</span>
+              <h3 className="font-serif font-bold text-navy text-xl md:text-2xl">Transparent & Flexible Fee Structure</h3>
+              <ul className="mt-4 flex flex-col gap-2.5">
+                {feeHighlights.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5 text-sm text-ink-muted">
+                    <span className="text-gold mt-0.5">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="shrink-0">
+              <Button
+                variant="gold"
+                size="lg"
+                className="rounded font-bold uppercase tracking-wider"
+                onClick={() => window.open("/CCIS_Fee_Brochure.pdf", "_blank")}
+              >
+                Download Brochure
               </Button>
-            </form>
-          </div>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
+      {/* ━━━ Application Form ━━━ */}
+      <section className="py-20 md:py-24 bg-cream/10 border-t border-cream-line">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          <AnimatedSection animation="fade-in-left" className="flex flex-col gap-5">
+            <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Start Here</span>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-navy">Application Form</h2>
+            <div className="gold-rule" />
+            <p className="text-ink-muted leading-relaxed text-sm">
+              Fill out the enquiry form below, and our admissions counselor will contact you within 24 hours to schedule a campus walkthrough and assessment.
+            </p>
+            
+            <div className="bg-cream/30 border border-cream-line rounded-lg p-5 mt-2">
+              <h4 className="font-serif font-bold text-navy text-sm mb-3">Required Documents</h4>
+              <ul className="flex flex-col gap-2 text-xs text-ink-muted">
+                <li className="flex items-center gap-2">📄 Previous school report cards</li>
+                <li className="flex items-center gap-2">📸 Passport-sized photographs</li>
+                <li className="flex items-center gap-2">🪪 Aadhaar/Birth certificate copy</li>
+                <li className="flex items-center gap-2">📋 Transfer certificate (if applicable)</li>
+              </ul>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection animation="fade-in-right">
+            {/* Gravity Forms Integration — iframe kept for backward compatibility */}
+            <div className="bg-white border border-cream-line rounded-xl shadow-card overflow-hidden p-1">
+              <iframe
+                src="https://ccischool.org/wp-admin/admin-ajax.php?action=gf_button_get_form&form_id=1&title=false&description=false&ajax=true"
+                className="w-full min-h-[550px] border-0"
+                title="CCIS Admission Enquiry Form"
+                loading="lazy"
+              />
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
     </div>
   );
 }
