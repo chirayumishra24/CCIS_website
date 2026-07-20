@@ -271,43 +271,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ━━━ 5. FOUR PILLARS — Asymmetric Bento ━━━ */}
+      {/* ━━━ 5. FOUR PILLARS ━━━ */}
       <section className="py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Four Pillars of a CCIS Education" subtitle="Why Choose Us" />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5">
-            {/* Featured first card spans more */}
-            <AnimatedSection
-              animation="scale-in"
-              delayClass="stagger-1"
-              className="lg:col-span-5 bg-navy text-white p-8 md:p-10 rounded-xl flex flex-col gap-5 shadow-glow-navy border border-navy-light/20 relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gold/5 rounded-full blur-3xl" />
-              <div className="p-3 bg-gold/15 rounded-lg w-fit text-gold">
-                {pillars[0].icon}
-              </div>
-              <h3 className="font-serif font-bold text-2xl">{pillars[0].title}</h3>
-              <p className="text-white/70 leading-relaxed text-sm">{pillars[0].desc}</p>
-            </AnimatedSection>
-
-            {/* Remaining 3 cards */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-5">
-              {pillars.slice(1).map((item, idx) => (
-                <AnimatedSection
-                  key={idx}
-                  animation="scale-in"
-                  delayClass={`stagger-${idx + 2}`}
-                  className="bg-cream/20 border border-cream-line/50 p-6 rounded-xl flex flex-col gap-4 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className={`p-2.5 bg-gradient-to-br ${item.accent} rounded-lg w-fit text-white`}>
-                    {item.icon}
-                  </div>
-                  <h3 className="font-serif font-bold text-navy text-lg leading-snug">{item.title}</h3>
-                  <p className="text-xs text-ink-muted leading-relaxed">{item.desc}</p>
-                </AnimatedSection>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {pillars.map((item, idx) => (
+              <AnimatedSection
+                key={idx}
+                animation="scale-in"
+                delayClass={`stagger-${idx + 1}`}
+                className="bg-cream/20 border border-cream-line/50 p-6 rounded-xl flex flex-col gap-4 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="p-3 bg-navy rounded-lg w-fit text-white">
+                  {item.icon}
+                </div>
+                <h3 className="font-serif font-bold text-navy text-lg leading-snug">{item.title}</h3>
+                <p className="text-xs text-ink-muted leading-relaxed">{item.desc}</p>
+              </AnimatedSection>
+            ))}
           </div>
         </div>
       </section>
