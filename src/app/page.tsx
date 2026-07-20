@@ -213,7 +213,7 @@ export default function Home() {
                     src="/images/home_hero1.png"
                     alt="CCIS Campus Tour Preview"
                     fill
-                    className="object-cover object-top opacity-70 group-hover:opacity-85 transition-opacity duration-500"
+                    className="object-cover object-bottom opacity-70 group-hover:opacity-85 transition-opacity duration-500"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
