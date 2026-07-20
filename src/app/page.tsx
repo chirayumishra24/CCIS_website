@@ -213,7 +213,7 @@ export default function Home() {
                     src="/images/home_hero1.png"
                     alt="CCIS Campus Tour Preview"
                     fill
-                    className="object-cover opacity-70 group-hover:opacity-85 transition-opacity duration-500"
+                    className="object-cover object-top opacity-70 group-hover:opacity-85 transition-opacity duration-500"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -483,7 +483,7 @@ export default function Home() {
               <AnimatedSection key={idx} animation="scale-in" delayClass={`stagger-${idx + 1}`} className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
                 <div>
                   <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
-                    <Image src={dir.img} alt={dir.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+                    <Image src={dir.img} alt={dir.name} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
                       <p className="text-white/95 text-xs font-sans italic leading-relaxed">&ldquo;{dir.quote}&rdquo;</p>
                     </div>
