@@ -337,19 +337,11 @@ export default function Home() {
               className="w-full h-full relative"
               onClick={() => openVideo("https://www.youtube.com/watch?v=H8u5p8QiYGQ")}
             >
-              {/* Ambient blurred background layer */}
               <Image
-                src="/images/future.jpg"
-                alt=""
-                fill
-                className="object-cover blur-xl scale-110 opacity-50"
-              />
-              {/* Full uncropped foreground image */}
-              <Image
-                src="/images/future.jpg"
+                src="/images/ai_robotics_thumbnail.png"
                 alt="AI and Robotics Lab at CCIS"
                 fill
-                className="object-contain relative z-10 group-hover:scale-105 transition-transform duration-700 p-1"
+                className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 z-20 flex items-center justify-center bg-navy-dark/30 group-hover:bg-navy-dark/15 transition-colors duration-300">
