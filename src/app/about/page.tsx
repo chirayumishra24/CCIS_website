@@ -123,18 +123,29 @@ export default function About() {
         </div>
       </section>
 
-      {/* ━━━ Timeline ━━━ */}
-      <section className="py-20 md:py-24 bg-cream/10 border-y border-cream-line">
-        <div className="max-w-3xl mx-auto px-4">
-          <SectionHeading title="Milestones of Our Journey" subtitle="Our Legacy" />
+      {/* ━━━ Timeline with Drone Video Background ━━━ */}
+      <section className="relative py-20 md:py-28 bg-navy text-white overflow-hidden border-y-2 border-gold/40">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-55 z-0"
+        >
+          <source src="/Video/ccis_campus_side.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/85 via-navy/70 to-navy-dark/85 z-10" />
+
+        <div className="relative max-w-3xl mx-auto px-4 z-20">
+          <SectionHeading title="Milestones of Our Journey" subtitle="Our Legacy" className="[&_h2]:text-white" />
           
-          <div className="relative border-l-2 border-cream-line pl-6 flex flex-col gap-10">
+          <div className="relative border-l-2 border-gold/40 pl-6 flex flex-col gap-8 mt-4">
             {milestones.map((m, idx) => (
-              <AnimatedSection key={idx} animation="fade-in-left" delayClass={`stagger-${idx + 1}`} className="relative">
-                <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-navy border-2 border-gold" />
-                <span className="font-sans text-sm font-extrabold text-gold-dark">{m.year}</span>
-                <h4 className="font-serif font-bold text-navy text-lg mt-1">{m.title}</h4>
-                <p className="text-sm text-ink-muted leading-relaxed mt-1">{m.desc}</p>
+              <AnimatedSection key={idx} animation="fade-in-left" delayClass={`stagger-${idx + 1}`} className="relative bg-navy-dark/60 p-6 rounded-xl border border-white/10 backdrop-blur-sm shadow-card">
+                <div className="absolute -left-[31px] top-7 w-4 h-4 rounded-full bg-gold border-2 border-navy shadow-glow-gold" />
+                <span className="font-sans text-sm font-extrabold text-gold tracking-wider">{m.year}</span>
+                <h4 className="font-serif font-bold text-white text-xl mt-1">{m.title}</h4>
+                <p className="text-sm text-white/75 leading-relaxed mt-1">{m.desc}</p>
               </AnimatedSection>
             ))}
           </div>

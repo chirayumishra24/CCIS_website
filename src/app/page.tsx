@@ -123,15 +123,6 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <section className="relative h-[85vh] md:h-[92vh] bg-navy overflow-hidden flex items-end pb-24 md:pb-32">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-35"
-        >
-          <source src="/Video/ccis_campus_side.mp4" type="video/mp4" />
-        </video>
         {heroSlides.map((slide, idx) => (
           <div
             key={idx}
