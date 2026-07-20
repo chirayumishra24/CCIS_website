@@ -96,14 +96,20 @@ export default function CampusLife() {
             </ul>
           </AnimatedSection>
           <AnimatedSection animation="fade-in-right">
-            <div className="relative aspect-video rounded-xl overflow-hidden border border-cream-line shadow-card">
-              <Image
-                src="/images/transform-1.jpg"
-                alt="Students performing at campus event"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+            <div className="relative aspect-video rounded-xl overflow-hidden border border-cream-line shadow-card bg-navy-dark">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              >
+                <source src="/Video/ccis_football_drone.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute bottom-3 left-3 bg-navy-dark/80 text-white font-sans text-xs px-3 py-1 rounded backdrop-blur-sm border border-white/10 font-semibold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                Drone Footage &bull; Sports & Athletics Turf
+              </div>
             </div>
           </AnimatedSection>
         </div>
