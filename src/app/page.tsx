@@ -122,8 +122,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* ━━━ 1. HERO ━━━ */}
-      <section className="relative h-[85vh] md:h-[92vh] bg-navy overflow-hidden flex items-end pb-16 md:pb-20">
+      <section className="relative h-[85vh] md:h-[92vh] bg-navy overflow-hidden flex items-end pb-24 md:pb-32">
         {heroSlides.map((slide, idx) => (
           <div
             key={idx}
@@ -181,19 +180,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom shape divider */}
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto" preserveAspectRatio="none">
-            <path d="M0 60V30C360 0 720 0 1080 30C1260 45 1380 55 1440 60V60H0Z" fill="white" />
-          </svg>
-        </div>
+        {/* Subtle gold line at hero bottom */}
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
       </section>
 
-      {/* ━━━ 2. ACCREDITATION BAR ━━━ */}
-      <AccreditationBadges />
+      {/* ━━━ 2. ACCREDITATION BAR — Floating Overlay ━━━ */}
+      <div className="relative z-20 max-w-6xl mx-auto px-4 -mt-12 md:-mt-16">
+        <AccreditationBadges />
+      </div>
 
       {/* ━━━ 3. ABOUT SNAPSHOT ━━━ */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="pt-20 md:pt-28 pb-20 md:pb-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <AnimatedSection animation="fade-in-left" className="w-full">
             <div
