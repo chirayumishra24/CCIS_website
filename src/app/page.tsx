@@ -519,7 +519,7 @@ export default function Home() {
                 <AnimatedSection key={item.id} animation="scale-in" className="bg-white border border-cream-line rounded-xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover transition-all duration-300 group">
                   <div className="relative h-48 w-full overflow-hidden">
                     <Image
-                      src={item.img || '/images/news_science.jpg'}
+                      src={item.img || '/images/news_science.svg'}
                       alt={item.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"

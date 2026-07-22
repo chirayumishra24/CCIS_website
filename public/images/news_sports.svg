@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="trackGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B0000"/>
+      <stop offset="50%" stop-color="#A52A2A"/>
+      <stop offset="100%" stop-color="#5C0000"/>
+    </linearGradient>
+    <linearGradient id="goldSportsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF0A5"/>
+      <stop offset="50%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#DAA520"/>
+    </linearGradient>
+    <linearGradient id="speedGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Track Texture -->
+  <rect width="800" height="450" fill="url(#trackGrad)"/>
+
+  <!-- Curved Athletic Track Lines -->
+  <g opacity="0.35" fill="none" stroke="#FFFFFF" stroke-width="4">
+    <path d="M -50 400 Q 300 100 850 380"/>
+    <path d="M -50 350 Q 300 50 850 330"/>
+    <path d="M -50 300 Q 300 0 850 280"/>
+    <path d="M -50 250 Q 300 -50 850 230"/>
+  </g>
+
+  <!-- Speed Lines -->
+  <g opacity="0.4">
+    <rect x="50" y="120" width="300" height="8" rx="4" fill="url(#speedGrad)"/>
+    <rect x="120" y="160" width="450" height="12" rx="6" fill="url(#speedGrad)"/>
+    <rect x="80" y="210" width="380" height="10" rx="5" fill="url(#speedGrad)"/>
+  </g>
+
+  <!-- Sprint Runner Silhouette Art -->
+  <g transform="translate(320, 70)">
+    <!-- Motion trails -->
+    <path d="M 40 180 Q -60 140 -120 180" fill="none" stroke="url(#goldSportsGrad)" stroke-width="8" opacity="0.4" stroke-linecap="round"/>
+    <path d="M 60 120 Q -40 80 -100 120" fill="none" stroke="#FFFFFF" stroke-width="6" opacity="0.3" stroke-linecap="round"/>
+
+    <!-- Runner silhouette -->
+    <!-- Head -->
+    <circle cx="170" cy="50" r="22" fill="url(#goldSportsGrad)"/>
+    <!-- Torso -->
+    <path d="M 160 70 L 110 160 L 145 165 L 185 85 Z" fill="url(#goldSportsGrad)"/>
+    <!-- Arms -->
+    <path d="M 170 80 L 220 120 L 250 100" fill="none" stroke="url(#goldSportsGrad)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 155 85 L 100 115 L 70 95" fill="none" stroke="url(#goldSportsGrad)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Legs -->
+    <path d="M 125 155 L 70 210 L 20 230" fill="none" stroke="url(#goldSportsGrad)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 135 155 L 190 205 L 240 260" fill="none" stroke="url(#goldSportsGrad)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Medal Badge Overlay -->
+  <g transform="translate(80, 80)">
+    <circle cx="50" cy="50" r="44" fill="url(#goldSportsGrad)"/>
+    <circle cx="50" cy="50" r="38" fill="#5C0000"/>
+    <text x="50" y="44" font-family="sans-serif" font-size="22" font-weight="extrabold" fill="#FFD700" text-anchor="middle">8</text>
+    <text x="50" y="62" font-family="sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF" text-anchor="middle">GOLD MEDALS</text>
+  </g>
+
+  <!-- Text Overlay -->
+  <rect x="0" y="320" width="800" height="130" fill="linear-gradient(to top, rgba(30,0,0,0.95), transparent)"/>
+  
+  <rect x="40" y="340" width="180" height="28" rx="14" fill="url(#goldSportsGrad)"/>
+  <text x="130" y="358" font-family="sans-serif" font-size="12" font-weight="bold" fill="#3A0000" text-anchor="middle" letter-spacing="1">OVERALL CHAMPIONS</text>
+
+  <text x="40" y="395" font-family="'Times New Roman', serif" font-size="24" font-weight="bold" fill="#FFFFFF">Annual Inter-School Athletic Meet 2026</text>
+  <text x="40" y="420" font-family="sans-serif" font-size="14" fill="#FFD700">Track &amp; Field Championship Victory • CCIS Sports Brigade</text>
+</svg>

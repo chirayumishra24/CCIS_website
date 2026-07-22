@@ -7,7 +7,7 @@ const defaultEvents = [
     title: 'CCIS Clinches Gold at National Science & Tech Exhibition 2026',
     date: '2026-07-10',
     category: 'Academic',
-    img: '/images/news_science.jpg',
+    img: '/images/news_science.svg',
     desc: 'Our Senior Division team won first place at the National Science Exposition with a solar-powered water purification design, demonstrating CCIS Innovation.',
     featured: true,
     type: 'news',
@@ -18,7 +18,7 @@ const defaultEvents = [
     title: 'Admissions Open for CBSE and IB Boards: Session 2026-27',
     date: '2026-07-08',
     category: 'General',
-    img: '/images/news_admissions.jpg',
+    img: '/images/news_admissions.svg',
     desc: 'Cambridge Court International School invites applications for the upcoming academic session. Book a personalized campus walk-through online.',
     type: 'news',
     school: 'CCIS'
@@ -28,7 +28,7 @@ const defaultEvents = [
     title: 'Annual Inter-School Athletic Meet 2026',
     date: '2026-06-25',
     category: 'Sports',
-    img: '/images/news_sports.jpg',
+    img: '/images/news_sports.svg',
     desc: 'CCIS students dominated the track events, securing the championship trophy with 8 gold, 4 silver, and 3 bronze medals.',
     type: 'news',
     school: 'CCIS'
