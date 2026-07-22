@@ -107,7 +107,7 @@ export default function Academics() {
               </AnimatedSection>
               <AnimatedSection animation="fade-in-right">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-cream-line shadow-card">
-                  <Image src="/images/hero2.webp" alt="CBSE Students learning" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
+                  <Image src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1200" alt="CBSE Students learning" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
                 </div>
               </AnimatedSection>
             </div>
@@ -115,7 +115,7 @@ export default function Academics() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <AnimatedSection animation="fade-in-left">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-cream-line shadow-card">
-                  <Image src="/images/hero3.webp" alt="IB Students group research" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
+                  <Image src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200" alt="IB Students group research" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
                 </div>
               </AnimatedSection>
               <AnimatedSection animation="fade-in-right" className="flex flex-col gap-5">

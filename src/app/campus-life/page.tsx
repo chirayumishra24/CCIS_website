@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 };
 
 const facilities = [
-  { title: "AI & Robotics Studio", img: "/images/future.jpg", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
-  { title: "Olympic-Standard Courts", img: "/images/passion.jpg", desc: "Synthetic basketball arenas, indoor badminton nets, tennis turfs, and athletic training tracks." },
-  { title: "Central Library & Archives", img: "/images/personalised.jpg", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
-  { title: "Visual Arts Atelier", img: "/images/global.jpg", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
+  { title: "AI & Robotics Studio", img: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1200", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
+  { title: "Olympic-Standard Courts", img: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=1200", desc: "Synthetic basketball arenas, indoor badminton nets, tennis turfs, and athletic training tracks." },
+  { title: "Central Library & Archives", img: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&q=80&w=1200", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
+  { title: "Visual Arts Atelier", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=1200", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
 ];
 
 export default function CampusLife() {

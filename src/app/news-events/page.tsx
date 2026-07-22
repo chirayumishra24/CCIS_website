@@ -123,7 +123,7 @@ export default function NewsEvents() {
                   <div>
                     <div className="relative h-48 w-full">
                       <img
-                        src={item.img || 'https://images.unsplash.com/photo-1564069114553-7215e1ff1890?auto=format&fit=crop&q=80&w=800'}
+                        src={item.img || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1200'}
                         alt={item.title}
                         className="object-cover w-full h-full"
                       />

@@ -126,7 +126,7 @@ export default function Home() {
         {heroSlides.map((slide, idx) => (
           <div
             key={idx}
-            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${idx === currentBg ? "opacity-40" : "opacity-0 pointer-events-none"}`}
+            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${idx === currentBg ? "opacity-85" : "opacity-0 pointer-events-none"}`}
           >
             <Image
               src={slide.img}
@@ -138,7 +138,7 @@ export default function Home() {
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/70 to-navy/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/50 to-navy/20" />
 
         <div className="relative max-w-7xl mx-auto px-4 z-10 w-full text-white">
           <div className="max-w-2xl flex flex-col gap-5">
