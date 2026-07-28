@@ -74,6 +74,8 @@ export default function Home() {
   const [newsList, setNewsList] = useState<Array<{ id: string; title: string; desc: string; img?: string; category: string; date: string; type: string }>>([]);
   const [loadingNews, setLoadingNews] = useState(true);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isPlayingAiVideo, setIsPlayingAiVideo] = useState(false);
+  const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<"parent" | "student">("parent");
   const [showNotice, setShowNotice] = useState(true);
@@ -158,8 +160,12 @@ export default function Home() {
                 </Button>
               </Link>
               <button
-                onClick={() => openVideo("https://www.youtube.com/watch?v=wJ8RPJgO_Rs")}
-                className="flex items-center gap-2.5 px-5 py-3 border border-white/25 hover:border-white/50 bg-white/5 hover:bg-white/10 text-white rounded transition-all duration-300 font-semibold text-sm"
+                onClick={() => {
+                  setYoutubeLoaded(true);
+                  const el = document.getElementById("about-video");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="flex items-center gap-2.5 px-5 py-3 border border-white/25 hover:border-white/50 bg-white/5 hover:bg-white/10 text-white rounded transition-all duration-300 font-semibold text-sm cursor-pointer"
               >
                 <Play className="w-4 h-4 fill-current text-gold" />
                 Virtual Tour
@@ -194,8 +200,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <AnimatedSection animation="fade-in-left" className="w-full">
             <div
+              id="about-video"
               className="relative w-full aspect-video rounded-xl overflow-hidden border border-cream-line shadow-card bg-navy-dark cursor-pointer group"
-              onClick={() => { if (!youtubeLoaded) setYoutubeLoaded(true); else openVideo("https://www.youtube.com/watch?v=wJ8RPJgO_Rs"); }}
+              onClick={() => setYoutubeLoaded(true)}
             >
               {youtubeLoaded ? (
                 <iframe
@@ -305,8 +312,8 @@ export default function Home() {
               At CCIS, we don't just teach technology—we build AI readiness. Through dedicated robotics labs, coding clubs, and real-world AI applications, our students learn to leverage technology ethically and creatively, preparing them to lead in the automated future.
             </p>
             <button
-              onClick={() => openVideo("https://www.youtube.com/watch?v=H8u5p8QiYGQ")}
-              className="flex items-center gap-2.5 px-5 py-3 bg-gold hover:bg-gold-light text-navy font-bold rounded shadow-glow-gold transition-all duration-300 w-fit text-sm"
+              onClick={() => setIsPlayingAiVideo(true)}
+              className="flex items-center gap-2.5 px-5 py-3 bg-gold hover:bg-gold-light text-navy font-bold rounded shadow-glow-gold transition-all duration-300 w-fit text-sm cursor-pointer"
             >
               <Play className="w-4 h-4 fill-current" />
               Watch AI Impact Video
@@ -314,25 +321,35 @@ export default function Home() {
           </AnimatedSection>
           <AnimatedSection
             animation="fade-in-right"
-            className="relative aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl group cursor-pointer"
+            className="relative aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl group"
           >
-            <div
-              className="w-full h-full relative"
-              onClick={() => openVideo("https://www.youtube.com/watch?v=H8u5p8QiYGQ")}
-            >
-              <Image
-                src="/images/ai_robotics_thumbnail.png"
-                alt="AI and Robotics Lab at CCIS"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+            {isPlayingAiVideo ? (
+              <iframe
+                src="https://www.youtube.com/embed/H8u5p8QiYGQ?autoplay=1&rel=0"
+                title="AI & Futuristic Education Video"
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
               />
-              <div className="absolute inset-0 z-20 flex items-center justify-center bg-navy-dark/30 group-hover:bg-navy-dark/15 transition-colors duration-300">
-                <div className="w-16 h-16 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform duration-300">
-                  <Play className="w-6 h-6 fill-current ml-1" />
+            ) : (
+              <div
+                className="w-full h-full relative cursor-pointer"
+                onClick={() => setIsPlayingAiVideo(true)}
+              >
+                <Image
+                  src="/images/ai_robotics_thumbnail.png"
+                  alt="AI and Robotics Lab at CCIS"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 z-20 flex items-center justify-center bg-navy-dark/30 group-hover:bg-navy-dark/15 transition-colors duration-300">
+                  <div className="w-16 h-16 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform duration-300">
+                    <Play className="w-6 h-6 fill-current ml-1" />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </AnimatedSection>
         </div>
       </section>
@@ -401,7 +418,7 @@ export default function Home() {
           </div>
           
           {/* Mentor + Awards */}
-          <div className="bg-cream/15 border border-cream-line/60 rounded-2xl p-8 lg:p-12 mb-20 shadow-sm relative overflow-hidden">
+          <div className="bg-cream/15 border border-cream-line/60 rounded-2xl p-8 lg:p-12 shadow-sm relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -mr-20 -mt-20" />
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
               <AnimatedSection animation="fade-in-left" className="lg:col-span-5 flex justify-center">
@@ -449,43 +466,6 @@ export default function Home() {
                 </div>
               </AnimatedSection>
             </div>
-          </div>
-
-          {/* Directors */}
-          <div className="text-center mb-10">
-            <h3 className="font-serif font-bold text-navy text-xl md:text-2xl">Board of Directors</h3>
-            <div className="w-12 h-[2px] bg-gold mx-auto mt-3" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { name: "Mr. Aayush Singh Rawat", role: "Director of CCGS", img: "/images/director-aayush.jpg", quote: "Bridging technology, modern management, and global standards to prepare future leaders.", alumniLabel: "Alumnus of:", logos: [{ src: "/images/vit-logo.png", alt: "VIT" }, { src: "/images/isb-logo.png", alt: "ISB" }] },
-              { name: "Ms. Aarna Singh Rawat", role: "Director of CCGS & Founder of Skillizee", img: "/images/director-aarna.jpg", quote: "Pioneering active, skill-focused learning ecosystems to foster innovation and self-reliance.", alumniLabel: "Alumna of:", logos: [{ src: "/images/kellogg.png", alt: "Kellogg" }, { src: "/images/isb-logo.png", alt: "ISB" }] },
-              { name: "Mrs. Priyanshi Rawat", role: "Director of CCGS & CEO of Playbox School", img: "/images/director-priyanshi.jpg", quote: "Strategizing financial discipline, operations, and growth metrics to maintain quality standards.", alumniLabel: "Alumna of:", logos: [{ src: "/images/CA.png", alt: "CA" }] },
-            ].map((dir, idx) => (
-              <AnimatedSection key={idx} animation="scale-in" delayClass={`stagger-${idx + 1}`} className="group bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-gold/30 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream/20">
-                    <Image src={dir.img} alt={dir.name} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-                      <p className="text-white/95 text-xs font-sans italic leading-relaxed">&ldquo;{dir.quote}&rdquo;</p>
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <h4 className="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors duration-300">{dir.name}</h4>
-                    <p className="text-xs text-gold font-sans font-bold mt-1 uppercase tracking-wider">{dir.role}</p>
-                  </div>
-                </div>
-                <div className="px-5 pb-5 pt-3 border-t border-cream-line/50 bg-cream/5 flex items-center justify-between">
-                  <span className="text-xs text-ink-muted font-sans font-semibold">{dir.alumniLabel}</span>
-                  <div className="flex gap-3 items-center">
-                    {dir.logos.map((logo, li) => (
-                      <Image key={li} src={logo.src} alt={logo.alt} width={60} height={24} className="h-5 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
-                    ))}
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
           </div>
         </div>
       </section>
@@ -619,23 +599,35 @@ export default function Home() {
               {(activeTestimonialTab === "parent" ? parentReviews : studentReviews).map((item, idx) => (
                 <div
                   key={idx}
-                  onClick={() => openVideo(`https://www.youtube.com/watch?v=${item.videoId}`)}
-                  className="bg-white rounded-2xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 snap-center cursor-pointer hover:border-gold hover:shadow-card-hover hover:scale-[1.02] transition-all duration-300 w-[260px] md:w-[300px] h-[360px] md:h-[480px]"
+                  className="bg-white rounded-2xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 snap-center hover:border-gold hover:shadow-card-hover transition-all duration-300 w-[260px] md:w-[300px] h-[360px] md:h-[480px]"
                 >
-                  <div className="relative w-full h-full rounded-xl overflow-hidden group/item">
-                    <Image
-                      src={`/images/${item.img}`}
-                      alt={`CCIS Testimonial ${idx + 1}`}
-                      fill
-                      className="object-contain rounded-xl"
-                      sizes="300px"
+                  {playingVideoId === item.videoId ? (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${item.videoId}?autoplay=1&rel=0`}
+                      title={`CCIS Testimonial ${idx + 1}`}
+                      className="w-full h-full rounded-xl border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
                     />
-                    <div className="absolute inset-0 bg-black/5 group-hover/item:bg-black/20 flex items-center justify-center transition-colors duration-300 rounded-xl">
-                      <div className="w-14 h-14 rounded-full bg-gold/90 text-navy flex items-center justify-center shadow-lg group-hover/item:scale-110 group-hover/item:bg-gold transition-all duration-300">
-                        <Play className="w-7 h-7 fill-current ml-0.5" />
+                  ) : (
+                    <div
+                      onClick={() => setPlayingVideoId(item.videoId)}
+                      className="relative w-full h-full rounded-xl overflow-hidden group/item cursor-pointer"
+                    >
+                      <Image
+                        src={`/images/${item.img}`}
+                        alt={`CCIS Testimonial ${idx + 1}`}
+                        fill
+                        className="object-contain rounded-xl"
+                        sizes="300px"
+                      />
+                      <div className="absolute inset-0 bg-black/5 group-hover/item:bg-black/20 flex items-center justify-center transition-colors duration-300 rounded-xl">
+                        <div className="w-14 h-14 rounded-full bg-gold/90 text-navy flex items-center justify-center shadow-lg group-hover/item:scale-110 group-hover/item:bg-gold transition-all duration-300">
+                          <Play className="w-7 h-7 fill-current ml-0.5" />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ))}
             </div>
