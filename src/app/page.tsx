@@ -26,19 +26,34 @@ const studentReviews = [
 
 const heroSlides = [
   {
-    img: '/images/home_hero1.png',
-    title: 'Dual Advantage: CBSE & IB curriculum',
+    img: '/generated/bioclass.png',
+    title: 'Dual Advantage: CBSE & IB Curriculum',
     desc: 'Empowering future global leaders through world-class academic pathways and deep-rooted Indian values.'
   },
   {
-    img: '/images/home_hero2.png',
-    title: 'Holistic Development & Modern Labs',
-    desc: 'State-of-the-art sports complexes, advanced technology arenas, and active learning studios.'
+    img: '/generated/robo-lab.png',
+    title: 'Holistic Development & AI Robotics Labs',
+    desc: 'State-of-the-art sports complexes, advanced technology arenas, and active robotics studios.'
   },
   {
-    img: '/images/home_hero3.png',
-    title: 'Cultivating Critical Thinkers',
-    desc: 'Inspiring creative query, research focus, and innovative reasoning in every child.'
+    img: '/generated/art-room.png',
+    title: 'Cultivating Creative & Fine Arts',
+    desc: 'Inspiring artistic expression, creative query, and innovative reasoning in every child.'
+  },
+  {
+    img: '/generated/Chemistry-lab.png',
+    title: 'Advanced Science & Innovation Labs',
+    desc: 'Fostering hands-on scientific research, chemistry experimentation, and analytical excellence.'
+  },
+  {
+    img: '/generated/library.png',
+    title: 'Central Research Library & Knowledge Hub',
+    desc: 'Home to over 15,000 prints, digital archives, and quiet study hubs for deep learning.'
+  },
+  {
+    img: '/generated/Music-room.png',
+    title: 'Performing Arts & Music Studio',
+    desc: 'Nurturing musical talents, instrumental mastery, and stage confidence.'
   }
 ];
 
@@ -128,19 +143,20 @@ export default function Home() {
         {heroSlides.map((slide, idx) => (
           <div
             key={idx}
-            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${idx === currentBg ? "opacity-85" : "opacity-0 pointer-events-none"}`}
+            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${idx === currentBg ? "opacity-100" : "opacity-0 pointer-events-none"}`}
           >
             <Image
               src={slide.img}
               alt="CCIS Campus"
               fill
               priority={idx === 0}
-              className={`object-cover ${idx === currentBg ? "animate-ken-burns" : ""}`}
+              quality={95}
+              className={`object-cover object-top ${idx === currentBg ? "animate-ken-burns" : ""}`}
               sizes="100vw"
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/50 to-navy/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/95 via-navy/35 to-black/10" />
 
         <div className="relative max-w-7xl mx-auto px-4 z-10 w-full text-white">
           <div className="max-w-2xl flex flex-col gap-5">
@@ -217,7 +233,7 @@ export default function Home() {
               ) : (
                 <>
                   <Image
-                    src="/images/home_hero1.png"
+                    src="/images/about-snapshot.png"
                     alt="CCIS Campus Tour Preview"
                     fill
                     className="object-cover object-bottom opacity-70 group-hover:opacity-85 transition-opacity duration-500"
@@ -674,9 +690,9 @@ export default function Home() {
       {/* ━━━ 13. CTA ━━━ */}
       <section className="py-20 md:py-28 relative overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="/images/home_hero3.png" alt="" fill className="object-cover" sizes="100vw" />
+          <Image src="/images/art_craft_studio.jpg" alt="Art Studio" fill className="object-cover object-center opacity-40" sizes="100vw" quality={95} />
         </div>
-        <div className="absolute inset-0 bg-navy-dark/88" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy-dark/90 to-navy-dark" />
 
         <div className="relative max-w-3xl mx-auto px-4 flex flex-col items-center gap-5 z-10 text-center text-white">
           <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs bg-white/5 px-3 py-1.5 rounded border border-gold/25">

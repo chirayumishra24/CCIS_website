@@ -10,10 +10,12 @@ export const metadata: Metadata = {
 };
 
 const facilities = [
-  { title: "AI & Robotics Studio", img: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1200", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
-  { title: "Olympic-Standard Courts", img: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=1200", desc: "Synthetic basketball arenas, indoor badminton nets, tennis turfs, and athletic training tracks." },
-  { title: "Central Library & Archives", img: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&q=80&w=1200", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
-  { title: "Visual Arts Atelier", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=1200", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
+  { title: "AI & Robotics Studio", img: "/generated/robo-lab2.png", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
+  { title: "Science & Innovation Labs", img: "/generated/Chemistry-lab.png", desc: "Advanced chemistry, physics, and biology experimentation spaces with high-end apparatus." },
+  { title: "Central Library & Archives", img: "/generated/library.png", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
+  { title: "Visual Arts Atelier", img: "/generated/art-room.png", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
+  { title: "Music & Performing Arts Studio", img: "/generated/Music-room.png", desc: "Acoustically insulated practice rooms for vocal training, school band, and orchestral instruments." },
+  { title: "Eco-Club & Botanical Garden", img: "/generated/plantation.png", desc: "Student-led environmental sustainability initiatives, organic planting, and green drives." },
 ];
 
 export default function CampusLife() {
