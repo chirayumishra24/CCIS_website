@@ -90,15 +90,13 @@ export default function About() {
 
       {/* ━━━ Campus Drone Video Divider ━━━ */}
       <section className="relative h-64 md:h-80 lg:h-[420px] overflow-hidden bg-navy-dark">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-90"
-        >
-          <source src="/Video/ccis_campus_panoramic.mp4" type="video/mp4" />
-        </video>
+        <Image
+          src="/images/c.c.i.s (1).webp"
+          alt="CCIS Main Campus & Infrastructure Overview"
+          fill
+          className="object-cover opacity-90"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-navy/40" />
         <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-10 bg-navy-dark/80 text-white font-sans text-xs px-3 py-1.5 rounded-lg backdrop-blur-md border border-white/10 font-semibold flex items-center gap-2 shadow-lg">
           <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />

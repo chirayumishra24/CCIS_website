@@ -8,13 +8,13 @@ const departments = ["All", "Leadership", "Primary", "Middle", "Senior", "IB PYP
 
 const facultyList = [
   { name: "Mrs. Priyanshi Chandra", role: "Principal, CCIS Group", dept: "Leadership", qual: "M.Sc, B.Ed, 18+ Yrs Exp", img: "/images/director-priyanshi.jpg" },
-  { name: "Mr. Rajiv Varma", role: "Vice Principal", dept: "Leadership", qual: "M.A, M.Ed, 15+ Yrs Exp", img: "/images/faculty-placeholder.svg" },
-  { name: "Mrs. Sneha Mathur", role: "IB PYP Coordinator", dept: "IB PYP", qual: "IB Certified Educator, B.Ed", img: "/images/faculty-placeholder.svg" },
-  { name: "Mr. Amit Sharma", role: "Head of Science Dept", dept: "Senior", qual: "M.Sc (Physics), B.Ed", img: "/images/faculty-placeholder.svg" },
-  { name: "Ms. Anjali Sen", role: "Mathematics Head (Grades VI-VIII)", dept: "Middle", qual: "M.Sc (Maths), B.Ed", img: "/images/faculty-placeholder.svg" },
-  { name: "Mrs. Kavita Roy", role: "Primary Years Tutor", dept: "Primary", qual: "B.A, B.Ed, Montessori Trained", img: "/images/faculty-placeholder.svg" },
-  { name: "Mr. Nitin Joshi", role: "AI & Robotics Instructor", dept: "Middle", qual: "B.Tech (Computer Science)", img: "/images/faculty-placeholder.svg" },
-  { name: "Ms. Priya Das", role: "IB Language Specialist", dept: "IB PYP", qual: "M.A (English), IB trained", img: "/images/faculty-placeholder.svg" },
+  { name: "Mr. Rajiv Varma", role: "Vice Principal", dept: "Leadership", qual: "M.A, M.Ed, 15+ Yrs Exp", img: "/images/faculty-placeholder.jpg" },
+  { name: "Mrs. Sneha Mathur", role: "IB PYP Coordinator", dept: "IB PYP", qual: "IB Certified Educator, B.Ed", img: "/images/faculty-placeholder.jpg" },
+  { name: "Mr. Amit Sharma", role: "Head of Science Dept", dept: "Senior", qual: "M.Sc (Physics), B.Ed", img: "/images/faculty-placeholder.jpg" },
+  { name: "Ms. Anjali Sen", role: "Mathematics Head (Grades VI-VIII)", dept: "Middle", qual: "M.Sc (Maths), B.Ed", img: "/images/faculty-placeholder.jpg" },
+  { name: "Mrs. Kavita Roy", role: "Primary Years Tutor", dept: "Primary", qual: "B.A, B.Ed, Montessori Trained", img: "/images/faculty-placeholder.jpg" },
+  { name: "Mr. Nitin Joshi", role: "AI & Robotics Instructor", dept: "Middle", qual: "B.Tech (Computer Science)", img: "/images/faculty-placeholder.jpg" },
+  { name: "Ms. Priya Das", role: "IB Language Specialist", dept: "IB PYP", qual: "M.A (English), IB trained", img: "/images/faculty-placeholder.jpg" },
 ];
 
 export default function Faculty() {
