@@ -690,9 +690,9 @@ export default function Home() {
       {/* ━━━ 13. CTA ━━━ */}
       <section className="py-20 md:py-28 relative overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="/images/art_craft_studio.jpg" alt="Art Studio" fill className="object-cover object-center opacity-40" sizes="100vw" quality={95} />
+          <Image src="/images/c.c.i.s (1).webp" alt="CCIS Campus Infrastructure" fill className="object-cover opacity-30" sizes="100vw" quality={95} />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy-dark/90 to-navy-dark" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/85 via-navy/75 to-navy-dark/85" />
 
         <div className="relative max-w-3xl mx-auto px-4 flex flex-col items-center gap-5 z-10 text-center text-white">
           <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs bg-white/5 px-3 py-1.5 rounded border border-gold/25">
