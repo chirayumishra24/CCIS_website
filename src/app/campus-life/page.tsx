@@ -11,11 +11,13 @@ export const metadata: Metadata = {
 
 const facilities = [
   { title: "AI & Robotics Studio", img: "/generated/robo-lab2.png", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
+  { title: "Sports & Athletics Complex", img: "/generated/campus-life1.png", desc: "Synthetic basketball arenas, indoor sports nets, tennis turfs, and athletic training tracks." },
   { title: "Science & Innovation Labs", img: "/generated/Chemistry-lab.png", desc: "Advanced chemistry, physics, and biology experimentation spaces with high-end apparatus." },
   { title: "Central Library & Archives", img: "/generated/library.png", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
   { title: "Visual Arts Atelier", img: "/generated/art-room.png", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
+  { title: "Student Collaboration Hub", img: "/generated/campus-life3.png", desc: "Active group learning setups, project discussion tables, and interactive seminar spaces." },
   { title: "Music & Performing Arts Studio", img: "/generated/Music-room.png", desc: "Acoustically insulated practice rooms for vocal training, school band, and orchestral instruments." },
-  { title: "Eco-Club & Botanical Garden", img: "/generated/plantation.png", desc: "Student-led environmental sustainability initiatives, organic planting, and green drives." },
+  { title: "Eco-Club & Botanical Garden", img: "/generated/campus-life2.png", desc: "Student-led environmental sustainability initiatives, organic planting, and green drives." },
 ];
 
 export default function CampusLife() {
