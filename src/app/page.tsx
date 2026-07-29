@@ -353,7 +353,7 @@ export default function Home() {
                 onClick={() => setIsPlayingAiVideo(true)}
               >
                 <Image
-                  src="/images/ai_robotics_thumbnail.png"
+                  src="/generated/robo-lab2.png"
                   alt="AI and Robotics Lab at CCIS"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
