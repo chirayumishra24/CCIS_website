@@ -46,8 +46,8 @@ export default function About() {
           {/* Image side */}
           <div className="relative h-56 lg:h-auto order-1 lg:order-2">
             <Image
-              src="/images/about_hero.png"
-              alt="CCIS Campus aerial view"
+              src="/images/c.c.i.s (1).webp"
+              alt="CCIS Main School Building"
               fill
               priority
               className="object-cover"
