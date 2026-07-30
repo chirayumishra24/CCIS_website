@@ -21,7 +21,8 @@ const parentReviews = [
 
 const studentReviews = [
   { img: 'student1.webp', videoId: 'd66JSRy8GwE' },
-  { img: 'student2.webp', videoId: 'XWpU8A4BoHE' }
+  { img: 'student2.webp', videoId: 'XWpU8A4BoHE' },
+  { img: 'student3.jpg', videoId: 'YFN2CdfXwHU' }
 ];
 
 const heroSlides = [
