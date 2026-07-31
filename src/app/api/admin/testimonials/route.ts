@@ -9,8 +9,8 @@ const defaultTestimonials = {
     { id: 'p4', img: 'parent4.png', videoId: 'Kw_p90p20Ns' }
   ],
   student: [
-    { id: 's1', img: 'student1.webp', videoId: 'd66JSRy8GwE' },
-    { id: 's2', img: 'student2.webp', videoId: 'XWpU8A4BoHE' },
+    { id: 's1', img: 'student1.png', videoId: 'd66JSRy8GwE' },
+    { id: 's2', img: 'student2.png', videoId: 'XWpU8A4BoHE' },
     { id: 's3', img: 'student3.jpg', videoId: 'G5f7788rAbg' },
     { id: 's4', img: 'student4.jpg', videoId: 'CkP3EudkpRQ' }
   ]
