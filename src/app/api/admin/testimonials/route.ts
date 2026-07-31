@@ -11,8 +11,8 @@ const defaultTestimonials = {
   student: [
     { id: 's1', img: 'student1.png', videoId: 'd66JSRy8GwE' },
     { id: 's2', img: 'student2.png', videoId: 'XWpU8A4BoHE' },
-    { id: 's3', img: 'student3.jpg', videoId: 'G5f7788rAbg' },
-    { id: 's4', img: 'student4.jpg', videoId: 'CkP3EudkpRQ' }
+    { id: 's3', img: 'student3.png', videoId: 'G5f7788rAbg' },
+    { id: 's4', img: 'student4.png', videoId: 'CkP3EudkpRQ' }
   ]
 };
 
