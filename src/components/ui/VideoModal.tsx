@@ -32,6 +32,9 @@ export default function VideoModal({ isOpen, videoUrl, onClose }: VideoModalProp
   if (videoUrl.includes("youtube.com/watch")) {
     const videoId = new URL(videoUrl).searchParams.get("v");
     embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  } else if (videoUrl.includes("youtube.com/shorts/")) {
+    const videoId = videoUrl.split("youtube.com/shorts/")[1]?.split("?")[0];
+    embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
   } else if (videoUrl.includes("youtu.be/")) {
     const videoId = videoUrl.split("youtu.be/")[1]?.split("?")[0];
     embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;

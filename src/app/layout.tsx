@@ -85,8 +85,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${playfair.variable} ${ibmPlexMono.variable} font-sans antialiased bg-white text-ink`}
+        className={`${inter.variable} ${playfair.variable} ${ibmPlexMono.variable} font-sans antialiased bg-slate-50/60 text-ink relative min-h-screen overflow-x-hidden`}
       >
+        {/* Global Ambient Maroon Accent Background */}
+        <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-[#701516]/[0.04] blur-[140px]" />
+          <div className="absolute top-[30%] -left-40 w-[500px] h-[500px] rounded-full bg-[#701516]/[0.035] blur-[120px]" />
+          <div className="absolute top-[65%] -right-40 w-[600px] h-[600px] rounded-full bg-[#701516]/[0.03] blur-[150px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(#701516_0.8px,transparent_0.8px)] [background-size:36px_36px] opacity-[0.03]" />
+        </div>
+
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:bg-navy focus:text-white focus:px-4 focus:py-2 focus:rounded-sm focus:font-mono focus:text-xs focus:uppercase focus:tracking-wider"
@@ -94,7 +102,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Header />
-        <main id="main-content" className="min-h-screen pt-[80px] sm:pt-[116px] md:pt-[124px]">
+        <main id="main-content" className="relative z-10 min-h-screen pt-[80px] sm:pt-[116px] md:pt-[124px]">
           {children}
         </main>
         <Footer />

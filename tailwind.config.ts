@@ -28,6 +28,13 @@ const config: Config = {
           DEFAULT: "#1A1A2E",
           muted: "#5A5A6E",
         },
+        maroon: {
+          DEFAULT: "#701516",
+          dark: "#4A0C0D",
+          light: "#8C1F21",
+          soft: "#FDF4F4",
+          glow: "rgba(112, 21, 22, 0.06)",
+        },
       },
       fontFamily: {
         serif: ["var(--font-playfair)", "Georgia", "serif"],
