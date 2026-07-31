@@ -34,11 +34,13 @@ export default function AdminDashboard() {
   const [authError, setAuthError] = useState<string | null>(null);
   const [submittingAuth, setSubmittingAuth] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<"news" | "notice" | "admissions">("news");
+  const [activeTab, setActiveTab] = useState<"news" | "notice" | "admissions" | "testimonials">("news");
   const [items, setItems] = useState<NewsItem[]>([]);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
+  const [testimonials, setTestimonials] = useState<{ parent: any[]; student: any[] }>({ parent: [], student: [] });
   const [loadingNews, setLoadingNews] = useState(true);
   const [loadingEnquiries, setLoadingEnquiries] = useState(true);
+  const [testimonialForm, setTestimonialForm] = useState({ type: "student", videoId: "", img: "" });
 
   // Form states
   const [newsForm, setNewsForm] = useState({
@@ -130,6 +132,59 @@ export default function AdminDashboard() {
       console.error(err);
     } finally {
       setLoadingEnquiries(false);
+    }
+
+    // Fetch Testimonials
+    try {
+      const res = await fetch("/api/admin/testimonials");
+      if (res.ok) {
+        const data = await res.json();
+        setTestimonials(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleAddTestimonial = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!testimonialForm.videoId) {
+      setToast({ message: "YouTube Video ID is required.", type: "error" });
+      return;
+    }
+
+    setSubmittingItem(true);
+    try {
+      const res = await fetch("/api/admin/testimonials", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(testimonialForm)
+      });
+      if (res.ok) {
+        setToast({ message: "Testimonial added successfully!", type: "success" });
+        setTestimonialForm({ type: "student", videoId: "", img: "" });
+        const pass = localStorage.getItem("ccis_admin_passcode") || "";
+        fetchData(pass);
+      }
+    } catch (err) {
+      console.error(err);
+      setToast({ message: "Failed to add testimonial.", type: "error" });
+    } finally {
+      setSubmittingItem(false);
+    }
+  };
+
+  const handleDeleteTestimonial = async (id: string) => {
+    if (!confirm("Delete this testimonial?")) return;
+    try {
+      const res = await fetch(`/api/admin/testimonials?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setToast({ message: "Testimonial deleted!", type: "success" });
+        const pass = localStorage.getItem("ccis_admin_passcode") || "";
+        fetchData(pass);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -296,6 +351,12 @@ export default function AdminDashboard() {
           >
             Admission Enquiries ({enquiries.length})
           </button>
+          <button
+            onClick={() => setActiveTab("testimonials")}
+            className={`px-4 py-2 font-sans font-bold text-xs uppercase tracking-wider border-b-2 transition-all ${activeTab === "testimonials" ? "border-gold text-navy" : "border-transparent text-ink-muted hover:text-navy"}`}
+          >
+            Testimonials
+          </button>
         </div>
       </section>
 
@@ -349,6 +410,76 @@ export default function AdminDashboard() {
                   </table>
                 </div>
               )}
+            </div>
+          ) : activeTab === "testimonials" ? (
+            /* Testimonials Management Area */
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="bg-cream/15 border border-cream-line p-6 rounded-lg shadow-card h-fit flex flex-col gap-6">
+                <h3 className="font-serif font-bold text-navy text-xl">Add Video Testimonial</h3>
+                <form onSubmit={handleAddTestimonial} className="flex flex-col gap-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-navy mb-1">Target Audience</label>
+                    <select
+                      value={testimonialForm.type}
+                      onChange={(e) => setTestimonialForm({ ...testimonialForm, type: e.target.value })}
+                      className="w-full border border-cream-line rounded p-2.5 text-sm focus:border-gold outline-none"
+                    >
+                      <option value="student">Student Review</option>
+                      <option value="parent">Parent Review</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-navy mb-1">YouTube Video ID (or Short ID)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. YFN2CdfXwHU"
+                      value={testimonialForm.videoId}
+                      onChange={(e) => setTestimonialForm({ ...testimonialForm, videoId: e.target.value })}
+                      className="w-full border border-cream-line rounded p-2.5 text-sm focus:border-gold outline-none"
+                    />
+                    <p className="text-[11px] text-ink-muted mt-1">Copy video ID from YouTube link or Short URL.</p>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-navy mb-1">Thumbnail Image Name (Optional)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. student3.jpg"
+                      value={testimonialForm.img}
+                      onChange={(e) => setTestimonialForm({ ...testimonialForm, img: e.target.value })}
+                      className="w-full border border-cream-line rounded p-2.5 text-sm focus:border-gold outline-none"
+                    />
+                  </div>
+                  <Button type="submit" variant="gold" size="md" className="w-full mt-2" disabled={submittingItem}>
+                    {submittingItem ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : "Save Testimonial"}
+                  </Button>
+                </form>
+              </div>
+
+              <div className="lg:col-span-2 flex flex-col gap-6">
+                <h3 className="font-serif font-bold text-navy text-xl">Active Video Testimonials</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[...testimonials.student, ...testimonials.parent].map((t: any) => (
+                    <div key={t.id || t.videoId} className="border border-cream-line rounded-lg p-4 bg-white shadow-sm flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center font-bold text-navy text-xs uppercase">
+                          {t.type ? t.type[0] : 'V'}
+                        </div>
+                        <div>
+                          <p className="font-bold text-navy text-sm">Video ID: {t.videoId}</p>
+                          <p className="text-xs text-ink-muted capitalize">{t.type || 'Review'} • Thumbnail: {t.img}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteTestimonial(t.id)}
+                        className="text-red-500 hover:text-red-700 p-2"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ) : (
             /* News & Notice CRUD Area */

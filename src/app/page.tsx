@@ -9,6 +9,8 @@ import StatsCounter from '@/components/ui/StatsCounter';
 import VideoModal from '@/components/ui/VideoModal';
 import Skeleton from '@/components/ui/Skeleton';
 import AccreditationBadges from '@/components/ui/AccreditationBadges';
+import HeroCanvas3D from '@/components/ui/HeroCanvas3D';
+import MobileQuickDock from '@/components/ui/MobileQuickDock';
 import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell } from 'lucide-react';
 
 /* ─── Data ─── */
@@ -157,7 +159,8 @@ export default function Home() {
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/95 via-navy/35 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/95 via-navy/35 to-black/10 z-10" />
+        <HeroCanvas3D />
 
         <div className="relative max-w-7xl mx-auto px-4 z-10 w-full text-white">
           <div className="max-w-2xl flex flex-col gap-5">
@@ -725,6 +728,7 @@ export default function Home() {
         videoUrl={videoUrl}
         onClose={() => setIsVideoModalOpen(false)}
       />
+      <MobileQuickDock />
     </div>
   );
 }
