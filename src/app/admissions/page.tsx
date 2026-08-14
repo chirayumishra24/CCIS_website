@@ -4,70 +4,120 @@ import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Button from "@/components/ui/Button";
-import { FileText, Users, ClipboardCheck, PartyPopper } from "lucide-react";
+import MultiStepAdmissionsForm from "@/components/admissions/MultiStepAdmissionsForm";
+import AgeCalculator from "@/components/ui/AgeCalculator";
+import {
+  FileText,
+  Users,
+  ClipboardCheck,
+  PartyPopper,
+  Download,
+  Calendar,
+  CheckCircle,
+  ShieldCheck,
+  Sparkles,
+  HelpCircle,
+  CreditCard,
+  Building,
+} from "lucide-react";
 
 const steps = [
-  { icon: <FileText className="w-5 h-5" />, title: "Submit Application", desc: "Fill out the online form with academic transcripts, identity proofs, and recent photographs." },
-  { icon: <Users className="w-5 h-5" />, title: "Interaction Round", desc: "The student and parents attend a campus walkthrough, interview with the academic coordinator." },
-  { icon: <ClipboardCheck className="w-5 h-5" />, title: "Assessment & Review", desc: "Students undertake grade-appropriate assessments. Results reviewed by the admissions panel." },
-  { icon: <PartyPopper className="w-5 h-5" />, title: "Confirmation & Onboarding", desc: "Receive the acceptance letter, complete fee formalities, and join the CCIS family." },
+  {
+    icon: <FileText className="w-5 h-5" />,
+    title: "1. Online Application",
+    desc: "Complete the 4-step digital enquiry form with applicant background, grade, and board preference.",
+  },
+  {
+    icon: <Users className="w-5 h-5" />,
+    title: "2. Campus Walkthrough",
+    desc: "Parent and child attend a personalized tour of science labs, AI robotics studio, and sports turf.",
+  },
+  {
+    icon: <ClipboardCheck className="w-5 h-5" />,
+    title: "3. Interaction & Review",
+    desc: "Informal, grade-appropriate interaction with the academic coordinator to understand learning readiness.",
+  },
+  {
+    icon: <PartyPopper className="w-5 h-5" />,
+    title: "4. Admission Offer",
+    desc: "Receive the provisional offer letter, complete fee formalities, and receive your student welcome kit.",
+  },
 ];
 
 const feeHighlights = [
-  "Transparent fee structure — no hidden charges",
-  "Sibling discounts and early-bird concessions available",
-  "Installment plans for annual fee payments",
-  "Additional scholarships for academic and sports merit",
+  "Zero hidden administrative charges — 100% transparent fee structure",
+  "Quarterly and bi-annual installment options available",
+  "Special sibling concessions & group defense personnel discounts",
+  "Merit scholarships awarded for exceptional Class X Board results & state-level sports accolades",
+  "All-inclusive academic kits: textbooks, laboratory equipment, and club access included",
 ];
 
 export default function Admissions() {
-  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "sent">("idle");
+  const [activeTab, setActiveTab] = useState<"apply" | "calculator" | "fees">("apply");
 
   return (
     <div className="bg-white">
-      {/* ━━━ Hero — Gradient with left-aligned text ━━━ */}
-      <section className="relative bg-navy text-white overflow-hidden">
+      {/* ━━━ 1. Hero ━━━ */}
+      <section className="relative bg-navy text-white overflow-hidden py-20 md:py-28">
         <div className="absolute inset-0">
-          <Image src="/images/admissions_hero.png" alt="" fill className="object-cover opacity-15" sizes="100vw" />
+          <Image
+            src="/images/admissions_hero.png"
+            alt="CCIS Admissions"
+            fill
+            className="object-cover opacity-20"
+            sizes="100vw"
+            priority
+          />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-navy-dark via-navy to-navy-light/30" />
-        <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-24 z-10 flex flex-col gap-4">
-          <span className="text-gold font-sans uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit">
-            Join CCIS Family
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy/90 to-navy-dark" />
+
+        <div className="relative max-w-7xl mx-auto px-4 z-10 flex flex-col items-center text-center gap-5">
+          <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/10 px-4 py-1.5 rounded-full border border-gold/30 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5" /> Admissions Open 2026-27
           </span>
-          <h1 className="text-4xl md:text-5xl font-serif font-extrabold leading-tight max-w-2xl">
-            Admissions 2026-27
+
+          <h1 className="text-4xl md:text-6xl font-serif font-extrabold leading-tight max-w-3xl">
+            Begin Your Child&apos;s Journey of <span className="text-gold">Excellence</span>
           </h1>
-          <p className="text-white/55 max-w-lg leading-relaxed text-sm">
-            Begin your child&apos;s journey at Jaipur&apos;s leading dual-curriculum school. Applications are now open for Nursery through Grade XI.
+
+          <p className="text-white/70 max-w-2xl text-sm md:text-base leading-relaxed">
+            Join Jaipur&apos;s leading dual-curriculum institution offering world-class CBSE &amp; International Baccalaureate (IB PYP) pathways from Nursery to Grade XI.
           </p>
+
+          <div className="flex flex-wrap gap-3 justify-center mt-2">
+            <a href="#application-form">
+              <Button variant="gold" size="lg" className="font-bold uppercase tracking-wider rounded-xl shadow-glow-gold">
+                Apply Online Now
+              </Button>
+            </a>
+            <a href="#calculator">
+              <Button variant="ghost" size="lg" className="text-white hover:text-gold border border-white/25 rounded-xl">
+                Age &amp; Grade Calculator
+              </Button>
+            </a>
+          </div>
         </div>
+
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gold via-gold-light to-gold" />
       </section>
 
-      {/* ━━━ Admission Process — Horizontal Stepper ━━━ */}
-      <section className="py-20 md:py-24 bg-cream/10 border-b border-cream-line">
-        <div className="max-w-5xl mx-auto px-4">
-          <SectionHeading title="Admission Process" subtitle="How to Apply" />
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-            {/* Connecting line (desktop only) */}
-            <div className="hidden md:block absolute top-10 left-[12%] right-[12%] h-[2px] bg-cream-line z-0" />
-            
+      {/* ━━━ 2. Step-by-Step Admission Process ━━━ */}
+      <section className="py-20 bg-cream/10 border-b border-cream-line">
+        <div className="max-w-6xl mx-auto px-4">
+          <SectionHeading title="Four-Step Admission Journey" subtitle="Streamlined Process" />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 relative">
             {steps.map((step, idx) => (
               <AnimatedSection
                 key={idx}
                 animation="scale-in"
                 delayClass={`stagger-${idx + 1}`}
-                className="relative z-10 flex flex-col items-center text-center gap-3"
+                className="bg-white border border-cream-line p-6 rounded-2xl shadow-card flex flex-col gap-3 relative hover:-translate-y-1 transition-transform"
               >
-                <div className="w-14 h-14 rounded-full bg-navy text-gold flex items-center justify-center shadow-card border-4 border-cream">
+                <div className="w-12 h-12 rounded-2xl bg-navy text-gold flex items-center justify-center shadow-md">
                   {step.icon}
                 </div>
-                <span className="text-[10px] font-sans font-extrabold text-gold-dark uppercase tracking-widest">
-                  Step {idx + 1}
-                </span>
-                <h4 className="font-serif font-bold text-navy text-base">{step.title}</h4>
+                <h4 className="font-serif font-bold text-navy text-base mt-2">{step.title}</h4>
                 <p className="text-xs text-ink-muted leading-relaxed">{step.desc}</p>
               </AnimatedSection>
             ))}
@@ -75,69 +125,145 @@ export default function Admissions() {
         </div>
       </section>
 
-      {/* ━━━ Fee Highlights ━━━ */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4">
-          <AnimatedSection animation="fade-in" className="bg-cream/20 border border-cream-line rounded-xl p-8 md:p-10 flex flex-col md:flex-row gap-8 items-center shadow-card">
-            <div className="flex-1">
-              <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs mb-2 block">Fee Information</span>
-              <h3 className="font-serif font-bold text-navy text-xl md:text-2xl">Transparent & Flexible Fee Structure</h3>
-              <ul className="mt-4 flex flex-col gap-2.5">
-                {feeHighlights.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-sm text-ink-muted">
-                    <span className="text-gold mt-0.5">✓</span>
-                    {item}
+      {/* ━━━ 3. Application Form & Age Calculator Tabs ━━━ */}
+      <section id="application-form" className="py-20 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Left Column: Guidelines & Required Documents */}
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              <div>
+                <span className="text-xs font-sans font-bold uppercase tracking-wider text-gold-dark">
+                  Admissions Office
+                </span>
+                <h2 className="font-serif font-bold text-navy text-3xl md:text-4xl mt-1">
+                  Online Admission Application
+                </h2>
+                <div className="gold-rule my-3" />
+                <p className="text-sm text-ink-muted leading-relaxed">
+                  Fill out our multi-step enrollment form. Our admissions counselor will contact you within 24 hours to schedule your campus tour and orientation.
+                </p>
+              </div>
+
+              {/* Document Checklist Card */}
+              <div className="bg-cream/20 border border-cream-line rounded-2xl p-6 shadow-sm">
+                <h4 className="font-serif font-bold text-navy text-base flex items-center gap-2 mb-3">
+                  <ShieldCheck className="w-5 h-5 text-gold-dark" /> Required Documents (For Interaction)
+                </h4>
+                <ul className="flex flex-col gap-2 text-xs text-ink-muted">
+                  <li className="flex items-center gap-2.5">
+                    <span className="text-gold font-bold">&bull;</span> Copy of Birth Certificate / Passport
                   </li>
-                ))}
-              </ul>
+                  <li className="flex items-center gap-2.5">
+                    <span className="text-gold font-bold">&bull;</span> Previous school report card (Grades 1 and above)
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <span className="text-gold font-bold">&bull;</span> Transfer Certificate (TC) from recognized board
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <span className="text-gold font-bold">&bull;</span> 4 passport-size photographs of student &amp; parents
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <span className="text-gold font-bold">&bull;</span> Aadhaar card copy of student &amp; parents
+                  </li>
+                </ul>
+              </div>
+
+              {/* Quick Helpline */}
+              <div className="bg-navy text-white rounded-2xl p-6 flex flex-col gap-2 border border-gold/30 shadow-card">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-gold font-bold">
+                  Counseling Helpline
+                </span>
+                <h4 className="font-serif font-bold text-xl">Speak to an Admissions Officer</h4>
+                <p className="text-xs text-white/70 leading-relaxed">
+                  Have questions regarding fee schedules, transport routes, or curriculum selection?
+                </p>
+                <div className="flex flex-wrap gap-4 mt-2 text-xs font-bold text-gold-light">
+                  <a href="tel:+919660551977" className="hover:text-gold">
+                    📞 +91 9660551977
+                  </a>
+                  <a href="mailto:info@ccischool.org" className="hover:text-gold">
+                    ✉️ info@ccischool.org
+                  </a>
+                </div>
+              </div>
             </div>
-            <div className="shrink-0">
-              <Button
-                variant="gold"
-                size="lg"
-                className="rounded font-bold uppercase tracking-wider"
-                onClick={() => window.open("/CCIS_Fee_Brochure.pdf", "_blank")}
-              >
-                Download Brochure
-              </Button>
+
+            {/* Right Column: Native MultiStep Wizard */}
+            <div className="lg:col-span-7">
+              <MultiStepAdmissionsForm />
             </div>
-          </AnimatedSection>
+          </div>
         </div>
       </section>
 
-      {/* ━━━ Application Form ━━━ */}
-      <section className="py-20 md:py-24 bg-cream/10 border-t border-cream-line">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <AnimatedSection animation="fade-in-left" className="flex flex-col gap-5">
-            <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Start Here</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-navy">Application Form</h2>
-            <div className="gold-rule" />
-            <p className="text-ink-muted leading-relaxed text-sm">
-              Fill out the enquiry form below, and our admissions counselor will contact you within 24 hours to schedule a campus walkthrough and assessment.
-            </p>
-            
-            <div className="bg-cream/30 border border-cream-line rounded-lg p-5 mt-2">
-              <h4 className="font-serif font-bold text-navy text-sm mb-3">Required Documents</h4>
-              <ul className="flex flex-col gap-2 text-xs text-ink-muted">
-                <li className="flex items-center gap-2">📄 Previous school report cards</li>
-                <li className="flex items-center gap-2">📸 Passport-sized photographs</li>
-                <li className="flex items-center gap-2">🪪 Aadhaar/Birth certificate copy</li>
-                <li className="flex items-center gap-2">📋 Transfer certificate (if applicable)</li>
-              </ul>
-            </div>
-          </AnimatedSection>
+      {/* ━━━ 4. Age & Grade Calculator Section ━━━ */}
+      <section className="py-16 md:py-20 bg-cream/10 border-y border-cream-line">
+        <div className="max-w-4xl mx-auto px-4">
+          <AgeCalculator />
+        </div>
+      </section>
 
-          <AnimatedSection animation="fade-in-right">
-            {/* Gravity Forms Integration — iframe kept for backward compatibility */}
-            <div className="bg-white border border-cream-line rounded-xl shadow-card overflow-hidden p-1">
-              <iframe
-                src="https://ccischool.org/wp-admin/admin-ajax.php?action=gf_button_get_form&form_id=1&title=false&description=false&ajax=true"
-                className="w-full min-h-[550px] border-0"
-                title="CCIS Admission Enquiry Form"
-                loading="lazy"
-              />
+      {/* ━━━ 5. Fee Structure & Policies ━━━ */}
+      <section id="fees" className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <SectionHeading title="Fee Structure &amp; Scholarship Highlights" subtitle="Transparent Tuition" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+            <div className="lg:col-span-2 bg-cream/15 border border-cream-line rounded-2xl p-8 shadow-card flex flex-col justify-between gap-6">
+              <div>
+                <h3 className="font-serif font-bold text-navy text-2xl mb-2">
+                  Academic Fee Inclusions
+                </h3>
+                <p className="text-xs text-ink-muted leading-relaxed mb-6">
+                  At CCIS, our fee schedules cover regular tuition, smart digital classroom tools, science &amp; AI robotics lab supplies, library print &amp; digital databases, and inter-house athletic training.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {feeHighlights.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-2.5 text-xs text-ink leading-relaxed">
+                      <CheckCircle className="w-4 h-4 text-gold-dark shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-cream-line">
+                <span className="text-xs text-ink-muted font-semibold">
+                  Official 2026-27 Fee Breakdown Brochure (PDF)
+                </span>
+                <Button
+                  variant="gold"
+                  size="md"
+                  onClick={() => window.open("/CCIS_Fee_Brochure.pdf", "_blank")}
+                  className="rounded-xl font-bold uppercase tracking-wider text-xs flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" /> Download Official Brochure
+                </Button>
+              </div>
             </div>
-          </AnimatedSection>
+
+            {/* Scholarship Card */}
+            <div className="bg-navy text-white rounded-2xl p-8 border border-gold/40 shadow-glow-navy flex flex-col justify-between gap-6">
+              <div>
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-gold bg-white/10 px-3 py-1 rounded-full">
+                  Merit Recognition
+                </span>
+                <h3 className="font-serif font-bold text-2xl text-white mt-3">
+                  Merit Scholarships
+                </h3>
+                <p className="text-xs text-white/70 leading-relaxed mt-2">
+                  We reward academic distinction and sporting excellence. Students scoring 90%+ in Class X Board exams or winning state/national medals in athletics are eligible for up to 50% tuition fee waivers.
+                </p>
+              </div>
+
+              <a href="#application-form">
+                <Button variant="gold" size="md" className="w-full rounded-xl font-bold uppercase tracking-wider text-xs">
+                  Apply for Scholarship
+                </Button>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </div>

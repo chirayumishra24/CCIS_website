@@ -23,35 +23,42 @@ export default function HeroCanvas3D() {
 
     window.addEventListener("resize", handleResize);
 
-    // Particle nodes setup
-    const particleCount = Math.min(Math.floor(width / 25), 45);
+    // Particle nodes setup with depth layer
+    const particleCount = Math.min(Math.floor(width / 18), 65);
     const particles: Array<{
       x: number;
       y: number;
+      z: number; // depth layer (0.5 to 2.5)
       radius: number;
       vx: number;
       vy: number;
       baseAlpha: number;
+      isGold: boolean;
     }> = [];
 
     for (let i = 0; i < particleCount; i++) {
+      const z = Math.random() * 2 + 0.5;
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        radius: Math.random() * 2 + 1,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        baseAlpha: Math.random() * 0.4 + 0.2,
+        z,
+        radius: (Math.random() * 1.8 + 1) * (z * 0.7),
+        vx: ((Math.random() - 0.5) * 0.35) / z,
+        vy: ((Math.random() - 0.5) * 0.35) / z,
+        baseAlpha: Math.random() * 0.45 + 0.2,
+        isGold: Math.random() > 0.4,
       });
     }
 
     let mouseX = width / 2;
     let mouseY = height / 2;
+    let targetMouseX = mouseX;
+    let targetMouseY = mouseY;
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
+      targetMouseX = e.clientX - rect.left;
+      targetMouseY = e.clientY - rect.top;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -59,19 +66,26 @@ export default function HeroCanvas3D() {
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Draw subtle connecting lines
+      // Smooth mouse interpolation
+      mouseX += (targetMouseX - mouseX) * 0.08;
+      mouseY += (targetMouseY - mouseY) * 0.08;
+
+      // Draw connecting lines with gold gradient
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 120) {
+          const maxDist = 135 * ((particles[i].z + particles[j].z) / 2.5);
+
+          if (dist < maxDist) {
+            const lineAlpha = (1 - dist / maxDist) * 0.22;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(212, 175, 55, ${0.15 * (1 - dist / 120)})`; // Gold accent line
-            ctx.lineWidth = 0.6;
+            ctx.strokeStyle = `rgba(212, 175, 55, ${lineAlpha})`;
+            ctx.lineWidth = 0.65;
             ctx.stroke();
           }
         }
@@ -82,18 +96,36 @@ export default function HeroCanvas3D() {
         p.x += p.vx;
         p.y += p.vy;
 
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
+        // Wrap around boundaries
+        if (p.x < -20) p.x = width + 20;
+        if (p.x > width + 20) p.x = -20;
+        if (p.y < -20) p.y = height + 20;
+        if (p.y > height + 20) p.y = -20;
 
-        // Mouse proximity subtle influence
+        // Gentle interactive mouse push / pull
         const mdx = mouseX - p.x;
         const mdy = mouseY - p.y;
         const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-        const alpha = mdist < 150 ? Math.min(p.baseAlpha + 0.3, 0.8) : p.baseAlpha;
+        
+        let displayX = p.x;
+        let displayY = p.y;
+
+        if (mdist < 160) {
+          const force = (1 - mdist / 160) * 12;
+          displayX -= (mdx / mdist) * force;
+          displayY -= (mdy / mdist) * force;
+        }
+
+        const alpha = mdist < 140 ? Math.min(p.baseAlpha + 0.35, 0.95) : p.baseAlpha;
 
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.arc(displayX, displayY, p.radius, 0, Math.PI * 2);
+        
+        if (p.isGold) {
+          ctx.fillStyle = `rgba(212, 175, 55, ${alpha})`;
+        } else {
+          ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.85})`;
+        }
         ctx.fill();
       });
 
@@ -112,7 +144,7 @@ export default function HeroCanvas3D() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none z-0 opacity-60"
+      className="absolute inset-0 pointer-events-none z-[5] opacity-75"
     />
   );
 }

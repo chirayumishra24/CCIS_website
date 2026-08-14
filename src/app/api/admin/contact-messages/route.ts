@@ -17,19 +17,22 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
     }
 
-    const snapshot = await firestore.collection('admissions_enquiries')
-      .where('school', '==', 'CCIS')
+    if (!firestore || !firestore.collection) {
+      return NextResponse.json([]);
+    }
+
+    const snapshot = await firestore.collection('contact_messages')
       .orderBy('createdAt', 'desc')
       .get();
 
-    const enquiries: any[] = [];
+    const messages: any[] = [];
     snapshot.forEach((doc: any) => {
-      enquiries.push({ id: doc.id, ...doc.data() });
+      messages.push({ id: doc.id, ...doc.data() });
     });
 
-    return NextResponse.json(enquiries);
+    return NextResponse.json(messages);
   } catch (error) {
-    console.error('Fetch Admissions Enquiries API Error: ', error);
+    console.error('Fetch Contact Messages Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
@@ -37,49 +40,25 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const { passcode, id, status, note, notes } = body;
+    const { passcode, id, status } = body;
 
     if (!isAuthorized(passcode)) {
       return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
     }
 
-    if (!id) {
-      return NextResponse.json({ error: 'Enquiry ID is required' }, { status: 400 });
+    if (!id || !status) {
+      return NextResponse.json({ error: 'Message ID and Status are required' }, { status: 400 });
     }
 
-    const docRef = firestore.collection('admissions_enquiries').doc(id);
-    const doc = await docRef.get();
-
-    if (!doc.exists) {
-      return NextResponse.json({ error: 'Enquiry not found' }, { status: 404 });
-    }
-
-    const currentData = doc.data();
-    const updatePayload: Record<string, any> = {
+    const docRef = firestore.collection('contact_messages').doc(id);
+    await docRef.update({
+      status,
       updatedAt: new Date().toISOString(),
-    };
+    });
 
-    if (status) {
-      updatePayload.status = status;
-    }
-
-    if (note) {
-      const existingNotes = currentData?.notes || [];
-      updatePayload.notes = [
-        ...existingNotes,
-        {
-          text: note,
-          createdAt: new Date().toISOString(),
-        }
-      ];
-    } else if (notes) {
-      updatePayload.notes = notes;
-    }
-
-    await docRef.update(updatePayload);
-    return NextResponse.json({ success: true, updated: { id, ...currentData, ...updatePayload } });
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Update Admission Enquiry Error:', error);
+    console.error('Update Contact Message Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
@@ -95,13 +74,13 @@ export async function DELETE(request: Request) {
     }
 
     if (!id) {
-      return NextResponse.json({ error: 'Enquiry ID is required' }, { status: 400 });
+      return NextResponse.json({ error: 'Message ID is required' }, { status: 400 });
     }
 
-    await firestore.collection('admissions_enquiries').doc(id).delete();
+    await firestore.collection('contact_messages').doc(id).delete();
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Delete Admission Enquiry Error:', error);
+    console.error('Delete Contact Message Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

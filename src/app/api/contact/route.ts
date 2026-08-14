@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { firestore } from '@/lib/firebaseAdmin';
 import { sendEmail } from '@/lib/email';
 
 export async function POST(request: Request) {
@@ -8,6 +9,25 @@ export async function POST(request: Request) {
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'Missing required contact form fields' }, { status: 400 });
+    }
+
+    // Save to Firestore
+    try {
+      if (firestore && firestore.collection) {
+        const docRef = firestore.collection('contact_messages').doc();
+        await docRef.set({
+          id: docRef.id,
+          name,
+          email,
+          phone: phone || '',
+          subject: subject || 'General Inquiry',
+          message,
+          status: 'unread',
+          createdAt: new Date().toISOString(),
+        });
+      }
+    } catch (dbErr) {
+      console.warn('Firestore write warning:', dbErr);
     }
 
     const emailSubject = `CCIS Contact Form: ${subject || 'General Inquiry'}`;
@@ -22,12 +42,16 @@ export async function POST(request: Request) {
       <p style="margin-top: 20px; border-top: 1px solid #ddd3bf; padding-top: 15px; white-space: pre-wrap;"><strong>Message:</strong><br/>${message}</p>
     </div>`;
 
-    await sendEmail({
-      to: 'info@ccischool.org',
-      subject: emailSubject,
-      text,
-      html,
-    });
+    try {
+      await sendEmail({
+        to: 'info@ccischool.org',
+        subject: emailSubject,
+        text,
+        html,
+      });
+    } catch (mailErr) {
+      console.warn('Email dispatch warning:', mailErr);
+    }
 
     return NextResponse.json({ success: true, message: 'Message sent successfully' });
   } catch (error) {

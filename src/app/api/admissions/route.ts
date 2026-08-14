@@ -5,30 +5,63 @@ import { sendAdmissionsNotificationEmail } from '@/lib/email';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, grade, message } = body;
+    const {
+      name,
+      studentName,
+      dob,
+      gender,
+      parentName,
+      email,
+      phone,
+      grade,
+      curriculum,
+      currentSchool,
+      visitDate,
+      visitTime,
+      message,
+    } = body;
 
-    if (!name || !email || !phone || !grade) {
+    const applicantName = studentName || name;
+    const parent = parentName || name;
+
+    if (!applicantName || !email || !phone || !grade) {
       return NextResponse.json({ error: 'Missing required admission enquiry fields' }, { status: 400 });
     }
 
     const docRef = firestore.collection('admissions_enquiries').doc();
     const enquiryData = {
       id: docRef.id,
-      name,
+      name: applicantName,
+      studentName: applicantName,
+      parentName: parent,
+      dob: dob || '',
+      gender: gender || '',
       email,
       phone,
       grade,
+      curriculum: curriculum || 'CBSE',
+      currentSchool: currentSchool || '',
+      visitDate: visitDate || '',
+      visitTime: visitTime || '',
       message: message || '',
       school: 'CCIS',
-      status: 'PENDING',
+      status: 'New',
+      notes: [],
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
 
-    await docRef.set(enquiryData);
+    try {
+      if (firestore && firestore.collection) {
+        await docRef.set(enquiryData);
+      }
+    } catch (dbErr) {
+      console.warn('Firestore write warning:', dbErr);
+    }
 
     // Send email alert to admin
     try {
-      await sendAdmissionsNotificationEmail(name, email, phone, grade, message);
+      await sendAdmissionsNotificationEmail(applicantName, email, phone, grade, message || `Parent: ${parent}, Curriculum: ${curriculum || 'CBSE'}`);
     } catch (err) {
       console.error('Failed to send admissions notification email:', err);
     }
