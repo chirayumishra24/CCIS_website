@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Playfair_Display, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/ui/ScrollToTop";
-import WhatsAppFloat from "@/components/ui/WhatsAppFloat";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -107,7 +107,19 @@ export default function RootLayout({
         </main>
         <Footer />
         <ScrollToTop />
-        <WhatsAppFloat />
+        <Script id="collect-chat" strategy="afterInteractive">
+          {`
+            (function(w, d) {
+              w.CollectId = "6880d106c7613c5d1548ae53";
+              var h = d.head || d.getElementsByTagName("head")[0];
+              var s = d.createElement("script");
+              s.setAttribute("type", "text/javascript");
+              s.async = true;
+              s.setAttribute("src", "https://collectcdn.com/launcher.js");
+              h.appendChild(s);
+            })(window, document);
+          `}
+        </Script>
       </body>
     </html>
   );

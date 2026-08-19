@@ -125,3 +125,47 @@ body {
 .animate-scaleIn { animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-float { animation: float 3s ease-in-out infinite; }
 .animate-pulse-gold { animation: pulseGold 2s ease-in-out infinite; }
+
+/* ─── Chatbot Branding & Bottom-Left Positioning ─── */
+#chat-bot-launcher-container,
+.chat-bot-launcher-container {
+  left: 24px !important;
+  right: auto !important;
+  bottom: 24px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#chat-bot-launcher,
+.chat-bot-launcher {
+  border-radius: 50% !important;
+  background-color: #701516 !important;
+  background-image: linear-gradient(135deg, #701516 0%, #4A0E17 100%) !important;
+  box-shadow: 0 4px 14px rgba(112, 21, 22, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  border: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+#chat-bot-launcher:hover,
+.chat-bot-launcher:hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 6px 20px rgba(112, 21, 22, 0.55), 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+#chat-bot-launcher-button,
+.chat-bot-launcher-button {
+  background-image: url("/images/chat-icon.svg") !important;
+  background-size: 26px 26px !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+#chat-bot-frame,
+.chat-bot-frame-container,
+#chat-bot-message-container,
+.chat-bot-message-container {
+  left: 24px !important;
+  right: auto !important;
+  bottom: 96px !important;
+}

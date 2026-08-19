@@ -442,9 +442,14 @@ export default function Home() {
             {/* IB */}
             <AnimatedSection animation="fade-in-right" className="bg-navy text-white p-8 md:p-10 rounded-2xl shadow-glow-navy flex flex-col gap-5 border-2 border-gold/40 relative overflow-hidden">
               <div className="absolute -top-20 -right-20 w-48 h-48 bg-gold/5 rounded-full blur-3xl" />
-              <span className="relative inline-block px-3 py-1 bg-gold text-navy font-sans text-[11px] uppercase tracking-widest rounded-full w-fit font-bold shadow-glow-gold animate-pulse-gold">
-                International Baccalaureate
-              </span>
+              <div className="flex items-center justify-between gap-4">
+                <span className="relative inline-block px-3 py-1 bg-gold text-navy font-sans text-[11px] uppercase tracking-widest rounded-full w-fit font-bold shadow-glow-gold animate-pulse-gold">
+                  International Baccalaureate
+                </span>
+                <div className="relative w-14 h-14 bg-white/10 backdrop-blur-sm p-1.5 rounded-xl border border-white/15 flex items-center justify-center shrink-0">
+                  <Image src="/images/ib-logo-img.png" alt="IB World School Candidate" width={56} height={56} className="object-contain" />
+                </div>
+              </div>
               <h3 className="font-serif font-bold text-2xl md:text-3xl text-gold-light">IB Programme</h3>
               <p className="text-white/70 leading-relaxed text-sm">
                 As a candidate school for the prestigious International Baccalaureate, CCIS introduces young minds to inquiry-based teaching methodology. Emphasizing international-mindedness, self-directed project studies, and global credit qualifications.
