@@ -4,14 +4,15 @@ import { firestore } from '@/lib/firebaseAdmin';
 export const dynamic = 'force-dynamic';
 
 const defaultFaculty = [
-  { id: 'f1', name: 'Mrs. Priyanshi Singh Rawat', role: 'Principal, CCIS Group', dept: 'Leadership', qual: 'M.Sc, B.Ed, 18+ Yrs Exp', img: '/images/director-priyanshi.jpg', order: 1 },
-  { id: 'f2', name: 'Mr. Rajiv Varma', role: 'Vice Principal', dept: 'Leadership', qual: 'M.A, M.Ed, 15+ Yrs Exp', img: '/images/faculty-placeholder.jpg', order: 2 },
-  { id: 'f3', name: 'Mrs. Sneha Mathur', role: 'IB PYP Coordinator', dept: 'IB PYP', qual: 'IB Certified Educator, B.Ed', img: '/images/faculty-placeholder.jpg', order: 3 },
-  { id: 'f4', name: 'Mr. Amit Sharma', role: 'Head of Science Dept', dept: 'Senior', qual: 'M.Sc (Physics), B.Ed', img: '/images/faculty-placeholder.jpg', order: 4 },
-  { id: 'f5', name: 'Ms. Anjali Sen', role: 'Mathematics Head (Grades VI-VIII)', dept: 'Middle', qual: 'M.Sc (Maths), B.Ed', img: '/images/faculty-placeholder.jpg', order: 5 },
-  { id: 'f6', name: 'Mrs. Kavita Roy', role: 'Primary Years Tutor', dept: 'Primary', qual: 'B.A, B.Ed, Montessori Trained', img: '/images/faculty-placeholder.jpg', order: 6 },
-  { id: 'f7', name: 'Mr. Nitin Joshi', role: 'AI & Robotics Instructor', dept: 'Middle', qual: 'B.Tech (Computer Science)', img: '/images/faculty-placeholder.jpg', order: 7 },
-  { id: 'f8', name: 'Ms. Priya Das', role: 'IB Language Specialist', dept: 'IB PYP', qual: 'M.A (English), IB trained', img: '/images/faculty-placeholder.jpg', order: 8 },
+  { id: 'f0', name: 'Mrs. Lata Rawat', role: 'Director, CCIS Group', dept: 'Leadership', qual: 'Edu Icon Awardee & Distinguished Educationist', img: '/images/lata-rawat.webp', order: 1 },
+  { id: 'f1', name: 'Mrs. Priyanshi Singh Rawat', role: 'Principal, CCIS Group', dept: 'Leadership', qual: 'M.Sc, B.Ed, 18+ Yrs Exp', img: '/images/director-priyanshi.jpg', order: 2 },
+  { id: 'f2', name: 'Mr. Rajiv Varma', role: 'Vice Principal', dept: 'Leadership', qual: 'M.A, M.Ed, 15+ Yrs Exp', img: '/images/faculty-placeholder.jpg', order: 3 },
+  { id: 'f3', name: 'Mrs. Sneha Mathur', role: 'IB PYP Coordinator', dept: 'IB PYP', qual: 'IB Certified Educator, B.Ed', img: '/images/faculty-placeholder.jpg', order: 4 },
+  { id: 'f4', name: 'Mr. Amit Sharma', role: 'Head of Science Dept', dept: 'Senior', qual: 'M.Sc (Physics), B.Ed', img: '/images/faculty-placeholder.jpg', order: 5 },
+  { id: 'f5', name: 'Ms. Anjali Sen', role: 'Mathematics Head (Grades VI-VIII)', dept: 'Middle', qual: 'M.Sc (Maths), B.Ed', img: '/images/faculty-placeholder.jpg', order: 6 },
+  { id: 'f6', name: 'Mrs. Kavita Roy', role: 'Primary Years Tutor', dept: 'Primary', qual: 'B.A, B.Ed, Montessori Trained', img: '/images/faculty-placeholder.jpg', order: 7 },
+  { id: 'f7', name: 'Mr. Nitin Joshi', role: 'AI & Robotics Instructor', dept: 'Middle', qual: 'B.Tech (Computer Science)', img: '/images/faculty-placeholder.jpg', order: 8 },
+  { id: 'f8', name: 'Ms. Priya Das', role: 'IB Language Specialist', dept: 'IB PYP', qual: 'M.A (English), IB trained', img: '/images/faculty-placeholder.jpg', order: 9 },
 ];
 
 function isAuthorized(passcode: string | null): boolean {

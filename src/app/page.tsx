@@ -497,8 +497,8 @@ export default function Home() {
                         sizes="(max-width: 1024px) 100vw, 400px"
                       />
                     </div>
-                    <h3 className="font-serif font-bold text-navy text-2xl mt-5">Ms. Lata Rawat</h3>
-                    <p className="text-gold font-sans font-semibold text-xs tracking-wider uppercase mt-1">Founding Mentor</p>
+                    <h3 className="font-serif font-bold text-navy text-2xl mt-5">Mrs. Lata Rawat</h3>
+                    <p className="text-gold font-sans font-semibold text-xs tracking-wider uppercase mt-1">Director &amp; Founding Mentor</p>
                   </div>
                 </div>
               </AnimatedSection>
