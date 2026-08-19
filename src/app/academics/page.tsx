@@ -4,6 +4,7 @@ import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Button from "@/components/ui/Button";
+import Curriculum3DViewer from "@/components/3d/Curriculum3DViewer";
 
 const cbseGrades = [
   { grade: "Primary (Grades I-V)", focus: "Fundamental literacy, basic math, environmental science, art integrations, moral values." },
@@ -141,6 +142,13 @@ export default function Academics() {
               </AnimatedSection>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ━━━ Dual-Curriculum Grade Progression & Pathway Matrix ━━━ */}
+      <section className="py-16 md:py-20 bg-cream/15 border-t border-cream-line">
+        <div className="max-w-6xl mx-auto px-4">
+          <Curriculum3DViewer />
         </div>
       </section>
 

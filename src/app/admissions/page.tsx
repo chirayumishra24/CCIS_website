@@ -6,6 +6,9 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import Button from "@/components/ui/Button";
 import MultiStepAdmissionsForm from "@/components/admissions/MultiStepAdmissionsForm";
 import AgeCalculator from "@/components/ui/AgeCalculator";
+import SmartFeeCalculator from "@/components/admissions/SmartFeeCalculator";
+import BusRouteFinder from "@/components/admissions/BusRouteFinder";
+import CampusVisitScheduler from "@/components/admissions/CampusVisitScheduler";
 import {
   FileText,
   Users,
@@ -196,74 +199,31 @@ export default function Admissions() {
         </div>
       </section>
 
-      {/* ━━━ 4. Age & Grade Calculator Section ━━━ */}
-      <section className="py-16 md:py-20 bg-cream/10 border-y border-cream-line">
+      {/* ━━━ 4. Smart Fee & Scholarship Estimator ━━━ */}
+      <section id="fees" className="py-16 md:py-20 bg-cream/10 border-y border-cream-line">
+        <div className="max-w-6xl mx-auto px-4">
+          <SmartFeeCalculator />
+        </div>
+      </section>
+
+      {/* ━━━ 5. Age & Grade Calculator Section ━━━ */}
+      <section id="calculator" className="py-16 md:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4">
           <AgeCalculator />
         </div>
       </section>
 
-      {/* ━━━ 5. Fee Structure & Policies ━━━ */}
-      <section id="fees" className="py-20 bg-white">
+      {/* ━━━ 6. Campus Physical Visit Scheduler ━━━ */}
+      <section id="visit-scheduler" className="py-16 md:py-20 bg-cream/10 border-y border-cream-line">
         <div className="max-w-6xl mx-auto px-4">
-          <SectionHeading title="Fee Structure &amp; Scholarship Highlights" subtitle="Transparent Tuition" />
+          <CampusVisitScheduler />
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-            <div className="lg:col-span-2 bg-cream/15 border border-cream-line rounded-2xl p-8 shadow-card flex flex-col justify-between gap-6">
-              <div>
-                <h3 className="font-serif font-bold text-navy text-2xl mb-2">
-                  Academic Fee Inclusions
-                </h3>
-                <p className="text-xs text-ink-muted leading-relaxed mb-6">
-                  At CCIS, our fee schedules cover regular tuition, smart digital classroom tools, science &amp; AI robotics lab supplies, library print &amp; digital databases, and inter-house athletic training.
-                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {feeHighlights.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 text-xs text-ink leading-relaxed">
-                      <CheckCircle className="w-4 h-4 text-gold-dark shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-cream-line">
-                <span className="text-xs text-ink-muted font-semibold">
-                  Official 2026-27 Fee Breakdown Brochure (PDF)
-                </span>
-                <Button
-                  variant="gold"
-                  size="md"
-                  onClick={() => window.open("/CCIS_Fee_Brochure.pdf", "_blank")}
-                  className="rounded-xl font-bold uppercase tracking-wider text-xs flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" /> Download Official Brochure
-                </Button>
-              </div>
-            </div>
-
-            {/* Scholarship Card */}
-            <div className="bg-navy text-white rounded-2xl p-8 border border-gold/40 shadow-glow-navy flex flex-col justify-between gap-6">
-              <div>
-                <span className="text-xs font-mono font-bold uppercase tracking-widest text-gold bg-white/10 px-3 py-1 rounded-full">
-                  Merit Recognition
-                </span>
-                <h3 className="font-serif font-bold text-2xl text-white mt-3">
-                  Merit Scholarships
-                </h3>
-                <p className="text-xs text-white/70 leading-relaxed mt-2">
-                  We reward academic distinction and sporting excellence. Students scoring 90%+ in Class X Board exams or winning state/national medals in athletics are eligible for up to 50% tuition fee waivers.
-                </p>
-              </div>
-
-              <a href="#application-form">
-                <Button variant="gold" size="md" className="w-full rounded-xl font-bold uppercase tracking-wider text-xs">
-                  Apply for Scholarship
-                </Button>
-              </a>
-            </div>
-          </div>
+      {/* ━━━ 7. School Bus Routes & Transit Finder ━━━ */}
+      <section id="bus-routes" className="py-16 md:py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <BusRouteFinder />
         </div>
       </section>
     </div>

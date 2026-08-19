@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Skeleton from "@/components/ui/Skeleton";
@@ -130,17 +131,27 @@ export default function Alumni() {
     <div className="bg-white min-h-screen">
       {/* ━━━ Hero Banner ━━━ */}
       <section className="relative bg-navy text-white py-24 md:py-32 overflow-hidden border-b-4 border-gold">
-        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: "url('/images/alumni_hero.png')" }} />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/90 via-navy/80 to-navy" />
+        <div className="absolute inset-0">
+          <Image
+            src="/images/alumni_hero.png"
+            alt="CCIS Alumni Global Graduates"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+            quality={95}
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/65 via-navy/50 to-navy-dark/75 backdrop-blur-[0.5px]" />
 
         <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col items-center gap-5">
-          <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/10 px-4 py-1.5 rounded-full border border-gold/30 flex items-center gap-1.5">
+          <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-navy/70 backdrop-blur-md px-4 py-1.5 rounded-full border border-gold/40 flex items-center gap-1.5 shadow-md">
             <Sparkles className="w-3.5 h-3.5" /> 13,500+ Global Graduates
           </span>
-          <h1 className="text-4xl md:text-6xl font-serif font-extrabold leading-tight">
+          <h1 className="text-4xl md:text-6xl font-serif font-extrabold leading-tight drop-shadow-lg">
             CCIS Alumni Network &amp; Mentorship Hub
           </h1>
-          <p className="text-cream-dark/80 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+          <p className="text-white/90 max-w-2xl text-sm md:text-base leading-relaxed drop-shadow">
             Connect with our global network of leaders, scholars, and entrepreneurs. Search verified profiles or register to mentor current students.
           </p>
           <div className="mt-2 flex flex-wrap gap-3 justify-center">
