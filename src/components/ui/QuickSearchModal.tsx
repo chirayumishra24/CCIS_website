@@ -21,7 +21,7 @@ const searchableDatabase: SearchItem[] = [
   { title: "Sports & Athletics Turf Complex", category: "Campus Life", description: "Synthetic basketball arenas, cricket nets, football turfs, athletics track, and martial arts", href: "/campus-life" },
   { title: "Central Research Library", category: "Campus Life", description: "Over 15,000 prints, quiet reading pods, digital archives, and scientific journal terminals", href: "/campus-life" },
   { title: "Faculty & Educator Directory", category: "Faculty", description: "Meet our principal, vice principal, IB coordinators, and subject specialists", href: "/faculty" },
-  { title: "Mrs. Priyanshi Chandra (Principal)", category: "Faculty", description: "M.Sc, B.Ed, 18+ Yrs Exp — Group Leadership & Academic Vision", href: "/faculty" },
+  { title: "Mrs. Priyanshi Singh Rawat (Principal)", category: "Faculty", description: "M.Sc, B.Ed, 18+ Yrs Exp — Group Leadership & Academic Vision", href: "/faculty" },
   { title: "Official Notices & PDF Circulars", category: "Circulars", description: "Download CBSE exam datesheets, circulars, syllabi, and administrative updates", href: "/news-events" },
   { title: "School News & Achievement Highlights", category: "Circulars", description: "National Science Exposition gold medals, inter-school athletics championships, and art shows", href: "/news-events" },
   { title: "Alumni Network & Verification Hub", category: "Pages", description: "Connect with 13,500+ graduates across global universities, tech firms, and leadership roles", href: "/alumni" },

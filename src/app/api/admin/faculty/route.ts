@@ -4,7 +4,7 @@ import { firestore } from '@/lib/firebaseAdmin';
 export const dynamic = 'force-dynamic';
 
 const defaultFaculty = [
-  { id: 'f1', name: 'Mrs. Priyanshi Chandra', role: 'Principal, CCIS Group', dept: 'Leadership', qual: 'M.Sc, B.Ed, 18+ Yrs Exp', img: '/images/director-priyanshi.jpg', order: 1 },
+  { id: 'f1', name: 'Mrs. Priyanshi Singh Rawat', role: 'Principal, CCIS Group', dept: 'Leadership', qual: 'M.Sc, B.Ed, 18+ Yrs Exp', img: '/images/director-priyanshi.jpg', order: 1 },
   { id: 'f2', name: 'Mr. Rajiv Varma', role: 'Vice Principal', dept: 'Leadership', qual: 'M.A, M.Ed, 15+ Yrs Exp', img: '/images/faculty-placeholder.jpg', order: 2 },
   { id: 'f3', name: 'Mrs. Sneha Mathur', role: 'IB PYP Coordinator', dept: 'IB PYP', qual: 'IB Certified Educator, B.Ed', img: '/images/faculty-placeholder.jpg', order: 3 },
   { id: 'f4', name: 'Mr. Amit Sharma', role: 'Head of Science Dept', dept: 'Senior', qual: 'M.Sc (Physics), B.Ed', img: '/images/faculty-placeholder.jpg', order: 4 },
