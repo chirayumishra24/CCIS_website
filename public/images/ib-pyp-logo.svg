@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="ibBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0083CA" />
+      <stop offset="100%" stop-color="#003D7A" />
+    </linearGradient>
+    <linearGradient id="goldGradIB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8D4A0" />
+      <stop offset="100%" stop-color="#C49A3C" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Shield/Container -->
+  <rect x="8" y="8" width="224" height="224" rx="32" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" />
+  
+  <!-- IB Signature Circular Globe Crest -->
+  <circle cx="120" cy="85" r="50" fill="url(#ibBlueGrad)" />
+  <circle cx="120" cy="85" r="46" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.4" />
+
+  <!-- Globe Latitude / Longitude Arcs -->
+  <ellipse cx="120" cy="85" rx="46" ry="20" fill="none" stroke="#FFFFFF" stroke-width="1.2" stroke-opacity="0.5" />
+  <line x1="74" y1="85" x2="166" y2="85" stroke="#FFFFFF" stroke-width="1.2" stroke-opacity="0.5" />
+  <line x1="120" y1="39" x2="120" y2="131" stroke="#FFFFFF" stroke-width="1.2" stroke-opacity="0.5" />
+
+  <!-- The Iconic Lowercase "ib" Monogram -->
+  <text x="120" y="104" font-family="'Times New Roman', 'Georgia', serif" font-size="54" font-style="italic" font-weight="bold" fill="#FFFFFF" text-anchor="middle">ib</text>
+
+  <!-- "Primary Years Programme" Header -->
+  <text x="120" y="160" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="800" fill="#003D7A" text-anchor="middle" letter-spacing="0.5">PRIMARY YEARS</text>
+  <text x="120" y="178" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="700" fill="#0083CA" text-anchor="middle" letter-spacing="1">PROGRAMME</text>
+
+  <!-- "Candidate School" Badge -->
+  <rect x="36" y="192" width="168" height="24" rx="12" fill="#F8FAFC" stroke="url(#goldGradIB)" stroke-width="1.5" />
+  <text x="120" y="208" font-family="'Inter', system-ui, sans-serif" font-size="10" font-weight="800" fill="#A07D2E" text-anchor="middle" letter-spacing="1">CANDIDATE SCHOOL*</text>
+</svg>

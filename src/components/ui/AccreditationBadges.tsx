@@ -1,17 +1,25 @@
 import React from "react";
+import Image from "next/image";
 
 export default function AccreditationBadges() {
   return (
-    <div className="w-full bg-white rounded-2xl shadow-xl border border-cream-line/80 p-6 md:p-8 hover:shadow-2xl transition-shadow duration-300">
+    <div className="w-full bg-white rounded-2xl shadow-xl border border-cream-line/80 p-5 md:p-6 hover:shadow-2xl transition-shadow duration-300">
       <div className="flex flex-col md:flex-row items-center justify-around gap-6 md:gap-8">
         {/* IB Badge */}
         <div className="flex items-center gap-4">
-          <div className="w-13 h-13 md:w-14 md:h-14 bg-navy rounded-full flex items-center justify-center text-white font-serif font-bold text-xl border-2 border-gold shadow-md shrink-0">
-            IB
+          <div className="relative w-14 h-14 bg-white rounded-xl flex items-center justify-center p-1 border border-cream-line shadow-sm shrink-0">
+            <Image
+              src="/images/ib-pyp-logo.svg"
+              alt="IB Primary Years Programme Candidate School Logo"
+              width={48}
+              height={48}
+              className="object-contain"
+              priority
+            />
           </div>
           <div>
             <h4 className="font-serif font-bold text-navy text-sm md:text-base leading-snug">
-              IB WORLD SCHOOL
+              IB PYP PROGRAMME
             </h4>
             <p className="text-[11px] text-gold-dark font-sans font-semibold uppercase tracking-wider mt-0.5">
               Candidate School *
@@ -23,8 +31,15 @@ export default function AccreditationBadges() {
 
         {/* CBSE Badge */}
         <div className="flex items-center gap-4">
-          <div className="w-13 h-13 md:w-14 md:h-14 bg-navy rounded-full flex items-center justify-center text-gold font-sans font-bold text-sm border-2 border-gold/60 shadow-md shrink-0">
-            CBSE
+          <div className="relative w-14 h-14 bg-white rounded-xl flex items-center justify-center p-1 border border-cream-line shadow-sm shrink-0">
+            <Image
+              src="/images/cbse-logo.svg"
+              alt="Central Board of Secondary Education Logo"
+              width={48}
+              height={48}
+              className="object-contain"
+              priority
+            />
           </div>
           <div>
             <h4 className="font-serif font-bold text-navy text-sm md:text-base leading-snug">

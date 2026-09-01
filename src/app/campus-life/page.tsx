@@ -11,17 +11,6 @@ export const metadata: Metadata = {
   description: "Explore CCIS campus life — AI & Robotics studios, Olympic-standard courts, creative arts ateliers, and 20+ student clubs and societies.",
 };
 
-const facilities = [
-  { title: "AI & Robotics Studio", img: "/generated/robo-lab2.png", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
-  { title: "Sports & Athletics Complex", img: "/generated/campus-life1.png", desc: "Synthetic basketball arenas, indoor sports nets, tennis turfs, and athletic training tracks." },
-  { title: "Science & Innovation Labs", img: "/generated/Chemistry-lab.png", desc: "Advanced chemistry, physics, and biology experimentation spaces with high-end apparatus." },
-  { title: "Central Library & Archives", img: "/generated/library.png", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
-  { title: "Visual Arts Atelier", img: "/generated/art-room.png", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
-  { title: "Student Collaboration Hub", img: "/generated/campus-life3.png", desc: "Active group learning setups, project discussion tables, and interactive seminar spaces." },
-  { title: "Music & Performing Arts Studio", img: "/generated/Music-room.png", desc: "Acoustically insulated practice rooms for vocal training, school band, and orchestral instruments." },
-  { title: "Eco-Club & Botanical Garden", img: "/generated/campus-life2.png", desc: "Student-led environmental sustainability initiatives, organic planting, and green drives." },
-];
-
 export default function CampusLife() {
   return (
     <div className="bg-white">
@@ -45,41 +34,6 @@ export default function CampusLife() {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gold" />
-      </section>
-
-      {/* ━━━ Facilities — Masonry-style layout ━━━ */}
-      <section className="py-20 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <SectionHeading title="World-Class Amenities" subtitle="Our Infrastructure" />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {facilities.map((item, idx) => (
-              <AnimatedSection
-                key={idx}
-                animation="scale-in"
-                delayClass={`stagger-${(idx % 4) + 1}`}
-                className={`bg-cream/10 border border-cream-line rounded-xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover transition-all duration-300 group ${
-                  idx === 0 ? "md:row-span-2" : ""
-                }`}
-              >
-                <div className={`relative w-full overflow-hidden ${idx === 0 ? "h-64 md:h-full md:min-h-[400px]" : "h-52"}`}>
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h4 className="font-serif font-bold text-white text-xl mb-1">{item.title}</h4>
-                    <p className="text-white/70 text-xs leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* ━━━ Interactive Virtual 360 / Hotspots Campus Tour ━━━ */}

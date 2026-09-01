@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8D4A0" />
+      <stop offset="50%" stop-color="#C49A3C" />
+      <stop offset="100%" stop-color="#9E7820" />
+    </linearGradient>
+    <linearGradient id="navyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3570" />
+      <stop offset="100%" stop-color="#0E1A3A" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Ring -->
+  <circle cx="100" cy="100" r="94" fill="#FFFFFF" stroke="url(#goldGrad)" stroke-width="5" />
+  <circle cx="100" cy="100" r="86" fill="none" stroke="#172853" stroke-width="2" stroke-dasharray="3,3" />
+
+  <!-- Inner Navy Circle -->
+  <circle cx="100" cy="100" r="76" fill="url(#navyGrad)" stroke="url(#goldGrad)" stroke-width="3" />
+
+  <!-- Sun Rays & Knowledge Light -->
+  <circle cx="100" cy="72" r="18" fill="url(#goldGrad)" opacity="0.9" />
+  
+  <!-- Central Lamp of Knowledge (Deepak) -->
+  <path d="M72 104 Q100 118 128 104 Q120 118 100 120 Q80 118 72 104 Z" fill="url(#goldGrad)" />
+  <path d="M96 60 Q100 48 104 60 Q100 70 96 60 Z" fill="#FFA500" />
+  <path d="M98 62 Q100 52 102 62 Q100 68 98 62 Z" fill="#FFF275" />
+  <rect x="94" y="118" width="12" height="12" fill="url(#goldGrad)" rx="2" />
+  <path d="M82 130 L118 130 L124 136 L76 136 Z" fill="url(#goldGrad)" />
+
+  <!-- Open Book Base -->
+  <path d="M60 96 Q80 88 100 96 Q120 88 140 96 L136 108 Q118 100 100 106 Q82 100 64 108 Z" fill="#FFFFFF" opacity="0.95" />
+  <path d="M100 96 L100 106" stroke="#172853" stroke-width="2" />
+
+  <!-- Central "CBSE" Bold Typography -->
+  <text x="100" y="156" font-family="'Inter', system-ui, sans-serif" font-size="18" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="3">CBSE</text>
+  
+  <!-- Sub-label -->
+  <text x="100" y="168" font-family="'Inter', system-ui, sans-serif" font-size="7.5" font-weight="700" fill="#E8D4A0" text-anchor="middle" letter-spacing="1">AFFILIATED</text>
+</svg>

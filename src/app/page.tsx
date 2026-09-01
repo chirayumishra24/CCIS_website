@@ -89,6 +89,17 @@ const pillars = [
   }
 ];
 
+const facilities = [
+  { title: "AI & Robotics Studio", img: "/generated/robo-lab2.png", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
+  { title: "Sports & Athletics Complex", img: "/generated/campus-life1.png", desc: "Synthetic basketball arenas, indoor sports nets, tennis turfs, and athletic training tracks." },
+  { title: "Science & Innovation Labs", img: "/generated/Chemistry-lab.png", desc: "Advanced chemistry, physics, and biology experimentation spaces with high-end apparatus." },
+  { title: "Central Library & Archives", img: "/generated/library.png", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
+  { title: "Visual Arts Atelier", img: "/generated/art-room.png", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
+  { title: "Student Collaboration Hub", img: "/generated/campus-life3.png", desc: "Active group learning setups, project discussion tables, and interactive seminar spaces." },
+  { title: "Music & Performing Arts Studio", img: "/generated/Music-room.png", desc: "Acoustically insulated practice rooms for vocal training, school band, and orchestral instruments." },
+  { title: "Eco-Club & Botanical Garden", img: "/generated/campus-life2.png", desc: "Student-led environmental sustainability initiatives, organic planting, and green drives." },
+];
+
 export default function Home() {
   const [currentBg, setCurrentBg] = useState(0);
   const [newsList, setNewsList] = useState<Array<{ id: string; title: string; desc: string; img?: string; category: string; date: string; type: string }>>([]);
@@ -179,7 +190,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* ━━━ 1. HERO SECTION ━━━ */}
-      <section className="relative h-[85vh] md:h-[92vh] bg-navy overflow-hidden flex items-end pb-24 md:pb-32">
+      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-4 sm:pt-8 pb-14 md:pb-20">
         {heroSlides.map((slide, idx) => (
           <div
             key={idx}
@@ -191,23 +202,24 @@ export default function Home() {
               fill
               priority={idx === 0}
               quality={95}
-              className={`object-cover object-top ${idx === currentBg ? "animate-ken-burns" : ""}`}
+              className={`object-cover object-center ${idx === currentBg ? "animate-ken-burns" : ""}`}
               sizes="100vw"
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/95 via-navy/40 to-black/20 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
         <HeroCanvas3D />
 
-        <div className="relative max-w-7xl mx-auto px-4 z-10 w-full text-white">
-          <div className="max-w-2xl flex flex-col gap-5">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full text-white">
+          <div className="max-w-2xl flex flex-col gap-3.5 md:gap-5">
             <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit">
               Admissions Open 2026-27
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-extrabold leading-[1.08] tracking-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight">
               {heroSlides[currentBg]?.title}
             </h1>
-            <p className="text-base md:text-lg text-white/80 leading-relaxed font-sans max-w-lg">
+            <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-lg">
               {heroSlides[currentBg]?.desc}
             </p>
             <div className="flex flex-wrap gap-3 mt-1">
@@ -231,7 +243,7 @@ export default function Home() {
           </div>
 
           {/* Slide Indicators */}
-          <div className="flex gap-2 mt-8">
+          <div className="flex gap-2 mt-6 md:mt-8">
             {heroSlides.map((_, idx) => (
               <button
                 key={idx}
@@ -352,6 +364,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ━━━ WORLD-CLASS AMENITIES ━━━ */}
+      <section className="py-20 md:py-24 bg-cream/10 border-t border-cream-line">
+        <div className="max-w-7xl mx-auto px-4">
+          <SectionHeading title="World-Class Amenities" subtitle="Our Infrastructure" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            {facilities.map((item, idx) => (
+              <AnimatedSection
+                key={idx}
+                animation="scale-in"
+                delayClass={`stagger-${(idx % 4) + 1}`}
+                className={`bg-cream/10 border border-cream-line rounded-2xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover transition-all duration-300 group ${
+                  idx === 0 ? "md:row-span-2" : ""
+                }`}
+              >
+                <div className={`relative w-full overflow-hidden ${idx === 0 ? "h-64 md:h-full md:min-h-[400px]" : "h-52"}`}>
+                  <Image
+                    src={item.img}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h4 className="font-serif font-bold text-white text-xl mb-1">{item.title}</h4>
+                    <p className="text-white/75 text-xs leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/campus-life">
+              <Button variant="primary" size="lg" className="rounded-xl font-bold group shadow-md">
+                Explore All Facilities &amp; Campus Tour
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ━━━ 6. AI & FUTURISTIC EDUCATION ━━━ */}
       <section className="py-20 md:py-28 bg-navy text-white relative overflow-hidden">
         <div className="absolute inset-0">
@@ -420,48 +476,104 @@ export default function Home() {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 mt-4">
             {/* CBSE */}
-            <AnimatedSection animation="fade-in-left" className="bg-white border border-cream-line p-8 md:p-10 rounded-2xl shadow-card flex flex-col gap-5">
-              <span className="inline-block px-3 py-1 bg-navy/5 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full w-fit font-bold">
-                National Standard
-              </span>
-              <h3 className="font-serif font-bold text-2xl md:text-3xl text-navy">CBSE Curriculum</h3>
-              <p className="text-ink-muted leading-relaxed text-sm">
-                Our Central Board of Secondary Education (CBSE) stream delivers rigorous academic instruction from Nursery up to Grade XII. Featuring comprehensive preparations for national engineering (JEE), medical (NEET), and commerce entrance courses alongside mandatory athletic training.
-              </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm font-semibold text-navy">
-                <li className="flex items-center gap-2">✓ Nursery to Class XII</li>
-                <li className="flex items-center gap-2">✓ Rigorous Science &amp; Commerce</li>
-                <li className="flex items-center gap-2">✓ Advanced Elective Options</li>
-                <li className="flex items-center gap-2">✓ Integrated Entrance coaching</li>
-              </ul>
+            <AnimatedSection animation="fade-in-left" className="bg-white border border-cream-line p-8 md:p-10 rounded-2xl shadow-card flex flex-col justify-between gap-6 group hover:shadow-card-hover transition-all duration-300">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="inline-block px-3 py-1 bg-navy/5 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-bold">
+                    National Standard
+                  </span>
+                  <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-cream-line shadow-xs flex items-center justify-center shrink-0">
+                    <Image src="/images/cbse-logo.svg" alt="CBSE Affiliated Logo" width={48} height={48} className="object-contain" priority />
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-serif font-bold text-2xl md:text-3xl text-navy">CBSE Curriculum</h3>
+                  <p className="text-gold-dark font-sans font-semibold text-xs uppercase tracking-wider mt-0.5">
+                    Affiliation No. 1730867
+                  </p>
+                </div>
+
+                <div className="relative h-44 w-full rounded-xl overflow-hidden border border-cream-line shadow-inner">
+                  <Image
+                    src="/generated/bioclass.png"
+                    alt="CBSE Academic Foundations"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent" />
+                  <span className="absolute bottom-3 left-3 text-white text-xs font-semibold font-sans drop-shadow-md">
+                    Strong Foundations • Structured Learning • National Readiness
+                  </span>
+                </div>
+
+                <p className="text-ink-muted leading-relaxed text-sm">
+                  Our Central Board of Secondary Education (CBSE) stream delivers rigorous academic instruction from Nursery up to Grade XII. Featuring comprehensive preparations for national engineering (JEE), medical (NEET), and commerce entrance courses alongside mandatory athletic training.
+                </p>
+
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm font-semibold text-navy">
+                  <li className="flex items-center gap-2">✓ Nursery to Class XII</li>
+                  <li className="flex items-center gap-2">✓ Rigorous Science &amp; Commerce</li>
+                  <li className="flex items-center gap-2">✓ Advanced Elective Options</li>
+                  <li className="flex items-center gap-2">✓ Integrated Entrance coaching</li>
+                </ul>
+              </div>
+
               <Link href="/academics" className="mt-2">
                 <Button variant="secondary" className="w-full sm:w-auto rounded-xl">Explore CBSE Pathway</Button>
               </Link>
             </AnimatedSection>
 
             {/* IB */}
-            <AnimatedSection animation="fade-in-right" className="bg-navy text-white p-8 md:p-10 rounded-2xl shadow-glow-navy flex flex-col gap-5 border-2 border-gold/40 relative overflow-hidden">
-              <div className="absolute -top-20 -right-20 w-48 h-48 bg-gold/5 rounded-full blur-3xl" />
-              <div className="flex items-center justify-between gap-4">
-                <span className="relative inline-block px-3 py-1 bg-gold text-navy font-sans text-[11px] uppercase tracking-widest rounded-full w-fit font-bold shadow-glow-gold animate-pulse-gold">
-                  International Baccalaureate
-                </span>
-                <div className="relative w-14 h-14 bg-white/10 backdrop-blur-sm p-1.5 rounded-xl border border-white/15 flex items-center justify-center shrink-0">
-                  <Image src="/images/ib-logo-img.png" alt="IB World School Candidate" width={56} height={56} className="object-contain" />
+            <AnimatedSection animation="fade-in-right" className="bg-navy text-white p-8 md:p-10 rounded-2xl shadow-glow-navy flex flex-col justify-between gap-6 border-2 border-gold/40 relative overflow-hidden group">
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="flex flex-col gap-4 relative z-10">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="relative inline-block px-3 py-1 bg-gold text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-bold shadow-glow-gold animate-pulse-gold">
+                    International Baccalaureate
+                  </span>
+                  <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-white/20 shadow-md flex items-center justify-center shrink-0">
+                    <Image src="/images/ib-pyp-logo.svg" alt="IB PYP Candidate School Logo" width={48} height={48} className="object-contain" priority />
+                  </div>
                 </div>
+
+                <div>
+                  <h3 className="font-serif font-bold text-2xl md:text-3xl text-gold-light">IB Programme</h3>
+                  <p className="text-gold-light/80 font-sans font-semibold text-xs uppercase tracking-wider mt-0.5">
+                    Primary Years Programme • Candidate School*
+                  </p>
+                </div>
+
+                <div className="relative h-44 w-full rounded-xl overflow-hidden border border-white/15 shadow-inner">
+                  <Image
+                    src="/generated/campus-life1.png"
+                    alt="IB Primary Years Programme Inquiry"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/85 via-transparent to-transparent" />
+                  <span className="absolute bottom-3 left-3 text-gold-light text-xs font-semibold font-sans drop-shadow-md">
+                    Curiosity • Inquiry • Student Agency • Global-Mindedness
+                  </span>
+                </div>
+
+                <p className="text-white/70 leading-relaxed text-sm">
+                  As a candidate school for the prestigious International Baccalaureate, CCIS introduces young minds to inquiry-based teaching methodology. Emphasizing international-mindedness, self-directed project studies, and global credit qualifications.
+                </p>
+
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm font-semibold text-gold-light">
+                  <li className="flex items-center gap-2">✓ PYP Candidate Framework</li>
+                  <li className="flex items-center gap-2">✓ Student-Led Research Studies</li>
+                  <li className="flex items-center gap-2">✓ Interdisciplinary Focus</li>
+                  <li className="flex items-center gap-2">✓ Global University Credits</li>
+                </ul>
               </div>
-              <h3 className="font-serif font-bold text-2xl md:text-3xl text-gold-light">IB Programme</h3>
-              <p className="text-white/70 leading-relaxed text-sm">
-                As a candidate school for the prestigious International Baccalaureate, CCIS introduces young minds to inquiry-based teaching methodology. Emphasizing international-mindedness, self-directed project studies, and global credit qualifications.
-              </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm font-semibold text-gold-light">
-                <li className="flex items-center gap-2">✓ PYP Candidate Framework</li>
-                <li className="flex items-center gap-2">✓ Student-Led Research Studies</li>
-                <li className="flex items-center gap-2">✓ Interdisciplinary Focus</li>
-                <li className="flex items-center gap-2">✓ Global University Credits</li>
-              </ul>
-              <Link href="/academics" className="mt-2">
-                <Button variant="gold" className="w-full sm:w-auto rounded-xl">Explore IB Pathway</Button>
+
+              <Link href="/academics" className="mt-2 relative z-10">
+                <Button variant="gold" className="w-full sm:w-auto rounded-xl shadow-glow-gold">Explore IB Pathway</Button>
               </Link>
             </AnimatedSection>
           </div>
