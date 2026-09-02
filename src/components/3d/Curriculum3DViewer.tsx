@@ -303,7 +303,7 @@ export default function Curriculum3DViewer() {
                     </div>
                   </div>
                   <div className="relative w-8 h-8 shrink-0 bg-white/10 p-1 rounded-lg">
-                    <Image src="/images/ib-pyp-logo.svg" alt="IB Logo" fill className="object-contain p-0.5" />
+                    <Image src="/images/ib-pyp-logo.png" alt="IB Logo" fill className="object-contain p-0.5" />
                   </div>
                 </div>
 

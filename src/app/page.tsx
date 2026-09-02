@@ -15,7 +15,7 @@ import AgeCalculator from '@/components/ui/AgeCalculator';
 import WhyChoose3DCarousel from '@/components/ui/WhyChoose3DCarousel';
 import TestimonialsCarousel from '@/components/ui/TestimonialsCarousel';
 import BookVisitModal from '@/components/ui/BookVisitModal';
-import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle } from 'lucide-react';
+import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle, Eye, Target, Heart, GraduationCap } from 'lucide-react';
 
 /* ─── Data Fallbacks ─── */
 const defaultParentReviews = [
@@ -306,11 +306,12 @@ export default function Home() {
               ) : (
                 <>
                   <Image
-                    src="/images/about-snapshot.png"
+                    src="/images/c.c.i.s (1).webp"
                     alt="CCIS Campus Tour Preview"
                     fill
-                    className="object-cover object-bottom opacity-75 group-hover:opacity-90 transition-opacity duration-500"
+                    className="object-cover object-center opacity-85 group-hover:opacity-95 transition-opacity duration-500"
                     sizes="(max-width: 1024px) 100vw, 50vw"
+                    quality={95}
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-16 h-16 md:w-20 md:h-20 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform duration-300">
@@ -583,6 +584,112 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ━━━ 6. VISION, MISSION & IB PHILOSOPHY ━━━ */}
+      <section className="py-20 md:py-24 bg-gradient-to-b from-slate-50 via-white to-cream/15 border-t border-cream-line relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          <SectionHeading title="Guiding Purpose & Philosophy" subtitle="Vision & Mission" />
+
+          {/* School Vision & School Mission Split Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 my-8 items-stretch">
+            {/* School Vision */}
+            <AnimatedSection
+              animation="fade-in-left"
+              className="lg:col-span-5 bg-white border border-cream-line rounded-3xl p-8 sm:p-10 shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col items-center text-center justify-center relative overflow-hidden group hover:border-gold/50"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-navy text-gold flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
+                <Eye className="w-8 h-8 stroke-[2.2]" />
+              </div>
+              <h3 className="font-serif font-bold text-2xl sm:text-3xl text-navy mb-3">
+                School Vision
+              </h3>
+              <div className="gold-rule mx-auto mb-5" />
+              <p className="text-ink-muted text-sm sm:text-base leading-relaxed">
+                To nurture lifelong learners and mentors, rooted in Indian values and modern inquiry, ready to lead with compassion and shape a just, peaceful, and connected world.
+              </p>
+            </AnimatedSection>
+
+            {/* School Mission */}
+            <AnimatedSection
+              animation="fade-in-right"
+              className="lg:col-span-7 bg-navy text-white rounded-3xl p-8 sm:p-10 shadow-glow-navy relative overflow-hidden flex flex-col justify-center border-2 border-gold/30 group"
+            >
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-6 text-center sm:text-left">
+                <div className="w-16 h-16 rounded-2xl bg-gold text-navy flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300">
+                  <Target className="w-8 h-8 stroke-[2.2]" />
+                </div>
+                <div>
+                  <h3 className="font-serif font-bold text-2xl sm:text-3xl text-white">
+                    School Mission
+                  </h3>
+                  <p className="text-gold font-sans text-xs uppercase tracking-widest font-semibold mt-1">
+                    Holistic • Experiential • Purpose-Driven
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4 text-white/90 text-sm sm:text-[15px] leading-relaxed font-sans text-left">
+                <p>
+                  To empower every learner through a rich, balanced, and experiential curriculum that integrates academics, arts, sports, emotional well-being, and spiritual awareness — nurturing curious, compassionate, and courageous global citizens prepared to engage with the world thoughtfully and lead with purpose.
+                </p>
+                <p className="text-white/80 pt-3 border-t border-white/10">
+                  We strive to cultivate a reflective and resilient learning culture where students take ownership of their journey, families are partners in growth, and the school community works together to shape a peaceful, inclusive, and sustainable world.
+                </p>
+              </div>
+            </AnimatedSection>
+          </div>
+
+          {/* IB Mission Statement Full-Width Container */}
+          <AnimatedSection
+            animation="scale-in"
+            className="mt-10 bg-gradient-to-r from-navy-dark via-navy to-navy-dark text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-white/15 relative overflow-hidden"
+          >
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="text-gold font-mono text-xs uppercase tracking-widest font-bold">
+                International Standard
+              </span>
+              <h3 className="font-serif font-bold text-2xl sm:text-3xl text-white mt-1 tracking-wide">
+                IB MISSION STATEMENT
+              </h3>
+              <div className="w-16 h-1 bg-gold mx-auto mt-3 rounded-full" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Card 1 */}
+              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-7 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 group">
+                <div className="w-14 h-14 rounded-full bg-white/10 text-gold flex items-center justify-center mb-5 border border-white/15 group-hover:scale-110 transition-transform">
+                  <Heart className="w-7 h-7 stroke-[2]" />
+                </div>
+                <p className="text-xs sm:text-sm text-white/85 leading-relaxed">
+                  The International Baccalaureate aims to develop <strong className="text-white font-bold">inquiring, knowledgeable and caring</strong> young people who help to create a better and more peaceful world through <strong className="text-white font-bold">intercultural understanding and respect</strong>.
+                </p>
+              </div>
+
+              {/* Card 2 */}
+              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-7 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 group">
+                <div className="w-14 h-14 rounded-full bg-white/10 text-gold flex items-center justify-center mb-5 border border-white/15 group-hover:scale-110 transition-transform">
+                  <GraduationCap className="w-7 h-7 stroke-[2]" />
+                </div>
+                <p className="text-xs sm:text-sm text-white/85 leading-relaxed">
+                  To this end the organization works with <strong className="text-white font-bold">schools, governments and international organizations</strong> to develop <strong className="text-white font-bold">challenging programmes</strong> of international education and <strong className="text-white font-bold">rigorous assessment</strong>.
+                </p>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-7 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 group">
+                <div className="w-14 h-14 rounded-full bg-white/10 text-gold flex items-center justify-center mb-5 border border-white/15 group-hover:scale-110 transition-transform">
+                  <Globe className="w-7 h-7 stroke-[2]" />
+                </div>
+                <p className="text-xs sm:text-sm text-white/85 leading-relaxed">
+                  These programmes encourage students across the world to become <strong className="text-white font-bold">active, compassionate and lifelong learners</strong> who understand that other people, with their differences, can also be right.
+                </p>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* ━━━ 7. DUAL CURRICULUM PATHWAYS ━━━ */}
       <section className="py-20 md:py-24 bg-cream/10 border-t border-cream-line relative">
         <div className="max-w-7xl mx-auto px-4">
@@ -601,7 +708,7 @@ export default function Home() {
                 }`}
               >
                 <div className="w-5 h-5 relative shrink-0">
-                  <Image src="/images/cbse-logo.svg" alt="CBSE" fill className="object-contain" />
+                  <Image src="/images/cbse-logo.webp" alt="CBSE" fill className="object-contain" />
                 </div>
                 <span>CBSE Curriculum</span>
               </button>
@@ -615,7 +722,7 @@ export default function Home() {
                 }`}
               >
                 <div className="w-5 h-5 relative shrink-0">
-                  <Image src="/images/ib-pyp-logo.svg" alt="IB" fill className="object-contain" />
+                  <Image src="/images/ib-pyp-logo.png" alt="IB" fill className="object-contain" />
                 </div>
                 <span>IB Programme</span>
               </button>
@@ -636,7 +743,7 @@ export default function Home() {
                     National Standard
                   </span>
                   <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-cream-line shadow-xs flex items-center justify-center shrink-0">
-                    <Image src="/images/cbse-logo.svg" alt="CBSE Affiliated Logo" width={48} height={48} className="object-contain" priority />
+                    <Image src="/images/cbse-logo.webp" alt="CBSE Affiliated Logo" width={48} height={48} className="object-contain" priority />
                   </div>
                 </div>
 
@@ -693,7 +800,7 @@ export default function Home() {
                     International Baccalaureate
                   </span>
                   <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-white/20 shadow-md flex items-center justify-center shrink-0">
-                    <Image src="/images/ib-pyp-logo.svg" alt="IB PYP Candidate School Logo" width={48} height={48} className="object-contain" priority />
+                    <Image src="/images/ib-pyp-logo.png" alt="IB PYP Candidate School Logo" width={48} height={48} className="object-contain" priority />
                   </div>
                 </div>
 

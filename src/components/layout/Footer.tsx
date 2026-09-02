@@ -16,10 +16,10 @@ export default function Footer() {
               <Image src="/images/logo.webp" alt="CCIS Logo" width={160} height={40} className="h-8 md:h-10 w-auto object-contain" />
             </Link>
             <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="IB PYP Candidate School">
-              <Image src="/images/ib-pyp-logo.svg" alt="IB Candidate School" width={32} height={32} className="h-7 w-auto object-contain" />
+              <Image src="/images/ib-pyp-logo.png" alt="IB Candidate School" width={32} height={32} className="h-7 w-auto object-contain" />
             </div>
             <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="CBSE Affiliated">
-              <Image src="/images/cbse-logo.svg" alt="CBSE Affiliation" width={32} height={32} className="h-7 w-auto object-contain" />
+              <Image src="/images/cbse-logo.webp" alt="CBSE Affiliation" width={32} height={32} className="h-7 w-auto object-contain" />
             </div>
           </div>
           <p className="text-sm text-cream-dark/70 leading-relaxed mt-2">

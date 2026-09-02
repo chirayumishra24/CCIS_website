@@ -91,7 +91,12 @@ export default function Academics() {
           {activeTab === "cbse" ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <AnimatedSection animation="fade-in-left" className="flex flex-col gap-5">
-                <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Rigorous National Curriculum</span>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Rigorous National Curriculum</span>
+                  <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-cream-line flex items-center justify-center shrink-0 shadow-xs">
+                    <Image src="/images/cbse-logo.webp" alt="CBSE Affiliated Logo" width={48} height={48} className="object-contain" />
+                  </div>
+                </div>
                 <h2 className="text-3xl font-serif font-bold text-navy">Central Board of Secondary Education</h2>
                 <div className="gold-rule" />
                 <p className="text-ink-muted leading-relaxed text-sm">
@@ -128,7 +133,7 @@ export default function Academics() {
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Inquiry-Based International Path</span>
                   <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-cream-line flex items-center justify-center shrink-0 shadow-xs">
-                    <Image src="/images/ib-pyp-logo.svg" alt="IB PYP Candidate School Logo" width={48} height={48} className="object-contain" />
+                    <Image src="/images/ib-pyp-logo.png" alt="IB PYP Candidate School Logo" width={48} height={48} className="object-contain" />
                   </div>
                 </div>
                 <h2 className="text-3xl font-serif font-bold text-navy">International Baccalaureate (Candidate)</h2>

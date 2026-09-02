@@ -9,7 +9,7 @@ export default function AccreditationBadges() {
         <div className="col-span-1 flex flex-col sm:flex-row items-center text-center sm:text-left gap-2.5 sm:gap-4">
           <div className="relative w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl flex items-center justify-center p-1 border border-cream-line shadow-sm shrink-0">
             <Image
-              src="/images/ib-pyp-logo.svg"
+              src="/images/ib-pyp-logo.png"
               alt="IB Primary Years Programme Candidate School Logo"
               width={48}
               height={48}
@@ -33,7 +33,7 @@ export default function AccreditationBadges() {
         <div className="col-span-1 flex flex-col sm:flex-row items-center text-center sm:text-left gap-2.5 sm:gap-4">
           <div className="relative w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl flex items-center justify-center p-1 border border-cream-line shadow-sm shrink-0">
             <Image
-              src="/images/cbse-logo.svg"
+              src="/images/cbse-logo.webp"
               alt="Central Board of Secondary Education Logo"
               width={48}
               height={48}
