@@ -11,12 +11,15 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* About Section */}
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <Link href="/" className="flex items-center w-fit bg-white py-1.5 px-3 rounded-lg shadow-sm">
               <Image src="/images/logo.webp" alt="CCIS Logo" width={160} height={40} className="h-8 md:h-10 w-auto object-contain" />
             </Link>
-            <div className="bg-white/10 p-1.5 rounded-lg border border-white/15 shrink-0 flex items-center justify-center">
+            <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="IB PYP Candidate School">
               <Image src="/images/ib-pyp-logo.svg" alt="IB Candidate School" width={32} height={32} className="h-7 w-auto object-contain" />
+            </div>
+            <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="CBSE Affiliated">
+              <Image src="/images/cbse-logo.svg" alt="CBSE Affiliation" width={32} height={32} className="h-7 w-auto object-contain" />
             </div>
           </div>
           <p className="text-sm text-cream-dark/70 leading-relaxed mt-2">

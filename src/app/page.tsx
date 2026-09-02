@@ -13,6 +13,8 @@ import HeroCanvas3D from '@/components/ui/HeroCanvas3D';
 import MobileQuickDock from '@/components/ui/MobileQuickDock';
 import AgeCalculator from '@/components/ui/AgeCalculator';
 import WhyChoose3DCarousel from '@/components/ui/WhyChoose3DCarousel';
+import TestimonialsCarousel from '@/components/ui/TestimonialsCarousel';
+import BookVisitModal from '@/components/ui/BookVisitModal';
 import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle } from 'lucide-react';
 
 /* ─── Data Fallbacks ─── */
@@ -125,6 +127,7 @@ export default function Home() {
   const [newsList, setNewsList] = useState<Array<{ id: string; title: string; desc: string; img?: string; category: string; date: string; type: string }>>([]);
   const [loadingNews, setLoadingNews] = useState(true);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isVisitModalOpen, setIsVisitModalOpen] = useState(false);
   const [isPlayingAiVideo, setIsPlayingAiVideo] = useState(false);
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
@@ -250,15 +253,11 @@ export default function Home() {
                 </Button>
               </Link>
               <button
-                onClick={() => {
-                  setYoutubeLoaded(true);
-                  const el = document.getElementById("about-video");
-                  el?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="flex items-center gap-2.5 px-5 py-3 border border-white/25 hover:border-white/50 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all duration-300 font-semibold text-sm cursor-pointer backdrop-blur-sm"
+                onClick={() => setIsVisitModalOpen(true)}
+                className="flex items-center gap-2.5 px-5 py-3 border border-white/25 hover:border-white/50 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all duration-300 font-semibold text-sm cursor-pointer backdrop-blur-sm shadow-md hover:scale-105"
               >
-                <Play className="w-4 h-4 fill-current text-gold" />
-                Virtual Tour
+                <Calendar className="w-4 h-4 text-gold" />
+                Book Campus Visit
               </button>
             </div>
           </div>
@@ -827,34 +826,13 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Continuous Moving Carousel Rows */}
-          <div className="flex flex-col gap-4 sm:gap-6 my-4 overflow-hidden">
-            {/* Row 1 — Moving Left */}
+          {/* Continuous Moving Carousel — Single Row */}
+          <div className="my-4 overflow-hidden">
             <div className="marquee-container">
               <div className="animate-marquee flex gap-4 sm:gap-5 py-2">
                 {[...universityLogos, ...universityLogos].map((uni, idx) => (
                   <div
-                    key={`row1-${idx}`}
-                    className="w-48 sm:w-60 h-22 sm:h-28 bg-white rounded-2xl border border-cream-line/90 p-4 sm:p-5 flex items-center justify-center shadow-card hover:shadow-card-hover hover:border-gold hover:-translate-y-1 transition-all duration-300 shrink-0 group cursor-pointer"
-                  >
-                    <Image
-                      src={uni.img}
-                      alt={uni.name}
-                      width={160}
-                      height={70}
-                      className="max-h-11 sm:max-h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Row 2 — Moving Right (Reverse) */}
-            <div className="marquee-container">
-              <div className="animate-marquee-reverse flex gap-4 sm:gap-5 py-2">
-                {[...universityLogos.slice().reverse(), ...universityLogos.slice().reverse()].map((uni, idx) => (
-                  <div
-                    key={`row2-${idx}`}
+                    key={`uni-${idx}`}
                     className="w-48 sm:w-60 h-22 sm:h-28 bg-white rounded-2xl border border-cream-line/90 p-4 sm:p-5 flex items-center justify-center shadow-card hover:shadow-card-hover hover:border-gold hover:-translate-y-1 transition-all duration-300 shrink-0 group cursor-pointer"
                   >
                     <Image
@@ -975,11 +953,11 @@ export default function Home() {
       </section>
 
       {/* ━━━ 11. TESTIMONIALS ━━━ */}
-      <section className="py-20 md:py-24 bg-cream/15">
+      <section className="py-20 md:py-24 bg-cream/15 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <SectionHeading title="What Our Community Says" subtitle="Testimonials" />
 
-          <div className="flex justify-center gap-3 mt-6 mb-10">
+          <div className="flex justify-center gap-3 mt-6 mb-8">
             {(["parent", "student"] as const).map((tab) => (
               <button
                 key={tab}
@@ -995,67 +973,10 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="relative max-w-6xl mx-auto px-4 md:px-12">
-            <button
-              onClick={() => scrollTestimonials("left")}
-              className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white hover:bg-gold text-navy rounded-full flex items-center justify-center transition-all duration-300 z-10 border border-cream-line shadow-md hidden md:flex"
-              aria-label="Previous testimonial"
-            >
-              <svg className="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
-            <div
-              ref={testimonialsRef}
-              className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none py-4"
-            >
-              {(activeTestimonialTab === "parent" ? testimonialsData.parent : testimonialsData.student).map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-2xl overflow-hidden shadow-card border border-cream-line p-2 flex items-center justify-center shrink-0 snap-center hover:border-gold hover:shadow-card-hover transition-all duration-300 w-[260px] md:w-[300px] h-[360px] md:h-[480px]"
-                >
-                  {playingVideoId === item.videoId ? (
-                    <iframe
-                      src={`https://www.youtube.com/embed/${item.videoId}?autoplay=1&rel=0`}
-                      title={`CCIS Testimonial ${idx + 1}`}
-                      className="w-full h-full rounded-xl border-0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <div
-                      onClick={() => setPlayingVideoId(item.videoId)}
-                      className="relative w-full h-full rounded-xl overflow-hidden group/item cursor-pointer"
-                    >
-                      <Image
-                        src={`/images/${item.img || 'parent1.png'}`}
-                        alt={`CCIS Testimonial ${idx + 1}`}
-                        fill
-                        className="object-contain rounded-xl"
-                        sizes="300px"
-                      />
-                      <div className="absolute inset-0 bg-black/10 group-hover/item:bg-black/25 flex items-center justify-center transition-colors duration-300 rounded-xl">
-                        <div className="w-14 h-14 rounded-full bg-gold text-navy flex items-center justify-center shadow-lg group-hover/item:scale-110 transition-all duration-300">
-                          <Play className="w-7 h-7 fill-current ml-0.5" />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <button
-              onClick={() => scrollTestimonials("right")}
-              className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white hover:bg-gold text-navy rounded-full flex items-center justify-center transition-all duration-300 z-10 border border-cream-line shadow-md hidden md:flex"
-              aria-label="Next testimonial"
-            >
-              <svg className="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
+          <TestimonialsCarousel
+            items={activeTestimonialTab === "parent" ? testimonialsData.parent : testimonialsData.student}
+            category={activeTestimonialTab}
+          />
         </div>
       </section>
 
@@ -1095,6 +1016,10 @@ export default function Home() {
         isOpen={isVideoModalOpen}
         videoUrl={videoUrl}
         onClose={() => setIsVideoModalOpen(false)}
+      />
+      <BookVisitModal
+        isOpen={isVisitModalOpen}
+        onClose={() => setIsVisitModalOpen(false)}
       />
       <MobileQuickDock />
     </div>
