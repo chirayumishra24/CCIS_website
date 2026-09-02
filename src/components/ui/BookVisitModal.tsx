@@ -78,7 +78,10 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-dark/80 backdrop-blur-sm animate-fadeIn">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-dark/80 backdrop-blur-sm animate-fadeIn"
+      onClick={onClose}
+    >
       <div
         className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-cream-line overflow-hidden max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
@@ -87,20 +90,20 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
         <div className="bg-gradient-to-r from-navy-dark via-navy to-navy-dark p-6 sm:p-8 text-white relative shrink-0">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200 cursor-pointer shadow-sm hover:scale-110"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="flex items-center gap-2 text-gold text-xs font-mono uppercase tracking-widest font-bold">
-            <Sparkles className="w-4 h-4" /> Official Campus Experience
+            <Sparkles className="w-4 h-4" /> Admissions 2026-27
           </div>
           <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
-            Book a Campus Visit &amp; Tour
+            Personalised Counselling &amp; Campus Tour
           </h3>
-          <p className="text-white/70 text-xs sm:text-sm mt-1 max-w-lg">
-            Experience Cambridge Court International School in person. Tour our world-class smart labs, sports complex, and meet our academic mentors.
+          <p className="text-white/75 text-xs sm:text-sm mt-1 max-w-lg leading-relaxed">
+            Connect with our admissions counselors and experience Cambridge Court International School. Tour our labs, sports facilities, and discuss curriculum pathways.
           </p>
 
           {/* Quick CCIS verified Info from ccischool.org */}

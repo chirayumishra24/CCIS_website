@@ -129,7 +129,6 @@ export default function Home() {
   const [loadingNews, setLoadingNews] = useState(true);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isVisitModalOpen, setIsVisitModalOpen] = useState(false);
-  const [isPlayingAiVideo, setIsPlayingAiVideo] = useState(false);
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<"parent" | "student">("parent");
@@ -455,16 +454,20 @@ export default function Home() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3.5 mt-2">
-                <Link href="/admissions">
-                  <Button variant="gold" size="lg" className="w-full sm:w-auto font-bold uppercase tracking-wider rounded-xl shadow-glow-gold">
-                    Book Your Personalised Counselling
-                  </Button>
-                </Link>
-                <Link href="/contact">
-                  <button className="w-full sm:w-auto px-6 py-3.5 border border-white/30 hover:border-white/60 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all duration-300 font-semibold text-sm cursor-pointer backdrop-blur-sm text-center">
-                    Schedule Campus Visit
-                  </button>
-                </Link>
+                <Button
+                  onClick={() => setIsVisitModalOpen(true)}
+                  variant="gold"
+                  size="lg"
+                  className="w-full sm:w-auto font-bold uppercase tracking-wider rounded-xl shadow-glow-gold cursor-pointer"
+                >
+                  Book Your Personalised Counselling
+                </Button>
+                <button
+                  onClick={() => setIsVisitModalOpen(true)}
+                  className="w-full sm:w-auto px-6 py-3.5 border border-white/30 hover:border-white/60 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all duration-300 font-semibold text-sm cursor-pointer backdrop-blur-sm text-center hover:scale-105"
+                >
+                  Schedule Campus Visit
+                </button>
               </div>
 
               <div className="pt-4 border-t border-white/10 flex flex-wrap gap-6 text-xs text-white/70 font-sans">
@@ -604,68 +607,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ━━━ 6. AI & FUTURISTIC EDUCATION ━━━ */}
-      <section className="py-20 md:py-28 bg-navy text-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src="/images/future.jpg" alt="" fill className="object-cover opacity-10" sizes="100vw" />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy/90 to-navy-dark" />
-        <div className="relative max-w-7xl mx-auto px-4 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <AnimatedSection animation="fade-in-left" className="flex flex-col gap-5">
-            <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs bg-white/5 px-3 py-1.5 rounded-full w-fit border border-gold/20">
-              Futuristic Learning
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-serif font-bold text-white leading-tight">
-              Preparing Students for the AI-Driven World
-            </h2>
-            <div className="gold-rule" />
-            <p className="text-white/70 leading-relaxed text-[15px]">
-              At CCIS, we don&apos;t just teach technology—we build AI readiness. Through dedicated robotics labs, coding clubs, and real-world AI applications, our students learn to leverage technology ethically and creatively, preparing them to lead in the automated future.
-            </p>
-            <button
-              onClick={() => setIsPlayingAiVideo(true)}
-              className="flex items-center gap-2.5 px-5 py-3 bg-gold hover:bg-gold-light text-navy font-bold rounded-xl shadow-glow-gold transition-all duration-300 w-fit text-sm cursor-pointer"
-            >
-              <Play className="w-4 h-4 fill-current" />
-              Watch AI Impact Video
-            </button>
-          </AnimatedSection>
-          <AnimatedSection
-            animation="fade-in-right"
-            className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl group"
-          >
-            {isPlayingAiVideo ? (
-              <iframe
-                src="https://www.youtube.com/embed/H8u5p8QiYGQ?autoplay=1&rel=0"
-                title="AI &amp; Futuristic Education Video"
-                className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <div
-                className="w-full h-full relative cursor-pointer"
-                onClick={() => setIsPlayingAiVideo(true)}
-              >
-                <Image
-                  src="/generated/robo-lab2.png"
-                  alt="AI and Robotics Lab at CCIS"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 z-20 flex items-center justify-center bg-navy-dark/30 group-hover:bg-navy-dark/15 transition-colors duration-300">
-                  <div className="w-16 h-16 bg-gold text-navy rounded-full flex items-center justify-center shadow-glow-gold group-hover:scale-110 transition-transform duration-300">
-                    <Play className="w-6 h-6 fill-current ml-1" />
-                  </div>
-                </div>
-              </div>
-            )}
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ━━━ 7. VISION, MISSION & IB PHILOSOPHY ━━━ */}
+      {/* ━━━ 6. VISION, MISSION & IB PHILOSOPHY ━━━ */}
       <section className="py-20 md:py-24 bg-gradient-to-b from-slate-50 via-white to-cream/15 border-t border-cream-line relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Guiding Purpose & Philosophy" subtitle="Vision & Mission" />
