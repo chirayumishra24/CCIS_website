@@ -12,7 +12,7 @@ import AccreditationBadges from '@/components/ui/AccreditationBadges';
 import HeroCanvas3D from '@/components/ui/HeroCanvas3D';
 import MobileQuickDock from '@/components/ui/MobileQuickDock';
 import AgeCalculator from '@/components/ui/AgeCalculator';
-import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles } from 'lucide-react';
+import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle } from 'lucide-react';
 
 /* ─── Data Fallbacks ─── */
 const defaultParentReviews = [
@@ -31,14 +31,24 @@ const defaultStudentReviews = [
 
 const heroSlides = [
   {
-    img: '/generated/bioclass.png',
+    img: '/images/students/kids-collaborative.jpg',
     title: 'Dual Advantage: CBSE & IB Curriculum',
     desc: 'Empowering future global leaders through world-class academic pathways and deep-rooted Indian values.'
   },
   {
-    img: '/generated/robo-lab.png',
-    title: 'Holistic Development & AI Robotics Labs',
-    desc: 'State-of-the-art sports complexes, advanced technology arenas, and active robotics studios.'
+    img: '/images/students/smart-tech-lab.jpg',
+    title: 'Holistic Development & AI Innovation Studios',
+    desc: 'State-of-the-art technology arenas, interactive smart labs, and robotics design studios.'
+  },
+  {
+    img: '/images/students/teacher-mentorship.jpg',
+    title: 'Personalised Care & Dedicated Mentorship',
+    desc: 'Low student-teacher ratio ensuring individual attention and nurturing holistic growth.'
+  },
+  {
+    img: '/images/students/global-graduate.jpg',
+    title: 'Global University Pathways & Excellence',
+    desc: 'Preparing confident scholars for admissions to top Ivy League, Russell Group, and national institutions.'
   },
   {
     img: '/generated/art-room.png',
@@ -46,46 +56,40 @@ const heroSlides = [
     desc: 'Inspiring artistic expression, creative query, and innovative reasoning in every child.'
   },
   {
-    img: '/generated/Chemistry-lab.png',
-    title: 'Advanced Science & Innovation Labs',
-    desc: 'Fostering hands-on scientific research, chemistry experimentation, and analytical excellence.'
-  },
-  {
     img: '/generated/library.png',
     title: 'Central Research Library & Knowledge Hub',
     desc: 'Home to over 15,000 prints, digital archives, and quiet study hubs for deep learning.'
-  },
-  {
-    img: '/generated/Music-room.png',
-    title: 'Performing Arts & Music Studio',
-    desc: 'Nurturing musical talents, instrumental mastery, and stage confidence.'
   }
 ];
 
-const pillars = [
+const whyChooseCards = [
   {
-    icon: <ShieldCheck className="w-7 h-7" />,
-    title: 'Indian Values',
-    desc: 'Rooting students in traditional ethics, respect, and community duty.',
-    accent: 'from-navy to-navy-light'
+    icon: <Globe className="w-5 h-5 text-gold" />,
+    title: "Global Opportunities",
+    desc: "With a track record of alumni thriving at top global universities and international networks.",
+    img: "/images/students/global-graduate.jpg",
+    badge: "Global Edge"
   },
   {
-    icon: <Compass className="w-7 h-7" />,
-    title: 'Real-World Skills',
-    desc: 'Developing critical reasoning, problem-solving, and communication proficiencies.',
-    accent: 'from-gold-dark to-gold'
+    icon: <UserCheck className="w-5 h-5 text-gold" />,
+    title: "Personalised Attention",
+    desc: "Small classes with a low student-teacher ratio for dedicated individual care and guidance.",
+    img: "/images/students/teacher-mentorship.jpg",
+    badge: "1:1 Mentorship"
   },
   {
-    icon: <Award className="w-7 h-7" />,
-    title: 'Passion-Driven Sports',
-    desc: 'Professional turf facilities, basketball arenas, and track excellence.',
-    accent: 'from-navy-light to-navy'
+    icon: <Compass className="w-5 h-5 text-gold" />,
+    title: "Future-Ready Education Approach",
+    desc: "Instilling ethics, empathy, inquiry, and critical thinking through dual-curriculum exploration.",
+    img: "/images/students/kids-collaborative.jpg",
+    badge: "Holistic Growth"
   },
   {
-    icon: <BookOpen className="w-7 h-7" />,
-    title: 'AI & Tech Readiness',
-    desc: 'Robotics studios, AI-assisted learning spaces, and advanced digital research hubs.',
-    accent: 'from-gold to-gold-dark'
+    icon: <Sparkles className="w-5 h-5 text-gold" />,
+    title: "Passion-Driven Learning",
+    desc: "Helping students discover their unique interests in advanced AI studios, arts, and athletics.",
+    img: "/images/students/smart-tech-lab.jpg",
+    badge: "Skill Building"
   }
 ];
 
@@ -98,6 +102,21 @@ const facilities = [
   { title: "Student Collaboration Hub", img: "/generated/campus-life3.png", desc: "Active group learning setups, project discussion tables, and interactive seminar spaces." },
   { title: "Music & Performing Arts Studio", img: "/generated/Music-room.png", desc: "Acoustically insulated practice rooms for vocal training, school band, and orchestral instruments." },
   { title: "Eco-Club & Botanical Garden", img: "/generated/campus-life2.png", desc: "Student-led environmental sustainability initiatives, organic planting, and green drives." },
+];
+
+const universityLogos = [
+  { name: "University Admissions 1", img: "/images/universities/uni_1.png" },
+  { name: "University Admissions 2", img: "/images/universities/uni_2.png" },
+  { name: "University Admissions 3", img: "/images/universities/uni_3.png" },
+  { name: "University Admissions 4", img: "/images/universities/uni_4.png" },
+  { name: "University Admissions 5", img: "/images/universities/uni_5.png" },
+  { name: "University Admissions 6", img: "/images/universities/uni_6.png" },
+  { name: "University Admissions 7", img: "/images/universities/uni_7.png" },
+  { name: "University Admissions 8", img: "/images/universities/uni_8.png" },
+  { name: "University Admissions 9", img: "/images/universities/uni_9.png" },
+  { name: "University Admissions 10", img: "/images/universities/uni_10.png" },
+  { name: "University Admissions 11", img: "/images/universities/uni_11.png" },
+  { name: "Massachusetts Institute of Technology (MIT)", img: "/images/universities/uni_12_mit.png" },
 ];
 
 export default function Home() {
@@ -340,26 +359,114 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ━━━ 5. FOUR PILLARS ━━━ */}
-      <section className="py-20 md:py-24 bg-white">
+      {/* ━━━ 5. WHY CHOOSE CCIS ━━━ */}
+      <section className="py-20 md:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4">
-          <SectionHeading title="Four Pillars of a CCIS Education" subtitle="Why Choose Us" />
+          <SectionHeading title="Why Choose CCIS?" subtitle="Future-Focused Learning Starts Here!" />
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map((item, idx) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+            {whyChooseCards.map((item, idx) => (
               <AnimatedSection
                 key={idx}
                 animation="scale-in"
                 delayClass={`stagger-${idx + 1}`}
-                className="bg-cream/20 border border-cream-line/50 p-6 rounded-2xl flex flex-col gap-4 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1"
+                className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1.5 flex flex-col group"
               >
-                <div className="p-3 bg-navy rounded-xl w-fit text-white">
-                  {item.icon}
+                <div className="relative h-48 w-full overflow-hidden bg-navy-dark">
+                  <Image
+                    src={item.img}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-transparent to-transparent" />
+                  <span className="absolute top-3 left-3 bg-navy/90 text-gold text-[10px] font-bold font-sans uppercase tracking-wider px-2.5 py-1 rounded-full border border-gold/20 backdrop-blur-sm">
+                    {item.badge}
+                  </span>
                 </div>
-                <h3 className="font-serif font-bold text-navy text-lg leading-snug">{item.title}</h3>
-                <p className="text-xs text-ink-muted leading-relaxed">{item.desc}</p>
+                
+                <div className="p-5 flex flex-col flex-1 justify-between gap-3 bg-white">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-navy/5 text-navy">
+                        {item.icon}
+                      </div>
+                      <h3 className="font-serif font-bold text-navy text-lg leading-snug">{item.title}</h3>
+                    </div>
+                    <p className="text-xs text-ink-muted leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
               </AnimatedSection>
             ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link href="/admissions">
+              <Button variant="primary" size="lg" className="rounded-xl font-bold shadow-md">
+                Schedule A Campus Visit
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━ TRANSFORM LEARNING INTO LIFE SKILLS ━━━ */}
+      <section className="py-16 md:py-20 bg-cream/15 border-y border-cream-line relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-navy text-white rounded-3xl overflow-hidden shadow-2xl border border-white/10 grid grid-cols-1 lg:grid-cols-12 items-center">
+            {/* Student Photo side */}
+            <div className="lg:col-span-6 relative h-[380px] sm:h-[440px] lg:h-[500px] w-full overflow-hidden">
+              <Image
+                src="/images/students/student-joyful-run.jpg"
+                alt="Joyful Student at CCIS Campus"
+                fill
+                className="object-cover object-top hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-navy via-navy/30 to-transparent" />
+              <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-navy-dark/85 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 text-white">
+                <p className="text-gold font-sans font-bold text-xs uppercase tracking-wider">Cambridge Court</p>
+                <p className="text-[11px] text-white/80 font-serif">Where Learning Meets Life!</p>
+              </div>
+            </div>
+
+            {/* Messaging & CTA side */}
+            <div className="lg:col-span-6 p-8 sm:p-10 lg:p-14 flex flex-col gap-5">
+              <span className="inline-block px-3.5 py-1.5 bg-gold/20 text-gold font-sans text-xs uppercase tracking-widest rounded-full font-bold w-fit border border-gold/30">
+                Admissions Open 2026-27
+              </span>
+
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-extrabold text-white leading-tight">
+                Transform <span className="text-gold">Learning</span> <br />
+                into Life Skills
+              </h2>
+
+              <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-lg font-sans">
+                Book a visit today to see how CCIS can prepare your child for a meaningful, fulfilling life with dual-curriculum advantage, modern AI labs, and personalized care.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-3.5 mt-2">
+                <Link href="/admissions">
+                  <Button variant="gold" size="lg" className="w-full sm:w-auto font-bold uppercase tracking-wider rounded-xl shadow-glow-gold">
+                    Book Your Personalised Counselling
+                  </Button>
+                </Link>
+                <Link href="/contact">
+                  <button className="w-full sm:w-auto px-6 py-3.5 border border-white/30 hover:border-white/60 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all duration-300 font-semibold text-sm cursor-pointer backdrop-blur-sm text-center">
+                    Schedule Campus Visit
+                  </button>
+                </Link>
+              </div>
+
+              <div className="pt-4 border-t border-white/10 flex flex-wrap gap-6 text-xs text-white/70 font-sans">
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> CBSE Affiliated (1730867)</span>
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> IB PYP Candidate School</span>
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> 10-Acre Modern Campus</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -644,6 +751,110 @@ export default function Home() {
                 </div>
               </AnimatedSection>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━ PRESTIGIOUS UNIVERSITIES ADMISSIONS ━━━ */}
+      <section className="py-20 md:py-24 bg-white border-t border-cream-line relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gold/5 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+            <span className="inline-block px-3.5 py-1 bg-gold/15 text-gold-dark font-sans font-extrabold text-[11px] uppercase tracking-widest rounded-full mb-3">
+              Higher Education &amp; Global Placements
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-extrabold text-navy leading-tight">
+              Our Students Have Secured Admissions <br className="hidden sm:inline" />
+              To These <span className="text-gold">Prestigious Universities</span>
+            </h2>
+            <div className="gold-rule mx-auto my-4" />
+            <p className="text-ink-muted text-sm sm:text-base leading-relaxed mt-2 max-w-2xl mx-auto">
+              Nurturing inquiring minds and rigorous foundations, CCIS prepares graduates for entrance into premier colleges, Ivy League universities, and leading academic institutions worldwide.
+            </p>
+          </div>
+
+          {/* Continuous Moving Carousel Rows */}
+          <div className="flex flex-col gap-4 sm:gap-6 my-4 overflow-hidden">
+            {/* Row 1 — Moving Left */}
+            <div className="marquee-container">
+              <div className="animate-marquee flex gap-4 sm:gap-5 py-2">
+                {[...universityLogos, ...universityLogos].map((uni, idx) => (
+                  <div
+                    key={`row1-${idx}`}
+                    className="w-48 sm:w-60 h-22 sm:h-28 bg-white rounded-2xl border border-cream-line/90 p-4 sm:p-5 flex items-center justify-center shadow-card hover:shadow-card-hover hover:border-gold hover:-translate-y-1 transition-all duration-300 shrink-0 group cursor-pointer"
+                  >
+                    <Image
+                      src={uni.img}
+                      alt={uni.name}
+                      width={160}
+                      height={70}
+                      className="max-h-11 sm:max-h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 2 — Moving Right (Reverse) */}
+            <div className="marquee-container">
+              <div className="animate-marquee-reverse flex gap-4 sm:gap-5 py-2">
+                {[...universityLogos.slice().reverse(), ...universityLogos.slice().reverse()].map((uni, idx) => (
+                  <div
+                    key={`row2-${idx}`}
+                    className="w-48 sm:w-60 h-22 sm:h-28 bg-white rounded-2xl border border-cream-line/90 p-4 sm:p-5 flex items-center justify-center shadow-card hover:shadow-card-hover hover:border-gold hover:-translate-y-1 transition-all duration-300 shrink-0 group cursor-pointer"
+                  >
+                    <Image
+                      src={uni.img}
+                      alt={uni.name}
+                      width={160}
+                      height={70}
+                      className="max-h-11 sm:max-h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Highlights & Counseling Trust Bar */}
+          <div className="mt-12 bg-cream/20 border border-cream-line/70 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full md:w-auto flex-1">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
+                  ✓
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-navy text-sm">Global Placements</h4>
+                  <p className="text-xs text-ink-muted">USA, UK, Canada, Europe &amp; India</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
+                  ★
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-navy text-sm">Ivy League &amp; Top Tiers</h4>
+                  <p className="text-xs text-ink-muted">MIT, IITs, AIIMS &amp; Russell Group</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
+                  ↗
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-navy text-sm">Dedicated Counseling</h4>
+                  <p className="text-xs text-ink-muted">Profile building &amp; SAT/JEE mentorship</p>
+                </div>
+              </div>
+            </div>
+
+            <Link href="/admissions" className="shrink-0">
+              <Button variant="gold" className="rounded-xl font-bold uppercase tracking-wider text-xs px-6 py-3 shadow-glow-gold">
+                Join Admissions 2026-27
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

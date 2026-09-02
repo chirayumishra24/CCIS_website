@@ -108,7 +108,7 @@ export default function Academics() {
               </AnimatedSection>
               <AnimatedSection animation="fade-in-right">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-cream-line shadow-card">
-                  <Image src="/generated/bioclass.png" alt="CBSE Classroom" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" quality={95} />
+                  <Image src="/images/students/teacher-mentorship.jpg" alt="CBSE Classroom Mentorship" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" quality={95} />
                 </div>
               </AnimatedSection>
             </div>
@@ -116,14 +116,14 @@ export default function Academics() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <AnimatedSection animation="fade-in-left">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-cream-line shadow-card">
-                  <Image src="/generated/Chemistry-lab.png" alt="IB Science Research Lab" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" quality={95} />
+                  <Image src="/images/students/kids-collaborative.jpg" alt="IB Inquiry and Collaborative Learning" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" quality={95} />
                 </div>
               </AnimatedSection>
               <AnimatedSection animation="fade-in-right" className="flex flex-col gap-5">
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Inquiry-Based International Path</span>
-                  <div className="relative w-12 h-12 bg-cream/40 p-1.5 rounded-lg border border-cream-line flex items-center justify-center shrink-0">
-                    <Image src="/images/ib-logo-img.png" alt="IB Logo Trademark" width={48} height={48} className="object-contain" />
+                  <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-cream-line flex items-center justify-center shrink-0 shadow-xs">
+                    <Image src="/images/ib-pyp-logo.svg" alt="IB PYP Candidate School Logo" width={48} height={48} className="object-contain" />
                   </div>
                 </div>
                 <h2 className="text-3xl font-serif font-bold text-navy">International Baccalaureate (Candidate)</h2>
