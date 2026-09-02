@@ -471,9 +471,8 @@ export default function Home() {
               </div>
 
               <div className="pt-4 border-t border-white/10 flex flex-wrap gap-6 text-xs text-white/70 font-sans">
-                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> CBSE Affiliated (1730867)</span>
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> CBSE Affiliated</span>
                 <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> IB PYP Candidate School</span>
-                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> 10-Acre Modern Campus</span>
               </div>
             </div>
           </div>
@@ -619,9 +618,6 @@ export default function Home() {
               animation="fade-in-left"
               className="lg:col-span-5 bg-white border border-cream-line rounded-3xl p-8 sm:p-10 shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col items-center text-center justify-center relative overflow-hidden group hover:border-gold/50"
             >
-              <div className="w-16 h-16 rounded-2xl bg-navy text-gold flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <Eye className="w-8 h-8 stroke-[2.2]" />
-              </div>
               <h3 className="font-serif font-bold text-2xl sm:text-3xl text-navy mb-3">
                 School Vision
               </h3>
@@ -638,18 +634,13 @@ export default function Home() {
             >
               <div className="absolute -top-20 -right-20 w-48 h-48 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
               
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-6 text-center sm:text-left">
-                <div className="w-16 h-16 rounded-2xl bg-gold text-navy flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300">
-                  <Target className="w-8 h-8 stroke-[2.2]" />
-                </div>
-                <div>
-                  <h3 className="font-serif font-bold text-2xl sm:text-3xl text-white">
-                    School Mission
-                  </h3>
-                  <p className="text-gold font-sans text-xs uppercase tracking-widest font-semibold mt-1">
-                    Holistic • Experiential • Purpose-Driven
-                  </p>
-                </div>
+              <div className="mb-5 text-center sm:text-left">
+                <h3 className="font-serif font-bold text-2xl sm:text-3xl text-white">
+                  School Mission
+                </h3>
+                <p className="text-gold font-sans text-xs uppercase tracking-widest font-semibold mt-1">
+                  Holistic • Experiential • Purpose-Driven
+                </p>
               </div>
 
               <div className="space-y-4 text-white/90 text-sm sm:text-[15px] leading-relaxed font-sans text-left">
@@ -680,30 +671,21 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Card 1 */}
-              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-7 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-14 h-14 rounded-full bg-white/10 text-gold flex items-center justify-center mb-5 border border-white/15 group-hover:scale-110 transition-transform">
-                  <Heart className="w-7 h-7 stroke-[2]" />
-                </div>
+              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 justify-center">
                 <p className="text-xs sm:text-sm text-white/85 leading-relaxed">
                   The International Baccalaureate aims to develop <strong className="text-white font-bold">inquiring, knowledgeable and caring</strong> young people who help to create a better and more peaceful world through <strong className="text-white font-bold">intercultural understanding and respect</strong>.
                 </p>
               </div>
 
               {/* Card 2 */}
-              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-7 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-14 h-14 rounded-full bg-white/10 text-gold flex items-center justify-center mb-5 border border-white/15 group-hover:scale-110 transition-transform">
-                  <GraduationCap className="w-7 h-7 stroke-[2]" />
-                </div>
+              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 justify-center">
                 <p className="text-xs sm:text-sm text-white/85 leading-relaxed">
                   To this end the organization works with <strong className="text-white font-bold">schools, governments and international organizations</strong> to develop <strong className="text-white font-bold">challenging programmes</strong> of international education and <strong className="text-white font-bold">rigorous assessment</strong>.
                 </p>
               </div>
 
               {/* Card 3 */}
-              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-7 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 group">
-                <div className="w-14 h-14 rounded-full bg-white/10 text-gold flex items-center justify-center mb-5 border border-white/15 group-hover:scale-110 transition-transform">
-                  <Globe className="w-7 h-7 stroke-[2]" />
-                </div>
+              <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/50 rounded-2xl p-6 sm:p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 justify-center">
                 <p className="text-xs sm:text-sm text-white/85 leading-relaxed">
                   These programmes encourage students across the world to become <strong className="text-white font-bold">active, compassionate and lifelong learners</strong> who understand that other people, with their differences, can also be right.
                 </p>
@@ -834,7 +816,7 @@ export default function Home() {
                 <div>
                   <h3 className="font-serif font-bold text-2xl md:text-3xl text-navy">CBSE Curriculum</h3>
                   <p className="text-gold-dark font-sans font-semibold text-xs uppercase tracking-wider mt-0.5">
-                    Affiliation No. 1730867
+                    Affiliated to CBSE, New Delhi
                   </p>
                 </div>
 

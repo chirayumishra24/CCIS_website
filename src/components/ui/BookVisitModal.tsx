@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { X, Calendar, Clock, MapPin, Phone, Mail, CheckCircle, Sparkles, Building2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
+import { X, Calendar, Clock, MapPin, Phone, Mail, CheckCircle2, Sparkles, Building2, User, Send, GraduationCap } from "lucide-react";
 import Button from "./Button";
 
 interface BookVisitModalProps {
@@ -9,13 +10,14 @@ interface BookVisitModalProps {
 }
 
 export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps) {
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState({
     parentName: "",
     studentName: "",
     email: "",
     phone: "",
     grade: "Grade 1",
-    curriculum: "CBSE & IB PYP",
+    curriculum: "Dual (CBSE & IB PYP)",
     visitDate: "",
     visitTime: "10:00 AM - 11:30 AM",
     message: "",
@@ -25,14 +27,30 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!isOpen || !mounted) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
 
-    if (!formData.parentName || !formData.phone || !formData.email || !formData.visitDate) {
-      setErrorMsg("Please fill in all mandatory fields (Parent Name, Phone, Email, Preferred Date).");
+    if (!formData.parentName || !formData.phone || !formData.email) {
+      setErrorMsg("Please fill in all required fields (Parent Name, Phone, and Email).");
       return;
     }
 
@@ -42,9 +60,21 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...formData,
           name: formData.studentName || formData.parentName,
-          notes: ["Requested via Campus Visit Form"],
+          studentName: formData.studentName || formData.parentName,
+          parentName: formData.parentName,
+          email: formData.email,
+          phone: formData.phone,
+          grade: formData.grade,
+          curriculum: formData.curriculum,
+          visitDate: formData.visitDate || "Not Specified",
+          visitTime: formData.visitTime || "Flexible",
+          message: formData.message,
+          source: "Admissions Counselling Popup",
+          notes: [
+            formData.visitDate ? `Preferred Visit Date: ${formData.visitDate} (${formData.visitTime})` : "Personalised Counselling Requested",
+            "Submitted via Homepage Modal"
+          ],
         }),
       });
 
@@ -52,7 +82,7 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
         setSubmitted(true);
       } else {
         const data = await res.json();
-        setErrorMsg(data.error || "Failed to submit booking. Please try again.");
+        setErrorMsg(data.error || "Failed to submit request. Please try again.");
       }
     } catch {
       setErrorMsg("Network error. Please try again or call us at +91 9660551977.");
@@ -69,7 +99,7 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
       email: "",
       phone: "",
       grade: "Grade 1",
-      curriculum: "CBSE & IB PYP",
+      curriculum: "Dual (CBSE & IB PYP)",
       visitDate: "",
       visitTime: "10:00 AM - 11:30 AM",
       message: "",
@@ -77,86 +107,72 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
     onClose();
   };
 
-  return (
+  const modalContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-dark/80 backdrop-blur-sm animate-fadeIn"
+      className="fixed inset-0 z-[999999] flex items-center justify-center p-3 sm:p-5 bg-navy-dark/90 backdrop-blur-md animate-fadeIn"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-cream-line overflow-hidden max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-2xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 border-gold/30 overflow-hidden max-h-[92vh] flex flex-col my-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header Banner */}
-        <div className="bg-gradient-to-r from-navy-dark via-navy to-navy-dark p-6 sm:p-8 text-white relative shrink-0">
+        {/* Compact Header Banner */}
+        <div className="bg-gradient-to-r from-navy-dark via-navy to-navy-dark px-5 py-4 sm:px-8 sm:py-5 text-white relative shrink-0 border-b border-gold/20 pr-14">
           <button
+            type="button"
             onClick={onClose}
-            className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200 cursor-pointer shadow-sm hover:scale-110"
+            className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-white bg-white/20 hover:bg-gold hover:text-navy rounded-full transition-all duration-200 cursor-pointer shadow-lg hover:scale-110 border border-white/20 z-20"
             aria-label="Close modal"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 stroke-[2.5]" />
           </button>
 
-          <div className="flex items-center gap-2 text-gold text-xs font-mono uppercase tracking-widest font-bold">
-            <Sparkles className="w-4 h-4" /> Admissions 2026-27
+          <div className="flex items-center gap-2 text-gold text-[11px] font-mono uppercase tracking-widest font-bold">
+            <Sparkles className="w-3.5 h-3.5" /> Admissions 2026-27 • CCIS Jaipur
           </div>
-          <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
-            Personalised Counselling &amp; Campus Tour
+          <h3 className="text-lg sm:text-2xl font-serif font-bold text-white mt-0.5">
+            Book Personalised Counselling &amp; Campus Tour
           </h3>
-          <p className="text-white/75 text-xs sm:text-sm mt-1 max-w-lg leading-relaxed">
-            Connect with our admissions counselors and experience Cambridge Court International School. Tour our labs, sports facilities, and discuss curriculum pathways.
+          <p className="text-white/70 text-xs mt-0.5 max-w-md leading-relaxed hidden sm:block">
+            Fill out the details below. Our admissions director will get in touch with you within 24 hours.
           </p>
-
-          {/* Quick CCIS verified Info from ccischool.org */}
-          <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap gap-4 text-xs text-cream-dark/80 font-sans">
-            <div className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-gold" />
-              <span>Sector-3, Mansarovar, Jaipur</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Phone className="w-3.5 h-3.5 text-gold" />
-              <span>+91 9660551977</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-gold" />
-              <span>Mon-Sat: 9:00 AM – 3:00 PM</span>
-            </div>
-          </div>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 sm:p-8 overflow-y-auto flex-1">
+        {/* Modal Body with Custom Scrollbar */}
+        <div className="p-5 sm:p-7 overflow-y-auto flex-1 bg-gradient-to-b from-white to-slate-50/50">
           {submitted ? (
-            <div className="text-center py-8 flex flex-col items-center gap-4">
-              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shadow-lg animate-bounce">
-                <CheckCircle className="w-10 h-10 stroke-[2.5]" />
+            <div className="text-center py-6 flex flex-col items-center gap-4 animate-fadeIn">
+              <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center shadow-md border border-emerald-200">
+                <CheckCircle2 className="w-9 h-9" />
               </div>
               <h4 className="text-2xl font-serif font-bold text-navy">
-                Visit Scheduled Successfully!
+                Enquiry Submitted Successfully!
               </h4>
               <p className="text-ink-muted text-sm max-w-md leading-relaxed">
-                Thank you, <strong className="text-navy">{formData.parentName}</strong>. Your campus tour request for <strong className="text-navy">{formData.visitDate} ({formData.visitTime})</strong> has been registered. Our admissions counselor will contact you shortly to confirm your pass.
+                Thank you, <strong className="text-navy">{formData.parentName}</strong>. Your enquiry for <strong className="text-navy">{formData.studentName || "your child"}</strong> has been registered in our admissions system.
               </p>
-              <div className="bg-cream/40 border border-cream-line rounded-xl p-4 w-full max-w-md text-left text-xs text-ink-muted space-y-1.5 mt-2">
-                <p><strong className="text-navy">Campus Location:</strong> Sector-3, Mansarovar, Jaipur, Rajasthan - 302020</p>
-                <p><strong className="text-navy">Helpline:</strong> +91 9660551977</p>
+              <div className="bg-cream/40 border border-cream-line rounded-xl p-4 w-full max-w-md text-left text-xs text-ink-muted space-y-1 mt-1">
+                <p><strong className="text-navy">Campus:</strong> Sector-3, Mansarovar, Jaipur, Rajasthan</p>
+                <p><strong className="text-navy">Direct Helpline:</strong> +91 9660551977</p>
                 <p><strong className="text-navy">Email:</strong> info@ccischool.org</p>
               </div>
-              <Button variant="gold" onClick={handleReset} className="mt-4 rounded-xl px-8 font-bold uppercase tracking-wider text-xs">
-                Close &amp; Continue Browsing
+              <Button variant="gold" onClick={handleReset} className="mt-2 rounded-xl px-8 font-bold uppercase tracking-wider text-xs shadow-glow-gold">
+                Close &amp; Continue
               </Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
               {errorMsg && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl font-medium">
                   {errorMsg}
                 </div>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Row 1: Parent Name & Student Name */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
-                    Parent / Guardian Name *
+                  <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
+                    Parent / Guardian Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -164,12 +180,12 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
                     placeholder="e.g. Dr. Rajesh Sharma"
                     value={formData.parentName}
                     onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
                     Student&apos;s Name
                   </label>
                   <input
@@ -177,15 +193,16 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
                     placeholder="e.g. Aarav Sharma"
                     value={formData.studentName}
                     onChange={(e) => setFormData({ ...formData, studentName: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Row 2: Phone & Email */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
-                    Mobile / WhatsApp No. *
+                  <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
+                    Mobile / WhatsApp No. <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
@@ -193,13 +210,13 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
                     placeholder="+91 98765 43210"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
-                    Email Address *
+                  <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
+                    Email Address <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
@@ -207,20 +224,21 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
                     placeholder="parent@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Row 3: Grade & Curriculum */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
                     Applying Grade / Class
                   </label>
                   <select
                     value={formData.grade}
                     onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all"
                   >
                     <option value="Playgroup / Nursery">Playgroup / Nursery</option>
                     <option value="Kindergarten (KG / Prep)">Kindergarten (KG / Prep)</option>
@@ -239,13 +257,13 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
-                    Curriculum Interest
+                  <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
+                    Curriculum Preference
                   </label>
                   <select
                     value={formData.curriculum}
                     onChange={(e) => setFormData({ ...formData, curriculum: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all"
                   >
                     <option value="Dual (CBSE & IB PYP)">Dual (CBSE &amp; IB PYP)</option>
                     <option value="IB Primary Years Programme">IB Primary Years Programme</option>
@@ -254,29 +272,29 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Row 4: Date & Time */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
-                    Preferred Visit Date *
+                  <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
+                    Preferred Visit Date (Optional)
                   </label>
                   <input
                     type="date"
-                    required
                     min={new Date().toISOString().split("T")[0]}
                     value={formData.visitDate}
                     onChange={(e) => setFormData({ ...formData, visitDate: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
                     Preferred Time Slot
                   </label>
                   <select
                     value={formData.visitTime}
                     onChange={(e) => setFormData({ ...formData, visitTime: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-all"
                   >
                     <option value="09:30 AM - 11:00 AM">09:30 AM – 11:00 AM</option>
                     <option value="11:30 AM - 01:00 PM">11:30 AM – 01:00 PM</option>
@@ -285,31 +303,42 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
                 </div>
               </div>
 
+              {/* Row 5: Notes */}
               <div>
-                <label className="block text-xs font-bold text-navy uppercase tracking-wider mb-1.5">
-                  Special Inquiries or Questions (Optional)
+                <label className="block text-[11px] font-bold text-navy uppercase tracking-wider mb-1">
+                  Questions or Special Notes (Optional)
                 </label>
                 <textarea
                   rows={2}
-                  placeholder="Any specific facilities you'd like to inspect or questions about our programs..."
+                  placeholder="Any specific questions or curriculum guidance needed..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-cream/20 border border-cream-line rounded-xl text-sm focus:border-gold outline-none resize-none"
+                  className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold outline-none resize-none transition-all"
                 />
               </div>
 
+              {/* Submit CTA */}
               <div className="pt-2">
-                <Button
-                  type="submit"
-                  variant="gold"
-                  size="lg"
-                  disabled={loading}
-                  className="w-full rounded-xl font-bold uppercase tracking-wider py-3 shadow-glow-gold flex items-center justify-center gap-2"
-                >
-                  {loading ? "Registering Visit..." : "Confirm & Book Campus Visit"}
-                </Button>
-                <p className="text-[11px] text-ink-muted text-center mt-2">
-                  🔒 Data securely transmitted &amp; stored directly in CCIS Admissions Database.
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="px-5 py-3 border border-slate-300 hover:bg-slate-100 text-ink-muted hover:text-navy rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <Button
+                    type="submit"
+                    variant="gold"
+                    size="lg"
+                    disabled={loading}
+                    className="flex-1 rounded-xl font-bold uppercase tracking-wider py-3 shadow-glow-gold flex items-center justify-center gap-2 cursor-pointer text-xs sm:text-sm"
+                  >
+                    {loading ? "Submitting Request..." : "Confirm & Submit Request"}
+                  </Button>
+                </div>
+                <p className="text-[11px] text-ink-muted text-center mt-2 flex items-center justify-center gap-1.5">
+                  <span>🔒</span> Data securely saved in CCIS Admissions Database.
                 </p>
               </div>
             </form>
@@ -318,4 +347,6 @@ export default function BookVisitModal({ isOpen, onClose }: BookVisitModalProps)
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }

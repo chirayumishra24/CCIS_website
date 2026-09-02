@@ -46,7 +46,7 @@ export default function AccreditationBadges() {
               CBSE AFFILIATED
             </h4>
             <p className="text-[10px] sm:text-[11px] text-ink-muted font-sans font-semibold uppercase tracking-wider mt-0.5">
-              Affiliation No. 1730867
+              Affiliated to CBSE, New Delhi
             </p>
           </div>
         </div>
