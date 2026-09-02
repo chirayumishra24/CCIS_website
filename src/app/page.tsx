@@ -244,9 +244,6 @@ export default function Home() {
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight">
               {heroSlides[currentBg]?.title}
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-lg">
-              {heroSlides[currentBg]?.desc}
-            </p>
             <div className="flex flex-wrap gap-3 mt-1">
               <Link href="/admissions">
                 <Button variant="gold" size="lg" className="font-bold uppercase tracking-wider rounded-xl shadow-glow-gold">
@@ -524,6 +521,89 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ━━━ PRESTIGIOUS UNIVERSITIES ADMISSIONS ━━━ */}
+      <section className="py-20 md:py-24 bg-white border-t border-cream-line relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gold/5 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+            <span className="inline-block px-3.5 py-1 bg-gold/15 text-gold-dark font-sans font-extrabold text-[11px] uppercase tracking-widest rounded-full mb-3">
+              Higher Education &amp; Global Placements
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-extrabold text-navy leading-tight">
+              Our Students Have Secured Admissions <br className="hidden sm:inline" />
+              To These <span className="text-gold">Prestigious Universities</span>
+            </h2>
+            <div className="gold-rule mx-auto my-4" />
+            <p className="text-ink-muted text-sm sm:text-base leading-relaxed mt-2 max-w-2xl mx-auto">
+              Nurturing inquiring minds and rigorous foundations, CCIS prepares graduates for entrance into premier colleges, Ivy League universities, and leading academic institutions worldwide.
+            </p>
+          </div>
+
+          {/* Continuous Moving Carousel — Single Row */}
+          <div className="my-4 overflow-hidden">
+            <div className="marquee-container">
+              <div className="animate-marquee flex gap-4 sm:gap-5 py-2">
+                {[...universityLogos, ...universityLogos].map((uni, idx) => (
+                  <div
+                    key={`uni-${idx}`}
+                    className="w-48 sm:w-60 h-22 sm:h-28 bg-white rounded-2xl border border-cream-line/90 p-4 sm:p-5 flex items-center justify-center shadow-card hover:shadow-card-hover hover:border-gold hover:-translate-y-1 transition-all duration-300 shrink-0 group cursor-pointer"
+                  >
+                    <Image
+                      src={uni.img}
+                      alt={uni.name}
+                      width={160}
+                      height={70}
+                      className="max-h-11 sm:max-h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Highlights & Counseling Trust Bar */}
+          <div className="mt-12 bg-cream/20 border border-cream-line/70 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full md:w-auto flex-1">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
+                  ✓
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-navy text-sm">Global Placements</h4>
+                  <p className="text-xs text-ink-muted">USA, UK, Canada, Europe &amp; India</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
+                  ★
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-navy text-sm">Ivy League &amp; Top Tiers</h4>
+                  <p className="text-xs text-ink-muted">MIT, IITs, AIIMS &amp; Russell Group</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
+                  ↗
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-navy text-sm">Dedicated Counseling</h4>
+                  <p className="text-xs text-ink-muted">Profile building &amp; SAT/JEE mentorship</p>
+                </div>
+              </div>
+            </div>
+
+            <Link href="/admissions" className="shrink-0">
+              <Button variant="gold" className="rounded-xl font-bold uppercase tracking-wider text-xs px-6 py-3 shadow-glow-gold">
+                Join Admissions 2026-27
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ━━━ 6. AI & FUTURISTIC EDUCATION ━━━ */}
       <section className="py-20 md:py-28 bg-navy text-white relative overflow-hidden">
         <div className="absolute inset-0">
@@ -557,7 +637,7 @@ export default function Home() {
             {isPlayingAiVideo ? (
               <iframe
                 src="https://www.youtube.com/embed/H8u5p8QiYGQ?autoplay=1&rel=0"
-                title="AI & Futuristic Education Video"
+                title="AI &amp; Futuristic Education Video"
                 className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -585,7 +665,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ━━━ 6. VISION, MISSION & IB PHILOSOPHY ━━━ */}
+      {/* ━━━ 7. VISION, MISSION & IB PHILOSOPHY ━━━ */}
       <section className="py-20 md:py-24 bg-gradient-to-b from-slate-50 via-white to-cream/15 border-t border-cream-line relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Guiding Purpose & Philosophy" subtitle="Vision & Mission" />
@@ -691,7 +771,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ━━━ 7. DUAL CURRICULUM PATHWAYS ━━━ */}
+      {/* ━━━ 8. LEADERSHIP ━━━ */}
+      <section className="py-20 md:py-28 bg-cream/10 border-t border-cream-line">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Vision &amp; Direction</span>
+            <h2 className="text-3xl md:text-5xl font-serif font-extrabold text-navy mt-3">
+              Our <span className="text-gold">Leaders</span>
+            </h2>
+            <p className="text-ink-muted text-sm mt-4 leading-relaxed max-w-xl mx-auto">
+              Guided by distinguished educationists and visionaries, our leadership team is dedicated to pioneering dual-curriculum excellence.
+            </p>
+          </div>
+          
+          <div className="bg-white border border-cream-line rounded-2xl p-8 lg:p-12 shadow-card relative overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+              <AnimatedSection animation="fade-in-left" className="lg:col-span-5 flex justify-center">
+                <div className="relative group max-w-sm w-full">
+                  <div className="relative bg-white p-4 rounded-2xl border border-cream-line shadow-card flex flex-col items-center">
+                    <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden shadow-inner bg-cream/30">
+                      <Image
+                        src="/images/lata-rawat.webp"
+                        alt="Ms. Lata Rawat"
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 1024px) 100vw, 400px"
+                      />
+                    </div>
+                    <h3 className="font-serif font-bold text-navy text-2xl mt-5">Mrs. Lata Rawat</h3>
+                    <p className="text-gold font-sans font-semibold text-xs tracking-wider uppercase mt-1">Director &amp; Founding Mentor</p>
+                  </div>
+                </div>
+              </AnimatedSection>
+
+              <AnimatedSection animation="fade-in-right" className="lg:col-span-7 flex flex-col justify-center">
+                <span className="text-gold font-sans text-xs font-bold uppercase tracking-widest mb-2">Lifetime Achievement</span>
+                <h3 className="font-serif font-bold text-navy text-2xl md:text-3xl mb-6">Pioneering Educational Excellence</h3>
+                
+                <div className="grid grid-cols-1 gap-3">
+                  {[
+                    { bold: "Rajiv Gandhi Education Excellence Award", normal: "for outstanding achievement in the field of education." },
+                    { bold: "Woman of Excellence Award", normal: "from the Indian Achievers' Forum (IAF India)." },
+                    { bold: "The Economic Times Business Leader of Rajasthan Award", normal: "conferred by the honourable C.M. Shri Ashok Gehlot Ji." },
+                    { bold: "Edu Icon Award", normal: "awarded by the Global School Leaders Consortium (GSLC)." },
+                    { bold: "Golden Educationist of India Award", normal: "prestigious recognition from the IIEM, New Delhi." }
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex gap-3 p-3 bg-cream/15 hover:bg-cream/30 rounded-xl border border-cream-line/50 transition-all duration-300 items-start">
+                      <div className="w-7 h-7 rounded-lg bg-gold/10 text-gold flex items-center justify-center shrink-0 mt-0.5">
+                        <Award className="w-4 h-4 text-gold-dark" />
+                      </div>
+                      <p className="text-sm text-ink-muted leading-relaxed">
+                        <strong className="text-navy font-bold">{item.bold}</strong> &mdash; {item.normal}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </AnimatedSection>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━ 9. DUAL CURRICULUM PATHWAYS ━━━ */}
       <section className="py-20 md:py-24 bg-cream/10 border-t border-cream-line relative">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Dual Curriculum Pathways" subtitle="Flexible Learning" />
@@ -846,154 +987,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ━━━ 8. AGE & GRADE CALCULATOR MINI-SECTION ━━━ */}
+      {/* ━━━ 10. AGE & GRADE CALCULATOR MINI-SECTION ━━━ */}
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4">
           <AgeCalculator />
-        </div>
-      </section>
-
-      {/* ━━━ 9. LEADERSHIP ━━━ */}
-      <section className="py-20 md:py-28 bg-cream/10 border-t border-cream-line">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Vision &amp; Direction</span>
-            <h2 className="text-3xl md:text-5xl font-serif font-extrabold text-navy mt-3">
-              Our <span className="text-gold">Leaders</span>
-            </h2>
-            <p className="text-ink-muted text-sm mt-4 leading-relaxed max-w-xl mx-auto">
-              Guided by distinguished educationists and visionaries, our leadership team is dedicated to pioneering dual-curriculum excellence.
-            </p>
-          </div>
-          
-          <div className="bg-white border border-cream-line rounded-2xl p-8 lg:p-12 shadow-card relative overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
-              <AnimatedSection animation="fade-in-left" className="lg:col-span-5 flex justify-center">
-                <div className="relative group max-w-sm w-full">
-                  <div className="relative bg-white p-4 rounded-2xl border border-cream-line shadow-card flex flex-col items-center">
-                    <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden shadow-inner bg-cream/30">
-                      <Image
-                        src="/images/lata-rawat.webp"
-                        alt="Ms. Lata Rawat"
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 1024px) 100vw, 400px"
-                      />
-                    </div>
-                    <h3 className="font-serif font-bold text-navy text-2xl mt-5">Mrs. Lata Rawat</h3>
-                    <p className="text-gold font-sans font-semibold text-xs tracking-wider uppercase mt-1">Director &amp; Founding Mentor</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection animation="fade-in-right" className="lg:col-span-7 flex flex-col justify-center">
-                <span className="text-gold font-sans text-xs font-bold uppercase tracking-widest mb-2">Lifetime Achievement</span>
-                <h3 className="font-serif font-bold text-navy text-2xl md:text-3xl mb-6">Pioneering Educational Excellence</h3>
-                
-                <div className="grid grid-cols-1 gap-3">
-                  {[
-                    { bold: "Rajiv Gandhi Education Excellence Award", normal: "for outstanding achievement in the field of education." },
-                    { bold: "Woman of Excellence Award", normal: "from the Indian Achievers' Forum (IAF India)." },
-                    { bold: "The Economic Times Business Leader of Rajasthan Award", normal: "conferred by the honourable C.M. Shri Ashok Gehlot Ji." },
-                    { bold: "Edu Icon Award", normal: "awarded by the Global School Leaders Consortium (GSLC)." },
-                    { bold: "Golden Educationist of India Award", normal: "prestigious recognition from the IIEM, New Delhi." }
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex gap-3 p-3 bg-cream/15 hover:bg-cream/30 rounded-xl border border-cream-line/50 transition-all duration-300 items-start">
-                      <div className="w-7 h-7 rounded-lg bg-gold/10 text-gold flex items-center justify-center shrink-0 mt-0.5">
-                        <Award className="w-4 h-4 text-gold-dark" />
-                      </div>
-                      <p className="text-sm text-ink-muted leading-relaxed">
-                        <strong className="text-navy font-bold">{item.bold}</strong> &mdash; {item.normal}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </AnimatedSection>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ━━━ PRESTIGIOUS UNIVERSITIES ADMISSIONS ━━━ */}
-      <section className="py-20 md:py-24 bg-white border-t border-cream-line relative overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gold/5 blur-[120px] rounded-full pointer-events-none" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-            <span className="inline-block px-3.5 py-1 bg-gold/15 text-gold-dark font-sans font-extrabold text-[11px] uppercase tracking-widest rounded-full mb-3">
-              Higher Education &amp; Global Placements
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-extrabold text-navy leading-tight">
-              Our Students Have Secured Admissions <br className="hidden sm:inline" />
-              To These <span className="text-gold">Prestigious Universities</span>
-            </h2>
-            <div className="gold-rule mx-auto my-4" />
-            <p className="text-ink-muted text-sm sm:text-base leading-relaxed mt-2 max-w-2xl mx-auto">
-              Nurturing inquiring minds and rigorous foundations, CCIS prepares graduates for entrance into premier colleges, Ivy League universities, and leading academic institutions worldwide.
-            </p>
-          </div>
-
-          {/* Continuous Moving Carousel — Single Row */}
-          <div className="my-4 overflow-hidden">
-            <div className="marquee-container">
-              <div className="animate-marquee flex gap-4 sm:gap-5 py-2">
-                {[...universityLogos, ...universityLogos].map((uni, idx) => (
-                  <div
-                    key={`uni-${idx}`}
-                    className="w-48 sm:w-60 h-22 sm:h-28 bg-white rounded-2xl border border-cream-line/90 p-4 sm:p-5 flex items-center justify-center shadow-card hover:shadow-card-hover hover:border-gold hover:-translate-y-1 transition-all duration-300 shrink-0 group cursor-pointer"
-                  >
-                    <Image
-                      src={uni.img}
-                      alt={uni.name}
-                      width={160}
-                      height={70}
-                      className="max-h-11 sm:max-h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Highlights & Counseling Trust Bar */}
-          <div className="mt-12 bg-cream/20 border border-cream-line/70 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full md:w-auto flex-1">
-              <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
-                  ✓
-                </div>
-                <div>
-                  <h4 className="font-serif font-bold text-navy text-sm">Global Placements</h4>
-                  <p className="text-xs text-ink-muted">USA, UK, Canada, Europe &amp; India</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
-                  ★
-                </div>
-                <div>
-                  <h4 className="font-serif font-bold text-navy text-sm">Ivy League &amp; Top Tiers</h4>
-                  <p className="text-xs text-ink-muted">MIT, IITs, AIIMS &amp; Russell Group</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center shrink-0 font-bold">
-                  ↗
-                </div>
-                <div>
-                  <h4 className="font-serif font-bold text-navy text-sm">Dedicated Counseling</h4>
-                  <p className="text-xs text-ink-muted">Profile building &amp; SAT/JEE mentorship</p>
-                </div>
-              </div>
-            </div>
-
-            <Link href="/admissions" className="shrink-0">
-              <Button variant="gold" className="rounded-xl font-bold uppercase tracking-wider text-xs px-6 py-3 shadow-glow-gold">
-                Join Admissions 2026-27
-              </Button>
-            </Link>
-          </div>
         </div>
       </section>
 

@@ -1,34 +1,25 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Button from "@/components/ui/Button";
 import MultiStepAdmissionsForm from "@/components/admissions/MultiStepAdmissionsForm";
 import AgeCalculator from "@/components/ui/AgeCalculator";
-import SmartFeeCalculator from "@/components/admissions/SmartFeeCalculator";
-import BusRouteFinder from "@/components/admissions/BusRouteFinder";
-import CampusVisitScheduler from "@/components/admissions/CampusVisitScheduler";
 import {
   FileText,
   Users,
   ClipboardCheck,
   PartyPopper,
-  Download,
-  Calendar,
-  CheckCircle,
   ShieldCheck,
   Sparkles,
-  HelpCircle,
-  CreditCard,
-  Building,
 } from "lucide-react";
 
 const steps = [
   {
     icon: <FileText className="w-5 h-5" />,
     title: "1. Online Application",
-    desc: "Complete the 4-step digital enquiry form with applicant background, grade, and board preference.",
+    desc: "Complete the digital enquiry form with applicant background, grade, and board preference.",
   },
   {
     icon: <Users className="w-5 h-5" />,
@@ -43,21 +34,11 @@ const steps = [
   {
     icon: <PartyPopper className="w-5 h-5" />,
     title: "4. Admission Offer",
-    desc: "Receive the provisional offer letter, complete fee formalities, and receive your student welcome kit.",
+    desc: "Receive the provisional offer letter, complete formalities, and receive your student welcome kit.",
   },
 ];
 
-const feeHighlights = [
-  "Zero hidden administrative charges — 100% transparent fee structure",
-  "Quarterly and bi-annual installment options available",
-  "Special sibling concessions & group defense personnel discounts",
-  "Merit scholarships awarded for exceptional Class X Board results & state-level sports accolades",
-  "All-inclusive academic kits: textbooks, laboratory equipment, and club access included",
-];
-
 export default function Admissions() {
-  const [activeTab, setActiveTab] = useState<"apply" | "calculator" | "fees">("apply");
-
   return (
     <div className="bg-white">
       {/* ━━━ 1. Hero ━━━ */}
@@ -130,7 +111,7 @@ export default function Admissions() {
         </div>
       </section>
 
-      {/* ━━━ 3. Application Form & Age Calculator Tabs ━━━ */}
+      {/* ━━━ 3. Application Form ━━━ */}
       <section id="application-form" className="py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -145,7 +126,7 @@ export default function Admissions() {
                 </h2>
                 <div className="gold-rule my-3" />
                 <p className="text-sm text-ink-muted leading-relaxed">
-                  Fill out our multi-step enrollment form. Our admissions counselor will contact you within 24 hours to schedule your campus tour and orientation.
+                  Fill out our enrollment form. Our admissions counselor will contact you within 24 hours to schedule your campus tour and orientation.
                 </p>
               </div>
 
@@ -180,7 +161,7 @@ export default function Admissions() {
                 </span>
                 <h4 className="font-serif font-bold text-xl">Speak to an Admissions Officer</h4>
                 <p className="text-xs text-white/70 leading-relaxed">
-                  Have questions regarding fee schedules, transport routes, or curriculum selection?
+                  Have questions regarding admission procedures, campus visits, or curriculum selection?
                 </p>
                 <div className="flex flex-wrap gap-4 mt-2 text-xs font-bold text-gold-light">
                   <a href="tel:+919660551977" className="hover:text-gold">
@@ -201,31 +182,10 @@ export default function Admissions() {
         </div>
       </section>
 
-      {/* ━━━ 4. Smart Fee & Scholarship Estimator ━━━ */}
-      <section id="fees" className="py-16 md:py-20 bg-cream/10 border-y border-cream-line">
-        <div className="max-w-6xl mx-auto px-4">
-          <SmartFeeCalculator />
-        </div>
-      </section>
-
-      {/* ━━━ 5. Age & Grade Calculator Section ━━━ */}
-      <section id="calculator" className="py-16 md:py-20 bg-white">
+      {/* ━━━ 4. Age & Grade Calculator Section ━━━ */}
+      <section id="calculator" className="py-16 md:py-20 bg-cream/10 border-t border-cream-line">
         <div className="max-w-4xl mx-auto px-4">
           <AgeCalculator />
-        </div>
-      </section>
-
-      {/* ━━━ 6. Campus Physical Visit Scheduler ━━━ */}
-      <section id="visit-scheduler" className="py-16 md:py-20 bg-cream/10 border-y border-cream-line">
-        <div className="max-w-6xl mx-auto px-4">
-          <CampusVisitScheduler />
-        </div>
-      </section>
-
-      {/* ━━━ 7. School Bus Routes & Transit Finder ━━━ */}
-      <section id="bus-routes" className="py-16 md:py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <BusRouteFinder />
         </div>
       </section>
     </div>
