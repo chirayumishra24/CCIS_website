@@ -15,6 +15,7 @@ import AgeCalculator from '@/components/ui/AgeCalculator';
 import WhyChoose3DCarousel from '@/components/ui/WhyChoose3DCarousel';
 import TestimonialsCarousel from '@/components/ui/TestimonialsCarousel';
 import BookVisitModal from '@/components/ui/BookVisitModal';
+import InstagramFeed from '@/components/ui/InstagramFeed';
 import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle, Eye, Target, Heart, GraduationCap } from 'lucide-react';
 
 /* ─── Data Fallbacks ─── */
@@ -1086,6 +1087,9 @@ export default function Home() {
           />
         </div>
       </section>
+
+      {/* ━━━ INSTAGRAM COMMUNITY FEED ━━━ */}
+      <InstagramFeed />
 
       {/* ━━━ 12. FINAL ADMISSIONS CTA ━━━ */}
       <section className="py-20 md:py-28 relative overflow-hidden">
