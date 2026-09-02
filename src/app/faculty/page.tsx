@@ -70,37 +70,35 @@ export default function Faculty() {
   return (
     <div className="bg-white">
       {/* ━━━ Hero Banner ━━━ */}
-      <section className="relative bg-navy text-white overflow-hidden py-16 md:py-24">
+      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
         <div className="absolute inset-0">
           <Image
-            src="/images/faculty_hero.png"
-            alt="CCIS Faculty"
+            src="/images/students/kids-collaborative.jpg"
+            alt="CCIS Faculty & Academic Mentorship"
             fill
-            className="object-cover opacity-15"
+            className="object-cover object-top"
             sizes="100vw"
+            quality={95}
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-navy via-navy/80 to-navy-dark" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
 
-        <div className="relative max-w-7xl mx-auto px-4 z-10">
-          <div className="flex items-center gap-2 text-white/50 text-xs font-sans mb-3">
-            <span>Home</span>
-            <span>/</span>
-            <span className="text-gold">Our School</span>
-            <span>/</span>
-            <span className="text-gold-light font-bold">Faculty &amp; Leadership</span>
-          </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 w-full flex flex-col gap-4 text-white">
+          <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit">
+            Faculty &amp; Leadership
+          </span>
 
-          <h1 className="text-3xl md:text-5xl font-serif font-extrabold leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight max-w-3xl">
             Distinguished Academic Mentors &amp; Leaders
           </h1>
-          <p className="text-white/60 max-w-2xl mt-3 leading-relaxed text-sm">
+          <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
             Meet the experienced educators, certified IB specialists, and department chairs shaping young minds at Cambridge Court.
           </p>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gold" />
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
       {/* ━━━ Filter & Search Bar ━━━ */}
@@ -169,12 +167,12 @@ export default function Faculty() {
                   delayClass={`stagger-${(idx % 4) + 1}`}
                   className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 group"
                 >
-                  <div className="relative h-60 w-full overflow-hidden bg-cream/20">
+                  <div className="relative h-72 sm:h-64 w-full overflow-hidden bg-cream/20">
                     <Image
                       src={item.img || "/images/faculty-placeholder.jpg"}
                       alt={item.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

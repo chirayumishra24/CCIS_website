@@ -151,7 +151,7 @@ export default function FacultyManager({
                   src={item.img || "/images/faculty-placeholder.jpg"}
                   alt={item.name}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   sizes="250px"
                 />
                 <span className="absolute top-2 left-2 px-2 py-0.5 bg-navy/90 text-white rounded font-mono text-[9px] font-bold uppercase tracking-wider">

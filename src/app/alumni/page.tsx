@@ -130,28 +130,29 @@ export default function Alumni() {
   return (
     <div className="bg-white min-h-screen">
       {/* ━━━ Hero Banner ━━━ */}
-      <section className="relative bg-navy text-white py-24 md:py-32 overflow-hidden border-b-4 border-gold">
+      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
         <div className="absolute inset-0">
           <Image
-            src="/images/alumni_hero.png"
+            src="/images/students/global-graduate.jpg"
             alt="CCIS Alumni Global Graduates"
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover object-top"
             sizes="100vw"
             quality={95}
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/65 via-navy/50 to-navy-dark/75 backdrop-blur-[0.5px]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
 
-        <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col items-center gap-5">
-          <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-navy/70 backdrop-blur-md px-4 py-1.5 rounded-full border border-gold/40 flex items-center gap-1.5 shadow-md">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 w-full text-center flex flex-col items-center gap-4 sm:gap-5 text-white">
+          <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" /> 13,500+ Global Graduates
           </span>
-          <h1 className="text-4xl md:text-6xl font-serif font-extrabold leading-tight drop-shadow-lg">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight max-w-3xl">
             CCIS Alumni Network &amp; Mentorship Hub
           </h1>
-          <p className="text-white/90 max-w-2xl text-sm md:text-base leading-relaxed drop-shadow">
+          <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
             Connect with our global network of leaders, scholars, and entrepreneurs. Search verified profiles or register to mentor current students.
           </p>
           <div className="mt-2 flex flex-wrap gap-3 justify-center">
@@ -165,6 +166,8 @@ export default function Alumni() {
             </Button>
           </div>
         </div>
+
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
       {/* ━━━ Directory Section ━━━ */}

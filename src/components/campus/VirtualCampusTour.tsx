@@ -78,7 +78,7 @@ const facilities: CampusFacility[] = [
     id: "sports",
     name: "Synthetic Athletics & Sports Arena",
     category: "Sports",
-    image: "/generated/campus-life1.png",
+    image: "/images/students/student-joyful-run.jpg",
     tagline: "Olympic Standard Synthetic Turfs & Courts",
     description:
       "Multi-discipline arena featuring FIBA-certified synthetic basketball arenas, floodlit football turfs, cricket training nets, and martial arts dojos.",
@@ -89,8 +89,8 @@ const facilities: CampusFacility[] = [
       { label: "Disciplines", value: "Football, Cricket, Basketball, Skating, Karate" },
     ],
     hotspots: [
-      { x: 40, y: 50, title: "Synthetic Basketball Court", desc: "Shock-absorbing acrylic cushioned court reducing joint strain during intensive matches." },
-      { x: 70, y: 65, title: "Cricket Bowling Practice Nets", desc: "Dual all-weather synthetic pitch nets equipped with variable speed bowling machines." },
+      { x: 35, y: 50, title: "Athletics & Synthetic Track", desc: "Shock-absorbing all-weather synthetic track designed to prevent strain and maximize performance." },
+      { x: 75, y: 60, title: "Outdoor Sports Arena", desc: "Multi-purpose floodlit sports arena for inter-school tournaments, basketball, and cricket practice." },
     ],
   },
 ];

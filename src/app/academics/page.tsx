@@ -34,30 +34,35 @@ export default function Academics() {
 
   return (
     <div className="bg-white">
-      {/* ━━━ Angled Hero ━━━ */}
-      <section className="relative bg-navy text-white overflow-hidden">
+      {/* ━━━ Hero ━━━ */}
+      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
         <div className="absolute inset-0">
-          <Image src="/images/academics_hero.png" alt="" fill className="object-cover opacity-20" sizes="100vw" />
+          <Image
+            src="/images/students/teacher-mentorship.jpg"
+            alt="CCIS Academic Mentorship"
+            fill
+            className="object-cover object-top"
+            sizes="100vw"
+            quality={95}
+            priority
+          />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-dark via-navy to-navy-light/50" />
-        <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-24 z-10 flex flex-col gap-4">
-          <span className="text-gold font-sans uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit">
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 w-full flex flex-col gap-4 text-white">
+          <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit">
             Academic Pathways
           </span>
-          <h1 className="text-4xl md:text-5xl font-serif font-extrabold leading-tight max-w-2xl">
-            Curriculum Rigor & Global Vision
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight max-w-3xl">
+            Curriculum Rigor &amp; Global Vision
           </h1>
-          <p className="text-white/55 max-w-xl leading-relaxed text-sm">
+          <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
             Explore our dual CBSE and IB paths, designed to suit the unique capabilities of every student.
           </p>
         </div>
-        {/* Angled bottom */}
-        <div className="absolute bottom-0 left-0 w-full">
-          <svg viewBox="0 0 1440 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto" preserveAspectRatio="none">
-            <polygon points="0,50 1440,50 1440,20 0,50" fill="#F5F0E8" fillOpacity="0.1" />
-            <polygon points="0,50 1440,50 1440,35 0,50" fill="white" />
-          </svg>
-        </div>
+
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
       {/* ━━━ Pathway Tabs ━━━ */}

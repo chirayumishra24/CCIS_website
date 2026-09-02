@@ -14,26 +14,35 @@ export const metadata: Metadata = {
 export default function CampusLife() {
   return (
     <div className="bg-white">
-      {/* ━━━ Compact Hero with breadcrumb styling ━━━ */}
-      <section className="relative bg-navy text-white overflow-hidden">
+      {/* ━━━ Hero ━━━ */}
+      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
         <div className="absolute inset-0">
-          <Image src="/images/campus_life_hero.png" alt="" fill className="object-cover opacity-20" sizes="100vw" />
+          <Image
+            src="/images/c.c.i.s (1).webp"
+            alt="CCIS Campus Life & Facilities"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            quality={95}
+            priority
+          />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/70 via-navy/60 to-navy" />
-        <div className="relative max-w-7xl mx-auto px-4 py-16 md:py-20 z-10">
-          <div className="flex items-center gap-2 text-white/40 text-xs font-sans mb-4">
-            <span>Home</span>
-            <span>/</span>
-            <span className="text-gold">Campus Life</span>
-          </div>
-          <h1 className="text-3xl md:text-5xl font-serif font-extrabold leading-tight">
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 w-full flex flex-col gap-4 text-white">
+          <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit">
+            Campus Life &amp; Facilities
+          </span>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight max-w-3xl">
             Beyond the Classroom
           </h1>
-          <p className="text-white/55 max-w-lg mt-3 leading-relaxed text-sm">
-            Our campus is built for discovery — from cutting-edge labs to expansive sports facilities.
+          <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
+            Our campus is built for discovery — from cutting-edge labs to expansive sports facilities and vibrant creative ateliers.
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gold" />
+
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
       {/* ━━━ Interactive Virtual 360 / Hotspots Campus Tour ━━━ */}

@@ -12,6 +12,7 @@ import AccreditationBadges from '@/components/ui/AccreditationBadges';
 import HeroCanvas3D from '@/components/ui/HeroCanvas3D';
 import MobileQuickDock from '@/components/ui/MobileQuickDock';
 import AgeCalculator from '@/components/ui/AgeCalculator';
+import WhyChoose3DCarousel from '@/components/ui/WhyChoose3DCarousel';
 import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle } from 'lucide-react';
 
 /* ─── Data Fallbacks ─── */
@@ -95,7 +96,7 @@ const whyChooseCards = [
 
 const facilities = [
   { title: "AI & Robotics Studio", img: "/generated/robo-lab2.png", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
-  { title: "Sports & Athletics Complex", img: "/generated/campus-life1.png", desc: "Synthetic basketball arenas, indoor sports nets, tennis turfs, and athletic training tracks." },
+  { title: "Sports & Athletics Complex", img: "/images/students/student-joyful-run.jpg", desc: "Synthetic basketball arenas, indoor sports nets, tennis turfs, and athletic training tracks." },
   { title: "Science & Innovation Labs", img: "/generated/Chemistry-lab.png", desc: "Advanced chemistry, physics, and biology experimentation spaces with high-end apparatus." },
   { title: "Central Library & Archives", img: "/generated/library.png", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
   { title: "Visual Arts Atelier", img: "/generated/art-room.png", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
@@ -128,6 +129,7 @@ export default function Home() {
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=wJ8RPJgO_Rs");
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<"parent" | "student">("parent");
+  const [activeCurriculumTab, setActiveCurriculumTab] = useState<"cbse" | "ib">("cbse");
   const [youtubeLoaded, setYoutubeLoaded] = useState(false);
   const [liveStats, setLiveStats] = useState<Array<{ id: string; end: number; suffix: string; label: string }>>([
     { id: 'stat_1', end: 25, suffix: '+', label: 'Years of Excellence' },
@@ -207,7 +209,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
       {/* ━━━ 1. HERO SECTION ━━━ */}
       <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-4 sm:pt-8 pb-14 md:pb-20">
         {heroSlides.map((slide, idx) => (
@@ -342,29 +344,35 @@ export default function Home() {
       </section>
 
       {/* ━━━ 4. DYNAMIC LIVE STATISTICS ━━━ */}
-      <section className="py-14 bg-navy relative overflow-hidden">
+      <section className="py-10 md:py-14 bg-navy relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-4 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-3 md:gap-0 items-center justify-center">
             {liveStats.map((item, idx) => (
-              <React.Fragment key={item.id || idx}>
-                <div className="flex-1 flex flex-col items-center px-6 md:px-8 py-2">
-                  <StatsCounter end={item.end} suffix={item.suffix} label={item.label} />
-                </div>
-                {idx < liveStats.length - 1 && (
-                  <div className="hidden md:block w-px h-12 bg-white/15" />
-                )}
-              </React.Fragment>
+              <div
+                key={item.id || idx}
+                className={`flex flex-col items-center px-3 sm:px-6 md:px-8 py-2 ${
+                  idx % 2 === 0 ? "border-r border-white/10 md:border-r-0" : ""
+                } ${idx < liveStats.length - 1 ? "md:border-r md:border-white/15" : ""}`}
+              >
+                <StatsCounter end={item.end} suffix={item.suffix} label={item.label} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ━━━ 5. WHY CHOOSE CCIS ━━━ */}
-      <section className="py-20 md:py-24 bg-white relative">
+      <section className="py-20 md:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Why Choose CCIS?" subtitle="Future-Focused Learning Starts Here!" />
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+          {/* Mobile 3D Coverflow Carousel */}
+          <div className="block md:hidden">
+            <WhyChoose3DCarousel items={whyChooseCards} />
+          </div>
+
+          {/* Desktop & Tablet Grid */}
+          <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
             {whyChooseCards.map((item, idx) => (
               <AnimatedSection
                 key={idx}
@@ -401,7 +409,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="text-center mt-10">
+          <div className="text-center mt-8 md:mt-10">
             <Link href="/admissions">
               <Button variant="primary" size="lg" className="rounded-xl font-bold shadow-md">
                 Schedule A Campus Visit
@@ -581,9 +589,48 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Dual Curriculum Pathways" subtitle="Flexible Learning" />
           
+          {/* Mobile Curriculum Switcher Toggle */}
+          <div className="flex lg:hidden justify-center mt-2 mb-6">
+            <div className="bg-white/80 backdrop-blur-sm p-1.5 rounded-2xl border border-cream-line flex gap-2 w-full max-w-sm shadow-xs">
+              <button
+                type="button"
+                onClick={() => setActiveCurriculumTab('cbse')}
+                className={`flex-1 py-2.5 px-3 rounded-xl font-sans text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
+                  activeCurriculumTab === 'cbse'
+                    ? 'bg-navy text-white shadow-md'
+                    : 'bg-transparent text-ink-muted hover:text-navy'
+                }`}
+              >
+                <div className="w-5 h-5 relative shrink-0">
+                  <Image src="/images/cbse-logo.svg" alt="CBSE" fill className="object-contain" />
+                </div>
+                <span>CBSE Curriculum</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveCurriculumTab('ib')}
+                className={`flex-1 py-2.5 px-3 rounded-xl font-sans text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
+                  activeCurriculumTab === 'ib'
+                    ? 'bg-gold text-navy shadow-glow-gold'
+                    : 'bg-transparent text-ink-muted hover:text-navy'
+                }`}
+              >
+                <div className="w-5 h-5 relative shrink-0">
+                  <Image src="/images/ib-pyp-logo.svg" alt="IB" fill className="object-contain" />
+                </div>
+                <span>IB Programme</span>
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 mt-4">
             {/* CBSE */}
-            <AnimatedSection animation="fade-in-left" className="bg-white border border-cream-line p-8 md:p-10 rounded-2xl shadow-card flex flex-col justify-between gap-6 group hover:shadow-card-hover transition-all duration-300">
+            <AnimatedSection
+              animation="fade-in-left"
+              className={`bg-white border border-cream-line p-6 sm:p-8 md:p-10 rounded-2xl shadow-card flex-col justify-between gap-6 group hover:shadow-card-hover transition-all duration-300 ${
+                activeCurriculumTab === 'cbse' ? 'flex' : 'hidden lg:flex'
+              }`}
+            >
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between gap-4">
                   <span className="inline-block px-3 py-1 bg-navy/5 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-bold">
@@ -633,7 +680,12 @@ export default function Home() {
             </AnimatedSection>
 
             {/* IB */}
-            <AnimatedSection animation="fade-in-right" className="bg-navy text-white p-8 md:p-10 rounded-2xl shadow-glow-navy flex flex-col justify-between gap-6 border-2 border-gold/40 relative overflow-hidden group">
+            <AnimatedSection
+              animation="fade-in-right"
+              className={`bg-navy text-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-glow-navy flex-col justify-between gap-6 border-2 border-gold/40 relative overflow-hidden group ${
+                activeCurriculumTab === 'ib' ? 'flex' : 'hidden lg:flex'
+              }`}
+            >
               <div className="absolute -top-20 -right-20 w-48 h-48 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
               
               <div className="flex flex-col gap-4 relative z-10">

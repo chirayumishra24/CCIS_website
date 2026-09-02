@@ -28,37 +28,35 @@ const milestones = [
 export default function About() {
   return (
     <div className="bg-white">
-      {/* ━━━ Split Hero — Image + Text side by side ━━━ */}
-      <section className="relative bg-navy overflow-hidden">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[360px] lg:min-h-[420px]">
-          {/* Text side */}
-          <div className="flex flex-col justify-center px-6 md:px-12 lg:px-16 py-16 lg:py-20 text-white relative z-10 order-2 lg:order-1">
-            <span className="text-gold font-sans uppercase tracking-widest text-xs font-bold bg-white/5 px-3 py-1 rounded w-fit mb-4">
-              About Our Institution
-            </span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-extrabold leading-tight">
-              Nurturing Excellence Since 1998
-            </h1>
-            <p className="text-white/60 max-w-lg mt-4 leading-relaxed text-sm">
-              Discover the legacy, values, and leadership behind Jaipur&apos;s premier dual-curriculum school.
-            </p>
-          </div>
-          {/* Image side */}
-          <div className="relative h-56 lg:h-auto order-1 lg:order-2">
-            <Image
-              src="/images/c.c.i.s (1).webp"
-              alt="CCIS Main School Building"
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/40 to-transparent lg:block hidden" />
-            <div className="absolute inset-0 bg-navy/40 lg:hidden" />
-          </div>
+      {/* ━━━ Hero ━━━ */}
+      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/c.c.i.s (1).webp"
+            alt="CCIS Main School Building"
+            fill
+            priority
+            quality={95}
+            className="object-cover object-center"
+            sizes="100vw"
+          />
         </div>
-        {/* Gold accent line */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gold via-gold-light to-gold" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 w-full flex flex-col gap-4 text-white">
+          <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit">
+            About Our Institution
+          </span>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight max-w-3xl">
+            Nurturing Excellence Since 1998
+          </h1>
+          <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
+            Discover the legacy, values, and leadership behind Jaipur&apos;s premier dual-curriculum school.
+          </p>
+        </div>
+
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
       {/* ━━━ Vision & Mission ━━━ */}

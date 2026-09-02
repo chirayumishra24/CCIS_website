@@ -61,29 +61,31 @@ export default function Admissions() {
   return (
     <div className="bg-white">
       {/* ━━━ 1. Hero ━━━ */}
-      <section className="relative bg-navy text-white overflow-hidden py-20 md:py-28">
+      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
         <div className="absolute inset-0">
           <Image
-            src="/images/admissions_hero.png"
+            src="/images/students/student-joyful-run.jpg"
             alt="CCIS Admissions"
             fill
-            className="object-cover opacity-20"
+            className="object-cover object-top"
             sizes="100vw"
+            quality={95}
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy/90 to-navy-dark" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
 
-        <div className="relative max-w-7xl mx-auto px-4 z-10 flex flex-col items-center text-center gap-5">
-          <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/10 px-4 py-1.5 rounded-full border border-gold/30 flex items-center gap-1.5">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 w-full flex flex-col items-center text-center gap-4 sm:gap-5 text-white">
+          <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" /> Admissions Open 2026-27
           </span>
 
-          <h1 className="text-4xl md:text-6xl font-serif font-extrabold leading-tight max-w-3xl">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight max-w-3xl">
             Begin Your Child&apos;s Journey of <span className="text-gold">Excellence</span>
           </h1>
 
-          <p className="text-white/70 max-w-2xl text-sm md:text-base leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
             Join Jaipur&apos;s leading dual-curriculum institution offering world-class CBSE &amp; International Baccalaureate (IB PYP) pathways from Nursery to Grade XI.
           </p>
 
@@ -101,7 +103,7 @@ export default function Admissions() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gold via-gold-light to-gold" />
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
       {/* ━━━ 2. Step-by-Step Admission Process ━━━ */}

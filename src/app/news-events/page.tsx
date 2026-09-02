@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Skeleton from "@/components/ui/Skeleton";
@@ -69,24 +70,34 @@ export default function NewsEvents() {
   return (
     <div className="bg-white min-h-screen">
       {/* ━━━ Banner ━━━ */}
-      <section className="relative bg-navy text-white py-24 md:py-32 overflow-hidden border-b-4 border-gold">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: "url('/images/news_events_hero.png')" }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/90 via-navy/80 to-navy" />
+      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
+        <div className="absolute inset-0">
+          <Image
+            src="/generated/Chemistry-lab.png"
+            alt="CCIS Campus Events"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            quality={95}
+            priority
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
 
-        <div className="relative max-w-7xl mx-auto px-4 z-10 text-center flex flex-col gap-4">
-          <span className="text-gold font-mono uppercase tracking-widest text-xs font-bold bg-white/10 px-4 py-1 rounded-full w-fit mx-auto border border-gold/30">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 w-full text-center flex flex-col items-center gap-4 text-white">
+          <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit">
             Media, Press &amp; Circulars
           </span>
-          <h1 className="text-4xl md:text-5xl font-serif font-extrabold leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight max-w-3xl">
             News &amp; Official Notices
           </h1>
-          <p className="text-cream-dark/80 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+          <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
             Stay informed with the latest campus achievements, academic milestones, CBSE circulars, and event datesheets.
           </p>
         </div>
+
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
       {/* ━━━ Tabs & Filter Controls ━━━ */}

@@ -102,7 +102,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Header />
-        <main id="main-content" className="relative z-10 min-h-screen pt-[64px] sm:pt-[104px] lg:pt-[106px]">
+        <main id="main-content" className="relative z-10 min-h-screen overflow-x-hidden pt-[64px] sm:pt-[104px] lg:pt-[106px]">
           {children}
         </main>
         <Footer />
