@@ -118,7 +118,7 @@ export default function Academics() {
               </AnimatedSection>
               <AnimatedSection animation="fade-in-right">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-cream-line shadow-card">
-                  <Image src="/images/students/teacher-mentorship.jpg" alt="CBSE Classroom Mentorship" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" quality={95} />
+                  <Image src="/generated/wide_cbse_classroom.jpg" alt="CBSE Academic Classroom in Session" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" quality={95} />
                 </div>
               </AnimatedSection>
             </div>
@@ -126,7 +126,7 @@ export default function Academics() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <AnimatedSection animation="fade-in-left">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-cream-line shadow-card">
-                  <Image src="/images/students/kids-collaborative.jpg" alt="IB Inquiry and Collaborative Learning" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" quality={95} />
+                  <Image src="/generated/wide_ib_pyp_classroom.jpg" alt="IB Inquiry and Collaborative Learning Classroom" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" quality={95} />
                 </div>
               </AnimatedSection>
               <AnimatedSection animation="fade-in-right" className="flex flex-col gap-5">

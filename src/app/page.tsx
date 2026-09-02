@@ -98,12 +98,12 @@ const whyChooseCards = [
 ];
 
 const facilities = [
-  { title: "AI & Robotics Studio", img: "/generated/robo-lab2.png", desc: "Equipped with drone kits, programmable microcontrollers, 3D printers, and coding setups." },
+  { title: "AI & Robotics Studio", img: "/generated/wide_club_activities.jpg", desc: "Equipped with drone kits, robotics setups, programmable microcontrollers, and active club arenas." },
   { title: "Sports & Athletics Complex", img: "/images/students/student-joyful-run.jpg", desc: "Synthetic basketball arenas, indoor sports nets, tennis turfs, and athletic training tracks." },
   { title: "Science & Innovation Labs", img: "/generated/Chemistry-lab.png", desc: "Advanced chemistry, physics, and biology experimentation spaces with high-end apparatus." },
   { title: "Central Library & Archives", img: "/generated/library.png", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
   { title: "Visual Arts Atelier", img: "/generated/art-room.png", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
-  { title: "Student Collaboration Hub", img: "/generated/campus-life3.png", desc: "Active group learning setups, project discussion tables, and interactive seminar spaces." },
+  { title: "Student Collaboration Hub", img: "/generated/wide_ib_pyp_classroom.jpg", desc: "Active group learning setups, project discussion tables, and interactive seminar spaces." },
   { title: "Music & Performing Arts Studio", img: "/generated/Music-room.png", desc: "Acoustically insulated practice rooms for vocal training, school band, and orchestral instruments." },
   { title: "Eco-Club & Botanical Garden", img: "/generated/campus-life2.png", desc: "Student-led environmental sustainability initiatives, organic planting, and green drives." },
 ];
@@ -177,7 +177,7 @@ export default function Home() {
         const res = await fetch('/api/news');
         const data = await res.json();
         if (data?.news) {
-          setNewsList(data.news.filter((item: { type: string }) => item.type === 'news').slice(0, 3));
+          setNewsList(data.news.filter((item: { type: string }) => item.type === 'news').slice(0, 4));
         }
       } catch (err) {
         console.error('Failed to load homepage news:', err);
@@ -424,8 +424,8 @@ export default function Home() {
             {/* Student Photo side */}
             <div className="lg:col-span-6 relative h-[380px] sm:h-[440px] lg:h-[500px] w-full overflow-hidden">
               <Image
-                src="/images/students/student-joyful-run.jpg"
-                alt="Joyful Student at CCIS Campus"
+                src="/images/students/student-girl-uniform.jpg"
+                alt="Student in CCIS School Uniform at Campus Atrium"
                 fill
                 className="object-cover object-top hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -822,8 +822,8 @@ export default function Home() {
 
                 <div className="relative h-44 w-full rounded-xl overflow-hidden border border-cream-line shadow-inner">
                   <Image
-                    src="/generated/bioclass.png"
-                    alt="CBSE Academic Foundations"
+                    src="/generated/wide_cbse_classroom.jpg"
+                    alt="CBSE Academic Classroom in Session"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -879,8 +879,8 @@ export default function Home() {
 
                 <div className="relative h-44 w-full rounded-xl overflow-hidden border border-white/15 shadow-inner">
                   <Image
-                    src="/generated/campus-life1.png"
-                    alt="IB Primary Years Programme Inquiry"
+                    src="/generated/wide_ib_pyp_classroom.jpg"
+                    alt="IB Primary Years Programme Collaborative Classroom"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -942,7 +942,7 @@ export default function Home() {
               ))}
             </div>
           ) : newsList.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {newsList.map((item) => (
                 <AnimatedSection key={item.id} animation="scale-in" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover transition-all duration-300 group">
                   <div className="relative h-48 w-full overflow-hidden">

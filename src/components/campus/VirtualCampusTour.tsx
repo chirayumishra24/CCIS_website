@@ -20,7 +20,7 @@ const facilities: CampusFacility[] = [
     id: "robotics",
     name: "AI, Drone & Robotics Studio",
     category: "Tech & STEM",
-    image: "/generated/robo-lab2.png",
+    image: "/generated/wide_club_activities.jpg",
     tagline: "Where Young Minds Engineer Autonomous Tech",
     description:
       "Equipped with programmable microcontrollers, 3D printers, laser cutters, modular drone assembly kits, and AI vision sensors for hands-on student experimentation.",
@@ -78,7 +78,7 @@ const facilities: CampusFacility[] = [
     id: "sports",
     name: "Synthetic Athletics & Sports Arena",
     category: "Sports",
-    image: "/images/students/student-joyful-run.jpg",
+    image: "/images/students/student-club-orange.jpg",
     tagline: "Olympic Standard Synthetic Turfs & Courts",
     description:
       "Multi-discipline arena featuring FIBA-certified synthetic basketball arenas, floodlit football turfs, cricket training nets, and martial arts dojos.",

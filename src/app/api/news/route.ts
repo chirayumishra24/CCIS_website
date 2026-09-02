@@ -3,33 +3,43 @@ import { firestore } from '@/lib/firebaseAdmin';
 
 const defaultEvents = [
   {
-    id: 'ccis_default_1',
-    title: 'CCIS Clinches Gold at National Science & Tech Exhibition 2026',
-    date: '2026-07-10',
-    category: 'Academic',
-    img: '/generated/Chemistry-lab.png',
-    desc: 'Our Senior Division team won first place at the National Science Exposition with a solar-powered water purification design, demonstrating CCIS Innovation.',
+    id: 'ccis_news_musicians_1',
+    title: 'Young Musicians Display Talent on the Inter-School Stage',
+    date: '2026-08-25',
+    category: 'Cultural',
+    img: '/images/news/news_music_talent.jpg',
+    desc: 'CCIS students showcased stellar musical abilities in piano (Hridan Saraswat), drums (Nivan Sethi), guitar (Kishuk Sharma), and vocals (Mihira Purohit, Reet Kinra, Nirvi Maheshwari) at Dr Mool Chand Sethia Memorial Week. Director & Mentor Mrs. Lata Rawat praised their discipline, creative self-expression, and passion.',
     featured: true,
     type: 'news',
     school: 'CCIS'
   },
   {
-    id: 'ccis_default_2',
-    title: 'Admissions Open for CBSE and IB Boards: Session 2026-27',
-    date: '2026-07-08',
-    category: 'General',
-    img: '/images/students/student-joyful-run.jpg',
-    desc: 'Cambridge Court International School invites applications for the upcoming academic session. Book a personalized campus walk-through online.',
+    id: 'ccis_news_competitions_2',
+    title: "Students Shine Across Four Diverse Competition Categories at 'C'est Ton Moment'",
+    date: '2026-08-20',
+    category: 'Academic',
+    img: '/images/news/news_competition_winners.jpg',
+    desc: "CCIS students secured top positions across four categories: Puzzle (Jahaan Khatri & Adhyansh Mittal), STEM Project Junior (Viraj Gupta, Amayrah Sharma, Koushambi Raj), Business Pitch (Viraj Mawal & Jivisha Badla), and Culinary Masters (Aarav Cangan, Manya Lohar, Hridhyanshi Soni). Director Mrs. Lata Rawat congratulated the winners.",
     type: 'news',
     school: 'CCIS'
   },
   {
-    id: 'ccis_default_3',
-    title: 'Annual Inter-School Academic & Athletic Meet 2026',
-    date: '2026-06-25',
-    category: 'Sports',
-    img: '/images/students/kids-collaborative.jpg',
-    desc: 'CCIS students dominated the track and scholastic events, securing the championship trophy with outstanding gold and silver medal performances.',
+    id: 'ccis_news_parliament_3',
+    title: 'When the Classroom Turns into Parliament: Intra-School Youth Parliament 2026',
+    date: '2026-08-18',
+    category: 'Academic',
+    img: '/images/news/news_youth_parliament.jpg',
+    desc: 'Classes VI-XI students gathered for an intra-school Youth Parliament at CCIS, debating national issues, Ministry of Jal Shakti, hunger, Gram Panchayat audit transparency, and judicial reforms. Director & Mentor Mrs. Lata Rawat commended students for engaging with real-world democratic questions.',
+    type: 'news',
+    school: 'CCIS'
+  },
+  {
+    id: 'ccis_news_citizenship_4',
+    title: 'Students Take Pride in Spirit of Citizenship on Independence Day Celebrations',
+    date: '2026-08-15',
+    category: 'Cultural',
+    img: '/images/news/news_citizenship_independence.jpg',
+    desc: 'CCIS commemorated Independence Day with national flag hoisting, anthem, patriotic drama, and karate demonstrations. Group Director Mrs. Lata Rawat highlighted freedom with civic responsibility, urging students to contribute through purpose-driven choices.',
     type: 'news',
     school: 'CCIS'
   },
@@ -129,6 +139,38 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, title, date, category, img, desc, featured, attachmentUrl, attachmentType, type } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: 'News ID is required.' }, { status: 400 });
+    }
+
+    const docRef = firestore.collection('news_updates').doc(id);
+    const updatedData: Record<string, any> = {
+      updatedAt: new Date().toISOString(),
+      school: 'CCIS',
+    };
+    if (title !== undefined) updatedData.title = title;
+    if (date !== undefined) updatedData.date = date;
+    if (category !== undefined) updatedData.category = category;
+    if (img !== undefined) updatedData.img = img;
+    if (desc !== undefined) updatedData.desc = desc;
+    if (featured !== undefined) updatedData.featured = !!featured;
+    if (attachmentUrl !== undefined) updatedData.attachmentUrl = attachmentUrl;
+    if (attachmentType !== undefined) updatedData.attachmentType = attachmentType;
+    if (type !== undefined) updatedData.type = type;
+
+    await docRef.set(updatedData, { merge: true });
+    return NextResponse.json({ success: true, message: 'News item updated successfully.' });
+  } catch (error) {
+    console.error('Update CCIS News API Error:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -157,3 +199,4 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+

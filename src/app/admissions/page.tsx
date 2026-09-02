@@ -45,10 +45,10 @@ export default function Admissions() {
       <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
         <div className="absolute inset-0">
           <Image
-            src="/images/students/student-joyful-run.jpg"
-            alt="CCIS Admissions"
+            src="/images/students/student-boy-uniform.jpg"
+            alt="CCIS Student in School Uniform"
             fill
-            className="object-cover object-top"
+            className="object-cover object-top opacity-30"
             sizes="100vw"
             quality={95}
             priority

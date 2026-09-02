@@ -11,7 +11,7 @@ import AlumniManager, { AlumniProfile } from "@/components/admin/AlumniManager";
 import AnnouncementManager, { AnnouncementSettings } from "@/components/admin/AnnouncementManager";
 import StatsManager, { StatItem } from "@/components/admin/StatsManager";
 import ContactMessagesManager, { ContactMessage } from "@/components/admin/ContactMessagesManager";
-import { Lock, Loader2, Plus, Trash2, Video, FileText, Calendar, Bell } from "lucide-react";
+import { Lock, Loader2, Plus, Trash2, Video, FileText, Calendar, Bell, Edit3, X } from "lucide-react";
 
 interface NewsItem {
   id: string;
@@ -71,6 +71,7 @@ export default function AdminDashboard() {
     attachmentUrl: "",
     type: "news" as "news" | "notice",
   });
+  const [editingNewsId, setEditingNewsId] = useState<string | null>(null);
   const [submittingNews, setSubmittingNews] = useState(false);
   const [testimonialForm, setTestimonialForm] = useState({ type: "student", videoId: "", img: "" });
   const [submittingTestimonial, setSubmittingTestimonial] = useState(false);
@@ -380,6 +381,34 @@ export default function AdminDashboard() {
   };
 
   // Handlers for News CRUD
+  const handleEditNews = (item: NewsItem) => {
+    setEditingNewsId(item.id);
+    setNewsForm({
+      title: item.title,
+      date: item.date,
+      category: item.category,
+      img: item.img || "",
+      desc: item.desc,
+      featured: item.featured || false,
+      attachmentUrl: item.attachmentUrl || "",
+      type: item.type,
+    });
+  };
+
+  const handleCancelEditNews = () => {
+    setEditingNewsId(null);
+    setNewsForm({
+      title: "",
+      date: new Date().toISOString().split("T")[0],
+      category: "Academic",
+      img: "",
+      desc: "",
+      featured: false,
+      attachmentUrl: "",
+      type: "news",
+    });
+  };
+
   const handleCreateNewsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsForm.title || !newsForm.desc || !newsForm.date) {
@@ -389,31 +418,24 @@ export default function AdminDashboard() {
 
     setSubmittingNews(true);
     try {
+      const isEditing = !!editingNewsId;
       const res = await fetch("/api/news", {
-        method: "POST",
+        method: isEditing ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          ...(isEditing ? { id: editingNewsId } : {}),
           ...newsForm,
           attachmentType: newsForm.type === "notice" ? "pdf" : null,
         }),
       });
 
       const data = await res.json();
-      if (res.ok && data.success) {
-        setToast({ message: "Published successfully!", type: "success" });
-        setNewsForm({
-          title: "",
-          date: new Date().toISOString().split("T")[0],
-          category: "Academic",
-          img: "",
-          desc: "",
-          featured: false,
-          attachmentUrl: "",
-          type: "news",
-        });
+      if (res.ok && (data.success || data.newsItem)) {
+        setToast({ message: isEditing ? "Updated successfully!" : "Published successfully!", type: "success" });
+        handleCancelEditNews();
         fetchAllData(getPasscode());
       } else {
-        setToast({ message: data.error || "Failed to publish.", type: "error" });
+        setToast({ message: data.error || "Failed to save.", type: "error" });
       }
     } catch {
       setToast({ message: "Something went wrong.", type: "error" });
@@ -633,9 +655,20 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fadeIn">
               {/* Form */}
               <div className="bg-white border border-cream-line p-6 rounded-2xl shadow-card h-fit flex flex-col gap-4">
-                <h3 className="font-serif font-bold text-navy text-xl">
-                  Publish Circular or News
-                </h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="font-serif font-bold text-navy text-xl">
+                    {editingNewsId ? "Edit Circular or News" : "Publish Circular or News"}
+                  </h3>
+                  {editingNewsId && (
+                    <button
+                      type="button"
+                      onClick={handleCancelEditNews}
+                      className="text-xs text-rose-500 font-bold hover:underline flex items-center gap-1"
+                    >
+                      <X className="w-3.5 h-3.5" /> Cancel Edit
+                    </button>
+                  )}
+                </div>
 
                 <form onSubmit={handleCreateNewsSubmit} className="flex flex-col gap-3.5">
                   <div className="flex flex-col gap-1">
@@ -667,7 +700,7 @@ export default function AdminDashboard() {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. CBSE Term-1 Datesheet"
+                      placeholder="e.g. Young Musicians Display Talent"
                       value={newsForm.title}
                       onChange={(e) => setNewsForm({ ...newsForm, title: e.target.value })}
                       className="p-2.5 border border-cream-line rounded-xl text-xs font-sans focus:border-gold outline-none"
@@ -706,7 +739,7 @@ export default function AdminDashboard() {
                       <label className="text-[10px] font-bold text-navy uppercase tracking-wider">Cover Image URL</label>
                       <input
                         type="text"
-                        placeholder="https://... or /images/..."
+                        placeholder="https://... or /images/news/..."
                         value={newsForm.img}
                         onChange={(e) => setNewsForm({ ...newsForm, img: e.target.value })}
                         className="p-2.5 border border-cream-line rounded-xl text-xs font-sans focus:border-gold outline-none"
@@ -728,23 +761,36 @@ export default function AdminDashboard() {
                   <div className="flex flex-col gap-1">
                     <label className="text-[10px] font-bold text-navy uppercase tracking-wider">Description / Summary *</label>
                     <textarea
-                      rows={3}
+                      rows={4}
                       required
                       value={newsForm.desc}
                       onChange={(e) => setNewsForm({ ...newsForm, desc: e.target.value })}
-                      className="p-2.5 border border-cream-line rounded-xl text-xs font-sans focus:border-gold outline-none resize-none"
+                      className="p-2.5 border border-cream-line rounded-xl text-xs font-sans focus:border-gold outline-none resize-none leading-relaxed"
                     />
                   </div>
 
-                  <Button
-                    type="submit"
-                    variant="gold"
-                    size="md"
-                    isLoading={submittingNews}
-                    className="w-full font-bold uppercase tracking-wider text-xs rounded-xl mt-2"
-                  >
-                    Publish Post
-                  </Button>
+                  <div className="flex gap-2 mt-2">
+                    <Button
+                      type="submit"
+                      variant="gold"
+                      size="md"
+                      isLoading={submittingNews}
+                      className="flex-1 font-bold uppercase tracking-wider text-xs rounded-xl"
+                    >
+                      {editingNewsId ? "Update Post" : "Publish Post"}
+                    </Button>
+                    {editingNewsId && (
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="md"
+                        onClick={handleCancelEditNews}
+                        className="rounded-xl text-xs font-bold"
+                      >
+                        Cancel
+                      </Button>
+                    )}
+                  </div>
                 </form>
               </div>
 
@@ -758,7 +804,9 @@ export default function AdminDashboard() {
                   {newsItems.map((item) => (
                     <div
                       key={item.id}
-                      className="p-4 bg-white border border-cream-line rounded-2xl shadow-card flex items-center justify-between gap-4"
+                      className={`p-4 bg-white border rounded-2xl shadow-card flex items-center justify-between gap-4 transition-all ${
+                        editingNewsId === item.id ? "border-gold ring-2 ring-gold/20" : "border-cream-line"
+                      }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         {item.type === "notice" ? (
@@ -767,7 +815,7 @@ export default function AdminDashboard() {
                           </div>
                         ) : (
                           <img
-                            src={item.img || "/images/news_science.jpg"}
+                            src={item.img || "/images/news/news_music_talent.jpg"}
                             alt=""
                             className="w-14 h-14 rounded-xl object-cover border border-cream-line shrink-0"
                           />
@@ -783,13 +831,22 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => handleDeleteNews(item.id)}
-                        className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors shrink-0"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          onClick={() => handleEditNews(item)}
+                          className="p-2 text-navy hover:bg-cream rounded-xl transition-colors"
+                          title="Edit Post"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteNews(item.id)}
+                          className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors"
+                          title="Delete Post"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
