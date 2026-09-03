@@ -164,7 +164,7 @@ export default function KhushiChatBot() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-16 right-4 sm:bottom-20 sm:right-6 w-[calc(100vw-2rem)] sm:w-[380px] max-h-[580px] h-[520px] bg-white rounded-3xl shadow-2xl border border-cream-line flex flex-col overflow-hidden z-50 animate-fadeIn">
+        <div className="fixed bottom-16 right-4 sm:bottom-20 sm:right-6 w-[calc(100vw-2rem)] sm:w-[380px] h-[390px] sm:h-[410px] max-h-[78vh] bg-white rounded-3xl shadow-2xl border border-cream-line flex flex-col overflow-hidden z-50 animate-fadeIn">
           {/* Clean & Simple Header */}
           <div className="px-4 py-3 bg-white border-b border-cream-line flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
