@@ -5,7 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Skeleton from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
-import { Calendar, FileText, Download, Tag, Search, ArrowRight, X, ExternalLink } from "lucide-react";
+import { Calendar, FileText, Download, Tag, Search, ArrowRight, X, ExternalLink, ZoomIn } from "lucide-react";
 
 interface NewsOrNotice {
   id: string;
@@ -27,6 +27,7 @@ export default function NewsEvents() {
   const [items, setItems] = useState<NewsOrNotice[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeModalItem, setActiveModalItem] = useState<NewsOrNotice | null>(null);
+  const [isModalZoomed, setIsModalZoomed] = useState(false);
 
   useEffect(() => {
     async function fetchNews() {
@@ -192,17 +193,25 @@ export default function NewsEvents() {
                   className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 group"
                 >
                   <div>
-                    <div className="relative h-52 w-full overflow-hidden bg-cream/20">
-                      <img
-                        src={
-                          item.img ||
-                          "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1200"
-                        }
-                        alt={item.title}
-                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <span className="absolute top-3 left-3 bg-navy/90 text-white text-[10px] px-2.5 py-1 uppercase font-bold font-mono rounded-full border border-gold/30">
+                    <div 
+                      onClick={() => { setActiveModalItem(item); setIsModalZoomed(false); }}
+                      className="relative h-60 w-full overflow-hidden bg-slate-50 border-b border-cream-line p-2 cursor-pointer flex items-center justify-center group/img"
+                    >
+                      <div className="relative w-full h-full border-x-2 border-gold/40 rounded-xl overflow-hidden bg-white shadow-xs flex items-center justify-center p-1.5">
+                        <img
+                          src={
+                            item.img ||
+                            "/images/news/news_music_talent.jpg"
+                          }
+                          alt={item.title}
+                          className="object-contain w-full h-full group-hover/img:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <span className="absolute top-3 left-3 bg-navy text-white text-[10px] px-2.5 py-1 uppercase font-bold font-mono rounded-full border border-gold/30 shadow-xs">
                         {item.category}
+                      </span>
+                      <span className="absolute bottom-3 right-3 bg-navy/85 hover:bg-gold text-white hover:text-navy text-[10px] font-bold font-sans uppercase px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/20 flex items-center gap-1 shadow-md transition-all">
+                        <ZoomIn className="w-3 h-3 text-gold group-hover/img:text-navy" /> Tap to Zoom
                       </span>
                     </div>
 
@@ -296,8 +305,8 @@ export default function NewsEvents() {
 
       {/* ━━━ Detail Read Modal ━━━ */}
       {activeModalItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-dark/70 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white border border-cream-line rounded-2xl p-6 sm:p-8 shadow-2xl max-w-2xl w-full flex flex-col gap-4 max-h-[85vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-dark/80 backdrop-blur-md animate-fadeIn">
+          <div className="bg-white border border-cream-line rounded-2xl p-5 sm:p-7 shadow-2xl max-w-3xl w-full flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-start justify-between gap-4 pb-3 border-b border-cream-line">
               <div className="flex flex-col">
                 <span className="text-[10px] font-mono font-bold text-gold-dark uppercase tracking-wider">
@@ -310,25 +319,47 @@ export default function NewsEvents() {
                   Published: {new Date(activeModalItem.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
                 </span>
               </div>
-              <button
-                onClick={() => setActiveModalItem(null)}
-                className="text-ink-muted hover:text-navy p-1 shrink-0"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2 shrink-0">
+                {activeModalItem.img && (
+                  <button
+                    onClick={() => setIsModalZoomed(!isModalZoomed)}
+                    className="p-2 text-navy hover:bg-cream rounded-xl text-xs font-bold flex items-center gap-1.5 border border-cream-line transition-colors"
+                    title="Toggle Zoom"
+                  >
+                    <ZoomIn className="w-4 h-4 text-gold-dark" />
+                    <span className="hidden sm:inline">{isModalZoomed ? "Fit" : "Zoom 2x"}</span>
+                  </button>
+                )}
+                <button
+                  onClick={() => setActiveModalItem(null)}
+                  className="text-ink-muted hover:text-navy hover:bg-cream p-1.5 rounded-xl transition-colors shrink-0"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {activeModalItem.img && (
-              <div className="relative h-64 w-full rounded-xl overflow-hidden bg-cream/20">
+              <div 
+                onClick={() => setIsModalZoomed(!isModalZoomed)}
+                className={`relative w-full rounded-2xl border-x-4 border-gold/60 bg-slate-50 shadow-inner p-3 cursor-zoom-in transition-all flex items-center justify-center ${
+                  isModalZoomed ? "min-h-[600px] overflow-auto" : "h-[380px] sm:h-[460px] overflow-hidden"
+                }`}
+              >
                 <img
                   src={activeModalItem.img}
                   alt={activeModalItem.title}
-                  className="object-cover w-full h-full"
+                  className={`rounded-xl object-contain transition-transform duration-300 ${
+                    isModalZoomed ? "w-full scale-125 cursor-zoom-out" : "max-h-full max-w-full"
+                  }`}
                 />
+                <span className="absolute bottom-3 right-3 bg-navy/90 text-white text-[10px] font-bold font-sans uppercase px-2.5 py-1 rounded-lg border border-white/20 flex items-center gap-1 shadow-md">
+                  <ZoomIn className="w-3.5 h-3.5 text-gold" /> {isModalZoomed ? "Click to Fit" : "Tap to Zoom 2x"}
+                </span>
               </div>
             )}
 
-            <div className="text-sm text-ink leading-relaxed whitespace-pre-line">
+            <div className="bg-cream/15 p-4 sm:p-5 rounded-xl border border-cream-line text-sm text-ink leading-relaxed whitespace-pre-line">
               {activeModalItem.desc}
             </div>
 

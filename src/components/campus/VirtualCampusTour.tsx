@@ -78,7 +78,7 @@ const facilities: CampusFacility[] = [
     id: "sports",
     name: "Synthetic Athletics & Sports Arena",
     category: "Sports",
-    image: "/images/students/student-club-orange.jpg",
+    image: "/generated/sports-athletics-complex.jpg",
     tagline: "Olympic Standard Synthetic Turfs & Courts",
     description:
       "Multi-discipline arena featuring FIBA-certified synthetic basketball arenas, floodlit football turfs, cricket training nets, and martial arts dojos.",

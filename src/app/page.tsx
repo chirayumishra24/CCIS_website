@@ -16,7 +16,7 @@ import WhyChoose3DCarousel from '@/components/ui/WhyChoose3DCarousel';
 import TestimonialsCarousel from '@/components/ui/TestimonialsCarousel';
 import BookVisitModal from '@/components/ui/BookVisitModal';
 import InstagramFeed from '@/components/ui/InstagramFeed';
-import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle, Eye, Target, Heart, GraduationCap } from 'lucide-react';
+import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle, Eye, Target, Heart, GraduationCap, ZoomIn } from 'lucide-react';
 
 /* ─── Data Fallbacks ─── */
 const defaultParentReviews = [
@@ -35,22 +35,22 @@ const defaultStudentReviews = [
 
 const heroSlides = [
   {
-    img: '/images/students/kids-collaborative.jpg',
+    img: '/generated/kids-collaborative.jpg',
     title: 'Dual Advantage: CBSE & IB Curriculum',
     desc: 'Empowering future global leaders through world-class academic pathways and deep-rooted Indian values.'
   },
   {
-    img: '/images/students/smart-tech-lab.jpg',
+    img: '/generated/wide_club_activities.jpg',
     title: 'Holistic Development & AI Innovation Studios',
     desc: 'State-of-the-art technology arenas, interactive smart labs, and robotics design studios.'
   },
   {
-    img: '/images/students/teacher-mentorship.jpg',
+    img: '/generated/teacher-mentorship.jpg',
     title: 'Personalised Care & Dedicated Mentorship',
     desc: 'Low student-teacher ratio ensuring individual attention and nurturing holistic growth.'
   },
   {
-    img: '/images/students/global-graduate.jpg',
+    img: '/generated/global-graduates-pathways-2026.jpg',
     title: 'Global University Pathways & Excellence',
     desc: 'Preparing confident scholars for admissions to top Ivy League, Russell Group, and national institutions.'
   },
@@ -71,35 +71,35 @@ const whyChooseCards = [
     icon: <Globe className="w-5 h-5 text-gold" />,
     title: "Global Opportunities",
     desc: "With a track record of alumni thriving at top global universities and international networks.",
-    img: "/images/students/global-graduate.jpg",
+    img: "/generated/global-graduates-pathways-2026.jpg",
     badge: "Global Edge"
   },
   {
     icon: <UserCheck className="w-5 h-5 text-gold" />,
     title: "Personalised Attention",
     desc: "Small classes with a low student-teacher ratio for dedicated individual care and guidance.",
-    img: "/images/students/teacher-mentorship.jpg",
+    img: "/generated/teacher-mentorship.jpg",
     badge: "1:1 Mentorship"
   },
   {
     icon: <Compass className="w-5 h-5 text-gold" />,
     title: "Future-Ready Education Approach",
     desc: "Instilling ethics, empathy, inquiry, and critical thinking through dual-curriculum exploration.",
-    img: "/images/students/kids-collaborative.jpg",
+    img: "/generated/kids-collaborative.jpg",
     badge: "Holistic Growth"
   },
   {
     icon: <Sparkles className="w-5 h-5 text-gold" />,
     title: "Passion-Driven Learning",
     desc: "Helping students discover their unique interests in advanced AI studios, arts, and athletics.",
-    img: "/images/students/smart-tech-lab.jpg",
+    img: "/generated/wide_club_activities.jpg",
     badge: "Skill Building"
   }
 ];
 
 const facilities = [
   { title: "AI & Robotics Studio", img: "/generated/wide_club_activities.jpg", desc: "Equipped with drone kits, robotics setups, programmable microcontrollers, and active club arenas." },
-  { title: "Sports & Athletics Complex", img: "/images/students/student-joyful-run.jpg", desc: "Synthetic basketball arenas, indoor sports nets, tennis turfs, and athletic training tracks." },
+  { title: "Sports & Athletics Complex", img: "/generated/sports-athletics-complex.jpg", desc: "Synthetic basketball arenas, indoor sports nets, tennis turfs, and athletic training tracks." },
   { title: "Science & Innovation Labs", img: "/generated/Chemistry-lab.png", desc: "Advanced chemistry, physics, and biology experimentation spaces with high-end apparatus." },
   { title: "Central Library & Archives", img: "/generated/library.png", desc: "Home to over 15,000 prints, digital journals, quiet study spaces, and research systems." },
   { title: "Visual Arts Atelier", img: "/generated/art-room.png", desc: "Studio workspaces for pottery, oil painting, sculptures, and student gallery exhibitions." },
@@ -134,6 +134,8 @@ export default function Home() {
   const [activeTestimonialTab, setActiveTestimonialTab] = useState<"parent" | "student">("parent");
   const [activeCurriculumTab, setActiveCurriculumTab] = useState<"cbse" | "ib">("cbse");
   const [youtubeLoaded, setYoutubeLoaded] = useState(false);
+  const [zoomedNewsItem, setZoomedNewsItem] = useState<{ id: string; title: string; desc: string; img?: string; category: string; date: string } | null>(null);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [liveStats, setLiveStats] = useState<Array<{ id: string; end: number; suffix: string; label: string }>>([
     { id: 'stat_1', end: 25, suffix: '+', label: 'Years of Excellence' },
     { id: 'stat_2', end: 13500, suffix: '+', label: 'Alumni Network' },
@@ -214,7 +216,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden">
       {/* ━━━ 1. HERO SECTION ━━━ */}
-      <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-4 sm:pt-8 pb-14 md:pb-20">
+      <section className="relative min-h-[78vh] sm:min-h-[84vh] md:min-h-[88vh] lg:min-h-[94vh] bg-navy overflow-hidden flex items-center pt-8 sm:pt-14 md:pt-20 pb-24 sm:pb-32 md:pb-40">
         {heroSlides.map((slide, idx) => (
           <div
             key={idx}
@@ -231,8 +233,9 @@ export default function Home() {
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy/60 to-navy-dark/40 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-black/20 z-10" />
+        {/* Lighter scrim for maximum image clarity while maintaining crisp text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/75 via-navy/35 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/50 via-transparent to-black/10 z-10" />
         <HeroCanvas3D />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full text-white">
@@ -240,9 +243,12 @@ export default function Home() {
             <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit">
               Admissions Open 2026-27
             </span>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-extrabold leading-[1.1] tracking-tight drop-shadow-lg">
               {heroSlides[currentBg]?.title}
             </h1>
+            <p className="text-sm sm:text-base md:text-lg text-white/90 font-sans max-w-xl leading-relaxed drop-shadow-md">
+              {heroSlides[currentBg]?.desc}
+            </p>
             <div className="flex flex-wrap gap-3 mt-1">
               <Link href="/admissions">
                 <Button variant="gold" size="lg" className="font-bold uppercase tracking-wider rounded-xl shadow-glow-gold">
@@ -382,7 +388,7 @@ export default function Home() {
                     src={item.img}
                     alt={item.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-transparent to-transparent" />
@@ -424,10 +430,10 @@ export default function Home() {
             {/* Student Photo side */}
             <div className="lg:col-span-6 relative h-[380px] sm:h-[440px] lg:h-[500px] w-full overflow-hidden">
               <Image
-                src="/images/students/student-girl-uniform.jpg"
-                alt="Student in CCIS School Uniform at Campus Atrium"
+                src="/generated/global-graduates-pathways-2026.jpg"
+                alt="CCIS Students in Authentic School Uniform on Campus"
                 fill
-                className="object-cover object-top hover:scale-105 transition-transform duration-700"
+                className="object-cover object-center hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
               />
@@ -945,16 +951,24 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {newsList.map((item) => (
                 <AnimatedSection key={item.id} animation="scale-in" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover transition-all duration-300 group">
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <Image
-                      src={item.img || '/images/news_science.jpg'}
-                      alt={item.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    <span className="absolute top-3 left-3 bg-navy text-white text-[10px] px-2.5 py-1 uppercase font-bold font-sans rounded-full">
+                  <div 
+                    onClick={() => { setZoomedNewsItem(item); setIsImageZoomed(false); }}
+                    className="relative h-60 w-full overflow-hidden bg-slate-50 border-b border-cream-line p-2 cursor-pointer flex items-center justify-center group/img"
+                  >
+                    <div className="relative w-full h-full border-x-2 border-gold/40 rounded-xl overflow-hidden bg-white shadow-xs flex items-center justify-center p-1.5">
+                      <Image
+                        src={item.img || '/images/news/news_music_talent.jpg'}
+                        alt={item.title}
+                        fill
+                        className="object-contain transition-transform duration-500 group-hover/img:scale-105"
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                      />
+                    </div>
+                    <span className="absolute top-3 left-3 bg-navy text-white text-[10px] px-2.5 py-1 uppercase font-bold font-sans rounded-full shadow-xs">
                       {item.category}
+                    </span>
+                    <span className="absolute bottom-3 right-3 bg-navy/85 hover:bg-gold text-white hover:text-navy text-[10px] font-bold font-sans uppercase px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/20 flex items-center gap-1 shadow-md transition-all">
+                      <ZoomIn className="w-3 h-3 text-gold group-hover/img:text-navy" /> Tap to Zoom
                     </span>
                   </div>
                   <div className="p-5 flex flex-col flex-1 justify-between gap-3">
@@ -963,14 +977,20 @@ export default function Home() {
                         <Calendar className="w-3.5 h-3.5 text-gold-dark" />
                         {new Date(item.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
-                      <h3 className="font-serif font-bold text-navy text-base line-clamp-2 hover:text-gold transition-colors leading-snug">
-                        <Link href="/news-events">{item.title}</Link>
+                      <h3 
+                        onClick={() => { setZoomedNewsItem(item); setIsImageZoomed(false); }}
+                        className="font-serif font-bold text-navy text-base line-clamp-2 hover:text-gold transition-colors leading-snug cursor-pointer"
+                      >
+                        {item.title}
                       </h3>
                       <p className="text-xs text-ink-muted line-clamp-3 leading-relaxed">{item.desc}</p>
                     </div>
-                    <Link href="/news-events" className="text-gold-dark hover:text-gold font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-1 mt-1">
+                    <button 
+                      onClick={() => { setZoomedNewsItem(item); setIsImageZoomed(false); }}
+                      className="text-gold-dark hover:text-gold font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-1 mt-1 text-left cursor-pointer"
+                    >
                       Read Details <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                    </button>
                   </div>
                 </AnimatedSection>
               ))}
@@ -1053,6 +1073,73 @@ export default function Home() {
         isOpen={isVisitModalOpen}
         onClose={() => setIsVisitModalOpen(false)}
       />
+      {/* Zoomable News & Article Lightbox Modal */}
+      {zoomedNewsItem && (
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-3 sm:p-4 bg-navy-dark/85 backdrop-blur-md animate-fadeIn">
+          <div className="bg-white border border-cream-line rounded-2xl shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-scale-in">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 sm:p-5 border-b border-cream-line bg-cream/10">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-mono font-bold text-gold-dark uppercase tracking-wider">
+                  {zoomedNewsItem.category} &bull; {new Date(zoomedNewsItem.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </span>
+                <h3 className="font-serif font-bold text-navy text-base sm:text-xl line-clamp-1 mt-0.5">
+                  {zoomedNewsItem.title}
+                </h3>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                {zoomedNewsItem.img && (
+                  <button
+                    onClick={() => setIsImageZoomed(!isImageZoomed)}
+                    className="p-2 text-navy hover:bg-cream rounded-xl text-xs font-bold flex items-center gap-1.5 border border-cream-line transition-colors"
+                    title="Toggle Zoom"
+                  >
+                    <ZoomIn className="w-4 h-4 text-gold-dark" />
+                    <span className="hidden sm:inline">{isImageZoomed ? "Fit" : "Zoom 2x"}</span>
+                  </button>
+                )}
+                <button
+                  onClick={() => setZoomedNewsItem(null)}
+                  className="p-2 text-ink-muted hover:text-navy hover:bg-cream rounded-xl transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body with Zoomable Clipping */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4">
+              {zoomedNewsItem.img && (
+                <div 
+                  onClick={() => setIsImageZoomed(!isImageZoomed)}
+                  className={`relative w-full rounded-2xl border-x-4 border-gold/60 bg-slate-50 shadow-inner p-3 cursor-zoom-in transition-all flex items-center justify-center ${
+                    isImageZoomed ? "min-h-[600px] overflow-auto" : "h-[380px] sm:h-[460px] overflow-hidden"
+                  }`}
+                >
+                  <img
+                    src={zoomedNewsItem.img}
+                    alt={zoomedNewsItem.title}
+                    className={`rounded-xl object-contain transition-transform duration-300 ${
+                      isImageZoomed ? "w-full scale-125 cursor-zoom-out" : "max-h-full max-w-full"
+                    }`}
+                  />
+                  <span className="absolute bottom-3 right-3 bg-navy/90 text-white text-[10px] font-bold font-sans uppercase px-2.5 py-1 rounded-lg border border-white/20 flex items-center gap-1 shadow-md">
+                    <ZoomIn className="w-3.5 h-3.5 text-gold" /> {isImageZoomed ? "Click to Fit" : "Tap to Zoom 2x"}
+                  </span>
+                </div>
+              )}
+
+              <div className="bg-cream/15 p-4 sm:p-5 rounded-xl border border-cream-line">
+                <h4 className="font-serif font-bold text-navy text-lg mb-1">{zoomedNewsItem.title}</h4>
+                <p className="text-xs sm:text-sm text-ink leading-relaxed whitespace-pre-line">
+                  {zoomedNewsItem.desc}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <MobileQuickDock />
     </div>
   );

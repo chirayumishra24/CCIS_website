@@ -39,10 +39,10 @@
 | Image Path | Component / Page | Scene & Action Description (What is happening) |
 | :--- | :--- | :--- |
 | `/images/students/student-joyful-run.jpg` | Homepage Arena, Campus Tour, Sports Highlights | **Joyful Athletic Sprint on Campus Track:** A young Indian student with an energetic, beaming smile sprinting joyfully across the school's sports field in athletic sports uniform, conveying vitality, cheer, and holistic well-being. |
-| `/images/students/kids-collaborative.jpg` | Primary Section, IB PYP Inquiry | **Collaborative Group Discovery:** Elementary Indian children sitting together around a low wooden table with building blocks, illustrated storybooks, and art supplies, laughing and problem-solving together. |
-| `/images/students/teacher-mentorship.jpg` | Faculty & Academics Highlights | **One-on-One Mentorship Moment:** A warm, encouraging Indian teacher leaning in beside a student's desk, guiding their pencil and explaining a mathematical concept with individualized attention and positive reinforcement. |
+| `/images/students/kids-collaborative.jpg` | Primary Section, IB PYP Inquiry | **Collaborative Group Study:** Senior Indian students in authentic CCIS uniforms (girls in white mandarin shirts with navy vests and white piping; boys in white polo with navy collar and trim) studying together with laptops and books in the CCIS library. |
+| `/images/students/teacher-mentorship.jpg` | Faculty & Academics Highlights | **One-on-One Mentorship Moment:** A warm, encouraging Indian teacher in a saree and CCIS lanyard guiding an Indian student through a biology diagram at her desk, with all Indian peers studying in authentic CCIS uniforms (white polo with navy trim, navy vests, and CCIS lanyards). |
 | `/images/students/smart-tech-lab.jpg` | Robotics, AI & Smart Classrooms | **Hands-On STEM & Coding Innovation:** Middle school Indian students clustered around a robotics kit and laptop screen, testing motor sensors and coding movement algorithms in a brightly lit tech lab. |
-| `/images/students/global-graduate.jpg` | Alumni, Placements & Achievements | **Confident Global Achiever:** A smiling senior Indian student standing proudly holding academic folders against the campus backdrop, representing preparedness for higher education and global careers. |
+| `/images/students/global-graduate.jpg` | Alumni, Placements & Achievements | **Confident Global Achievers:** A group of smiling senior Indian students in official CCIS uniforms (girls in white mandarin shirts with white-piped navy vests; boys in white polo with navy trim and collars; all with CCIS lanyards) standing proudly on campus holding academic books and certificates. |
 
 ---
 

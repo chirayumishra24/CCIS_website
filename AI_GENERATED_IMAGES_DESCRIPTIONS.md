@@ -132,9 +132,10 @@
 * **File Location:** `/images/students/kids-collaborative.jpg`
 * **Usage:** `/academics` IB PYP Inquiry Section, Primary Learning Card
 * **What is happening in the image:**
-  * **Subjects:** Three elementary school Indian children sitting together around a low light-wood activity table.
-  * **Action:** Working cooperatively with colorful geometric building blocks, illustrated notebooks, and flashcards, sharing ideas and laughing together.
-  * **Atmosphere:** Inquiry-based curiosity, peer collaboration, warm ambient classroom sunlight, and joyful early-years education.
+  * **Subjects:** Senior Indian high school students (boys and girls) collaborating enthusiastically around a wooden study table in the sunlit CCIS library.
+  * **Uniform:** Authentic CCIS uniforms—girls wearing white mandarin-collar shirts under navy blue tailored vests with white piping trim, chest crest, and CCIS lanyards; boys wearing CCIS white polo shirts with navy collars, plackets, shoulder stripes, and CCIS lanyards.
+  * **Action:** Discussing CBSE & IB curriculum coursework with laptops, notebooks, textbooks, and pens in a double-height modern library.
+  * **Atmosphere:** Rigorous peer collaboration, intellectual curiosity, modern scholastic ambiance, and warm daylight.
 
 ---
 
@@ -142,9 +143,10 @@
 * **File Location:** `/images/students/teacher-mentorship.jpg`
 * **Usage:** `/academics` CBSE Section, Faculty Mentorship Highlights
 * **What is happening in the image:**
-  * **Subjects:** A caring Indian female teacher wearing a professional saree leaning gently beside a seated student's desk.
-  * **Action:** Pointing with a pencil to an open textbook, explaining a difficult concept one-on-one while the student nods with understanding.
-  * **Atmosphere:** Personalized academic care, trust, encouragement, and a supportive classroom setting.
+  * **Subjects:** A dedicated Indian female teacher in an elegant blue saree and CCIS faculty lanyard mentoring all-Indian high school students in a sunlit modern classroom.
+  * **Uniform:** Accurate CCIS school uniforms—boys in white polo shirts with navy blue collars, plackets, shoulder stripes, and CCIS lanyards; girls in navy blue uniform vests with white borders and CCIS lanyards.
+  * **Action:** Pointing to an open diagram notebook with a kind smile, guiding a seated student through a biology concept while peer students actively study.
+  * **Atmosphere:** Personalized academic care, authentic Indian campus life, low student-teacher ratio, and focused scholarly collaboration.
 
 ---
 
@@ -162,9 +164,10 @@
 * **File Location:** `/images/students/global-graduate.jpg`
 * **Usage:** Alumni Achievements, University Acceptance Highlights
 * **What is happening in the image:**
-  * **Subject:** A confident, smiling senior Indian secondary student standing upright in the campus courtyard.
-  * **Action:** Holding academic folders and a tablet securely against the chest, looking directly into the camera with poise and ambition.
-  * **Atmosphere:** Readiness for premier global universities, confidence, maturity, and bright natural lighting.
+  * **Subject:** A group of smiling, confident senior Indian secondary students (boys and girls) standing together on the campus lawn before Cambridge Court International School.
+  * **Uniform:** Distinct, authentic CCIS uniforms—girls wearing white mandarin-collar shirts under navy blue tailored vests with white piping trim, crest, and CCIS lanyards; boys wearing white polo shirts with navy blue collars, plackets, shoulder stripes, cuffs, crest, and CCIS lanyards; all in navy trousers.
+  * **Action:** Holding academic books, binders, and achievement certificates with pride and collegiate poise.
+  * **Atmosphere:** Global university readiness, academic distinction, bright outdoor campus daylight.
 
 ---
 

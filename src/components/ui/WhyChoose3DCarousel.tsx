@@ -108,7 +108,7 @@ export default function WhyChoose3DCarousel({ items }: WhyChoose3DCarouselProps)
                   src={item.img}
                   alt={item.title}
                   fill
-                  className="object-cover"
+                  className="object-cover object-top"
                   sizes="(max-width: 640px) 100vw, 320px"
                   priority={idx === 0}
                 />

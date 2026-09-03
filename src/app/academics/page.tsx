@@ -38,7 +38,7 @@ export default function Academics() {
       <section className="relative min-h-[56vh] sm:min-h-[62vh] md:min-h-[70vh] lg:min-h-[76vh] bg-navy overflow-hidden flex items-center pt-8 pb-16 md:pb-20">
         <div className="absolute inset-0">
           <Image
-            src="/images/students/teacher-mentorship.jpg"
+            src="/generated/teacher-mentorship.jpg"
             alt="CCIS Academic Mentorship"
             fill
             className="object-cover object-top"
