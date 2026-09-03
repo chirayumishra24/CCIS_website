@@ -15,6 +15,7 @@ import AgeCalculator from '@/components/ui/AgeCalculator';
 import WhyChoose3DCarousel from '@/components/ui/WhyChoose3DCarousel';
 import TestimonialsCarousel from '@/components/ui/TestimonialsCarousel';
 import BookVisitModal from '@/components/ui/BookVisitModal';
+import NewsSwipeCarousel from '@/components/ui/NewsSwipeCarousel';
 import InstagramFeed from '@/components/ui/InstagramFeed';
 import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle, Eye, Target, Heart, GraduationCap, ZoomIn } from 'lucide-react';
 
@@ -948,7 +949,20 @@ export default function Home() {
               ))}
             </div>
           ) : newsList.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <>
+              {/* Mobile Swipe Carousel */}
+              <div className="block md:hidden">
+                <NewsSwipeCarousel
+                  items={newsList}
+                  onItemClick={(item) => {
+                    setZoomedNewsItem(item);
+                    setIsImageZoomed(false);
+                  }}
+                />
+              </div>
+
+              {/* Desktop & Tablet Grid */}
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {newsList.map((item) => (
                 <AnimatedSection key={item.id} animation="scale-in" className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover transition-all duration-300 group">
                   <div 
@@ -995,6 +1009,7 @@ export default function Home() {
                 </AnimatedSection>
               ))}
             </div>
+            </>
           ) : (
             <p className="text-center text-ink-muted text-sm py-8">No news items available at the moment.</p>
           )}
