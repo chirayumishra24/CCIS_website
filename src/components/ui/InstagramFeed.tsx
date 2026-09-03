@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import Button from "./Button";
+import Instagram3DCarousel from "./Instagram3DCarousel";
 
 declare global {
   interface Window {
@@ -122,8 +123,13 @@ export default function InstagramFeed() {
           </a>
         </div>
 
-        {/* Instagram Cards Grid - Perfectly balanced & aligned */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+        {/* Mobile 3D Coverflow Carousel (Mobile View Only) */}
+        <div className="block md:hidden">
+          <Instagram3DCarousel posts={INSTAGRAM_POSTS} />
+        </div>
+
+        {/* Desktop & Tablet Grid */}
+        <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {INSTAGRAM_POSTS.map((post, idx) => (
             <div
               key={post.id}
