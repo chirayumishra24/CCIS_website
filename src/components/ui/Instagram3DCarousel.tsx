@@ -78,8 +78,8 @@ export default function Instagram3DCarousel({ posts }: Instagram3DCarouselProps)
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* 3D Stage Container */}
-      <div className="relative h-[560px] w-full flex items-center justify-center [perspective:1000px] overflow-hidden">
+      {/* 3D Stage Container with ample height for full Instagram embed & card footer */}
+      <div className="relative h-[680px] sm:h-[720px] w-full flex items-center justify-center [perspective:1000px]">
         {posts.map((post, idx) => {
           let position = idx - activeIndex;
           if (position < -1) position += count;
@@ -225,7 +225,7 @@ export default function Instagram3DCarousel({ posts }: Instagram3DCarouselProps)
       </div>
 
       {/* Controls: Navigation Buttons & Pagination Dots */}
-      <div className="flex items-center justify-between mt-2 px-6">
+      <div className="flex items-center justify-between mt-4 px-6 relative z-30">
         <button
           onClick={handlePrev}
           className="w-9 h-9 rounded-full bg-white border border-cream-line shadow-sm hover:border-gold hover:text-gold flex items-center justify-center text-navy transition-all duration-300 active:scale-90 cursor-pointer"
