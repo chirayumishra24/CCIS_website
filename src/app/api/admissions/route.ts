@@ -61,10 +61,14 @@ export async function POST(request: Request) {
     }
 
     // 2. Forward to Google Sheets Webhook
-    const googleSheetsWebhook = process.env.GOOGLE_SHEETS_ADMISSIONS_WEBHOOK;
+    const googleSheetsWebhook =
+      process.env.GOOGLE_SHEETS_ADMISSIONS_WEBHOOK ||
+      'https://script.google.com/macros/s/AKfycbwWGA-DUq5kL-iXWQ3FNwBQChQy-Y14Q_XI8pytMYR0jkfpEIwrqrBYn_jrQFJgff0y/exec';
+
     if (googleSheetsWebhook) {
       fetch(googleSheetsWebhook, {
         method: 'POST',
+        redirect: 'follow',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(enquiryData),
       }).catch((err) => console.error('Google Sheets sync error:', err));
