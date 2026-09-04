@@ -51,6 +51,7 @@ export async function POST(request: Request) {
       updatedAt: new Date().toISOString(),
     };
 
+    // 1. Save to Firestore
     try {
       if (firestore && firestore.collection) {
         await docRef.set(enquiryData);
@@ -59,7 +60,31 @@ export async function POST(request: Request) {
       console.warn('Firestore write warning:', dbErr);
     }
 
-    // Send email alert to admin
+    // 2. Forward to Google Sheets Webhook
+    const googleSheetsWebhook = process.env.GOOGLE_SHEETS_ADMISSIONS_WEBHOOK;
+    if (googleSheetsWebhook) {
+      fetch(googleSheetsWebhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(enquiryData),
+      }).catch((err) => console.error('Google Sheets sync error:', err));
+    }
+
+    // 3. Forward to Zoho CRM Webhook / Flow
+    const zohoCrmWebhook = process.env.ZOHO_CRM_ADMISSIONS_WEBHOOK;
+    if (zohoCrmWebhook) {
+      fetch(zohoCrmWebhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...enquiryData,
+          leadSource: 'Website - Admission Form',
+          schoolName: 'City Children International School',
+        }),
+      }).catch((err) => console.error('Zoho CRM sync error:', err));
+    }
+
+    // 4. Send email alert to admin
     try {
       await sendAdmissionsNotificationEmail(applicantName, email, phone, grade, message || `Parent: ${parent}, Curriculum: ${curriculum || 'CBSE'}`);
     } catch (err) {

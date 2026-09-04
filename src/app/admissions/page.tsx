@@ -4,7 +4,7 @@ import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Button from "@/components/ui/Button";
-import MultiStepAdmissionsForm from "@/components/admissions/MultiStepAdmissionsForm";
+import AdmissionEnquiryForm from "@/components/admissions/AdmissionEnquiryForm";
 import AgeCalculator from "@/components/ui/AgeCalculator";
 import {
   FileText,
@@ -174,9 +174,9 @@ export default function Admissions() {
               </div>
             </div>
 
-            {/* Right Column: Native MultiStep Wizard */}
+            {/* Right Column: Unified Admission Enquiry Form */}
             <div className="lg:col-span-7">
-              <MultiStepAdmissionsForm />
+              <AdmissionEnquiryForm />
             </div>
           </div>
         </div>
