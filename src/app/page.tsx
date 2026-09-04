@@ -217,7 +217,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden">
       {/* ━━━ 1. HERO SECTION ━━━ */}
-      <section className="relative min-h-[78vh] sm:min-h-[84vh] md:min-h-[88vh] lg:min-h-[94vh] bg-navy overflow-hidden flex items-center pt-8 sm:pt-14 md:pt-20 pb-24 sm:pb-32 md:pb-40">
+      <section className="relative min-h-[85vh] sm:min-h-[90vh] md:min-h-[94vh] bg-navy overflow-hidden flex flex-col justify-between pt-8 sm:pt-14 md:pt-16 pb-8 md:pb-10">
         {heroSlides.map((slide, idx) => (
           <div
             key={idx}
@@ -236,10 +236,10 @@ export default function Home() {
         ))}
         {/* Lighter scrim for maximum image clarity while maintaining crisp text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/75 via-navy/35 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/50 via-transparent to-black/10 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/60 via-transparent to-black/10 z-10" />
         <HeroCanvas3D />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full text-white">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full text-white my-auto pt-4 sm:pt-6">
           <div className="max-w-2xl flex flex-col gap-3.5 md:gap-5">
             <span className="inline-block px-3.5 py-1.5 bg-gold/95 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-extrabold shadow-glow-gold w-fit">
               Admissions Open 2026-27
@@ -279,17 +279,17 @@ export default function Home() {
           </div>
         </div>
 
+        {/* ━━━ 2. ACCREDITATION BAR ━━━ */}
+        <div className="relative z-20 max-w-6xl mx-auto px-4 w-full mt-6 md:mt-8">
+          <AccreditationBadges />
+        </div>
+
         {/* Subtle gold line at hero bottom */}
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
       </section>
 
-      {/* ━━━ 2. ACCREDITATION BAR ━━━ */}
-      <div className="relative z-20 max-w-6xl mx-auto px-4 -mt-12 md:-mt-16">
-        <AccreditationBadges />
-      </div>
-
       {/* ━━━ 3. ABOUT SNAPSHOT ━━━ */}
-      <section className="pt-20 md:pt-28 pb-20 md:pb-28 bg-white">
+      <section className="pt-16 md:pt-24 pb-20 md:pb-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <AnimatedSection animation="fade-in-left" className="w-full">
             <div
@@ -298,14 +298,12 @@ export default function Home() {
               onClick={() => setYoutubeLoaded(true)}
             >
               {youtubeLoaded ? (
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src="https://www.youtube.com/embed/wJ8RPJgO_Rs?autoplay=1"
-                  title="CCIS Infrastructure Video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
+                <video
+                  className="absolute inset-0 w-full h-full object-cover"
+                  src="/Video/Copy of Settling Video.mp4"
+                  controls
+                  autoPlay
+                  playsInline
                 />
               ) : (
                 <>
