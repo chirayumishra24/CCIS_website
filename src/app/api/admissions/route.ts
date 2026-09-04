@@ -70,21 +70,7 @@ export async function POST(request: Request) {
       }).catch((err) => console.error('Google Sheets sync error:', err));
     }
 
-    // 3. Forward to Zoho CRM Webhook / Flow
-    const zohoCrmWebhook = process.env.ZOHO_CRM_ADMISSIONS_WEBHOOK;
-    if (zohoCrmWebhook) {
-      fetch(zohoCrmWebhook, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...enquiryData,
-          leadSource: 'Website - Admission Form',
-          schoolName: 'City Children International School',
-        }),
-      }).catch((err) => console.error('Zoho CRM sync error:', err));
-    }
-
-    // 4. Send email alert to admin
+    // 3. Send email alert to admin
     try {
       await sendAdmissionsNotificationEmail(applicantName, email, phone, grade, message || `Parent: ${parent}, Curriculum: ${curriculum || 'CBSE'}`);
     } catch (err) {
