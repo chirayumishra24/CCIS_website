@@ -113,7 +113,7 @@ export default function TrophyCabinet() {
     const { scrollLeft } = scrollRef.current;
     if (scrollRef.current.children.length > 0) {
       const firstChild = scrollRef.current.children[0] as HTMLElement;
-      const cardWidth = firstChild.offsetWidth + 20; // width + gap
+      const cardWidth = firstChild.offsetWidth + 16; // width + gap
       const index = Math.round(scrollLeft / cardWidth);
       setActiveIndex(Math.min(Math.max(0, index), filteredAwards.length - 1));
     }
@@ -165,7 +165,7 @@ export default function TrophyCabinet() {
       </div>
 
       {/* Slider Controls & Carousel */}
-      <div className="p-6 md:p-8 bg-cream/10">
+      <div className="p-4 sm:p-6 md:p-8 bg-cream/10">
         <div className="flex items-center justify-between mb-4">
           <span className="text-xs font-mono font-bold text-ink-muted">
             {filteredAwards.length} accolade{filteredAwards.length !== 1 ? "s" : ""}
@@ -194,40 +194,40 @@ export default function TrophyCabinet() {
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 px-1 scroll-smooth"
+          className="flex gap-4 sm:gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 px-0.5 scroll-smooth"
         >
           {filteredAwards.map((item) => (
             <div
               key={item.id}
-              className="w-[84vw] sm:w-[340px] md:w-[380px] shrink-0 snap-start bg-white border border-cream-line rounded-2xl p-6 shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between gap-4"
+              className="w-[72vw] max-w-[270px] sm:w-[320px] sm:max-w-none md:w-[350px] shrink-0 snap-start bg-white border border-cream-line rounded-2xl p-4 sm:p-6 shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between gap-3.5 sm:gap-4"
             >
               <div>
-                <div className="flex justify-between items-center mb-3">
-                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${item.badgeColor}`}>
+                <div className="flex justify-between items-center mb-3 gap-2">
+                  <span className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border shrink-0 ${item.badgeColor}`}>
                     {item.level} • {item.year}
                   </span>
-                  <span className="text-xs font-mono font-bold text-ink-muted">
+                  <span className="text-[11px] sm:text-xs font-mono font-bold text-ink-muted truncate">
                     {item.category}
                   </span>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-gold/15 text-gold-dark flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                    <Award className="w-5 h-5" />
+                <div className="flex items-start gap-2.5 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gold/15 text-gold-dark flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Award className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <h4 className="font-serif font-bold text-navy text-base leading-snug">
+                  <h4 className="font-serif font-bold text-navy text-sm sm:text-base leading-snug">
                     {item.title}
                   </h4>
                 </div>
 
-                <p className="text-xs text-ink-muted leading-relaxed mt-3">
+                <p className="text-xs text-ink-muted leading-relaxed mt-2.5 sm:mt-3">
                   {item.description}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-cream-line/50 text-[11px] text-ink-muted flex items-center gap-1.5">
+              <div className="pt-3 border-t border-cream-line/50 text-[10px] sm:text-[11px] text-ink-muted flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-                <span>Conferred by: <strong className="text-navy font-semibold">{item.conferredBy}</strong></span>
+                <span className="leading-tight">Conferred by: <strong className="text-navy font-semibold">{item.conferredBy}</strong></span>
               </div>
             </div>
           ))}
