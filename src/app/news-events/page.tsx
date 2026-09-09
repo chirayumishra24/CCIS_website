@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Skeleton from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
+import NewsSwipeCarousel from "@/components/ui/NewsSwipeCarousel";
 import { Calendar, FileText, Download, Tag, Search, ArrowRight, X, ExternalLink, ZoomIn } from "lucide-react";
 
 interface NewsOrNotice {
@@ -184,121 +185,192 @@ export default function NewsEvents() {
               </p>
             </div>
           ) : activeTab === "news" ? (
-            /* School News Grid */
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {filteredItems.map((item) => (
-                <AnimatedSection
-                  key={item.id}
-                  animation="scale-in"
-                  className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 group"
-                >
-                  <div>
-                    <div 
-                      onClick={() => { setActiveModalItem(item); setIsModalZoomed(false); }}
-                      className="relative h-60 w-full overflow-hidden bg-slate-50 border-b border-cream-line p-2 cursor-pointer flex items-center justify-center group/img"
-                    >
-                      <div className="relative w-full h-full border-x-2 border-gold/40 rounded-xl overflow-hidden bg-white shadow-xs flex items-center justify-center p-1.5">
-                        <img
-                          src={
-                            item.img ||
-                            "/images/news/news_music_talent.jpg"
-                          }
-                          alt={item.title}
-                          className="object-contain w-full h-full group-hover/img:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-                      <span className="absolute top-3 left-3 bg-navy text-white text-[10px] px-2.5 py-1 uppercase font-bold font-mono rounded-full border border-gold/30 shadow-xs">
-                        {item.category}
-                      </span>
-                      <span className="absolute bottom-3 right-3 bg-navy/85 hover:bg-gold text-white hover:text-navy text-[10px] font-bold font-sans uppercase px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/20 flex items-center gap-1 shadow-md transition-all">
-                        <ZoomIn className="w-3 h-3 text-gold group-hover/img:text-navy" /> Tap to Zoom
-                      </span>
-                    </div>
+            <>
+              {/* Mobile Swipe Slider */}
+              <div className="block md:hidden">
+                <NewsSwipeCarousel
+                  items={filteredItems}
+                  onItemClick={(item) => {
+                    const match = filteredItems.find((f) => f.id === item.id) || null;
+                    setActiveModalItem(match);
+                    setIsModalZoomed(false);
+                  }}
+                />
+              </div>
 
-                    <div className="p-6 flex flex-col gap-3">
-                      <span className="text-xs text-ink-muted flex items-center gap-1.5 font-semibold font-mono">
-                        <Calendar className="w-3.5 h-3.5 text-gold-dark" />
-                        {new Date(item.date).toLocaleDateString("en-IN", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                      </span>
-
-                      <h3 className="font-serif font-bold text-navy text-lg leading-snug line-clamp-2 group-hover:text-gold transition-colors">
-                        {item.title}
-                      </h3>
-
-                      <p className="text-xs text-ink-muted leading-relaxed line-clamp-3">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="px-6 pb-6 pt-2">
-                    <button
-                      onClick={() => setActiveModalItem(item)}
-                      className="text-xs font-bold text-navy hover:text-gold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
-                    >
-                      Read Full Article <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
-          ) : (
-            /* Notice Board / Circulars List */
-            <div className="flex flex-col gap-4 max-w-4xl mx-auto">
-              {filteredItems.map((notice) => (
-                <AnimatedSection
-                  key={notice.id}
-                  animation="fade-in"
-                  className="bg-white border border-cream-line hover:border-gold p-6 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 transition-all"
-                >
-                  <div className="flex items-start gap-4 min-w-0">
-                    <div className="p-3 bg-red-50 text-red-600 rounded-2xl shrink-0 border border-red-100">
-                      <FileText className="w-6 h-6" />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono font-bold text-gold-dark uppercase tracking-wider">
-                          {notice.category}
-                        </span>
-                        <span className="text-[10px] font-mono text-ink-muted">
-                          &bull; {new Date(notice.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                        </span>
-                      </div>
-                      <h3 className="font-serif font-bold text-navy text-base mt-1 leading-snug">
-                        {notice.title}
-                      </h3>
-                      <p className="text-xs text-ink-muted leading-relaxed mt-1 line-clamp-2">
-                        {notice.desc}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto justify-end">
-                    {notice.attachmentUrl ? (
-                      <Button
-                        variant="gold"
-                        size="sm"
-                        onClick={() => handleDownload(notice.attachmentUrl!)}
-                        className="rounded-xl font-bold uppercase tracking-wider text-xs flex items-center gap-1.5"
+              {/* Desktop & Tablet Grid */}
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredItems.map((item) => (
+                  <AnimatedSection
+                    key={item.id}
+                    animation="scale-in"
+                    className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 group"
+                  >
+                    <div>
+                      <div 
+                        onClick={() => { setActiveModalItem(item); setIsModalZoomed(false); }}
+                        className="relative h-60 w-full overflow-hidden bg-slate-50 border-b border-cream-line p-2 cursor-pointer flex items-center justify-center group/img"
                       >
-                        <Download className="w-3.5 h-3.5" /> Download PDF
-                      </Button>
-                    ) : (
+                        <div className="relative w-full h-full border-x-2 border-gold/40 rounded-xl overflow-hidden bg-white shadow-xs flex items-center justify-center p-1.5">
+                          <img
+                            src={
+                              item.img ||
+                              "/images/news/news_music_talent.jpg"
+                            }
+                            alt={item.title}
+                            className="object-contain w-full h-full group-hover/img:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <span className="absolute top-3 left-3 bg-navy text-white text-[10px] px-2.5 py-1 uppercase font-bold font-mono rounded-full border border-gold/30 shadow-xs">
+                          {item.category}
+                        </span>
+                        <span className="absolute bottom-3 right-3 bg-navy/85 hover:bg-gold text-white hover:text-navy text-[10px] font-bold font-sans uppercase px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/20 flex items-center gap-1 shadow-md transition-all">
+                          <ZoomIn className="w-3 h-3 text-gold group-hover/img:text-navy" /> Tap to Zoom
+                        </span>
+                      </div>
+
+                      <div className="p-6 flex flex-col gap-3">
+                        <span className="text-xs text-ink-muted flex items-center gap-1.5 font-semibold font-mono">
+                          <Calendar className="w-3.5 h-3.5 text-gold-dark" />
+                          {new Date(item.date).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+
+                        <h3 className="font-serif font-bold text-navy text-lg leading-snug line-clamp-2 group-hover:text-gold transition-colors">
+                          {item.title}
+                        </h3>
+
+                        <p className="text-xs text-ink-muted leading-relaxed line-clamp-3">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="px-6 pb-6 pt-2">
                       <button
-                        onClick={() => setActiveModalItem(notice)}
-                        className="px-4 py-2 bg-cream text-navy rounded-xl font-bold uppercase tracking-wider text-xs hover:bg-gold hover:text-navy transition-colors"
+                        onClick={() => setActiveModalItem(item)}
+                        className="text-xs font-bold text-navy hover:text-gold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
                       >
-                        View Notice
+                        Read Full Article <ArrowRight className="w-3.5 h-3.5" />
                       </button>
-                    )}
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
+                    </div>
+                  </AnimatedSection>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Mobile Swipe Slider for Notices */}
+              <div className="block md:hidden">
+                <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 px-4 -mx-4 scroll-smooth">
+                  {filteredItems.map((notice) => (
+                    <div
+                      key={notice.id}
+                      className="w-[84vw] max-w-[320px] shrink-0 snap-center bg-white border border-cream-line p-5 rounded-2xl shadow-card flex flex-col justify-between gap-4"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="p-2.5 bg-red-50 text-red-600 rounded-xl shrink-0 border border-red-100">
+                          <FileText className="w-5 h-5" />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-[10px] font-mono font-bold text-gold-dark uppercase tracking-wider">
+                            {notice.category}
+                          </span>
+                          <span className="text-[10px] font-mono text-ink-muted">
+                            {new Date(notice.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="font-serif font-bold text-navy text-base leading-snug line-clamp-2">
+                          {notice.title}
+                        </h3>
+                        <p className="text-xs text-ink-muted leading-relaxed mt-1.5 line-clamp-3">
+                          {notice.desc}
+                        </p>
+                      </div>
+
+                      <div className="pt-2 border-t border-cream-line/50 flex justify-end">
+                        {notice.attachmentUrl ? (
+                          <Button
+                            variant="gold"
+                            size="sm"
+                            onClick={() => handleDownload(notice.attachmentUrl!)}
+                            className="w-full rounded-xl font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-1.5"
+                          >
+                            <Download className="w-3.5 h-3.5" /> Download PDF
+                          </Button>
+                        ) : (
+                          <button
+                            onClick={() => setActiveModalItem(notice)}
+                            className="w-full py-2 bg-cream text-navy rounded-xl font-bold uppercase tracking-wider text-xs hover:bg-gold hover:text-navy transition-colors"
+                          >
+                            View Notice
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Desktop Notice Board / Circulars List */}
+              <div className="hidden md:flex flex-col gap-4 max-w-4xl mx-auto">
+                {filteredItems.map((notice) => (
+                  <AnimatedSection
+                    key={notice.id}
+                    animation="fade-in"
+                    className="bg-white border border-cream-line hover:border-gold p-6 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 transition-all"
+                  >
+                    <div className="flex items-start gap-4 min-w-0">
+                      <div className="p-3 bg-red-50 text-red-600 rounded-2xl shrink-0 border border-red-100">
+                        <FileText className="w-6 h-6" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono font-bold text-gold-dark uppercase tracking-wider">
+                            {notice.category}
+                          </span>
+                          <span className="text-[10px] font-mono text-ink-muted">
+                            &bull; {new Date(notice.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                          </span>
+                        </div>
+                        <h3 className="font-serif font-bold text-navy text-base mt-1 leading-snug">
+                          {notice.title}
+                        </h3>
+                        <p className="text-xs text-ink-muted leading-relaxed mt-1 line-clamp-2">
+                          {notice.desc}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto justify-end">
+                      {notice.attachmentUrl ? (
+                        <Button
+                          variant="gold"
+                          size="sm"
+                          onClick={() => handleDownload(notice.attachmentUrl!)}
+                          className="rounded-xl font-bold uppercase tracking-wider text-xs flex items-center gap-1.5"
+                        >
+                          <Download className="w-3.5 h-3.5" /> Download PDF
+                        </Button>
+                      ) : (
+                        <button
+                          onClick={() => setActiveModalItem(notice)}
+                          className="px-4 py-2 bg-cream text-navy rounded-xl font-bold uppercase tracking-wider text-xs hover:bg-gold hover:text-navy transition-colors"
+                        >
+                          View Notice
+                        </button>
+                      )}
+                    </div>
+                  </AnimatedSection>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </section>
