@@ -72,6 +72,32 @@ export async function POST(request: Request) {
     }
 
     const school = 'CCIS';
+    const apiBaseUrl = process.env.ALUMNI_DASHBOARD_API_URL || 'https://alumni-dashboard-39zq.vercel.app';
+
+    // 1. Forward directly to the separate Alumni Dashboard tool
+    try {
+      const externalRes = await fetch(`${apiBaseUrl}/api/alumni`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...body,
+          batch: Number(batch),
+          school: 'CCIS',
+        }),
+      });
+
+      if (externalRes.ok) {
+        const externalData = await externalRes.json();
+        invalidateAlumniCache();
+        const response = NextResponse.json(externalData);
+        response.headers.set('Access-Control-Allow-Origin', '*');
+        response.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
+        return response;
+      }
+    } catch (proxyError) {
+      console.warn('Forwarding to separate Alumni Dashboard tool failed, fallback to direct Firestore:', proxyError);
+    }
 
     // Check if user already exists
     const userQuery = await firestore.collection('users')

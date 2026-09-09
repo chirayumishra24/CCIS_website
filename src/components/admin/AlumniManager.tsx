@@ -96,12 +96,23 @@ export default function AlumniManager({
           </p>
         </div>
 
-        {pendingCount > 0 && (
-          <div className="bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl text-xs text-amber-900 font-semibold flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-            {pendingCount} graduate profile{pendingCount !== 1 ? "s" : ""} awaiting verification approval
-          </div>
-        )}
+        <div className="flex flex-wrap items-center gap-3">
+          {pendingCount > 0 && (
+            <div className="bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl text-xs text-amber-900 font-semibold flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              {pendingCount} graduate profile{pendingCount !== 1 ? "s" : ""} awaiting verification approval
+            </div>
+          )}
+          <a
+            href={process.env.NEXT_PUBLIC_ALUMNI_DASHBOARD_URL ? `${process.env.NEXT_PUBLIC_ALUMNI_DASHBOARD_URL}/admin` : "https://alumni-dashboard-39zq.vercel.app/admin"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-gradient-to-r from-navy to-navy-light text-white font-sans text-xs font-bold uppercase tracking-wider rounded-xl border border-gold/40 hover:border-gold shadow-md flex items-center gap-2 hover:scale-[1.02] transition-all"
+          >
+            <span>Open Dedicated Alumni Tool</span>
+            <ExternalLink className="w-3.5 h-3.5 text-gold" />
+          </a>
+        </div>
       </div>
 
       {/* Filter Tabs & Search */}
