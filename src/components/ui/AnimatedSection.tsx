@@ -6,6 +6,7 @@ interface AnimatedSectionProps {
   className?: string;
   animation?: "fade-in" | "fade-in-left" | "fade-in-right" | "scale-in";
   delayClass?: string;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function AnimatedSection({
@@ -13,6 +14,7 @@ export default function AnimatedSection({
   className = "",
   animation = "fade-in",
   delayClass = "",
+  onClick,
 }: AnimatedSectionProps) {
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -53,6 +55,7 @@ export default function AnimatedSection({
   return (
     <div
       ref={sectionRef}
+      onClick={onClick}
       className={`${animationClasses[animation]} ${isInView ? "in-view" : ""} ${delayClass} ${className}`}
     >
       {children}

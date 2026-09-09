@@ -6,7 +6,7 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import Skeleton from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
 import Toast from "@/components/ui/Toast";
-import { Search, Mail, MapPin, Briefcase, GraduationCap, X, Award, CheckCircle, Sparkles } from "lucide-react";
+import { Search, Mail, MapPin, Briefcase, GraduationCap, X, Award, CheckCircle, Sparkles, ZoomIn } from "lucide-react";
 
 export default function Alumni() {
   const [alumni, setAlumni] = useState<any[]>([]);
@@ -15,6 +15,7 @@ export default function Alumni() {
   const [selectedBatch, setSelectedBatch] = useState("All");
   const [onlyMentors, setOnlyMentors] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zoomedAlumni, setZoomedAlumni] = useState<any | null>(null);
 
   // Registration Form State
   const [registering, setRegistering] = useState(false);
@@ -36,7 +37,7 @@ export default function Alumni() {
 
   // Toggle body scroll lock when modal open
   useEffect(() => {
-    if (isModalOpen) {
+    if (isModalOpen || zoomedAlumni) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
@@ -44,7 +45,7 @@ export default function Alumni() {
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, zoomedAlumni]);
 
   useEffect(() => {
     async function fetchAlumni() {
@@ -225,13 +226,13 @@ export default function Alumni() {
 
           {/* Directory Grid */}
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="flex flex-col gap-4 p-5 border border-cream-line rounded-2xl items-center text-center bg-cream/5">
-                  <Skeleton className="w-20 h-20 rounded-full" />
-                  <Skeleton className="h-5 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
-                  <Skeleton className="h-10 w-full" />
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-4 md:gap-6">
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <div key={n} className="flex flex-col gap-2.5 sm:gap-4 p-3 sm:p-5 border border-cream-line rounded-xl sm:rounded-2xl items-center text-center bg-cream/5">
+                  <Skeleton className="w-12 h-12 sm:w-20 sm:h-20 rounded-full" />
+                  <Skeleton className="h-4 sm:h-5 w-3/4" />
+                  <Skeleton className="h-3 sm:h-4 w-1/2" />
+                  <Skeleton className="h-6 sm:h-10 w-full" />
                 </div>
               ))}
             </div>
@@ -241,7 +242,7 @@ export default function Alumni() {
               <p className="text-xs text-ink-muted leading-relaxed">Try adjusting your filters or search keywords.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-4 md:gap-6">
               {filteredAlumni.map((a) => {
                 const name = a.user?.name || a.name || "Alumni Graduate";
                 const avatar =
@@ -254,10 +255,15 @@ export default function Alumni() {
                   <AnimatedSection
                     key={a.id}
                     animation="scale-in"
-                    className="group bg-white border border-cream-line p-6 rounded-2xl shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between items-center text-center"
+                    onClick={() => setZoomedAlumni(a)}
+                    className="group bg-white border border-cream-line p-2.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between items-center text-center cursor-pointer relative"
                   >
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-gold hidden sm:block" title="Click to zoom">
+                      <ZoomIn className="w-4 h-4" />
+                    </div>
+
                     <div className="flex flex-col items-center w-full">
-                      <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gold shadow-md">
+                      <div className="relative w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-gold shadow-md">
                         <img
                           src={avatar}
                           alt={name}
@@ -265,31 +271,31 @@ export default function Alumni() {
                         />
                         {a.isMentor && (
                           <div
-                            className="absolute bottom-0 right-0 p-1 bg-gold text-navy rounded-full shadow-md"
+                            className="absolute bottom-0 right-0 p-0.5 sm:p-1 bg-gold text-navy rounded-full shadow-md"
                             title="Alumni Mentor"
                           >
-                            <Award className="w-3 h-3" />
+                            <Award className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                           </div>
                         )}
                       </div>
 
-                      <h4 className="font-serif font-bold text-navy text-base mt-4 leading-snug truncate w-full" title={name}>
+                      <h4 className="font-serif font-bold text-navy text-xs sm:text-base mt-2 sm:mt-4 leading-snug truncate w-full" title={name}>
                         {name}
                       </h4>
 
-                      <div className="flex items-center justify-center gap-1 text-[10px] text-gold-dark font-sans font-bold uppercase tracking-wider mt-1 w-full">
-                        <GraduationCap className="w-3.5 h-3.5 shrink-0" />
-                        Batch of {a.batch} &bull; {a.program || "CBSE"}
+                      <div className="flex items-center justify-center gap-1 text-[9px] sm:text-[10px] text-gold-dark font-sans font-bold uppercase tracking-wider mt-0.5 sm:mt-1 w-full">
+                        <GraduationCap className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 hidden sm:inline" />
+                        &apos;{String(a.batch).slice(-2)} &bull; {a.program || "CBSE"}
                       </div>
 
                       {a.role && (
-                        <div className="text-xs text-ink-muted font-sans leading-snug mt-2.5 text-center w-full line-clamp-2 px-1 border-t border-cream-line/40 pt-2">
-                          <span>{a.role} <strong className="text-navy font-semibold">at {a.company || "Self"}</strong></span>
+                        <div className="text-[10px] sm:text-xs text-ink-muted font-sans leading-snug mt-1.5 sm:mt-2.5 text-center w-full line-clamp-1 sm:line-clamp-2 px-0.5 sm:px-1 border-t border-cream-line/40 pt-1 sm:pt-2">
+                          <span>{a.role} <strong className="text-navy font-semibold hidden sm:inline">at {a.company || "Self"}</strong></span>
                         </div>
                       )}
 
                       {a.skills && (
-                        <div className="flex flex-wrap gap-1 justify-center mt-2">
+                        <div className="hidden sm:flex flex-wrap gap-1 justify-center mt-2">
                           {a.skills.split(",").slice(0, 2).map((s: string, idx: number) => (
                             <span
                               key={idx}
@@ -302,7 +308,7 @@ export default function Alumni() {
                       )}
 
                       {a.bio && (
-                        <p className="text-[11px] text-ink-muted leading-relaxed mt-3 italic line-clamp-2 border-t border-cream-line/40 pt-2.5 w-full px-1">
+                        <p className="hidden md:block text-[11px] text-ink-muted leading-relaxed mt-3 italic line-clamp-2 border-t border-cream-line/40 pt-2.5 w-full px-1">
                           &ldquo;{a.bio}&rdquo;
                         </p>
                       )}
@@ -313,12 +319,13 @@ export default function Alumni() {
                         href={a.linkedin.startsWith("http") ? a.linkedin : `https://${a.linkedin}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-4 w-full py-2 border border-cream-line hover:border-gold rounded-xl text-navy hover:text-gold flex items-center justify-center gap-1.5 text-[10px] uppercase font-bold tracking-widest bg-cream/15 shadow-sm transition-all duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-2 sm:mt-4 w-full py-1 sm:py-2 border border-cream-line hover:border-gold rounded-lg sm:rounded-xl text-navy hover:text-gold flex items-center justify-center gap-1 sm:gap-1.5 text-[9px] sm:text-[10px] uppercase font-bold tracking-wider bg-cream/15 shadow-sm transition-all duration-300"
                       >
-                        <svg className="w-3.5 h-3.5 text-[#0A66C2] fill-current" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#0A66C2] fill-current shrink-0" viewBox="0 0 24 24">
                           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                         </svg>
-                        LinkedIn Profile
+                        <span className="hidden sm:inline">LinkedIn</span>
                       </a>
                     )}
                   </AnimatedSection>
@@ -328,6 +335,107 @@ export default function Alumni() {
           )}
         </div>
       </section>
+
+      {/* ━━━ Card Zoom Modal ━━━ */}
+      {zoomedAlumni && (
+        <div
+          className="fixed inset-0 bg-navy-dark/75 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto animate-fadeIn"
+          onClick={() => setZoomedAlumni(null)}
+        >
+          <div
+            className="bg-white border border-cream-line rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative my-8 flex flex-col items-center text-center animate-scaleIn"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setZoomedAlumni(null)}
+              className="absolute top-4 right-4 text-ink-muted hover:text-navy p-2 rounded-full hover:bg-cream/40 transition-colors"
+              aria-label="Close zoomed profile"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-gold shadow-glow-gold mt-2">
+              <img
+                src={
+                  zoomedAlumni.avatar ||
+                  zoomedAlumni.avatarUrl ||
+                  zoomedAlumni.user?.avatarUrl ||
+                  "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200"
+                }
+                alt={zoomedAlumni.user?.name || zoomedAlumni.name || "Alumni"}
+                className="object-cover w-full h-full"
+              />
+              {zoomedAlumni.isMentor && (
+                <div
+                  className="absolute bottom-0 right-0 p-1.5 bg-gold text-navy rounded-full shadow-md"
+                  title="Alumni Mentor"
+                >
+                  <Award className="w-4 h-4" />
+                </div>
+              )}
+            </div>
+
+            <h3 className="font-serif font-bold text-navy text-xl sm:text-2xl mt-4 leading-tight">
+              {zoomedAlumni.user?.name || zoomedAlumni.name || "Alumni Graduate"}
+            </h3>
+
+            <div className="flex items-center justify-center gap-1.5 text-xs text-gold-dark font-sans font-bold uppercase tracking-wider mt-1.5">
+              <GraduationCap className="w-4 h-4 shrink-0" />
+              Batch of {zoomedAlumni.batch} &bull; {zoomedAlumni.program || "CBSE"}
+            </div>
+
+            {zoomedAlumni.isMentor && (
+              <span className="mt-2 inline-flex items-center gap-1 px-3 py-1 bg-gold/15 text-gold-dark font-sans text-xs font-bold rounded-full border border-gold/40">
+                <Award className="w-3.5 h-3.5" /> Official Alumni Mentor
+              </span>
+            )}
+
+            {zoomedAlumni.role && (
+              <div className="text-sm text-navy font-sans leading-snug mt-3.5 font-medium bg-cream/20 py-2.5 px-4 rounded-xl border border-cream-line/50 w-full">
+                <span>{zoomedAlumni.role}</span>
+                {zoomedAlumni.company && (
+                  <span className="block text-xs text-ink-muted mt-0.5 font-normal">
+                    at <strong className="text-navy font-semibold">{zoomedAlumni.company}</strong>
+                  </span>
+                )}
+              </div>
+            )}
+
+            {zoomedAlumni.skills && (
+              <div className="flex flex-wrap gap-1.5 justify-center mt-3.5">
+                {zoomedAlumni.skills.split(",").map((s: string, idx: number) => (
+                  <span
+                    key={idx}
+                    className="text-[10px] font-sans font-semibold bg-navy/5 text-navy px-2.5 py-1 rounded-full border border-navy/10"
+                  >
+                    {s.trim()}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {zoomedAlumni.bio && (
+              <p className="text-xs text-ink-muted leading-relaxed mt-4 italic border-t border-cream-line/60 pt-3 w-full">
+                &ldquo;{zoomedAlumni.bio}&rdquo;
+              </p>
+            )}
+
+            {zoomedAlumni.linkedin && (
+              <a
+                href={zoomedAlumni.linkedin.startsWith("http") ? zoomedAlumni.linkedin : `https://${zoomedAlumni.linkedin}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 w-full py-2.5 border border-cream-line hover:border-gold rounded-xl text-navy hover:text-gold flex items-center justify-center gap-2 text-xs uppercase font-bold tracking-widest bg-cream/15 shadow-sm transition-all duration-300"
+              >
+                <svg className="w-4 h-4 text-[#0A66C2] fill-current" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+                Connect on LinkedIn
+              </a>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ━━━ Registration Modal ━━━ */}
       {isModalOpen && (

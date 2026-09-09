@@ -106,19 +106,19 @@ export default function About() {
       <section className="py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading title="Our Core Principles" subtitle="CCIS Ideals" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
             {values.map((val, idx) => (
               <AnimatedSection
                 key={idx}
                 animation="scale-in"
                 delayClass={`stagger-${(idx % 3) + 1}`}
-                className="bg-cream/15 border border-cream-line/50 p-7 rounded-xl shadow-card flex flex-col gap-3 hover:-translate-y-1 transition-transform duration-300"
+                className="bg-cream/15 border border-cream-line/50 p-4 sm:p-7 rounded-xl shadow-card flex flex-col gap-2.5 sm:gap-3 hover:-translate-y-1 transition-transform duration-300"
               >
-                <div className="w-8 h-8 rounded-full bg-navy text-gold flex items-center justify-center font-bold text-sm font-serif">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-navy text-gold flex items-center justify-center font-bold text-xs sm:text-sm font-serif">
                   {idx + 1}
                 </div>
-                <h4 className="font-serif font-bold text-navy text-lg">{val.title}</h4>
-                <p className="text-sm text-ink-muted leading-relaxed">{val.desc}</p>
+                <h4 className="font-serif font-bold text-navy text-sm sm:text-lg leading-snug">{val.title}</h4>
+                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">{val.desc}</p>
               </AnimatedSection>
             ))}
           </div>

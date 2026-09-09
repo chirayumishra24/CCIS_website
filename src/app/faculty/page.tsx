@@ -144,12 +144,12 @@ export default function Faculty() {
           />
 
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
               {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="p-4 border border-cream-line rounded-2xl flex flex-col gap-3">
-                  <Skeleton className="h-56 w-full" />
-                  <Skeleton className="h-5 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
+                <div key={n} className="p-3 sm:p-4 border border-cream-line rounded-2xl flex flex-col gap-2.5 sm:gap-3">
+                  <Skeleton className="h-44 sm:h-56 w-full rounded-xl" />
+                  <Skeleton className="h-4 sm:h-5 w-3/4" />
+                  <Skeleton className="h-3 sm:h-4 w-1/2" />
                 </div>
               ))}
             </div>
@@ -159,7 +159,7 @@ export default function Faculty() {
               <p className="text-xs text-ink-muted mt-1">Try clearing your search query or department tab.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
               {filteredFaculty.map((item, idx) => (
                 <AnimatedSection
                   key={`${item.id || item.name}-${selectedDept}`}
@@ -167,31 +167,31 @@ export default function Faculty() {
                   delayClass={`stagger-${(idx % 4) + 1}`}
                   className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-card flex flex-col hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 group"
                 >
-                  <div className="relative h-72 sm:h-64 w-full overflow-hidden bg-cream/20">
+                  <div className="relative h-44 sm:h-64 w-full overflow-hidden bg-cream/20">
                     <Image
                       src={item.img || "/images/faculty-placeholder.jpg"}
                       alt={item.name}
                       fill
                       className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <span className="absolute top-3 left-3 bg-navy/90 text-white text-[9px] px-2.5 py-1 uppercase font-bold font-mono rounded-full border border-gold/30">
+                    <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-navy/90 text-white text-[8px] sm:text-[9px] px-2 py-0.5 sm:px-2.5 sm:py-1 uppercase font-bold font-mono rounded-full border border-gold/30">
                       {item.dept}
                     </span>
                   </div>
 
-                  <div className="p-5 flex flex-col gap-1.5 flex-1 justify-between">
+                  <div className="p-3 sm:p-5 flex flex-col gap-1 sm:gap-1.5 flex-1 justify-between">
                     <div>
-                      <h4 className="font-serif font-bold text-navy text-base leading-snug group-hover:text-gold transition-colors">
+                      <h4 className="font-serif font-bold text-navy text-sm sm:text-base leading-tight sm:leading-snug group-hover:text-gold transition-colors">
                         {item.name}
                       </h4>
-                      <p className="text-xs text-gold-dark font-sans font-semibold uppercase tracking-wider mt-0.5">
+                      <p className="text-[11px] sm:text-xs text-gold-dark font-sans font-semibold uppercase tracking-wider mt-0.5">
                         {item.role}
                       </p>
                     </div>
 
-                    <p className="text-[11px] text-ink-muted italic pt-3 border-t border-cream-line/50 leading-relaxed">
+                    <p className="text-[10px] sm:text-[11px] text-ink-muted italic pt-2 sm:pt-3 border-t border-cream-line/50 leading-relaxed">
                       🎓 {item.qual}
                     </p>
                   </div>
