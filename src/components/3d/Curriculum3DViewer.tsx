@@ -254,9 +254,14 @@ export default function Curriculum3DViewer() {
                       <h4 className="font-serif font-bold text-navy text-xl">CBSE Pathway</h4>
                     </div>
                   </div>
-                  <span className="text-[11px] font-bold bg-navy/5 text-navy px-3 py-1 rounded-full">
-                    {activeStage.grades}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <div className="relative w-8 h-8 shrink-0 bg-navy/5 p-1 rounded-lg border border-navy/10">
+                      <Image src="/images/cbse-logo.webp" alt="CBSE Logo" fill className="object-contain p-0.5" />
+                    </div>
+                    <span className="text-[11px] font-bold bg-navy/5 text-navy px-3 py-1 rounded-full">
+                      {activeStage.grades}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="mt-5">
