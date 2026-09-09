@@ -18,14 +18,20 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
     }
 
-    const snapshot = await firestore.collection('alumni_profiles')
-      .orderBy('batch', 'desc')
-      .get();
+    let snapshot;
+    try {
+      snapshot = await firestore.collection('alumni_profiles')
+        .orderBy('batch', 'desc')
+        .get();
+    } catch {
+      snapshot = await firestore.collection('alumni_profiles').get();
+    }
 
     const profiles: any[] = [];
     snapshot.forEach((doc: any) => {
       profiles.push({ id: doc.id, ...doc.data() });
     });
+    profiles.sort((a: any, b: any) => (Number(b.batch) || 0) - (Number(a.batch) || 0));
 
     return NextResponse.json(profiles);
   } catch (error) {

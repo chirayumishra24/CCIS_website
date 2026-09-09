@@ -17,15 +17,23 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
     }
 
-    const snapshot = await firestore.collection('admissions_enquiries')
-      .where('school', '==', 'CCIS')
-      .orderBy('createdAt', 'desc')
-      .get();
+    let snapshot;
+    try {
+      snapshot = await firestore.collection('admissions_enquiries')
+        .where('school', '==', 'CCIS')
+        .orderBy('createdAt', 'desc')
+        .get();
+    } catch {
+      snapshot = await firestore.collection('admissions_enquiries')
+        .where('school', '==', 'CCIS')
+        .get();
+    }
 
     const enquiries: any[] = [];
     snapshot.forEach((doc: any) => {
       enquiries.push({ id: doc.id, ...doc.data() });
     });
+    enquiries.sort((a: any, b: any) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
     return NextResponse.json(enquiries);
   } catch (error) {

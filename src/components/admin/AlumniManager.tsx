@@ -14,6 +14,7 @@ import {
   Briefcase,
   GraduationCap,
   Sparkles,
+  Phone,
 } from "lucide-react";
 
 export interface AlumniProfile {
@@ -194,9 +195,16 @@ export default function AlumniManager({
                   <div className="flex flex-col min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
                       <h4 className="font-serif font-bold text-navy text-base truncate">{name}</h4>
-                      <span className="px-2 py-0.5 bg-gold/15 text-gold-dark font-mono font-bold text-[10px] rounded shrink-0">
-                        Class of {item.batch}
-                      </span>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {item.school && (
+                          <span className="px-1.5 py-0.5 bg-navy/10 text-navy font-mono font-bold text-[9px] rounded">
+                            {item.school}
+                          </span>
+                        )}
+                        <span className="px-2 py-0.5 bg-gold/15 text-gold-dark font-mono font-bold text-[10px] rounded">
+                          Class of {item.batch}
+                        </span>
+                      </div>
                     </div>
 
                     <p className="text-xs text-navy font-semibold flex items-center gap-1 mt-0.5">
@@ -206,8 +214,25 @@ export default function AlumniManager({
                       </span>
                     </p>
 
-                    {email && (
-                      <p className="text-[11px] text-ink-muted truncate mt-0.5">{email}</p>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[11px] text-ink-muted mt-0.5">
+                      {email && (
+                        <span className="flex items-center gap-1">
+                          <Mail className="w-2.5 h-2.5" />
+                          <span className="truncate">{email}</span>
+                        </span>
+                      )}
+                      {item.phone && (
+                        <span className="flex items-center gap-1">
+                          <Phone className="w-2.5 h-2.5" />
+                          <span>{item.phone}</span>
+                        </span>
+                      )}
+                    </div>
+
+                    {item.bio && (
+                      <p className="text-[11px] text-ink-muted italic line-clamp-2 mt-1.5 bg-cream/20 p-1.5 rounded-lg border border-cream-line/50">
+                        &ldquo;{item.bio}&rdquo;
+                      </p>
                     )}
 
                     {item.skills && (

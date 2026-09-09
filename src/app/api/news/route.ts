@@ -71,15 +71,23 @@ const defaultEvents = [
 
 export async function GET() {
   try {
-    const snapshot = await firestore.collection('news_updates')
-      .where('school', '==', 'CCIS')
-      .orderBy('date', 'desc')
-      .get();
+    let snapshot;
+    try {
+      snapshot = await firestore.collection('news_updates')
+        .where('school', '==', 'CCIS')
+        .orderBy('date', 'desc')
+        .get();
+    } catch {
+      snapshot = await firestore.collection('news_updates')
+        .where('school', '==', 'CCIS')
+        .get();
+    }
       
     const newsItems: Record<string, any>[] = [];
     snapshot.forEach((doc: any) => {
       newsItems.push({ id: doc.id, ...doc.data() });
     });
+    newsItems.sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime());
 
     if (newsItems.length === 0) {
       return NextResponse.json({ news: defaultEvents, isDefault: true });
