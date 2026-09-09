@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { Trophy, Award, Medal, Star, Sparkles, Filter } from "lucide-react";
-import AnimatedSection from "@/components/ui/AnimatedSection";
+import React, { useState, useRef } from "react";
+import { Trophy, Award, Medal, Star, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface AwardItem {
   id: string;
@@ -81,10 +80,54 @@ const categories = ["All", "STEM & Robotics", "Academics", "Athletics", "Nationa
 
 export default function TrophyCabinet() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const filteredAwards = awardsData.filter(
     (a) => selectedCategory === "All" || a.category === selectedCategory
   );
+
+  const handleCategoryChange = (cat: string) => {
+    setSelectedCategory(cat);
+    setActiveIndex(0);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!scrollRef.current) return;
+    const cards = scrollRef.current.children;
+    if (cards[index]) {
+      (cards[index] as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "start",
+      });
+      setActiveIndex(index);
+    }
+  };
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft } = scrollRef.current;
+    if (scrollRef.current.children.length > 0) {
+      const firstChild = scrollRef.current.children[0] as HTMLElement;
+      const cardWidth = firstChild.offsetWidth + 20; // width + gap
+      const index = Math.round(scrollLeft / cardWidth);
+      setActiveIndex(Math.min(Math.max(0, index), filteredAwards.length - 1));
+    }
+  };
+
+  const handlePrev = () => {
+    const nextIdx = Math.max(0, activeIndex - 1);
+    scrollToIndex(nextIdx);
+  };
+
+  const handleNext = () => {
+    const nextIdx = Math.min(filteredAwards.length - 1, activeIndex + 1);
+    scrollToIndex(nextIdx);
+  };
 
   return (
     <div className="bg-white border border-cream-line rounded-2xl shadow-card overflow-hidden">
@@ -108,7 +151,7 @@ export default function TrophyCabinet() {
             <button
               key={cat}
               type="button"
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => handleCategoryChange(cat)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 selectedCategory === cat
                   ? "bg-gold text-navy shadow-md font-extrabold"
@@ -121,43 +164,90 @@ export default function TrophyCabinet() {
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-cream/10">
-        {filteredAwards.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white border border-cream-line rounded-2xl p-6 shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between gap-4"
-          >
-            <div>
-              <div className="flex justify-between items-center mb-3">
-                <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${item.badgeColor}`}>
-                  {item.level} • {item.year}
-                </span>
-                <span className="text-xs font-mono font-bold text-ink-muted">
-                  {item.category}
-                </span>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gold/15 text-gold-dark flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                  <Award className="w-5 h-5" />
-                </div>
-                <h4 className="font-serif font-bold text-navy text-base leading-snug">
-                  {item.title}
-                </h4>
-              </div>
-
-              <p className="text-xs text-ink-muted leading-relaxed mt-3">
-                {item.description}
-              </p>
-            </div>
-
-            <div className="pt-3 border-t border-cream-line/50 text-[11px] text-ink-muted flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-              <span>Conferred by: <strong className="text-navy font-semibold">{item.conferredBy}</strong></span>
-            </div>
+      {/* Slider Controls & Carousel */}
+      <div className="p-6 md:p-8 bg-cream/10">
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-xs font-mono font-bold text-ink-muted">
+            {filteredAwards.length} accolade{filteredAwards.length !== 1 ? "s" : ""}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrev}
+              disabled={activeIndex === 0}
+              aria-label="Previous award"
+              className="w-8 h-8 rounded-xl border border-cream-line bg-white hover:bg-gold hover:text-navy hover:border-gold disabled:opacity-30 disabled:cursor-not-allowed text-navy flex items-center justify-center transition-all shadow-xs"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={activeIndex >= filteredAwards.length - 1}
+              aria-label="Next award"
+              className="w-8 h-8 rounded-xl border border-cream-line bg-white hover:bg-gold hover:text-navy hover:border-gold disabled:opacity-30 disabled:cursor-not-allowed text-navy flex items-center justify-center transition-all shadow-xs"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
-        ))}
+        </div>
+
+        {/* Swipeable Horizontal Slider */}
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 px-1 scroll-smooth"
+        >
+          {filteredAwards.map((item) => (
+            <div
+              key={item.id}
+              className="w-[84vw] sm:w-[340px] md:w-[380px] shrink-0 snap-start bg-white border border-cream-line rounded-2xl p-6 shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between gap-4"
+            >
+              <div>
+                <div className="flex justify-between items-center mb-3">
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${item.badgeColor}`}>
+                    {item.level} • {item.year}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-ink-muted">
+                    {item.category}
+                  </span>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-gold/15 text-gold-dark flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <h4 className="font-serif font-bold text-navy text-base leading-snug">
+                    {item.title}
+                  </h4>
+                </div>
+
+                <p className="text-xs text-ink-muted leading-relaxed mt-3">
+                  {item.description}
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-cream-line/50 text-[11px] text-ink-muted flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-gold-dark shrink-0" />
+                <span>Conferred by: <strong className="text-navy font-semibold">{item.conferredBy}</strong></span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Dots Pagination */}
+        {filteredAwards.length > 1 && (
+          <div className="flex items-center justify-center gap-1.5 mt-4">
+            {filteredAwards.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => scrollToIndex(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeIndex === idx ? "w-6 bg-gold shadow-xs" : "w-2 bg-cream-line hover:bg-gold/50"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
