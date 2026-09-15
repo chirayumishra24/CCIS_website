@@ -1,54 +1,56 @@
-import { firestore } from '@/lib/firebaseAdmin';
-import { invalidateAlumniCache } from '@/lib/cache';
+"use client";
+import React, { useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { verifyAlumniEmail } from '@/lib/firebaseDb';
+import { Loader2 } from 'lucide-react';
 
-// export const dynamic = 'force-dynamic'; // Disabled for static export
+function VerifyContent() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
 
-export default async function VerifyPage({
-  searchParams,
-}: {
-  searchParams: { id?: string };
-}) {
-  const id = searchParams.id;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<{ title: string; message: string } | null>(null);
+  const [alumniData, setAlumniData] = useState<any>(null);
 
-  if (!id) {
-    return renderError("Invalid Request", "No verification ID was provided in the link.");
-  }
-
-  try {
-    const profileRef = firestore.collection('alumni_profiles').doc(id);
-    const doc = await profileRef.get();
-
-    if (!doc.exists) {
-      return renderError("Profile Not Found", "The alumni profile associated with this verification link does not exist.");
+  useEffect(() => {
+    if (!id) {
+      setError({
+        title: "Invalid Request",
+        message: "No verification ID was provided in the link.",
+      });
+      setLoading(false);
+      return;
     }
 
-    const data = doc.data();
-    if (!data) {
-      return renderError("Invalid Profile Data", "The alumni profile document contains invalid or empty data.");
-    }
-
-    // Update isEmailVerified to true
-    await profileRef.update({ isEmailVerified: true });
-
-    // Update testimonial if exists
-    const testimonialsQuery = await firestore
-      .collection('widget_testimonials')
-      .where('alumniProfileId', '==', id)
-      .limit(1)
-      .get();
-    
-    if (!testimonialsQuery.empty) {
-      const testDoc = testimonialsQuery.docs[0];
-      const testData = testDoc.data();
-      if (testData && testData.alumni) {
-        testData.alumni.isEmailVerified = true;
-        await testDoc.ref.update({ alumni: testData.alumni });
+    async function runVerification() {
+      try {
+        const data = await verifyAlumniEmail(id);
+        setAlumniData(data);
+      } catch (err: any) {
+        console.error("Verification error:", err);
+        setError({
+          title: "Verification Failed",
+          message: err?.message || "An unexpected error occurred during verification. Please try again later.",
+        });
+      } finally {
+        setLoading(false);
       }
     }
 
-    invalidateAlumniCache();
+    runVerification();
+  }, [id]);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-cream/10 flex flex-col items-center justify-center p-4 font-sans">
+        <Loader2 className="w-8 h-8 animate-spin text-navy" />
+        <p className="text-xs text-ink-muted mt-3 uppercase tracking-wider font-semibold">Verifying your email address...</p>
+      </div>
+    );
+  }
+
+  if (error) {
     return (
       <div className="min-h-screen bg-cream/10 flex items-center justify-center p-4 font-sans">
         <div className="max-w-md w-full bg-white p-8 border border-cream-line text-center rounded shadow-card">
@@ -57,18 +59,15 @@ export default async function VerifyPage({
             <div className="h-[1px] bg-gold w-full"></div>
           </div>
           
-          <div className="mx-auto my-6 h-16 w-16 bg-cream flex items-center justify-center text-navy border border-cream-line rounded">
-            <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+          <div className="mx-auto my-6 h-16 w-16 bg-rose-50 flex items-center justify-center text-rose-500 border border-rose-100 rounded">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
 
-          <h1 className="text-xl font-serif font-semibold text-navy tracking-tight">Email Verified!</h1>
+          <h1 className="text-xl font-serif font-semibold text-navy tracking-tight">{error.title}</h1>
           <p className="text-xs text-ink-muted mt-3 leading-relaxed">
-            Dear <strong>{data.user?.name}</strong>, your email address has been successfully verified for the <strong>{data.school} Alumni Hub</strong>.
-          </p>
-          <p className="text-[11px] text-ink-muted mt-4 leading-relaxed bg-cream/40 p-4 rounded border border-cream-line/50">
-            Your registration is now submitted to the school coordinator. You will receive an email once the coordinator approves and activates your profile on the school website directory.
+            {error.message}
           </p>
 
           <div className="mt-8">
@@ -82,13 +81,8 @@ export default async function VerifyPage({
         </div>
       </div>
     );
-  } catch (err) {
-    console.error("Verification error:", err);
-    return renderError("Server Error", "An unexpected error occurred during verification. Please try again later.");
   }
-}
 
-function renderError(title: string, message: string) {
   return (
     <div className="min-h-screen bg-cream/10 flex items-center justify-center p-4 font-sans">
       <div className="max-w-md w-full bg-white p-8 border border-cream-line text-center rounded shadow-card">
@@ -97,15 +91,18 @@ function renderError(title: string, message: string) {
           <div className="h-[1px] bg-gold w-full"></div>
         </div>
         
-        <div className="mx-auto my-6 h-16 w-16 bg-rose-50 flex items-center justify-center text-rose-500 border border-rose-100 rounded">
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+        <div className="mx-auto my-6 h-16 w-16 bg-cream flex items-center justify-center text-navy border border-cream-line rounded">
+          <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
           </svg>
         </div>
 
-        <h1 className="text-xl font-serif font-semibold text-navy tracking-tight">{title}</h1>
+        <h1 className="text-xl font-serif font-semibold text-navy tracking-tight">Email Verified!</h1>
         <p className="text-xs text-ink-muted mt-3 leading-relaxed">
-          {message}
+          Dear <strong>{alumniData?.user?.name || 'Alumni'}</strong>, your email address has been successfully verified for the <strong>{alumniData?.school || 'CCIS'} Alumni Hub</strong>.
+        </p>
+        <p className="text-[11px] text-ink-muted mt-4 leading-relaxed bg-cream/40 p-4 rounded border border-cream-line/50">
+          Your registration is now submitted to the school coordinator. You will receive an email once the coordinator approves and activates your profile on the school website directory.
         </p>
 
         <div className="mt-8">
@@ -118,5 +115,17 @@ function renderError(title: string, message: string) {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-cream/10 flex items-center justify-center p-4 font-sans">
+        <div className="text-navy text-xs uppercase font-semibold">Loading verification...</div>
+      </div>
+    }>
+      <VerifyContent />
+    </Suspense>
   );
 }

@@ -7,6 +7,7 @@ import Skeleton from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
 import Toast from "@/components/ui/Toast";
 import { Search, Mail, MapPin, Briefcase, GraduationCap, X, Award, CheckCircle, Sparkles, ZoomIn } from "lucide-react";
+import { fetchAlumni as fetchAlumniFromDb, registerAlumni } from "@/lib/firebaseDb";
 
 export default function Alumni() {
   const [alumni, setAlumni] = useState<any[]>([]);
@@ -48,10 +49,9 @@ export default function Alumni() {
   }, [isModalOpen, zoomedAlumni]);
 
   useEffect(() => {
-    async function fetchAlumni() {
+    async function loadAlumni() {
       try {
-        const res = await fetch("/api/alumni");
-        const data = await res.json();
+        const data = await fetchAlumniFromDb();
         if (Array.isArray(data)) {
           setAlumni(data);
         }
@@ -61,7 +61,7 @@ export default function Alumni() {
         setLoading(false);
       }
     }
-    fetchAlumni();
+    loadAlumni();
   }, []);
 
   const handleRegisterSubmit = async (e: React.FormEvent) => {
@@ -73,14 +73,11 @@ export default function Alumni() {
 
     setRegistering(true);
     try {
-      const res = await fetch("/api/alumni", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      const data = await registerAlumni({
+        ...formData,
+        batch: Number(formData.batch),
       });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
+      if (data.success || data.profile) {
         setToast({ message: "Registration submitted! Check your email for verification.", type: "success" });
         setIsModalOpen(false);
         setFormData({
@@ -96,12 +93,9 @@ export default function Alumni() {
           city: "Jaipur",
           bio: "",
         });
-      } else {
-        setToast({ message: data.error || "Failed to register profile.", type: "error" });
       }
-    } catch (err) {
-      console.error(err);
-      setToast({ message: "Something went wrong. Please try again.", type: "error" });
+    } catch (err: any) {
+      setToast({ message: err?.message || "Something went wrong. Please try again.", type: "error" });
     } finally {
       setRegistering(false);
     }

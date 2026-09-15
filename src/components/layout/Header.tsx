@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { fetchAnnouncement } from "@/lib/firebaseDb";
 import { Menu, X, ChevronDown, Phone, Mail, Clock, Search, Bell, Sparkles, AlertTriangle } from "lucide-react";
 import Button from "../ui/Button";
 import QuickSearchModal from "../ui/QuickSearchModal";
@@ -56,11 +57,10 @@ export default function Header() {
 
   // Fetch live announcement banner
   useEffect(() => {
-    fetch("/api/admin/announcement")
-      .then((res) => res.json())
+    fetchAnnouncement()
       .then((data) => {
         if (data && data.active) {
-          setAnnouncement(data);
+          setAnnouncement(data as any);
         }
       })
       .catch(console.error);

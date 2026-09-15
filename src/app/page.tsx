@@ -18,6 +18,7 @@ import BookVisitModal from '@/components/ui/BookVisitModal';
 import NewsSwipeCarousel from '@/components/ui/NewsSwipeCarousel';
 import InstagramFeed from '@/components/ui/InstagramFeed';
 import { ArrowRight, Play, BookOpen, Calendar, MapPin, Compass, ShieldCheck, Award, X, Bell, Calculator, Sparkles, Globe, UserCheck, CheckCircle, Eye, Target, Heart, GraduationCap, ZoomIn } from 'lucide-react';
+import { fetchNews as getNewsFromDb, fetchStats, fetchTestimonials } from '@/lib/firebaseDb';
 
 /* ─── Data Fallbacks ─── */
 const defaultParentReviews = [
@@ -175,10 +176,9 @@ export default function Home() {
 
   useEffect(() => {
     // 1. Fetch Homepage News
-    async function fetchNews() {
+    async function loadHomepageNews() {
       try {
-        const res = await fetch('/api/news');
-        const data = await res.json();
+        const data = await getNewsFromDb();
         if (data?.news) {
           setNewsList(data.news.filter((item: { type: string }) => item.type === 'news').slice(0, 4));
         }
@@ -188,11 +188,10 @@ export default function Home() {
         setLoadingNews(false);
       }
     }
-    fetchNews();
+    loadHomepageNews();
 
     // 2. Fetch Live Stats
-    fetch('/api/admin/stats')
-      .then((res) => res.json())
+    fetchStats()
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setLiveStats(data);
@@ -201,8 +200,7 @@ export default function Home() {
       .catch(console.error);
 
     // 3. Fetch Testimonials
-    fetch('/api/admin/testimonials')
-      .then((res) => (res.ok ? res.json() : null))
+    fetchTestimonials()
       .then((data) => {
         if (data && (data.parent?.length > 0 || data.student?.length > 0)) {
           setTestimonialsData({

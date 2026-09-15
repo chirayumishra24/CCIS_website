@@ -6,6 +6,7 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import Button from "@/components/ui/Button";
 import Toast from "@/components/ui/Toast";
 import { Mail, Phone, MapPin, Clock, ChevronDown, Send, MessageSquare } from "lucide-react";
+import { submitContactForm } from "@/lib/firebaseDb";
 
 const contactInfo = [
   { icon: <Phone className="w-5 h-5" />, label: "Phone", value: "+91-9660551977", href: "tel:+919660551977" },
@@ -36,17 +37,9 @@ export default function Contact() {
     }
     setSending(true);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState),
-      });
-      if (res.ok) {
-        setToast({ message: "Your message has been sent. We will reply within 24 hours.", type: "success" });
-        setFormState({ name: "", email: "", phone: "", message: "" });
-      } else {
-        throw new Error("Failed");
-      }
+      await submitContactForm(formState);
+      setToast({ message: "Your message has been sent. We will reply within 24 hours.", type: "success" });
+      setFormState({ name: "", email: "", phone: "", message: "" });
     } catch {
       setToast({ message: "Something went wrong. Please try again.", type: "error" });
     } finally {

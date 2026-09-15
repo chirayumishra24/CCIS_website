@@ -12,6 +12,33 @@ import AnnouncementManager, { AnnouncementSettings } from "@/components/admin/An
 import StatsManager, { StatItem } from "@/components/admin/StatsManager";
 import ContactMessagesManager, { ContactMessage } from "@/components/admin/ContactMessagesManager";
 import { Lock, Loader2, Plus, Trash2, Video, FileText, Calendar, Bell, Edit3, X } from "lucide-react";
+import {
+  adminAuth,
+  fetchNews,
+  createNews,
+  updateNews,
+  deleteNews,
+  fetchFaculty,
+  createFaculty,
+  updateFaculty,
+  deleteFaculty,
+  fetchAnnouncement,
+  updateAnnouncement,
+  fetchStats,
+  updateStats,
+  fetchContactMessages,
+  updateContactMessage,
+  deleteContactMessage,
+  fetchAdmissionEnquiries,
+  updateAdmissionEnquiry,
+  deleteAdmissionEnquiry,
+  fetchAlumniManage,
+  updateAlumniProfile,
+  deleteAlumniProfile,
+  fetchTestimonials,
+  createTestimonial,
+  deleteTestimonial,
+} from "@/lib/firebaseDb";
 
 interface NewsItem {
   id: string;
@@ -90,23 +117,17 @@ export default function AdminDashboard() {
     setAuthError(null);
 
     try {
-      const res = await fetch("/api/admin/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: pass }),
-      });
-
-      if (res.ok) {
+      if (adminAuth(pass)) {
         setIsAuthenticated(true);
         localStorage.setItem("ccis_admin_passcode", pass);
-        fetchAllData(pass);
+        fetchAllData();
       } else {
         if (!isAuto) setAuthError("Incorrect passcode. Access Denied.");
         localStorage.removeItem("ccis_admin_passcode");
       }
     } catch (err) {
       console.error(err);
-      if (!isAuto) setAuthError("Server connection error.");
+      if (!isAuto) setAuthError("Authentication error.");
     } finally {
       setSubmittingAuth(false);
       setCheckingAuth(false);
@@ -125,68 +146,60 @@ export default function AdminDashboard() {
     setPasscode("");
   };
 
-  const fetchAllData = async (pass: string) => {
+  const fetchAllData = async () => {
     setLoadingData(true);
     try {
       // 1. News & Circulars
-      fetch("/api/news")
-        .then((res) => res.json())
+      fetchNews()
         .then((data) => {
           if (data?.news) setNewsItems(data.news);
         })
         .catch(console.error);
 
       // 2. Admissions
-      fetch(`/api/admin/admissions?passcode=${pass}`)
-        .then((res) => (res.ok ? res.json() : []))
+      fetchAdmissionEnquiries()
         .then((data) => {
           if (Array.isArray(data)) setEnquiries(data);
         })
         .catch(console.error);
 
       // 3. Faculty
-      fetch("/api/admin/faculty")
-        .then((res) => res.json())
+      fetchFaculty()
         .then((data) => {
           if (Array.isArray(data)) setFaculty(data);
         })
         .catch(console.error);
 
       // 4. Alumni
-      fetch(`/api/admin/alumni-manage?passcode=${pass}`)
-        .then((res) => (res.ok ? res.json() : []))
+      fetchAlumniManage()
         .then((data) => {
           if (Array.isArray(data)) setAlumni(data);
         })
         .catch(console.error);
 
       // 5. Global Announcement
-      fetch("/api/admin/announcement")
-        .then((res) => res.json())
+      fetchAnnouncement()
         .then((data) => {
-          if (data) setAnnouncement(data);
+          if (data) setAnnouncement(data as any);
         })
         .catch(console.error);
 
       // 6. Stats
-      fetch("/api/admin/stats")
-        .then((res) => res.json())
+      fetchStats()
         .then((data) => {
           if (Array.isArray(data)) setStats(data);
         })
         .catch(console.error);
 
       // 7. Contact Messages
-      fetch(`/api/admin/contact-messages?passcode=${pass}`)
-        .then((res) => (res.ok ? res.json() : []))
+      fetchContactMessages()
         .then((data) => {
           if (Array.isArray(data)) setContactMessages(data);
         })
         .catch(console.error);
 
       // 8. Testimonials
-      fetch("/api/admin/testimonials")
-        .then((res) => (res.ok ? res.json() : { parent: [], student: [] }))
+      fetchTestimonials()
         .then((data) => {
           if (data) setTestimonials(data);
         })
@@ -196,22 +209,14 @@ export default function AdminDashboard() {
     }
   };
 
-  const getPasscode = () => localStorage.getItem("ccis_admin_passcode") || "";
-
   // Handlers for Admissions
   const handleUpdateAdmissionStatus = async (id: string, status: string) => {
     try {
-      const res = await fetch("/api/admin/admissions", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: getPasscode(), id, status }),
-      });
-      if (res.ok) {
-        setToast({ message: `Status updated to ${status}`, type: "success" });
-        setEnquiries((prev) =>
-          prev.map((e) => (e.id === id ? { ...e, status } : e))
-        );
-      }
+      await updateAdmissionEnquiry(id, { status });
+      setToast({ message: `Status updated to ${status}`, type: "success" });
+      setEnquiries((prev) =>
+        prev.map((e) => (e.id === id ? { ...e, status } : e))
+      );
     } catch {
       setToast({ message: "Failed to update status", type: "error" });
     }
@@ -219,15 +224,9 @@ export default function AdminDashboard() {
 
   const handleAddAdmissionNote = async (id: string, note: string) => {
     try {
-      const res = await fetch("/api/admin/admissions", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: getPasscode(), id, note }),
-      });
-      if (res.ok) {
-        setToast({ message: "Staff note saved!", type: "success" });
-        fetchAllData(getPasscode());
-      }
+      await updateAdmissionEnquiry(id, { note });
+      setToast({ message: "Staff note saved!", type: "success" });
+      fetchAllData();
     } catch {
       setToast({ message: "Failed to save note", type: "error" });
     }
@@ -236,13 +235,9 @@ export default function AdminDashboard() {
   const handleDeleteAdmission = async (id: string) => {
     if (!confirm("Are you sure you want to delete this enquiry lead?")) return;
     try {
-      const res = await fetch(`/api/admin/admissions?id=${id}&passcode=${getPasscode()}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setToast({ message: "Enquiry deleted", type: "success" });
-        setEnquiries((prev) => prev.filter((e) => e.id !== id));
-      }
+      await deleteAdmissionEnquiry(id);
+      setToast({ message: "Enquiry deleted", type: "success" });
+      setEnquiries((prev) => prev.filter((e) => e.id !== id));
     } catch {
       setToast({ message: "Failed to delete", type: "error" });
     }
@@ -252,15 +247,13 @@ export default function AdminDashboard() {
   const handleSaveFaculty = async (data: Partial<FacultyMember>) => {
     const isEdit = !!data.id;
     try {
-      const res = await fetch("/api/admin/faculty", {
-        method: isEdit ? "PUT" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: getPasscode(), ...data }),
-      });
-      if (res.ok) {
-        setToast({ message: isEdit ? "Faculty updated!" : "Faculty added!", type: "success" });
-        fetchAllData(getPasscode());
+      if (isEdit && data.id) {
+        await updateFaculty(data.id, data as any);
+      } else {
+        await createFaculty(data as any);
       }
+      setToast({ message: isEdit ? "Faculty updated!" : "Faculty added!", type: "success" });
+      fetchAllData();
     } catch {
       setToast({ message: "Failed to save faculty member", type: "error" });
     }
@@ -269,13 +262,9 @@ export default function AdminDashboard() {
   const handleDeleteFaculty = async (id: string) => {
     if (!confirm("Are you sure you want to delete this faculty member?")) return;
     try {
-      const res = await fetch(`/api/admin/faculty?id=${id}&passcode=${getPasscode()}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setToast({ message: "Faculty member deleted", type: "success" });
-        setFaculty((prev) => prev.filter((f) => f.id !== id));
-      }
+      await deleteFaculty(id);
+      setToast({ message: "Faculty member deleted", type: "success" });
+      setFaculty((prev) => prev.filter((f) => f.id !== id));
     } catch {
       setToast({ message: "Failed to delete", type: "error" });
     }
@@ -284,15 +273,9 @@ export default function AdminDashboard() {
   // Handlers for Alumni
   const handleUpdateAlumni = async (id: string, updates: Partial<AlumniProfile>) => {
     try {
-      const res = await fetch("/api/admin/alumni-manage", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: getPasscode(), id, ...updates }),
-      });
-      if (res.ok) {
-        setToast({ message: "Alumni profile updated!", type: "success" });
-        fetchAllData(getPasscode());
-      }
+      await updateAlumniProfile(id, updates);
+      setToast({ message: "Alumni profile updated!", type: "success" });
+      fetchAllData();
     } catch {
       setToast({ message: "Failed to update alumni profile", type: "error" });
     }
@@ -301,13 +284,9 @@ export default function AdminDashboard() {
   const handleDeleteAlumni = async (id: string) => {
     if (!confirm("Are you sure you want to delete this alumni profile?")) return;
     try {
-      const res = await fetch(`/api/admin/alumni-manage?id=${id}&passcode=${getPasscode()}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setToast({ message: "Alumni profile deleted", type: "success" });
-        setAlumni((prev) => prev.filter((a) => a.id !== id));
-      }
+      await deleteAlumniProfile(id);
+      setToast({ message: "Alumni profile deleted", type: "success" });
+      setAlumni((prev) => prev.filter((a) => a.id !== id));
     } catch {
       setToast({ message: "Failed to delete", type: "error" });
     }
@@ -316,15 +295,9 @@ export default function AdminDashboard() {
   // Handlers for Announcement & Stats
   const handleSaveAnnouncement = async (data: AnnouncementSettings) => {
     try {
-      const res = await fetch("/api/admin/announcement", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: getPasscode(), ...data }),
-      });
-      if (res.ok) {
-        setToast({ message: "Global Notice Ticker settings updated!", type: "success" });
-        setAnnouncement(data);
-      }
+      await updateAnnouncement(data);
+      setToast({ message: "Global Notice Ticker settings updated!", type: "success" });
+      setAnnouncement(data);
     } catch {
       setToast({ message: "Failed to update announcement", type: "error" });
     }
@@ -332,15 +305,9 @@ export default function AdminDashboard() {
 
   const handleSaveStats = async (newStats: StatItem[]) => {
     try {
-      const res = await fetch("/api/admin/stats", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: getPasscode(), stats: newStats }),
-      });
-      if (res.ok) {
-        setToast({ message: "Homepage stats updated!", type: "success" });
-        setStats(newStats);
-      }
+      await updateStats(newStats);
+      setToast({ message: "Homepage stats updated!", type: "success" });
+      setStats(newStats);
     } catch {
       setToast({ message: "Failed to update stats", type: "error" });
     }
@@ -349,17 +316,11 @@ export default function AdminDashboard() {
   // Handlers for Contact Messages
   const handleUpdateContactStatus = async (id: string, status: string) => {
     try {
-      const res = await fetch("/api/admin/contact-messages", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: getPasscode(), id, status }),
-      });
-      if (res.ok) {
-        setToast({ message: "Message status updated", type: "success" });
-        setContactMessages((prev) =>
-          prev.map((m) => (m.id === id ? { ...m, status: status as any } : m))
-        );
-      }
+      await updateContactMessage(id, status);
+      setToast({ message: "Message status updated", type: "success" });
+      setContactMessages((prev) =>
+        prev.map((m) => (m.id === id ? { ...m, status: status as any } : m))
+      );
     } catch {
       setToast({ message: "Failed to update message", type: "error" });
     }
@@ -368,13 +329,9 @@ export default function AdminDashboard() {
   const handleDeleteContactMessage = async (id: string) => {
     if (!confirm("Delete this contact message?")) return;
     try {
-      const res = await fetch(`/api/admin/contact-messages?id=${id}&passcode=${getPasscode()}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setToast({ message: "Message deleted", type: "success" });
-        setContactMessages((prev) => prev.filter((m) => m.id !== id));
-      }
+      await deleteContactMessage(id);
+      setToast({ message: "Message deleted", type: "success" });
+      setContactMessages((prev) => prev.filter((m) => m.id !== id));
     } catch {
       setToast({ message: "Failed to delete", type: "error" });
     }
@@ -419,26 +376,22 @@ export default function AdminDashboard() {
     setSubmittingNews(true);
     try {
       const isEditing = !!editingNewsId;
-      const res = await fetch("/api/news", {
-        method: isEditing ? "PUT" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...(isEditing ? { id: editingNewsId } : {}),
+      if (isEditing && editingNewsId) {
+        await updateNews(editingNewsId, {
           ...newsForm,
           attachmentType: newsForm.type === "notice" ? "pdf" : null,
-        }),
-      });
-
-      const data = await res.json();
-      if (res.ok && (data.success || data.newsItem)) {
-        setToast({ message: isEditing ? "Updated successfully!" : "Published successfully!", type: "success" });
-        handleCancelEditNews();
-        fetchAllData(getPasscode());
+        });
       } else {
-        setToast({ message: data.error || "Failed to save.", type: "error" });
+        await createNews({
+          ...newsForm,
+          attachmentType: newsForm.type === "notice" ? "pdf" : null,
+        });
       }
-    } catch {
-      setToast({ message: "Something went wrong.", type: "error" });
+      setToast({ message: isEditing ? "Updated successfully!" : "Published successfully!", type: "success" });
+      handleCancelEditNews();
+      fetchAllData();
+    } catch (err: any) {
+      setToast({ message: err?.message || "Failed to save.", type: "error" });
     } finally {
       setSubmittingNews(false);
     }
@@ -447,11 +400,9 @@ export default function AdminDashboard() {
   const handleDeleteNews = async (id: string) => {
     if (!confirm("Are you sure you want to delete this post?")) return;
     try {
-      const res = await fetch(`/api/news?id=${id}`, { method: "DELETE" });
-      if (res.ok) {
-        setToast({ message: "Deleted successfully!", type: "success" });
-        setNewsItems((prev) => prev.filter((item) => item.id !== id));
-      }
+      await deleteNews(id);
+      setToast({ message: "Deleted successfully!", type: "success" });
+      setNewsItems((prev) => prev.filter((item) => item.id !== id));
     } catch {
       setToast({ message: "Failed to delete item", type: "error" });
     }
@@ -467,16 +418,12 @@ export default function AdminDashboard() {
 
     setSubmittingTestimonial(true);
     try {
-      const res = await fetch("/api/admin/testimonials", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(testimonialForm),
-      });
-      if (res.ok) {
-        setToast({ message: "Testimonial added successfully!", type: "success" });
-        setTestimonialForm({ type: "student", videoId: "", img: "" });
-        fetchAllData(getPasscode());
-      }
+      await createTestimonial(testimonialForm);
+      setToast({ message: "Testimonial added successfully!", type: "success" });
+      setTestimonialForm({ type: "student", videoId: "", img: "" });
+      fetchAllData();
+    } catch {
+      setToast({ message: "Failed to add testimonial", type: "error" });
     } finally {
       setSubmittingTestimonial(false);
     }
@@ -485,11 +432,9 @@ export default function AdminDashboard() {
   const handleDeleteTestimonial = async (id: string) => {
     if (!confirm("Delete this testimonial?")) return;
     try {
-      const res = await fetch(`/api/admin/testimonials?id=${id}`, { method: "DELETE" });
-      if (res.ok) {
-        setToast({ message: "Testimonial deleted!", type: "success" });
-        fetchAllData(getPasscode());
-      }
+      await deleteTestimonial(id);
+      setToast({ message: "Testimonial deleted!", type: "success" });
+      fetchAllData();
     } catch {
       setToast({ message: "Failed to delete", type: "error" });
     }

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, MessageCircle, ShieldCheck, Loader2 } from "lucide-react";
+import { submitAdmissionEnquiry } from "@/lib/firebaseDb";
 
 export const classesList = [
   "Playgroup / Nursery",
@@ -64,34 +65,22 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
 
     setLoading(true);
     try {
-      const res = await fetch("/api/admissions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.studentName.trim(),
-          studentName: formData.studentName.trim(),
-          parentName: formData.studentName.trim(),
-          email: formData.guardianEmail.trim(),
-          phone: formData.guardianContact.trim(),
-          grade: formData.selectedClass,
-          curriculum: "CBSE & IB PYP",
-          message: formData.message.trim(),
-          source: isModal ? "Popup Modal" : "Website Form",
-          notes: ["Schedule a Call enquiry", isModal ? "Submitted via Modal" : "Submitted via Page Form"],
-        }),
+      const data = await submitAdmissionEnquiry({
+        name: formData.studentName.trim(),
+        studentName: formData.studentName.trim(),
+        parentName: formData.studentName.trim(),
+        email: formData.guardianEmail.trim(),
+        phone: formData.guardianContact.trim(),
+        grade: formData.selectedClass,
+        curriculum: "CBSE & IB PYP",
+        message: formData.message.trim(),
       });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
-        const refId = data.enquiry?.id || `CCIS-${Math.floor(100000 + Math.random() * 900000)}`;
-        setSubmissionId(refId);
-        setSubmitted(true);
-        if (onSuccess) onSuccess();
-      } else {
-        setErrorMsg(data.error || "Failed to submit enquiry. Please try again.");
-      }
-    } catch {
-      setErrorMsg("Network error. Please try again or call +91 9660551977.");
+      const refId = data?.id || `CCIS-${Math.floor(100000 + Math.random() * 900000)}`;
+      setSubmissionId(refId);
+      setSubmitted(true);
+      if (onSuccess) onSuccess();
+    } catch (err: any) {
+      setErrorMsg(err?.message || "Network error. Please try again or call +91 9660551977.");
     } finally {
       setLoading(false);
     }

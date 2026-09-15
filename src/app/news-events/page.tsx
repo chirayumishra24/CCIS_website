@@ -7,6 +7,7 @@ import Skeleton from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
 import NewsSwipeCarousel from "@/components/ui/NewsSwipeCarousel";
 import { Calendar, FileText, Download, Tag, Search, ArrowRight, X, ExternalLink, ZoomIn } from "lucide-react";
+import { fetchNews as fetchNewsFromDb } from "@/lib/firebaseDb";
 
 interface NewsOrNotice {
   id: string;
@@ -31,10 +32,9 @@ export default function NewsEvents() {
   const [isModalZoomed, setIsModalZoomed] = useState(false);
 
   useEffect(() => {
-    async function fetchNews() {
+    async function loadNews() {
       try {
-        const res = await fetch("/api/news");
-        const data = await res.json();
+        const data = await fetchNewsFromDb();
         if (data && data.news) {
           setItems(data.news);
         }
@@ -44,7 +44,7 @@ export default function NewsEvents() {
         setLoading(false);
       }
     }
-    fetchNews();
+    loadNews();
   }, []);
 
   const filteredItems = items.filter((item) => {

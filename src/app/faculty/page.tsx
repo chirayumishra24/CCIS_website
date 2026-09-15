@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Skeleton from "@/components/ui/Skeleton";
 import { Search, GraduationCap, Award, BookOpen, Sparkles } from "lucide-react";
+import { fetchFaculty as fetchFacultyFromDb } from "@/lib/firebaseDb";
 
 interface FacultyItem {
   id: string;
@@ -37,14 +38,11 @@ export default function Faculty() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    async function fetchFaculty() {
+    async function loadFaculty() {
       try {
-        const res = await fetch("/api/admin/faculty");
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            setFacultyList(data);
-          }
+        const data = await fetchFacultyFromDb();
+        if (Array.isArray(data) && data.length > 0) {
+          setFacultyList(data);
         }
       } catch (err) {
         console.error("Failed to load faculty:", err);
@@ -52,7 +50,7 @@ export default function Faculty() {
         setLoading(false);
       }
     }
-    fetchFaculty();
+    loadFaculty();
   }, []);
 
   const filteredFaculty = facultyList.filter((f) => {
