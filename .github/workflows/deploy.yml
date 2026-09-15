@@ -1,4 +1,4 @@
-name: Deploy to Hostinger via SFTP
+name: Deploy to Hostinger via FTP
 
 on:
   push:
@@ -27,15 +27,17 @@ jobs:
         env:
           NEXT_PUBLIC_APP_URL: https://ccischool.org
 
-      - name: Deploy to Hostinger via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - name: Deploy to Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASS }}
-          port: ${{ secrets.SFTP_PORT }}
-          local_path: "./out/*"
-          remote_path: "/home/u460407084/domains/ccischool.org/public_html/"
-          sftp_only: true
-          delete_remote_files: false
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: 21
+          protocol: ftp
+          log-level: verbose
+          local-dir: ./out/
+          server-dir: ./
+          timeout: 600000
+
 
