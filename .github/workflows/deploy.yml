@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  FTP_SERVER: ftp.ccischool.org
+  FTP_SERVER: 187.124.193.92
 
 jobs:
   deploy:
