@@ -23,9 +23,10 @@ function VerifyContent() {
       return;
     }
 
+    const verificationId = id;
     async function runVerification() {
       try {
-        const data = await verifyAlumniEmail(id);
+        const data = await verifyAlumniEmail(verificationId);
         setAlumniData(data);
       } catch (err: any) {
         console.error("Verification error:", err);

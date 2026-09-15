@@ -41,3 +41,10 @@ public/Video/
 *.mp4
 *.MP4
 
+# firebase & functions
+functions/lib/
+functions/node_modules/
+firebase-debug*.log
+*.zip
+
+

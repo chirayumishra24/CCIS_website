@@ -379,12 +379,12 @@ export default function AdminDashboard() {
       if (isEditing && editingNewsId) {
         await updateNews(editingNewsId, {
           ...newsForm,
-          attachmentType: newsForm.type === "notice" ? "pdf" : null,
+          attachmentType: newsForm.type === "notice" ? "pdf" : undefined,
         });
       } else {
         await createNews({
           ...newsForm,
-          attachmentType: newsForm.type === "notice" ? "pdf" : null,
+          attachmentType: newsForm.type === "notice" ? "pdf" : undefined,
         });
       }
       setToast({ message: isEditing ? "Updated successfully!" : "Published successfully!", type: "success" });

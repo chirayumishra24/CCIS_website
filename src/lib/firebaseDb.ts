@@ -203,7 +203,7 @@ const defaultEvents = [
 
 export async function fetchNews() {
   try {
-    let newsItems: any[] = [];
+    const newsItems: any[] = [];
     try {
       const q = query(collection(db, 'news_updates'), where('school', '==', SCHOOL), orderBy('date', 'desc'));
       const snapshot = await getDocs(q);
@@ -354,7 +354,7 @@ export async function submitAdmissionEnquiry(data: {
 }
 
 export async function fetchAdmissionEnquiries() {
-  let enquiries: any[] = [];
+  const enquiries: any[] = [];
   try {
     const q = query(collection(db, 'admissions_enquiries'), where('school', '==', SCHOOL), orderBy('createdAt', 'desc'));
     const snapshot = await getDocs(q);
@@ -528,7 +528,7 @@ export async function fetchTopAlumni() {
 
 // ─── Alumni Management (Admin) ───
 export async function fetchAlumniManage() {
-  let profiles: any[] = [];
+  const profiles: any[] = [];
   try {
     const q = query(collection(db, 'alumni_profiles'), orderBy('batch', 'desc'));
     const snapshot = await getDocs(q);
