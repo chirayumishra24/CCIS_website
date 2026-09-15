@@ -5,8 +5,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-env:
-  FTP_SERVER: 187.124.193.92
 
 jobs:
   deploy:
@@ -19,6 +17,7 @@ jobs:
         env:
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASS: ${{ secrets.FTP_PASS }}
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
         run: |
           if [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ]; then
             echo "::error::The FTP_USER or FTP_PASS repository secret is missing or empty."
@@ -38,7 +37,7 @@ jobs:
             echo "::error::FTP_USER doesn't look like a Hostinger FTP username (u123456789 or u123456789.something). Copy it from hPanel > Files > FTP Accounts, not the hPanel login email."; bad=1
           fi
           [ "$bad" = 0 ] || exit 1
-          if ! curl --ssl-reqd --insecure --silent --show-error --list-only --max-time 30 \
+          if ! curl --silent --show-error --list-only --max-time 30 \
                --user "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER/" > /dev/null; then
             echo "::error::FTP login to $FTP_SERVER was rejected. The username format is fine, so the password doesn't match this FTP account (a newly changed password can take a few minutes to apply in Hostinger)."
             exit 1
@@ -64,11 +63,11 @@ jobs:
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ env.FTP_SERVER }}
+          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           port: 21
-          protocol: ftps
+          protocol: ftp
           log-level: verbose
           local-dir: ./out/
           # Relative to the folder the FTP account opens in.
