@@ -24,15 +24,9 @@ jobs:
             echo "::error::The FTP_USER or FTP_PASS repository secret is missing or empty."
             exit 1
           fi
-          if ! listing=$(curl --silent --show-error --list-only --max-time 30 \
-                 --user "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER/"); then
+          if ! curl --silent --show-error --list-only --max-time 30 \
+               --user "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER/" > /dev/null; then
             echo "::error::FTP login to $FTP_SERVER was rejected. Copy the username and password from hPanel > ccischool.org > Files > FTP Accounts into the FTP_USER and FTP_PASS secrets."
-            exit 1
-          fi
-          # The site is uploaded to public_html/ccischool relative to the FTP
-          # account's root, so that root must contain public_html.
-          if ! printf '%s\n' "$listing" | grep -qx 'public_html'; then
-            echo "::error::No public_html folder at this FTP account's root. In hPanel, use an FTP account whose directory contains public_html."
             exit 1
           fi
 
@@ -61,7 +55,8 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           port: 21
           protocol: ftp
+          log-level: verbose
           local-dir: ./out/
-          # Relative to the FTP account's root (FTP logins can't see /home/...).
-          server-dir: public_html/ccischool/
+          # Relative to the folder the FTP account opens in.
+          server-dir: public_html/
           timeout: 600000
