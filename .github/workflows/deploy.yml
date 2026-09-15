@@ -38,7 +38,7 @@ jobs:
             echo "::error::FTP_USER doesn't look like a Hostinger FTP username (u123456789 or u123456789.something). Copy it from hPanel > Files > FTP Accounts, not the hPanel login email."; bad=1
           fi
           [ "$bad" = 0 ] || exit 1
-          if ! curl --silent --show-error --list-only --max-time 30 \
+          if ! curl --ssl-reqd --insecure --silent --show-error --list-only --max-time 30 \
                --user "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER/" > /dev/null; then
             echo "::error::FTP login to $FTP_SERVER was rejected. The username format is fine, so the password doesn't match this FTP account (a newly changed password can take a few minutes to apply in Hostinger)."
             exit 1
