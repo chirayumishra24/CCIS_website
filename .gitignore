@@ -48,3 +48,6 @@ firebase-debug*.log
 *.zip
 
 
+
+# FTP client exports (contain passwords)
+ccis-ftp-config.xml

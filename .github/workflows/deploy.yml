@@ -3,12 +3,39 @@ name: Deploy to Hostinger via FTP
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
+env:
+  FTP_SERVER: 187.124.193.92
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Fail fast with a clear message instead of building first and then
+      # getting "530 Login incorrect" from the deploy action.
+      - name: Check FTP login
+        env:
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: |
+          if [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ]; then
+            echo "::error::The FTP_USER or FTP_PASS repository secret is missing or empty."
+            exit 1
+          fi
+          if ! listing=$(curl --silent --show-error --list-only --max-time 30 \
+                 --user "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER/"); then
+            echo "::error::FTP login to $FTP_SERVER was rejected. Copy the username and password from hPanel > ccischool.org > Files > FTP Accounts into the FTP_USER and FTP_PASS secrets."
+            exit 1
+          fi
+          # Files are uploaded to the FTP account's root, so that root must be
+          # ccischool.org's public_html, not the folder above it.
+          if printf '%s\n' "$listing" | grep -qx 'public_html'; then
+            echo "::error::This FTP account opens one level above public_html. In hPanel, use an FTP account whose directory is public_html."
+            exit 1
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -29,8 +56,13 @@ jobs:
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: 187.124.193.92
+          server: ${{ env.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
+          port: 21
+          protocol: ftp
           local-dir: ./out/
-          server-dir: /home/u460407084/domains/ccischool.org/public_html/ccischool/
+          # FTP logins on this server start inside the account's own folder,
+          # so the site root is "./" (same as the working CCHS deploy).
+          server-dir: ./
+          timeout: 600000
