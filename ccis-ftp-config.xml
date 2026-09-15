@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FileZilla3 Exporttype="1">
+  <Servers>
+    <Server>
+      <Host>ftp.ccischool.org</Host>
+      <Port>21</Port>
+      <Protocol>0</Protocol>
+      <Type>0</Type>
+      <User>u460407084.ccischool</User>
+      <Pass encoding="base64">NWYlYS9LVkxHXUdUVzJE</Pass>
+      <Logontype>1</Logontype>
+      <EncodingType>Auto</EncodingType>
+      <BypassProxy>0</BypassProxy>
+      <Name>CCIS Hostinger</Name>
+      <RemoteDir>/home/u460407084/domains/ccischool.org/public_html/ccischool</RemoteDir>
+      <LocalDir>e:\skilizee\CCIS_Website\out</LocalDir>
+      <SyncBrowsing>0</SyncBrowsing>
+    </Server>
+  </Servers>
+</FileZilla3>
