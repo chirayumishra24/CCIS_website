@@ -29,10 +29,10 @@ jobs:
             echo "::error::FTP login to $FTP_SERVER was rejected. Copy the username and password from hPanel > ccischool.org > Files > FTP Accounts into the FTP_USER and FTP_PASS secrets."
             exit 1
           fi
-          # Files are uploaded to the FTP account's root, so that root must be
-          # ccischool.org's public_html, not the folder above it.
-          if printf '%s\n' "$listing" | grep -qx 'public_html'; then
-            echo "::error::This FTP account opens one level above public_html. In hPanel, use an FTP account whose directory is public_html."
+          # The site is uploaded to public_html/ccischool relative to the FTP
+          # account's root, so that root must contain public_html.
+          if ! printf '%s\n' "$listing" | grep -qx 'public_html'; then
+            echo "::error::No public_html folder at this FTP account's root. In hPanel, use an FTP account whose directory contains public_html."
             exit 1
           fi
 
@@ -62,7 +62,6 @@ jobs:
           port: 21
           protocol: ftp
           local-dir: ./out/
-          # FTP logins on this server start inside the account's own folder,
-          # so the site root is "./" (same as the working CCHS deploy).
-          server-dir: ./
+          # Relative to the FTP account's root (FTP logins can't see /home/...).
+          server-dir: public_html/ccischool/
           timeout: 600000
