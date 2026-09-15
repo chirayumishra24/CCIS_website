@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  FTP_SERVER: 187.124.193.92
+  FTP_SERVER: ftp.ccischool.org
 
 jobs:
   deploy:
@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           port: 21
-          protocol: ftp
+          protocol: ftps
           log-level: verbose
           local-dir: ./out/
           # Relative to the folder the FTP account opens in.
