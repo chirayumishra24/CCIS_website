@@ -3,7 +3,7 @@ import { firestore } from '@/lib/firebaseAdmin';
 import { sendRegistrationEmail } from '@/lib/email';
 import { getAlumniCache, setAlumniCache, invalidateAlumniCache } from '@/lib/cache';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic'; // Disabled for static export
 
 export async function GET(request: Request) {
   try {

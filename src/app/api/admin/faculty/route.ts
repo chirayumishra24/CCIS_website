@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { firestore } from '@/lib/firebaseAdmin';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic'; // Disabled for static export
 
 const defaultFaculty = [
   { id: 'f0', name: 'Mrs. Lata Rawat', role: 'Director, CCIS Group', dept: 'Leadership', qual: 'Edu Icon Awardee & Distinguished Educationist', img: '/images/lata-rawat.webp', order: 1 },

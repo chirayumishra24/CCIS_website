@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { firestore } from '@/lib/firebaseAdmin';
 import { QueryDocumentSnapshot } from 'firebase-admin/firestore';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic'; // Disabled for static export
 
 interface AlumniProfileDoc {
   id?: string;

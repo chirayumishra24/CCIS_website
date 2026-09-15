@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { firestore } from '@/lib/firebaseAdmin';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic'; // Disabled for static export
 
 function isAuthorized(passcode: string | null): boolean {
   const correctPasscode = process.env.ADMIN_PASSWORD || 'ccis-admin-2026';

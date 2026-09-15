@@ -2,7 +2,7 @@ import { firestore } from '@/lib/firebaseAdmin';
 import { invalidateAlumniCache } from '@/lib/cache';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic'; // Disabled for static export
 
 export default async function VerifyPage({
   searchParams,

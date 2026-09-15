@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { firestore } from '@/lib/firebaseAdmin';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic'; // Disabled for static export
 
 const defaultStats = [
   { id: 'stat_1', end: 25, suffix: '+', label: 'Years of Excellence', order: 1 },
