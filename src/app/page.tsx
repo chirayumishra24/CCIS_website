@@ -332,7 +332,7 @@ export default function Home() {
             </h2>
             <div className="gold-rule" />
             <p className="text-ink-muted leading-relaxed text-[15px]">
-              Cambridge Court International School (CCIS) combines the global inquiry standards of the International Baccalaureate (IB) framework with the robust national testing standards of the CBSE. Set in Sector-3 Mansarovar, Jaipur, our state-of-the-art campus is an arena for educational, athletic, and personal transformation.
+              CCIS combines the global inquiry standards of the International Baccalaureate (IB) framework with the robust national testing standards of the CBSE. Set in Sector-3 Mansarovar, Jaipur, our state-of-the-art campus is an arena for educational, athletic, and personal transformation.
             </p>
             <Link href="/about" className="mt-1">
               <Button variant="primary" className="rounded-xl group/btn">
@@ -436,7 +436,7 @@ export default function Home() {
               />
               <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-navy via-navy/30 to-transparent" />
               <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-navy-dark/85 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 text-white">
-                <p className="text-gold font-sans font-bold text-xs uppercase tracking-wider">Cambridge Court</p>
+                <p className="text-gold font-sans font-bold text-xs uppercase tracking-wider">CCIS</p>
                 <p className="text-[11px] text-white/80 font-serif">Where Learning Meets Life!</p>
               </div>
             </div>

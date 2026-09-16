@@ -1,6 +1,6 @@
 # CCIS Website — AI Generated Images Catalog & Scene Descriptions
 
-> **Document Scope:** This document details **only the AI-generated visual assets** utilized across the Cambridge Court International School (CCIS) website. Each entry breaks down exactly what is happening in the scene, the participants, action, environment, and educational context.
+> **Document Scope:** This document details **only the AI-generated visual assets** utilized across the CCIS website. Each entry breaks down exactly what is happening in the scene, the participants, action, environment, and educational context.
 
 ---
 
@@ -164,7 +164,7 @@
 * **File Location:** `/images/students/global-graduate.jpg`
 * **Usage:** Alumni Achievements, University Acceptance Highlights
 * **What is happening in the image:**
-  * **Subject:** A group of smiling, confident senior Indian secondary students (boys and girls) standing together on the campus lawn before Cambridge Court International School.
+  * **Subject:** A group of smiling, confident senior Indian secondary students (boys and girls) standing together on the campus lawn before CCIS.
   * **Uniform:** Distinct, authentic CCIS uniforms—girls wearing white mandarin-collar shirts under navy blue tailored vests with white piping trim, crest, and CCIS lanyards; boys wearing white polo shirts with navy blue collars, plackets, shoulder stripes, cuffs, crest, and CCIS lanyards; all in navy trousers.
   * **Action:** Holding academic books, binders, and achievement certificates with pride and collegiate poise.
   * **Atmosphere:** Global university readiness, academic distinction, bright outdoor campus daylight.

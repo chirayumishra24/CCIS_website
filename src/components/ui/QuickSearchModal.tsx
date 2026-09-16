@@ -182,7 +182,7 @@ export default function QuickSearchModal({ isOpen, onClose }: { isOpen: boolean;
             <span>Use <kbd className="font-mono bg-white px-1.5 py-0.5 rounded border border-cream-line text-[9px]">↑</kbd> <kbd className="font-mono bg-white px-1.5 py-0.5 rounded border border-cream-line text-[9px]">↓</kbd> to navigate</span>
             <span><kbd className="font-mono bg-white px-1.5 py-0.5 rounded border border-cream-line text-[9px]">↵</kbd> to select</span>
           </div>
-          <span className="text-gold-dark font-bold font-serif">Cambridge Court Portal</span>
+          <span className="text-gold-dark font-bold font-serif">CCIS Portal</span>
         </div>
       </div>
     </div>

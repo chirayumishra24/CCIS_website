@@ -31,13 +31,12 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://ccis.skilizee.com"),
   title: {
-    default: "Cambridge Court International School | Best IB & CBSE School in Jaipur",
-    template: "%s | Cambridge Court International School",
+    default: "CCIS | Best IB & CBSE School in Jaipur",
+    template: "%s | CCIS",
   },
   description:
-    "Cambridge Court International School (CCIS), Jaipur — a premium dual-curriculum (IB + CBSE) day school offering outstanding academic achievements, world-class amenities, and holistic growth.",
+    "CCIS, Jaipur — a premium dual-curriculum (IB + CBSE) day school offering outstanding academic achievements, world-class amenities, and holistic growth.",
   keywords: [
-    "Cambridge Court International School",
     "CCIS",
     "Best CBSE school Jaipur",
     "Best IB school Jaipur",
@@ -46,13 +45,13 @@ export const metadata: Metadata = {
     "top school Mansarovar Jaipur",
     "CBSE affiliation 1730867",
   ],
-  authors: [{ name: "Cambridge Court International School" }],
-  creator: "Cambridge Court International School",
+  authors: [{ name: "CCIS" }],
+  creator: "CCIS",
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "Cambridge Court International School",
-    title: "Cambridge Court International School | Best IB & CBSE School in Jaipur",
+    siteName: "CCIS",
+    title: "CCIS | Best IB & CBSE School in Jaipur",
     description:
       "A premium dual-curriculum day school with a global vision and solid Indian values.",
     images: [
@@ -60,13 +59,13 @@ export const metadata: Metadata = {
         url: "/images/home_hero1.png",
         width: 1200,
         height: 630,
-        alt: "Cambridge Court International School Campus",
+        alt: "CCIS Campus",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cambridge Court International School",
+    title: "CCIS",
     description:
       "Best IB & CBSE School in Jaipur — Academic excellence and holistic development.",
     images: ["/images/home_hero1.png"],

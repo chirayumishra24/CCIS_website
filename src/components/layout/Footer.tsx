@@ -91,7 +91,7 @@ export default function Footer() {
             <li className="flex gap-3">
               <MapPin className="w-5 h-5 text-gold shrink-0 mt-0.5" />
               <span className="leading-relaxed text-cream-dark/80">
-                Cambridge Court International School,<br />
+                CCIS,<br />
                 Sector-3, Mansarovar, Jaipur, Rajasthan - 302020
               </span>
             </li>
@@ -132,7 +132,7 @@ export default function Footer() {
       {/* Copyright Bar */}
       <div className="bg-navy/50 py-6 border-t border-white/5 text-center text-xs text-cream-dark/50">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p>&copy; {currentYear} Cambridge Court International School. All Rights Reserved.</p>
+          <p>&copy; {currentYear} CCIS. All Rights Reserved.</p>
           <div className="flex gap-6">
             <Link href="/policies" className="hover:text-gold transition-colors">Privacy Policy</Link>
             <Link href="/policies" className="hover:text-gold transition-colors">Terms of Use</Link>

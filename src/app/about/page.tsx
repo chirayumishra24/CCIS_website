@@ -6,7 +6,7 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 
 export const metadata: Metadata = {
   title: "About Us — 25+ Years of Educational Excellence",
-  description: "Discover the legacy, vision, and leadership behind Cambridge Court International School (CCIS) — Jaipur's premier dual-curriculum (IB + CBSE) school since 1998.",
+  description: "Discover the legacy, vision, and leadership behind CCIS — Jaipur's premier dual-curriculum (IB + CBSE) school since 1998.",
 };
 
 const values = [

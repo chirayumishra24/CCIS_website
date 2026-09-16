@@ -77,7 +77,7 @@ export default function SmartFeeCalculator() {
       doc.setFont("helvetica", "bold");
       doc.setFontSize(20);
       doc.setTextColor(255, 255, 255);
-      doc.text("CAMBRIDGE COURT INTERNATIONAL SCHOOL", 40, 48);
+      doc.text("CCIS", 40, 48);
 
       doc.setFontSize(11);
       doc.setFont("helvetica", "normal");

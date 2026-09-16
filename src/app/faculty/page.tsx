@@ -92,7 +92,7 @@ export default function Faculty() {
             Distinguished Academic Mentors &amp; Leaders
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
-            Meet the experienced educators, certified IB specialists, and department chairs shaping young minds at Cambridge Court.
+            Meet the experienced educators, certified IB specialists, and department chairs shaping young minds at CCIS.
           </p>
         </div>
 

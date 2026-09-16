@@ -1,14 +1,14 @@
-# Cambridge Court International School (CCIS) — Master Image Catalog & Scene Descriptions
+# CCIS — Master Image Catalog & Scene Descriptions
 
-> **Document Purpose:** Complete reference guide detailing every image used across the CCIS website, specifying its visual content, active subjects, campus setting, action/interaction, and contextual purpose.
+A comprehensive, production-grade guide describing all visual imagery used across the official CCIS web application. This document details the exact visual composition, real-world context, lighting, color harmony, and pedagogical intent for every single image.
 
 ---
 
-## 1. Brand & Accreditation Logos
+## 1. Brand Identity & Insignia
 
-| Image Path | Display Locations | Scene & Visual Content Description |
+| Asset Path | Placement | Detailed Visual Description & Scene Context |
 | :--- | :--- | :--- |
-| `/images/logo.webp` | Header, Footer, Hero overlays | Official CCIS brand insignia featuring the deep navy and gold crest, typography reading *"Cambridge Court International School"*, symbolizing prestige, heritage, and academic excellence. |
+| `/images/logo.webp` | Header, Footer, Hero overlays | Official CCIS brand insignia featuring the deep navy and gold crest, typography reading *"CCIS"*, symbolizing prestige, heritage, and academic excellence. |
 | `/logo/Subtitlelogo.png` | Browser Favicon, Mobile App Icon | High-resolution compact brand crest badge highlighting the signature CCIS shield and gold star emblem against a clean background. |
 | `/images/ib-pyp-logo.svg` / `/images/ib-logo-img.png` | Header, Hero Badges, Footer, Academics | Official International Baccalaureate (IB) Primary Years Programme candidate logo showing the iconic blue multi-layered globe icon and official IB lettering. |
 | `/images/cbse-logo.svg` | Header, Hero Badges, Footer, Academics | Official Central Board of Secondary Education (CBSE) crest featuring the traditional open book of knowledge, lamp of wisdom, and emblem with national affiliation markers. |

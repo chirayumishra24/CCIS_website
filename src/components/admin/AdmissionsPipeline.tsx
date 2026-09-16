@@ -400,7 +400,7 @@ export default function AdmissionsPipeline({
                           <a
                             href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}?text=Hello%20${encodeURIComponent(
                               lead.parentName || lead.name
-                            )},%20greetings%20from%20Cambridge%20Court%20International%20School%20Admissions.`}
+                            )},%20greetings%20from%20CCIS%20Admissions.`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
