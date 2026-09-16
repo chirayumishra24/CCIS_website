@@ -483,11 +483,11 @@ export default function Header() {
             </button>
 
             <div className="flex items-center gap-4 border-b border-cream-line pb-4">
-              <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-cream-line shadow-sm shrink-0 flex items-center justify-center">
+              <div className="relative w-24 h-12 bg-white p-1.5 rounded-xl border border-cream-line shadow-sm shrink-0 flex items-center justify-center">
                 <Image
                   src="/images/ib-candidacy-logo.png"
                   alt="IB In Candidacy Logo"
-                  width={48}
+                  width={96}
                   height={48}
                   className="object-contain"
                 />

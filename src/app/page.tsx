@@ -868,8 +868,8 @@ export default function Home() {
                   <span className="relative inline-block px-3 py-1 bg-gold text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-bold shadow-glow-gold animate-pulse-gold">
                     International Baccalaureate
                   </span>
-                  <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-white/20 shadow-md flex items-center justify-center shrink-0">
-                    <Image src="/images/ib-pyp-logo.png" alt="IB PYP Candidate School Logo" width={48} height={48} className="object-contain" priority />
+                  <div className="relative w-24 h-12 bg-white p-1.5 rounded-xl border border-white/20 shadow-md flex items-center justify-center shrink-0">
+                    <Image src="/images/ib-pyp-logo.png" alt="IB PYP Candidate School Logo" width={96} height={48} className="object-contain" priority />
                   </div>
                 </div>
 

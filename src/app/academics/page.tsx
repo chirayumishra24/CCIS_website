@@ -132,8 +132,8 @@ export default function Academics() {
               <AnimatedSection animation="fade-in-right" className="flex flex-col gap-5">
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Inquiry-Based International Path</span>
-                  <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-cream-line flex items-center justify-center shrink-0 shadow-xs">
-                    <Image src="/images/ib-pyp-logo.png" alt="IB PYP Candidate School Logo" width={48} height={48} className="object-contain" />
+                  <div className="relative w-24 h-12 bg-white p-1.5 rounded-xl border border-cream-line flex items-center justify-center shrink-0 shadow-xs">
+                    <Image src="/images/ib-pyp-logo.png" alt="IB PYP Candidate School Logo" width={96} height={48} className="object-contain" />
                   </div>
                 </div>
                 <h2 className="text-3xl font-serif font-bold text-navy">International Baccalaureate (Candidate)</h2>
