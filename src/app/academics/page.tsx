@@ -149,6 +149,20 @@ export default function Academics() {
                     </div>
                   ))}
                 </div>
+
+                <div className="p-4 rounded-xl border border-cream-line bg-cream/20 text-xs text-ink-muted leading-relaxed">
+                  <p className="font-bold text-navy mb-1">Disclaimer</p>
+                  <p className="mb-1.5">
+                    *CCIS is pursuing authorisation as an IB World School. IB World Schools share a common philosophy- a commitment to high-quality, challenging, international education- that we believe is important for our students.
+                  </p>
+                  <p>
+                    *Only schools authorized by the IB Organization can offer any of its four academic programmes: the Primary Years Programme (PYP), the Middle Years Programme (MYP), the Diploma Programme (DP), or the Career-related Programme (CP). Candidate status gives no guarantee that authorization will be granted. For further information about the IB and its programmes visit{" "}
+                    <a href="http://www.ibo.org" target="_blank" rel="noopener noreferrer" className="text-gold-dark hover:underline font-semibold">
+                      http://www.ibo.org
+                    </a>
+                    .
+                  </p>
+                </div>
               </AnimatedSection>
             </div>
           )}

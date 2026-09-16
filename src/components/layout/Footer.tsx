@@ -129,6 +129,31 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* IB Candidate School Disclaimer */}
+      <div className="border-t border-white/10 bg-navy-dark/40 py-6 px-4">
+        <div className="max-w-7xl mx-auto text-xs text-cream-dark/70 leading-relaxed">
+          <p className="font-semibold text-gold mb-1">Disclaimer</p>
+          <p className="mb-2">
+            *CCIS is pursuing authorisation as an IB World School. IB World Schools share a common philosophy- a commitment to high-quality, challenging, international education- that we believe is important for our students.
+          </p>
+          <p>
+            *Only schools authorized by the IB Organization can offer any of its four academic programmes: the Primary Years Programme (PYP), the Middle Years Programme (MYP), the Diploma Programme (DP), or the Career-related Programme (CP). Candidate status gives no guarantee that authorization will be granted.
+          </p>
+          <p className="mt-2">
+            For further information about the IB and its programmes visit{" "}
+            <a
+              href="http://www.ibo.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gold hover:underline font-semibold"
+            >
+              http://www.ibo.org
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+
       {/* Copyright Bar */}
       <div className="bg-navy/50 py-6 border-t border-white/5 text-center text-xs text-cream-dark/50">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
