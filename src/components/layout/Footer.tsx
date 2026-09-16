@@ -78,6 +78,8 @@ export default function Footer() {
             <li><Link href="/academics" className="hover:text-gold transition-colors">CBSE Primary Section</Link></li>
             <li><Link href="/academics" className="hover:text-gold transition-colors">CBSE Secondary & Senior Secondary</Link></li>
             <li><Link href="/policies" className="hover:text-gold transition-colors">Curriculum Policies</Link></li>
+            <li><a href="/Mandatory_Disclosure_Details_SARAS.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-gold">Mandatory Disclosure (SARAS)</a></li>
+            <li><a href="/VITAL%20INFORMATION%20(1).pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-gold">Vital Information</a></li>
             <li><Link href="/contact" className="hover:text-gold transition-colors">Book a Counseling Call</Link></li>
           </ul>
         </div>
@@ -158,7 +160,10 @@ export default function Footer() {
       <div className="bg-navy/50 py-6 border-t border-white/5 text-center text-xs text-cream-dark/50">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <p>&copy; {currentYear} CCIS. All Rights Reserved.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-5 gap-y-2 text-xs">
+            <a href="/Mandatory_Disclosure_Details_SARAS.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-gold font-medium">Mandatory Disclosure (SARAS)</a>
+            <a href="/VITAL%20INFORMATION%20(1).pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-gold font-medium">Vital Information</a>
+            <Link href="/policies" className="hover:text-gold transition-colors">Policies</Link>
             <Link href="/policies" className="hover:text-gold transition-colors">Privacy Policy</Link>
             <Link href="/policies" className="hover:text-gold transition-colors">Terms of Use</Link>
             <Link href="/admin" className="hover:text-gold transition-colors font-semibold">Admin Panel</Link>

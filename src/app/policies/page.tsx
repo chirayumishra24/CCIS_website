@@ -6,28 +6,40 @@ import { FileText, Download } from "lucide-react";
 
 const policies = [
   {
+    title: "Mandatory Public Disclosure (SARAS)",
+    desc: "Official CBSE SARAS mandatory disclosure details, campus safety certifications, NOC, and governance reports.",
+    size: "85 KB",
+    url: "/Mandatory_Disclosure_Details_SARAS.pdf",
+  },
+  {
+    title: "Vital School Information",
+    desc: "General information, school affiliation data, infrastructure metrics, staff strength, and academic enrollment details.",
+    size: "67 KB",
+    url: "/VITAL%20INFORMATION%20(1).pdf",
+  },
+  {
     title: "Academic Integrity Policy",
     desc: "Outlining guidelines for authentic student work, citation standards, and intellectual honesty criteria.",
     size: "195 KB",
-    url: "/pdf/Academic-Integrity-Policy.docx.pdf",
+    url: "/Academic-Integrity-Policy.docx.pdf",
   },
   {
     title: "Language Policy &amp; Philosophy",
     desc: "Describing our multilingual approach supporting English instruction, Hindi, and secondary international languages.",
     size: "272 KB",
-    url: "/pdf/A7-_-School-Policies-Language.pdf",
+    url: "/A7-_-School-Policies-Language.pdf",
   },
   {
     title: "Assessment Policy (IB + CBSE)",
     desc: "Criteria for diagnostic, formative, and summative grading pathways under CBSE and IB guidelines.",
     size: "222 KB",
-    url: "/pdf/B-5B_-Assessment-Policy.docx.pdf",
+    url: "/B-5B_-Assessment-Policy.docx.pdf",
   },
   {
     title: "Inclusive Education &amp; Support Policy",
     desc: "Frameworks for differentiated learning, individualized educational needs, and accessibility accommodations.",
     size: "386 KB",
-    url: "/pdf/B2-8_ Inclusive Policy.docx (1) (1).pdf",
+    url: "/B2-8_%20Inclusive%20Policy.docx%20(1)%20(1).pdf",
   },
 ];
 
