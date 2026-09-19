@@ -14,6 +14,7 @@
     "@types/three": "^0.185.4",
     "canvas-confetti": "^1.9.4",
     "firebase": "^12.16.0",
+    "firebase-admin": "^14.4.0",
     "jspdf": "^4.2.1",
     "lucide-react": "^1.24.0",
     "next": "14.2.35",

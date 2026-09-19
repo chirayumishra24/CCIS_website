@@ -95,3 +95,209 @@ export const onAlumniProfileCreate = functions.firestore
 
     await sendMail(data.user.email, subject, text, html);
   });
+
+// ─── Class IX Student Target Tracker Sync Endpoint ───
+export const syncClass9Performance = functions.https.onRequest(async (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Headers', 'Content-Type, x-sync-secret, Authorization');
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('');
+    return;
+  }
+
+  if (req.method === 'GET') {
+    res.status(200).json({
+      status: 'online',
+      function: 'syncClass9Performance',
+      timestamp: new Date().toISOString(),
+    });
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
+
+  const expectedSecret = process.env.SYNC_SECRET || 'ccis-alumni-sync-2026';
+  const providedSecret = req.headers['x-sync-secret'] || req.query.secret || req.body?.secret;
+
+  if (providedSecret !== expectedSecret) {
+    res.status(401).json({ error: 'Unauthorized: Invalid sync secret' });
+    return;
+  }
+
+  try {
+    const body = req.body;
+    let rows: any[] = [];
+    if (body.singleStudent) {
+      rows = [body.singleStudent];
+    } else if (Array.isArray(body.students)) {
+      rows = body.students;
+    } else if (Array.isArray(body.rows)) {
+      rows = body.rows;
+    }
+
+    if (rows.length === 0) {
+      res.status(200).json({ message: 'No rows to synchronize.' });
+      return;
+    }
+
+    const firestore = admin.firestore();
+    let successful = 0;
+    let failed = 0;
+    const errors: any[] = [];
+
+    // Helper for normalization
+    function parseValue(raw: any, isPercentage = false) {
+      if (raw === null || raw === undefined || raw === '' || String(raw).trim() === '') {
+        return { rawValue: raw ?? null, type: 'empty', displayValue: isPercentage ? 'Not Assigned' : 'Pending', unit: 'percent' };
+      }
+      const str = String(raw).trim();
+      if (str === '-' || str.toLowerCase() === 'exempt') {
+        return { rawValue: raw, type: 'exempt', displayValue: 'Exempt (-)', unit: 'percent' };
+      }
+      const cleaned = str.replace(/%+$/, '%').trim();
+      const rangeMatch = cleaned.match(/^(\d+(?:\.\d+)?)\s*[-–—/]\s*(\d+(?:\.\d+)?)\s*%?$/);
+      if (rangeMatch) {
+        const min = Math.min(parseFloat(rangeMatch[1]), parseFloat(rangeMatch[2]));
+        const max = Math.max(parseFloat(rangeMatch[1]), parseFloat(rangeMatch[2]));
+        return { rawValue: raw, type: 'range', min, max, displayValue: `${min}–${max}%`, unit: 'percent' };
+      }
+      const num = parseFloat(cleaned.replace('%', ''));
+      if (!isNaN(num)) {
+        const finalVal = (num > 0 && num <= 1.0) ? Math.round(num * 10000) / 100 : Math.round(num * 100) / 100;
+        return { rawValue: raw, type: 'exact', value: finalVal, displayValue: `${finalVal}%`, unit: 'percent' };
+      }
+      return { rawValue: raw, type: 'invalid', displayValue: str, unit: 'percent' };
+    }
+
+    const BATCH_SIZE = 400;
+    const now = new Date().toISOString();
+
+    for (let i = 0; i < rows.length; i += BATCH_SIZE) {
+      const batch = firestore.batch();
+      const chunk = rows.slice(i, i + BATCH_SIZE);
+
+      for (const row of chunk) {
+        try {
+          const group = (row.group || 'AURA').toUpperCase().replace(/^IX-?/, '');
+          const name = String(row.name || 'Unknown').trim().toUpperCase();
+          const serialNo = Number(row.sNo) || 1;
+          const cleanName = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          const studentId = `ccis-ix-${group.toLowerCase()}-${cleanName}`;
+          const enrollmentNumber = `CCIS-IX-${group}-${String(serialNo).padStart(2, '0')}`;
+
+          const englishNorm = parseValue(row.english);
+          const mathsNorm = parseValue(row.maths);
+          const sStNorm = parseValue(row.sSt);
+          const hsfNorm = parseValue(row.hsf);
+          const scienceNorm = parseValue(row.science);
+          const itNorm = parseValue(row.it);
+          const overallNorm = parseValue(row.overall, true);
+          const targetNorm = parseValue(row.target, true);
+
+          let targetStatus = 'NOT_ASSIGNED';
+          let gapPoints: number | undefined;
+          let gapDesc = 'School target has not been assigned yet.';
+
+          if (targetNorm.type === 'exact' && overallNorm.type === 'exact' && targetNorm.value !== undefined && overallNorm.value !== undefined) {
+            const gap = Math.round((targetNorm.value - overallNorm.value) * 100) / 100;
+            if (gap <= 0) {
+              targetStatus = 'ACHIEVED';
+              gapPoints = 0;
+              gapDesc = `Target achieved (${Math.abs(gap).toFixed(1)} percentage points above target)`;
+            } else {
+              targetStatus = 'IN_PROGRESS';
+              gapPoints = gap;
+              gapDesc = `${gap.toFixed(1)} percentage points to target`;
+            }
+          } else if (targetNorm.type === 'exact' && overallNorm.type === 'range' && overallNorm.min !== undefined) {
+            if (overallNorm.min >= targetNorm.value!) {
+              targetStatus = 'ACHIEVED';
+              gapDesc = `Target achieved (Current range ${overallNorm.displayValue} meets or exceeds target)`;
+            } else {
+              targetStatus = 'IN_PROGRESS';
+              gapDesc = `Target is within or near estimated range (${overallNorm.displayValue})`;
+            }
+          }
+
+          const docRef = firestore.collection('students').doc(studentId);
+          batch.set(docRef, {
+            studentId,
+            enrollmentNumber,
+            name,
+            class: 'IX',
+            group,
+            school: 'CCIS',
+            currentPerformance: {
+              overall: overallNorm,
+              subjects: {
+                english: englishNorm,
+                maths: mathsNorm,
+                socialScience: sStNorm,
+                secondLanguage: hsfNorm,
+                science: scienceNorm,
+                it: itNorm,
+              },
+              subjectList: [
+                { id: 'english', code: 'ENG', label: 'English Language & Lit', normalized: englishNorm },
+                { id: 'maths', code: 'MATH', label: 'Mathematics', normalized: mathsNorm },
+                { id: 'socialScience', code: 'SST', label: 'Social Science (S.St)', normalized: sStNorm },
+                { id: 'secondLanguage', code: 'H/S/F', label: 'H / S / F (2nd Language)', normalized: hsfNorm },
+                { id: 'science', code: 'SCI', label: 'Science', normalized: scienceNorm },
+                { id: 'it', code: 'IT', label: 'Information Technology (IT)', normalized: itNorm },
+              ],
+            },
+            schoolTarget: {
+              overall: targetNorm,
+              targetStatus,
+              gapPercentagePoints: gapPoints,
+              gapDescription: gapDesc,
+            },
+            source: {
+              sheetName: row.sheetName || `IX-${group}`,
+              sourceRow: Number(row.sourceRow) || serialNo + 1,
+              serialNo,
+              lastSyncedAt: now,
+            },
+            updatedAt: now,
+          }, { merge: true });
+
+          successful++;
+        } catch (err: any) {
+          failed++;
+          errors.push({ student: row.name, error: err.message });
+        }
+      }
+
+      await batch.commit();
+    }
+
+    const logRef = firestore.collection('sync_logs').doc();
+    await logRef.set({
+      id: logRef.id,
+      syncSource: body.syncSource || 'Cloud Function syncClass9Performance',
+      startedAt: now,
+      completedAt: new Date().toISOString(),
+      totalRows: rows.length,
+      successfulRows: successful,
+      failedRows: failed,
+      errors,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Synchronized ${successful} student(s) successfully.`,
+      successful,
+      failed,
+      logId: logRef.id,
+    });
+  } catch (err: any) {
+    console.error('syncClass9Performance error:', err);
+    res.status(500).json({ error: 'Sync failed', details: err.message || String(err) });
+  }
+});
+

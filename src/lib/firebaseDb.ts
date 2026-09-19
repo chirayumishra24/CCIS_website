@@ -1,5 +1,7 @@
-import { getFirestore, collection, doc, getDocs, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, where, orderBy, Timestamp } from 'firebase/firestore';
+import { getFirestore, collection, doc, getDocs, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, where, orderBy, Timestamp, onSnapshot, writeBatch } from 'firebase/firestore';
 import { app } from './firebase';
+import type { StudentRecord } from './academicNormalizer';
+import { INITIAL_CLASS_IX_STUDENTS } from './initialClass9Data';
 
 const db = getFirestore(app);
 
@@ -667,3 +669,160 @@ export async function verifyAlumniEmail(profileId: string) {
 
   return docSnap.data();
 }
+
+// ─── Class IX Student Performance & Target Tracker ───
+
+export async function fetchStudentById(studentId: string): Promise<StudentRecord | null> {
+  try {
+    const docRef = doc(db, 'students', studentId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) return docSnap.data() as StudentRecord;
+  } catch (error) {
+    console.warn(`Firestore read fallback for student ${studentId}:`, error);
+  }
+  return INITIAL_CLASS_IX_STUDENTS.find((s) => s.studentId === studentId) || null;
+}
+
+export function subscribeStudentById(
+  studentId: string,
+  onUpdate: (data: StudentRecord | null) => void,
+  onError?: (err: any) => void
+): () => void {
+  const fallback = INITIAL_CLASS_IX_STUDENTS.find((s) => s.studentId === studentId) || null;
+
+  try {
+    const docRef = doc(db, 'students', studentId);
+    return onSnapshot(
+      docRef,
+      (docSnap) => {
+        if (docSnap.exists()) {
+          onUpdate(docSnap.data() as StudentRecord);
+        } else {
+          onUpdate(fallback);
+        }
+      },
+      (error) => {
+        console.warn(`Firestore subscription fallback for ${studentId}:`, error);
+        onUpdate(fallback);
+        if (onError) onError(error);
+      }
+    );
+  } catch (err) {
+    console.warn('Realtime subscription error, using static fallback:', err);
+    onUpdate(fallback);
+    return () => {};
+  }
+}
+
+export interface StudentDirectoryItem {
+  studentId: string;
+  name: string;
+  group: 'AURA' | 'ZEN' | 'NEO';
+  enrollmentNumber: string;
+  overallDisplay?: string;
+  hasTarget: boolean;
+}
+
+export async function fetchStudentDirectory(): Promise<StudentDirectoryItem[]> {
+  try {
+    const q = query(collection(db, 'students'), where('class', '==', 'IX'));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      const directory: StudentDirectoryItem[] = [];
+      snapshot.forEach((d) => {
+        const data = d.data() as StudentRecord;
+        directory.push({
+          studentId: data.studentId || d.id,
+          name: data.name,
+          group: data.group,
+          enrollmentNumber: data.enrollmentNumber,
+          overallDisplay: data.currentPerformance?.overall?.displayValue,
+          hasTarget: data.schoolTarget?.overall?.type === 'exact' || data.schoolTarget?.overall?.type === 'range',
+        });
+      });
+
+      directory.sort((a, b) => {
+        if (a.group !== b.group) return a.group.localeCompare(b.group);
+        return a.name.localeCompare(b.name);
+      });
+
+      return directory;
+    }
+  } catch (error) {
+    console.warn('Directory read fallback to initial dataset:', error);
+  }
+
+  // Fallback to initial 97 students
+  const fallbackList: StudentDirectoryItem[] = INITIAL_CLASS_IX_STUDENTS.map((s) => ({
+    studentId: s.studentId,
+    name: s.name,
+    group: s.group,
+    enrollmentNumber: s.enrollmentNumber,
+    overallDisplay: s.currentPerformance?.overall?.displayValue,
+    hasTarget: s.schoolTarget?.overall?.type === 'exact' || s.schoolTarget?.overall?.type === 'range',
+  }));
+
+  fallbackList.sort((a, b) => {
+    if (a.group !== b.group) return a.group.localeCompare(b.group);
+    return a.name.localeCompare(b.name);
+  });
+
+  return fallbackList;
+}
+
+export async function syncStudentRecords(
+  records: StudentRecord[],
+  syncSource = 'Google Sheets Apps Script'
+) {
+  const BATCH_SIZE = 450;
+  const startedAt = new Date().toISOString();
+  let successful = 0;
+  let failed = 0;
+  const errors: any[] = [];
+
+  for (let i = 0; i < records.length; i += BATCH_SIZE) {
+    const batch = writeBatch(db);
+    const chunk = records.slice(i, i + BATCH_SIZE);
+
+    for (const record of chunk) {
+      if (!record.studentId) {
+        failed++;
+        errors.push({ student: record.name, error: 'Missing studentId' });
+        continue;
+      }
+      const ref = doc(db, 'students', record.studentId);
+      batch.set(ref, record, { merge: true });
+      successful++;
+    }
+
+    try {
+      await batch.commit();
+    } catch (err: any) {
+      console.error('Batch commit failed:', err);
+      failed += chunk.length;
+      errors.push({ batchIndex: i, error: err.message || String(err) });
+    }
+  }
+
+  // Create sync log
+  const logRef = doc(collection(db, 'sync_logs'));
+  await setDoc(logRef, {
+    id: logRef.id,
+    syncSource,
+    startedAt,
+    completedAt: new Date().toISOString(),
+    totalRows: records.length,
+    successfulRows: successful,
+    failedRows: failed,
+    errors,
+  });
+
+  return {
+    success: failed === 0,
+    total: records.length,
+    successful,
+    failed,
+    logId: logRef.id,
+  };
+}
+
