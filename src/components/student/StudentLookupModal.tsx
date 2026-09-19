@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { StudentDirectoryItem } from "@/lib/firebaseDb";
 import { Search, X, User, School, ArrowRight, ShieldCheck } from "lucide-react";
 
@@ -20,6 +21,28 @@ export default function StudentLookupModal({
 }: StudentLookupModalProps) {
   const [selectedGroup, setSelectedGroup] = useState<"ALL" | "AURA" | "ZEN" | "NEO">("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock body scroll and listen for Escape key when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") onClose();
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = "unset";
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen, onClose]);
 
   const filteredStudents = useMemo(() => {
     return directory.filter((item) => {
@@ -33,22 +56,29 @@ export default function StudentLookupModal({
     });
   }, [directory, selectedGroup, searchQuery]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity animate-fade-in">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-slate-900/70 backdrop-blur-xs transition-opacity animate-fade-in">
+      {/* Backdrop click to close */}
       <div
-        className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden animate-scale-in"
+        className="fixed inset-0"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      <div
+        className="relative bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-xl max-h-[88vh] flex flex-col overflow-hidden animate-scale-in z-10"
         role="dialog"
         aria-modal="true"
       >
         {/* Modal Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-navy bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
                 <ShieldCheck className="w-3 h-3 text-navy" />
-                Student Portal Lookup
+                Student Portal Directory
               </span>
             </div>
             <h3 className="text-xl font-bold text-navy font-serif">
@@ -59,16 +89,14 @@ export default function StudentLookupModal({
             </p>
           </div>
 
-          {activeStudentId && (
-            <button
-              onClick={onClose}
-              type="button"
-              className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          )}
+          <button
+            onClick={onClose}
+            type="button"
+            className="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition-colors"
+            aria-label="Close modal"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Section Filters & Search */}
@@ -168,6 +196,7 @@ export default function StudentLookupModal({
           <span className="font-mono text-[11px]">CCIS Secure Student Identity</span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
