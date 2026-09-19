@@ -311,7 +311,7 @@ export default function DashboardHeader({
         </div>
 
         {/* Below the enrollment number option: Student details */}
-        {student ? (
+        {student && (
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sm:gap-6 pt-1">
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-center gap-2 sm:gap-3">
@@ -341,10 +341,20 @@ export default function DashboardHeader({
                 </span>
               </p>
             </div>
-          </div>
-        ) : (
-          <div className="py-6 text-center text-slate-500 text-sm">
-            Please enter an enrollment number above to load the student&apos;s academic performance records.
+
+            <div className="flex items-center gap-2 self-start md:self-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setInputValue("");
+                  onSelectStudent("");
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-navy bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+                <span>Search Another Student</span>
+              </button>
+            </div>
           </div>
         )}
       </div>

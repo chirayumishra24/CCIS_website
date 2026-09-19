@@ -36,25 +36,11 @@ export default function StudentPortal() {
       .then((items) => {
         setDirectory(items);
 
-        // Determine starting student ID:
-        // A) URL query parameter ?id=...
-        // B) Session storage
-        // C) First student in directory
-        const storedId =
-          typeof window !== "undefined"
-            ? sessionStorage.getItem("ccis_active_student_id")
-            : null;
-
-        const initialId =
-          queryStudentId ||
-          storedId ||
-          (items.length > 0 ? items[0].studentId : "");
-
-        if (initialId) {
-          setActiveStudentId(initialId);
+        // Only auto-load if explicit URL query parameter ?id=... is present
+        if (queryStudentId) {
+          setActiveStudentId(queryStudentId);
         } else {
           setIsLoading(false);
-          setIsLookupOpen(true);
         }
       })
       .catch((err) => {
@@ -65,14 +51,13 @@ export default function StudentPortal() {
 
   // 2. Real-time Firestore subscription for active student
   useEffect(() => {
-    if (!activeStudentId) return;
+    if (!activeStudentId) {
+      setStudent(null);
+      setIsLoading(false);
+      return;
+    }
 
     setIsLoading(true);
-
-    // Save in sessionStorage
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("ccis_active_student_id", activeStudentId);
-    }
 
     // Set up real-time listener
     const unsubscribe = subscribeStudentById(
