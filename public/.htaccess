@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Handle directory trailing slash
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !(.*)/$
+  RewriteRule ^(.*)$ $1/ [L,R=301]
+
+  # Check if requested file or directory exists
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Rewrite clean URLs to .html files if they exist (e.g. /admin -> /admin.html)
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# Custom error page
+ErrorDocument 404 /404.html
