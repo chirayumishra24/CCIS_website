@@ -9,19 +9,10 @@ export const metadata: Metadata = {
   description: "Discover the legacy, vision, and leadership behind CCIS — Jaipur's premier dual-curriculum (IB + CBSE) school since 1998.",
 };
 
-const values = [
-  { title: "Academic Rigor", desc: "Setting high testing and research benchmarks for all grades." },
-  { title: "Global Mindedness", desc: "Nurturing empathy and awareness for diverse cultures and systems." },
-  { title: "Traditional Ethics", desc: "Preserving traditional Indian values of respect, truth, and community." },
-  { title: "Empathetic Leadership", desc: "Encouraging students to lead with care, service, and understanding." },
-  { title: "Passion for Query", desc: "Fostering active student research, logic formulation, and experimentation." },
-  { title: "Holistic Development", desc: "Balancing athletics, arts, science, and life skills dynamically." },
-];
-
 const milestones = [
-  { year: "1998", title: "Foundation Laid", desc: "Cambridge Court Group (CCG) was established in Mansarovar, Jaipur, to deliver high-quality education with a strong character focus." },
+  { year: "1998", title: "Foundation Laid", desc: "CCGS was established in Mansarovar, Jaipur, to deliver high-quality education with a strong character focus." },
   { year: "2012", title: "Expansion & Laboratories Upgrade", desc: "Advanced chemistry, physics, and computer science facilities were integrated to support state-of-the-art academic projects." },
-  { year: "2025", title: "CCIS Established", desc: "CCIS was established, officially achieving candidacy status for the prestigious International Baccalaureate (IB) Primary Years Programme." },
+  { year: "2025", title: "CCIS Established", desc: "CCIS was established, officially authorized as an International Baccalaureate (IB) World School for the Primary Years Programme." },
   { year: "2026", title: "Jaipur's Best Dual-Curriculum Center", desc: "Serving over 3,000 active students with outstanding sports accolades and college acceptances globally." },
 ];
 
@@ -59,30 +50,52 @@ export default function About() {
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
-      {/* ━━━ Vision & Mission ━━━ */}
+      {/* ━━━ Guiding Purpose & Philosophy (Vision & Mission) ━━━ */}
       <section className="py-20 md:py-24 bg-cream/10">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-          <AnimatedSection animation="fade-in-left" className="bg-white border border-cream-line p-8 md:p-10 rounded-xl shadow-card flex flex-col gap-4">
-            <span className="inline-block px-3 py-1 bg-navy/5 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full w-fit font-bold">
-              Our Direction
-            </span>
-            <h3 className="font-serif font-bold text-2xl md:text-3xl text-navy">Our Vision</h3>
-            <div className="gold-rule" />
-            <p className="text-ink-muted leading-relaxed mt-1 text-sm">
-              To be a world-class center of learning where students are empowered to attain academic mastery, think critically, and grow as empathetic global citizens who honor their cultural heritage and lead with integrity.
-            </p>
-          </AnimatedSection>
+        <div className="max-w-7xl mx-auto px-4">
+          <SectionHeading title="Guiding Purpose & Philosophy" subtitle="Vision & Mission" />
 
-          <AnimatedSection animation="fade-in-right" className="bg-white border border-cream-line p-8 md:p-10 rounded-xl shadow-card flex flex-col gap-4">
-            <span className="inline-block px-3 py-1 bg-navy/5 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full w-fit font-bold">
-              Our Strategy
-            </span>
-            <h3 className="font-serif font-bold text-2xl md:text-3xl text-navy">Our Mission</h3>
-            <div className="gold-rule" />
-            <p className="text-ink-muted leading-relaxed mt-1 text-sm">
-              To provide a dynamic, dual-curriculum framework (CBSE + IB) that balances analytical rigor with enquiry-based discovery. We cultivate scientific curiosity, sporting determination, and creative self-expression in a modern, values-driven ecosystem.
-            </p>
-          </AnimatedSection>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 my-8 items-stretch">
+            {/* School Vision */}
+            <AnimatedSection
+              animation="fade-in-left"
+              className="lg:col-span-5 bg-white border border-cream-line rounded-3xl p-8 sm:p-10 shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col items-center text-center justify-center relative overflow-hidden group hover:border-gold/50"
+            >
+              <h3 className="font-serif font-bold text-2xl sm:text-3xl text-navy mb-3">
+                School Vision
+              </h3>
+              <div className="gold-rule mx-auto mb-5" />
+              <p className="text-ink-muted text-sm sm:text-base leading-relaxed">
+                To nurture lifelong learners and mentors, rooted in Indian values and modern inquiry, ready to lead with compassion and shape a just, peaceful, and connected world.
+              </p>
+            </AnimatedSection>
+
+            {/* School Mission */}
+            <AnimatedSection
+              animation="fade-in-right"
+              className="lg:col-span-7 bg-navy text-white rounded-3xl p-8 sm:p-10 shadow-glow-navy relative overflow-hidden flex flex-col justify-center border-2 border-gold/30 group"
+            >
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="mb-5 text-center sm:text-left">
+                <h3 className="font-serif font-bold text-2xl sm:text-3xl text-white">
+                  School Mission
+                </h3>
+                <p className="text-gold font-sans text-xs uppercase tracking-widest font-semibold mt-1">
+                  Holistic • Experiential • Purpose-Driven
+                </p>
+              </div>
+
+              <div className="space-y-4 text-white/90 text-sm sm:text-[15px] leading-relaxed font-sans text-left">
+                <p>
+                  To empower every learner through a rich, balanced, and experiential curriculum that integrates academics, arts, sports, emotional well-being, and spiritual awareness — nurturing curious, compassionate, and courageous global citizens prepared to engage with the world thoughtfully and lead with purpose.
+                </p>
+                <p className="text-white/80 pt-3 border-t border-white/10">
+                  We strive to cultivate a reflective and resilient learning culture where students take ownership of their journey, families are partners in growth, and the school community works together to shape a peaceful, inclusive, and sustainable world.
+                </p>
+              </div>
+            </AnimatedSection>
+          </div>
         </div>
       </section>
 
@@ -99,29 +112,6 @@ export default function About() {
         <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-10 bg-navy-dark/80 text-white font-sans text-xs px-3 py-1.5 rounded-lg backdrop-blur-md border border-white/10 font-semibold flex items-center gap-2 shadow-lg">
           <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
           CCIS Main Campus &amp; Infrastructure Overview
-        </div>
-      </section>
-
-      {/* ━━━ Core Values ━━━ */}
-      <section className="py-20 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <SectionHeading title="Our Core Principles" subtitle="CCIS Ideals" />
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
-            {values.map((val, idx) => (
-              <AnimatedSection
-                key={idx}
-                animation="scale-in"
-                delayClass={`stagger-${(idx % 3) + 1}`}
-                className="bg-cream/15 border border-cream-line/50 p-4 sm:p-7 rounded-xl shadow-card flex flex-col gap-2.5 sm:gap-3 hover:-translate-y-1 transition-transform duration-300"
-              >
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-navy text-gold flex items-center justify-center font-bold text-xs sm:text-sm font-serif">
-                  {idx + 1}
-                </div>
-                <h4 className="font-serif font-bold text-navy text-sm sm:text-lg leading-snug">{val.title}</h4>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">{val.desc}</p>
-              </AnimatedSection>
-            ))}
-          </div>
         </div>
       </section>
 

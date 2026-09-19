@@ -71,17 +71,8 @@ export async function updateStats(stats: any[]) {
   return stats;
 }
 
-// ─── Faculty ───
 const defaultFaculty = [
-  { id: 'f0', name: 'Mrs. Lata Rawat', role: 'Director, CCIS Group', dept: 'Leadership', qual: 'Edu Icon Awardee & Distinguished Educationist', img: '/images/lata-rawat.webp', order: 1 },
-  { id: 'f1', name: 'Mrs. Priyanshi Singh Rawat', role: 'Principal, CCIS Group', dept: 'Leadership', qual: 'M.Sc, B.Ed, 18+ Yrs Exp', img: '/images/director-priyanshi.jpg', order: 2 },
-  { id: 'f2', name: 'Mr. Rajiv Varma', role: 'Vice Principal', dept: 'Leadership', qual: 'M.A, M.Ed, 15+ Yrs Exp', img: '/images/faculty-rajiv-varma.jpg', order: 3 },
-  { id: 'f3', name: 'Mrs. Sneha Mathur', role: 'IB PYP Coordinator', dept: 'IB PYP', qual: 'IB Certified Educator, B.Ed', img: '/images/faculty-sneha-mathur.jpg', order: 4 },
-  { id: 'f4', name: 'Mr. Amit Sharma', role: 'Head of Science Dept', dept: 'Senior', qual: 'M.Sc (Physics), B.Ed', img: '/images/faculty-amit-sharma.jpg', order: 5 },
-  { id: 'f5', name: 'Ms. Anjali Sen', role: 'Mathematics Head (Grades VI-VIII)', dept: 'Middle', qual: 'M.Sc (Maths), B.Ed', img: '/images/faculty-anjali-sen.jpg', order: 6 },
-  { id: 'f6', name: 'Mrs. Kavita Roy', role: 'Primary Years Tutor', dept: 'Primary', qual: 'B.A, B.Ed, Montessori Trained', img: '/images/faculty-kavita-roy.jpg', order: 7 },
-  { id: 'f7', name: 'Mr. Nitin Joshi', role: 'AI & Robotics Instructor', dept: 'Middle', qual: 'B.Tech (Computer Science)', img: '/images/faculty-nitin-joshi.jpg', order: 8 },
-  { id: 'f8', name: 'Ms. Priya Das', role: 'IB Language Specialist', dept: 'IB PYP', qual: 'M.A (English), IB trained', img: '/images/faculty-priya-das.jpg', order: 9 },
+  { id: 'f0', name: 'Mrs. Lata Rawat', role: 'Director & Founding Mentor', dept: 'Leadership', qual: 'Edu Icon Awardee & Distinguished Educationist', img: '/images/lata-rawat.webp', order: 1 },
 ];
 
 export async function fetchFaculty() {
@@ -394,13 +385,43 @@ export async function deleteAdmissionEnquiry(id: string) {
 
 // ─── Alumni ───
 export async function fetchAlumni() {
+  // 1. Fetch from Centralized Alumni Dashboard API
+  try {
+    const res = await fetch(`${ALUMNI_DASHBOARD_URL}/api/alumni`, {
+      headers: { Accept: 'application/json' },
+    });
+    if (res.ok) {
+      const list = await res.json();
+      if (Array.isArray(list) && list.length > 0) {
+        return list.map(({ phone, ...rest }: any) => {
+          const avUrl = (rest.user?.avatarUrl && (rest.user.avatarUrl.startsWith('http') || rest.user.avatarUrl.startsWith('data:image/')))
+            ? rest.user.avatarUrl
+            : (rest.avatarUrl && (rest.avatarUrl.startsWith('http') || rest.avatarUrl.startsWith('data:image/')))
+              ? rest.avatarUrl
+              : (rest.avatar && (rest.avatar.startsWith('http') || rest.avatar.startsWith('data:image/')))
+                ? rest.avatar
+                : DEFAULT_AVATAR;
+          return {
+            ...rest,
+            name: rest.user?.name || rest.name || 'Alumni Graduate',
+            avatar: avUrl,
+            avatarUrl: avUrl,
+          };
+        });
+      }
+    }
+  } catch (apiErr) {
+    console.warn('Alumni Dashboard API fetch failed, falling back to Firestore:', apiErr);
+  }
+
+  // 2. Direct Firestore fallback
   try {
     const q = query(collection(db, 'alumni_profiles'), where('isVerified', '==', true));
     const snapshot = await getDocs(q);
     const list = snapshot.docs.map((d) => d.data());
     list.sort((a: any, b: any) => (b.batch || 0) - (a.batch || 0));
 
-    return list.slice(0, 30).map(({ phone, ...rest }: any) => {
+    return list.slice(0, 50).map(({ phone, ...rest }: any) => {
       const avUrl = (rest.user?.avatarUrl && (rest.user.avatarUrl.startsWith('http') || rest.user.avatarUrl.startsWith('data:image/')))
         ? rest.user.avatarUrl : DEFAULT_AVATAR;
       return { ...rest, avatar: avUrl, avatarUrl: avUrl };
@@ -528,6 +549,17 @@ export async function fetchTopAlumni() {
 
 // ─── Alumni Management (Admin) ───
 export async function fetchAlumniManage() {
+  // 1. Try centralized Alumni Dashboard API first
+  try {
+    const res = await fetch(`${ALUMNI_DASHBOARD_URL}/api/alumni`);
+    if (res.ok) {
+      const list = await res.json();
+      if (Array.isArray(list) && list.length > 0) return list;
+    }
+  } catch {
+    // Continue to Firestore fallback
+  }
+
   const profiles: any[] = [];
   try {
     const q = query(collection(db, 'alumni_profiles'), orderBy('batch', 'desc'));

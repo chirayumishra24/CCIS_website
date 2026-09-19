@@ -9,8 +9,8 @@ export default function AccreditationBadges() {
         <div className="col-span-1 flex flex-col sm:flex-row items-center text-center sm:text-left gap-2.5 sm:gap-4">
           <div className="relative w-16 h-12 sm:w-20 sm:h-14 bg-white rounded-xl flex items-center justify-center p-1 border border-cream-line shadow-sm shrink-0">
             <Image
-              src="/images/ib-pyp-logo.png"
-              alt="IB Primary Years Programme Candidate School Logo"
+              src="/images/ib-world-school-logo.png"
+              alt="IB World School Authorised Logo"
               width={80}
               height={48}
               className="object-contain"
@@ -22,7 +22,7 @@ export default function AccreditationBadges() {
               IB PYP PROGRAMME
             </h4>
             <p className="text-[10px] sm:text-[11px] text-gold-dark font-sans font-semibold uppercase tracking-wider mt-0.5">
-              Candidate School *
+              Authorised IB World School
             </p>
           </div>
         </div>

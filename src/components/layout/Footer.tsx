@@ -15,8 +15,8 @@ export default function Footer() {
             <Link href="/" className="flex items-center w-fit bg-white py-1.5 px-3 rounded-lg shadow-sm">
               <Image src="/images/logo.webp" alt="CCIS Logo" width={160} height={40} className="h-8 md:h-10 w-auto object-contain" />
             </Link>
-            <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="IB PYP Candidate School">
-              <Image src="/images/ib-pyp-logo.png" alt="IB Candidate School" width={32} height={32} className="h-7 w-auto object-contain" />
+            <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="Authorised IB World School">
+              <Image src="/images/ib-world-school-logo.png" alt="Authorised IB World School" width={32} height={32} className="h-7 w-auto object-contain" />
             </div>
             <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="CBSE Affiliated">
               <Image src="/images/cbse-logo.webp" alt="CBSE Affiliation" width={32} height={32} className="h-7 w-auto object-contain" />
@@ -73,9 +73,7 @@ export default function Footer() {
             Our Programs
           </h4>
           <ul className="flex flex-col gap-3.5 text-sm">
-            <li><Link href="/academics" className="hover:text-gold transition-colors">IB Primary Years Programme</Link></li>
-            <li><Link href="/academics" className="hover:text-gold transition-colors">IB Diploma Programme</Link></li>
-            <li><Link href="/academics" className="hover:text-gold transition-colors">CBSE Primary Section</Link></li>
+            <li><Link href="/academics" className="hover:text-gold transition-colors">IB Primary Years Programme (PYP)</Link></li>
             <li><Link href="/academics" className="hover:text-gold transition-colors">CBSE Secondary & Senior Secondary</Link></li>
             <li><Link href="/policies" className="hover:text-gold transition-colors">Curriculum Policies</Link></li>
             <li><a href="/Mandatory_Disclosure_Details_SARAS.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-gold">Mandatory Disclosure (SARAS)</a></li>
@@ -131,30 +129,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* IB Candidate School Disclaimer */}
-      <div className="border-t border-white/10 bg-navy-dark/40 py-6 px-4">
-        <div className="max-w-7xl mx-auto text-xs text-cream-dark/70 leading-relaxed">
-          <p className="font-semibold text-gold mb-1">Disclaimer</p>
-          <p className="mb-2">
-            *CCIS is pursuing authorisation as an IB World School. IB World Schools share a common philosophy- a commitment to high-quality, challenging, international education- that we believe is important for our students.
-          </p>
-          <p>
-            *Only schools authorized by the IB Organization can offer any of its four academic programmes: the Primary Years Programme (PYP), the Middle Years Programme (MYP), the Diploma Programme (DP), or the Career-related Programme (CP). Candidate status gives no guarantee that authorization will be granted.
-          </p>
-          <p className="mt-2">
-            For further information about the IB and its programmes visit{" "}
-            <a
-              href="http://www.ibo.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gold hover:underline font-semibold"
-            >
-              http://www.ibo.org
-            </a>
-            .
-          </p>
-        </div>
-      </div>
 
       {/* Copyright Bar */}
       <div className="bg-navy/50 py-6 border-t border-white/5 text-center text-xs text-cream-dark/50">

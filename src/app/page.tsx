@@ -475,7 +475,7 @@ export default function Home() {
 
               <div className="pt-4 border-t border-white/10 flex flex-wrap gap-6 text-xs text-white/70 font-sans">
                 <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> CBSE Affiliated</span>
-                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> IB PYP Candidate School</span>
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-gold" /> Authorised IB World School</span>
               </div>
             </div>
           </div>
@@ -695,6 +695,29 @@ export default function Home() {
               </div>
             </div>
           </AnimatedSection>
+
+          {/* Official IB Disclaimer */}
+          <div className="mt-8 p-5 sm:p-6 rounded-2xl border border-cream-line bg-white shadow-card text-xs text-ink-muted leading-relaxed">
+            <p className="font-serif font-bold text-navy text-sm mb-1.5">Disclaimer</p>
+            <p className="mb-2">
+              *CCIS is pursuing authorisation as an IB World School. IB World Schools share a common philosophy- a commitment to high-quality, challenging, international education- that we believe is important for our students.
+            </p>
+            <p className="mb-2">
+              *Only schools authorized by the IB Organization can offer any of its four academic programmes: the Primary Years Programme (PYP), the Middle Years Programme (MYP), the Diploma Programme (DP), or the Career-related Programme (CP). Candidate status gives no guarantee that authorization will be granted.
+            </p>
+            <p>
+              For further information about the IB and its programmes visit{" "}
+              <a
+                href="http://www.ibo.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gold-dark hover:underline font-semibold"
+              >
+                http://www.ibo.org
+              </a>
+              .
+            </p>
+          </div>
         </div>
       </section>
 
@@ -869,14 +892,14 @@ export default function Home() {
                     International Baccalaureate
                   </span>
                   <div className="relative w-24 h-12 bg-white p-1.5 rounded-xl border border-white/20 shadow-md flex items-center justify-center shrink-0">
-                    <Image src="/images/ib-pyp-logo.png" alt="IB PYP Candidate School Logo" width={96} height={48} className="object-contain" priority />
+                    <Image src="/images/ib-world-school-logo.png" alt="Authorised IB World School Logo" width={96} height={48} className="object-contain" priority />
                   </div>
                 </div>
 
                 <div>
                   <h3 className="font-serif font-bold text-2xl md:text-3xl text-gold-light">IB Programme</h3>
                   <p className="text-gold-light/80 font-sans font-semibold text-xs uppercase tracking-wider mt-0.5">
-                    Primary Years Programme • Candidate School*
+                    Primary Years Programme • Authorised IB World School
                   </p>
                 </div>
 
@@ -895,11 +918,11 @@ export default function Home() {
                 </div>
 
                 <p className="text-white/70 leading-relaxed text-sm">
-                  As a candidate school for the prestigious International Baccalaureate, CCIS introduces young minds to inquiry-based teaching methodology. Emphasizing international-mindedness, self-directed project studies, and global credit qualifications.
+                  As an authorised IB World School for the prestigious Primary Years Programme (PYP), CCIS introduces young minds to inquiry-based teaching methodology. Emphasizing international-mindedness, self-directed project studies, and global credit qualifications.
                 </p>
 
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm font-semibold text-gold-light">
-                  <li className="flex items-center gap-2">✓ PYP Candidate Framework</li>
+                  <li className="flex items-center gap-2">✓ IB PYP Framework</li>
                   <li className="flex items-center gap-2">✓ Student-Led Research Studies</li>
                   <li className="flex items-center gap-2">✓ Interdisciplinary Focus</li>
                   <li className="flex items-center gap-2">✓ Global University Credits</li>

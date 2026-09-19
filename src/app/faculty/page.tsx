@@ -18,18 +18,10 @@ interface FacultyItem {
 }
 
 const defaultFacultyList: FacultyItem[] = [
-  { id: "f0", name: "Mrs. Lata Rawat", role: "Director, CCIS Group", dept: "Leadership", qual: "Edu Icon Awardee & Distinguished Educationist", img: "/images/lata-rawat.webp", order: 1 },
-  { id: "f1", name: "Mrs. Priyanshi Singh Rawat", role: "Principal, CCIS Group", dept: "Leadership", qual: "M.Sc, B.Ed, 18+ Yrs Exp", img: "/images/director-priyanshi.jpg", order: 2 },
-  { id: "f2", name: "Mr. Rajiv Varma", role: "Vice Principal", dept: "Leadership", qual: "M.A, M.Ed, 15+ Yrs Exp", img: "/images/faculty-rajiv-varma.jpg", order: 3 },
-  { id: "f3", name: "Mrs. Sneha Mathur", role: "IB PYP Coordinator", dept: "IB PYP", qual: "IB Certified Educator, B.Ed", img: "/images/faculty-sneha-mathur.jpg", order: 4 },
-  { id: "f4", name: "Mr. Amit Sharma", role: "Head of Science Dept", dept: "Senior", qual: "M.Sc (Physics), B.Ed", img: "/images/faculty-amit-sharma.jpg", order: 5 },
-  { id: "f5", name: "Ms. Anjali Sen", role: "Mathematics Head (Grades VI-VIII)", dept: "Middle", qual: "M.Sc (Maths), B.Ed", img: "/images/faculty-anjali-sen.jpg", order: 6 },
-  { id: "f6", name: "Mrs. Kavita Roy", role: "Primary Years Tutor", dept: "Primary", qual: "B.A, B.Ed, Montessori Trained", img: "/images/faculty-kavita-roy.jpg", order: 7 },
-  { id: "f7", name: "Mr. Nitin Joshi", role: "AI & Robotics Instructor", dept: "Middle", qual: "B.Tech (Computer Science)", img: "/images/faculty-nitin-joshi.jpg", order: 8 },
-  { id: "f8", name: "Ms. Priya Das", role: "IB Language Specialist", dept: "IB PYP", qual: "M.A (English), IB trained", img: "/images/faculty-priya-das.jpg", order: 9 },
+  { id: "f0", name: "Mrs. Lata Rawat", role: "Director & Founding Mentor", dept: "Leadership", qual: "Edu Icon Awardee & Distinguished Educationist", img: "/images/lata-rawat.webp", order: 1 },
 ];
 
-const departments = ["All", "Leadership", "IB PYP", "Primary", "Middle", "Senior"];
+const departments = ["All", "Leadership"];
 
 export default function Faculty() {
   const [facultyList, setFacultyList] = useState<FacultyItem[]>(defaultFacultyList);
@@ -197,6 +189,24 @@ export default function Faculty() {
               ))}
             </div>
           )}
+
+          {/* Academic Session Update Notice */}
+          <div className="mt-12 p-6 sm:p-8 bg-cream/15 border border-cream-line rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+            <div>
+              <h4 className="font-serif font-bold text-navy text-base sm:text-lg">
+                Faculty Directory — Academic Session 2026-27
+              </h4>
+              <p className="text-xs sm:text-sm text-ink-muted mt-1 leading-relaxed max-w-2xl">
+                The comprehensive faculty and educator profiles for CBSE and IB PYP departments are currently undergoing annual administrative accreditation updates. For academic inquiries or faculty appointments, please connect with our school administration.
+              </p>
+            </div>
+            <a
+              href="/contact"
+              className="shrink-0 px-5 py-2.5 bg-navy text-white text-xs font-semibold rounded-xl hover:bg-navy-dark transition-colors shadow-sm"
+            >
+              Contact School Office &rarr;
+            </a>
+          </div>
         </div>
       </section>
     </div>

@@ -120,7 +120,9 @@ export default function Alumni() {
     return matchSearch && matchBatch && matchMentor;
   });
 
-  const uniqueBatches = Array.from(new Set(alumni.map((a) => String(a.batch)))).sort((a, b) => Number(b) - Number(a));
+  const uniqueBatches = Array.from(
+    new Set(alumni.map((a) => String(a.batch)).filter((b) => b && b !== "0" && Number(b) > 1990))
+  ).sort((a, b) => Number(b) - Number(a));
 
   return (
     <div className="bg-white min-h-screen">
@@ -279,7 +281,7 @@ export default function Alumni() {
 
                       <div className="flex items-center justify-center gap-1 text-[9px] sm:text-[10px] text-gold-dark font-sans font-bold uppercase tracking-wider mt-0.5 sm:mt-1 w-full">
                         <GraduationCap className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 hidden sm:inline" />
-                        &apos;{String(a.batch).slice(-2)} &bull; {a.program || "CBSE"}
+                        {Number(a.batch) > 1990 ? `'${String(a.batch).slice(-2)} \u2022 ` : ""}{a.program || "CCGS"}
                       </div>
 
                       {a.role && (
@@ -375,7 +377,7 @@ export default function Alumni() {
 
             <div className="flex items-center justify-center gap-1.5 text-xs text-gold-dark font-sans font-bold uppercase tracking-wider mt-1.5">
               <GraduationCap className="w-4 h-4 shrink-0" />
-              Batch of {zoomedAlumni.batch} &bull; {zoomedAlumni.program || "CBSE"}
+              {Number(zoomedAlumni.batch) > 1990 ? `Batch of ${zoomedAlumni.batch} \u2022 ` : ""}{zoomedAlumni.program || "CCGS"}
             </div>
 
             {zoomedAlumni.isMentor && (

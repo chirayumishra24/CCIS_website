@@ -133,13 +133,13 @@ export default function Academics() {
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-gold font-sans font-bold uppercase tracking-wider text-xs">Inquiry-Based International Path</span>
                   <div className="relative w-24 h-12 bg-white p-1.5 rounded-xl border border-cream-line flex items-center justify-center shrink-0 shadow-xs">
-                    <Image src="/images/ib-pyp-logo.png" alt="IB PYP Candidate School Logo" width={96} height={48} className="object-contain" />
+                    <Image src="/images/ib-world-school-logo.png" alt="Authorised IB World School Logo" width={96} height={48} className="object-contain" />
                   </div>
                 </div>
-                <h2 className="text-3xl font-serif font-bold text-navy">International Baccalaureate (Candidate)</h2>
+                <h2 className="text-3xl font-serif font-bold text-navy">International Baccalaureate (IB PYP)</h2>
                 <div className="gold-rule" />
                 <p className="text-ink-muted leading-relaxed text-sm">
-                  As an IB candidate school, CCIS implements an inquiry-driven study process. We stimulate critical questioning, self-directed research, and student portfolios. Learners develop conceptual connections that go beyond standard rote textbook learning.
+                  As an authorised IB World School, CCIS implements an inquiry-driven study process. We stimulate critical questioning, self-directed research, and student portfolios. Learners develop conceptual connections that go beyond standard rote textbook learning.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                   {ibConcepts.map((item, idx) => (
@@ -148,20 +148,6 @@ export default function Academics() {
                       <p className="text-xs text-ink-muted leading-relaxed">{item.desc}</p>
                     </div>
                   ))}
-                </div>
-
-                <div className="p-4 rounded-xl border border-cream-line bg-cream/20 text-xs text-ink-muted leading-relaxed">
-                  <p className="font-bold text-navy mb-1">Disclaimer</p>
-                  <p className="mb-1.5">
-                    *CCIS is pursuing authorisation as an IB World School. IB World Schools share a common philosophy- a commitment to high-quality, challenging, international education- that we believe is important for our students.
-                  </p>
-                  <p>
-                    *Only schools authorized by the IB Organization can offer any of its four academic programmes: the Primary Years Programme (PYP), the Middle Years Programme (MYP), the Diploma Programme (DP), or the Career-related Programme (CP). Candidate status gives no guarantee that authorization will be granted. For further information about the IB and its programmes visit{" "}
-                    <a href="http://www.ibo.org" target="_blank" rel="noopener noreferrer" className="text-gold-dark hover:underline font-semibold">
-                      http://www.ibo.org
-                    </a>
-                    .
-                  </p>
                 </div>
               </AnimatedSection>
             </div>

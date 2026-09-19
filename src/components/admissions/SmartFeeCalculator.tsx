@@ -82,7 +82,7 @@ export default function SmartFeeCalculator() {
       doc.setFontSize(11);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(232, 212, 160);
-      doc.text("CBSE Affiliation #1730867 | IB PYP Candidate School | Mansarovar, Jaipur", 40, 72);
+      doc.text("CBSE Affiliation #1730867 | Authorised IB World School | Mansarovar, Jaipur", 40, 72);
       doc.text("Official Provisional Fee & Scholarship Estimate — Session 2026-27", 40, 90);
 
       // Metadata box
@@ -281,7 +281,7 @@ export default function SmartFeeCalculator() {
                 <div>
                   <span className="font-bold text-sm block">IB PYP Pathway</span>
                   <span className={`text-[11px] block mt-0.5 ${curriculum === "IB" ? "text-white/70" : "text-ink-muted"}`}>
-                    Candidate International Program
+                    Authorised International Curriculum
                   </span>
                 </div>
                 {curriculum === "IB" && <CheckCircle2 className="w-4 h-4 text-gold shrink-0 mt-0.5" />}

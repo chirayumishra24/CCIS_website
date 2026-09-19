@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { fetchAnnouncement } from "@/lib/firebaseDb";
-import { Menu, X, ChevronDown, Phone, Mail, Clock, Search, Bell, Sparkles, AlertTriangle } from "lucide-react";
+import { Menu, X, ChevronDown, Phone, Mail, Clock, Search, Bell, Sparkles } from "lucide-react";
 import Button from "../ui/Button";
 import QuickSearchModal from "../ui/QuickSearchModal";
 
@@ -53,8 +53,6 @@ export default function Header() {
     type?: "admissions" | "urgent" | "info";
   } | null>(null);
   const [showTicker, setShowTicker] = useState(true);
-  const [showDisclaimer, setShowDisclaimer] = useState(true);
-  const [isDisclaimerModalOpen, setIsDisclaimerModalOpen] = useState(false);
   const pathname = usePathname();
 
   // Fetch live announcement banner
@@ -100,35 +98,6 @@ export default function Header() {
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-[990] transition-all duration-300">
-        {/* IB World School Candidacy Disclaimer Banner */}
-        {showDisclaimer && (
-          <div className="bg-navy-dark border-b border-gold/30 py-1.5 px-4 text-white text-xs transition-all duration-300 flex items-center justify-between gap-3">
-            <div className="max-w-7xl mx-auto flex-1 flex items-center justify-center gap-2 overflow-hidden">
-              <span className="bg-gold text-navy font-extrabold text-[9px] uppercase px-2.5 py-0.5 tracking-wider rounded-full shrink-0 flex items-center gap-1 shadow-glow-gold">
-                <AlertTriangle className="w-2.5 h-2.5" />
-                DISCLAIMER
-              </span>
-              <p className="truncate text-white/90 text-xs font-medium">
-                *CCIS is pursuing authorisation as an IB World School. Candidate status gives no guarantee that authorization will be granted.
-              </p>
-              <button
-                type="button"
-                onClick={() => setIsDisclaimerModalOpen(true)}
-                className="text-gold hover:underline font-bold text-xs shrink-0 hidden sm:inline ml-1"
-              >
-                Read Full Disclaimer &rarr;
-              </button>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowDisclaimer(false)}
-              className="text-white/50 hover:text-white transition-colors p-0.5 shrink-0"
-              aria-label="Dismiss disclaimer"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        )}
 
         {/* Dynamic Global Notice Ticker (if active & enabled) */}
         {announcement?.active && showTicker && (
@@ -469,80 +438,7 @@ export default function Header() {
       {/* Global Quick Search Modal (Cmd+K) */}
       <QuickSearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
-      {/* IB World School Candidacy Full Disclaimer Modal */}
-      {isDisclaimerModalOpen && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-navy-dark/80 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-gold/30 relative flex flex-col gap-4 animate-scale-in">
-            <button
-              type="button"
-              onClick={() => setIsDisclaimerModalOpen(false)}
-              className="absolute top-4 right-4 text-ink-muted hover:text-navy p-1.5 rounded-full hover:bg-cream/40 transition-colors"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
 
-            <div className="flex items-center gap-4 border-b border-cream-line pb-4">
-              <div className="relative w-24 h-12 bg-white p-1.5 rounded-xl border border-cream-line shadow-sm shrink-0 flex items-center justify-center">
-                <Image
-                  src="/images/ib-candidacy-logo.png"
-                  alt="IB In Candidacy Logo"
-                  width={96}
-                  height={48}
-                  className="object-contain"
-                />
-              </div>
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-gold-dark font-sans">
-                  Official Statement
-                </span>
-                <h3 className="font-serif font-bold text-navy text-lg sm:text-xl">
-                  IB World School Disclaimer
-                </h3>
-              </div>
-            </div>
-
-            <div className="text-ink-muted text-xs sm:text-sm leading-relaxed space-y-3 font-sans">
-              <p>
-                <strong>*CCIS is pursuing authorisation as an IB World School.</strong> IB World Schools share a common philosophy- a commitment to high-quality, challenging, international education- that we believe is important for our students.
-              </p>
-              <p>
-                <strong>*Only schools authorized by the IB Organization</strong> can offer any of its four academic programmes: the Primary Years Programme (PYP), the Middle Years Programme (MYP), the Diploma Programme (DP), or the Career-related Programme (CP). Candidate status gives no guarantee that authorization will be granted.
-              </p>
-              <p className="pt-1 text-ink font-medium">
-                For further information about the IB and its programmes visit{" "}
-                <a
-                  href="http://www.ibo.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gold-dark font-bold underline hover:text-navy"
-                >
-                  http://www.ibo.org
-                </a>
-                .
-              </p>
-            </div>
-
-            <div className="mt-2 pt-4 border-t border-cream-line flex items-center justify-end gap-3">
-              <a
-                href="http://www.ibo.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 bg-navy text-white text-xs font-semibold rounded-xl hover:bg-navy-dark transition-colors"
-              >
-                Visit ibo.org &rarr;
-              </a>
-              <button
-                type="button"
-                onClick={() => setIsDisclaimerModalOpen(false)}
-                className="px-4 py-2 bg-cream text-navy text-xs font-semibold rounded-xl hover:bg-cream-dark/30 transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

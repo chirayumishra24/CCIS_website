@@ -78,7 +78,7 @@ export default function AgeCalculator() {
       calculatedGrades.push(
         {
           grade: "Grade 1",
-          curriculum: "CBSE & IB PYP Candidate",
+          curriculum: "CBSE & IB PYP",
           recommendedAge: "6 Years (as per NEP 2020)",
           status: "Eligible",
           notes: "Direct admission into Grade 1 under both CBSE and IB PYP frameworks.",
