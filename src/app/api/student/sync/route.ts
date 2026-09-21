@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { syncStudentRecords } from "@/lib/firebaseDb";
+import { adminDb } from "@/lib/firebaseAdmin";
 import { StudentRecord, NormalizedValue, SubjectRecord } from "@/lib/academicNormalizer";
 
 const APPS_SCRIPT_URL =
@@ -227,12 +227,17 @@ async function handleSync() {
       records.push(record);
     }
 
-    const syncResult = await syncStudentRecords(records, "Google Sheets Apps Script Live");
+    const batch = adminDb.batch();
+    for (const record of records) {
+      const docRef = adminDb.collection("students").doc(record.studentId);
+      batch.set(docRef, record, { merge: true });
+    }
+    await batch.commit();
 
     return NextResponse.json({
       success: true,
       syncedCount: records.length,
-      firestoreResult: syncResult,
+      students: records.map(r => ({ id: r.studentId, enr: r.enrollmentNumber, name: r.name })),
       updatedAt: new Date().toISOString(),
     });
   } catch (err: any) {
