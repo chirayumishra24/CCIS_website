@@ -17,6 +17,7 @@ import SubjectPerformanceList from "./SubjectPerformanceList";
 import AcademicInsightsCard from "./AcademicInsightsCard";
 import MultiExamMatrix from "./MultiExamMatrix";
 import ExamProgressionTimeline from "./ExamProgressionTimeline";
+import ExamProgressionLineGraph from "./ExamProgressionLineGraph";
 import StudentLookupModal from "./StudentLookupModal";
 import { UpcomingExamsEmptyState } from "./EmptyStates";
 import { Loader2, AlertCircle, RefreshCw, Printer, BookOpen, Layers } from "lucide-react";
@@ -326,6 +327,9 @@ export default function StudentPortal() {
           <div className="space-y-6 sm:space-y-8">
             {/* Assessment Timeline */}
             <ExamProgressionTimeline student={student} />
+
+            {/* Longitudinal Exam Line Graph */}
+            <ExamProgressionLineGraph student={student} />
 
             {/* 6-Subject Comparative Matrix */}
             <MultiExamMatrix student={student} />
