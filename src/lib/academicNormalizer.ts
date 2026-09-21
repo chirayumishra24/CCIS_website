@@ -16,6 +16,26 @@ export interface SubjectRecord {
   normalized: NormalizedValue;
 }
 
+export interface ExamEntry {
+  id: string; // 'exam-1', 'exam-2', etc.
+  label: string; // 'Exam-1 (Baseline)', 'Exam-2 (Mid Term)', etc.
+  maxMarksPerSubject: number; // 100 or 20
+  overall: NormalizedValue;
+  totalMarksScored?: number;
+  totalMarks?: number;
+  totalMaxMarks?: number;
+  secondLanguageTaken: 'Hindi' | 'Sanskrit' | 'French';
+  subjects: {
+    english: NormalizedValue;
+    secondLanguage: NormalizedValue;
+    maths: NormalizedValue;
+    science: NormalizedValue;
+    socialScience: NormalizedValue;
+    it: NormalizedValue;
+  };
+  subjectList: SubjectRecord[];
+}
+
 export interface StudentRecord {
   studentId: string;
   enrollmentNumber: string;
@@ -23,6 +43,7 @@ export interface StudentRecord {
   class: 'IX';
   group: 'AURA' | 'ZEN' | 'NEO';
   school: string;
+  secondLanguage?: 'Hindi' | 'Sanskrit' | 'French';
   currentPerformance: {
     overall: NormalizedValue;
     subjects: {
@@ -41,6 +62,8 @@ export interface StudentRecord {
     gapPercentagePoints?: number;
     gapDescription?: string;
   };
+  exams?: Record<string, ExamEntry>;
+  examOrder?: string[];
   source: {
     sheetName: string;
     sourceRow: number;

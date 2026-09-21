@@ -15,9 +15,11 @@ import TargetGapCard from "./TargetGapCard";
 import SubjectPerformanceChart from "./SubjectPerformanceChart";
 import SubjectPerformanceList from "./SubjectPerformanceList";
 import AcademicInsightsCard from "./AcademicInsightsCard";
-import { UpcomingExamsEmptyState, PerformanceTrendEmptyState } from "./EmptyStates";
+import MultiExamMatrix from "./MultiExamMatrix";
+import ExamProgressionTimeline from "./ExamProgressionTimeline";
 import StudentLookupModal from "./StudentLookupModal";
-import { Loader2, AlertCircle, RefreshCw, Printer } from "lucide-react";
+import { UpcomingExamsEmptyState } from "./EmptyStates";
+import { Loader2, AlertCircle, RefreshCw, Printer, BookOpen, Layers } from "lucide-react";
 
 export default function StudentPortal() {
   const searchParams = useSearchParams();
@@ -29,6 +31,7 @@ export default function StudentPortal() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLookupOpen, setIsLookupOpen] = useState(false);
   const [isLiveUpdating, setIsLiveUpdating] = useState(false);
+  const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2">("matrix");
 
   // 1. Fetch directory on mount
   useEffect(() => {
@@ -154,6 +157,10 @@ export default function StudentPortal() {
     );
   }
 
+  // Helper values for delta calculation
+  const e1Val = student.exams?.["exam-1"]?.overall?.value ?? student.currentPerformance.overall.value;
+  const e2Val = student.exams?.["exam-2"]?.overall?.value;
+
   return (
     <div className="bg-slate-50/50 min-h-screen pb-16">
       {/* Student Header with Enrollment Entry */}
@@ -166,36 +173,190 @@ export default function StudentPortal() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 space-y-6 sm:space-y-8">
-        {/* Top 3 Core Metric Cards */}
+        {/* Top 4 Core Metric Cards */}
         <section aria-label="Core Academic Metrics">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            <OverallPerformanceCard overall={student.currentPerformance.overall} />
-            <SchoolTargetCard target={student.schoolTarget.overall} />
-            <TargetGapCard
-              schoolTarget={student.schoolTarget}
-              currentPerformance={student.currentPerformance}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {/* Exam-1: Baseline */}
+            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                    Exam-1 • Baseline
+                  </span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-navy border border-blue-100">
+                    6 Subjects
+                  </span>
+                </div>
+                <div className="text-3xl font-bold text-navy font-serif tracking-tight">
+                  {student.exams?.["exam-1"]?.overall?.displayValue || student.currentPerformance.overall.displayValue}
+                </div>
+              </div>
+              <div className="pt-3 border-t border-slate-100 mt-3 text-xs text-slate-500 flex items-center justify-between">
+                <span>Diagnostic Baseline</span>
+                <span className="font-mono text-slate-700 font-semibold">100% Scale</span>
+              </div>
+            </div>
+
+            {/* Exam-2: Mid Term */}
+            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                    Exam-2 • Mid Term
+                  </span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    Latest Exam
+                  </span>
+                </div>
+                <div className="text-3xl font-bold text-navy font-serif tracking-tight">
+                  {student.exams?.["exam-2"]?.overall?.displayValue || "Pending"}
+                </div>
+              </div>
+              <div className="pt-3 border-t border-slate-100 mt-3 text-xs text-slate-500 flex items-center justify-between">
+                <span>Total Marks:</span>
+                <span className="font-mono text-navy font-bold">
+                  {student.exams?.["exam-2"]?.totalMarksScored ?? student.exams?.["exam-2"]?.totalMarks ?? "-"}
+                </span>
+              </div>
+            </div>
+
+            {/* Progression Delta */}
+            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                    Progression Delta
+                  </span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-mono">
+                    E1 vs E2
+                  </span>
+                </div>
+                <div className="text-3xl font-bold font-serif tracking-tight flex items-baseline gap-2">
+                  {e1Val !== undefined && e2Val !== undefined ? (
+                    e2Val >= e1Val ? (
+                      <span className="text-emerald-600">+{Math.round((e2Val - e1Val) * 10) / 10}%</span>
+                    ) : (
+                      <span className="text-rose-600">{Math.round((e2Val - e1Val) * 10) / 10}%</span>
+                    )
+                  ) : (
+                    <span className="text-slate-400 text-2xl font-sans">N/A</span>
+                  )}
+                </div>
+              </div>
+              <div className="pt-3 border-t border-slate-100 mt-3 text-xs text-slate-500">
+                {e1Val !== undefined && e2Val !== undefined && e2Val >= e1Val
+                  ? "Positive upward trajectory"
+                  : e1Val !== undefined && e2Val !== undefined
+                  ? "Requires targeted focus"
+                  : "Awaiting multiple scores"}
+              </div>
+            </div>
+
+            {/* Target Goal & Gap */}
+            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                    School Target
+                  </span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gold/20 text-navy font-bold">
+                    Goal
+                  </span>
+                </div>
+                <div className="text-3xl font-bold text-navy font-serif tracking-tight">
+                  {student.schoolTarget?.overall?.displayValue && student.schoolTarget.overall.displayValue !== "Not Assigned"
+                    ? student.schoolTarget.overall.displayValue
+                    : "Not Assigned"}
+                </div>
+              </div>
+              <div className="pt-3 border-t border-slate-100 mt-3 text-xs text-slate-500 flex items-center justify-between">
+                <span>Target Status:</span>
+                <span className="font-semibold text-slate-700">
+                  {student.schoolTarget?.targetStatus === "ACHIEVED" ? "Achieved" : "In Progress"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* View Mode Navigation Tabs */}
+        <div className="flex items-center gap-2 border-b border-slate-200/80 pb-3 overflow-x-auto">
+          <button
+            type="button"
+            onClick={() => setActiveTab("matrix")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
+              activeTab === "matrix"
+                ? "bg-navy text-white shadow-xs"
+                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+            }`}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>Comparative Matrix & Timeline</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("exam-1")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
+              activeTab === "exam-1"
+                ? "bg-navy text-white shadow-xs"
+                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+            }`}
+          >
+            <Layers className="w-4 h-4" />
+            <span>Exam-1 (Baseline) Cards</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("exam-2")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
+              activeTab === "exam-2"
+                ? "bg-navy text-white shadow-xs"
+                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+            }`}
+          >
+            <Layers className="w-4 h-4" />
+            <span>Exam-2 (Mid Term /20) Cards</span>
+          </button>
+        </div>
+
+        {/* Realigned Content View */}
+        {activeTab === "matrix" ? (
+          <div className="space-y-6 sm:space-y-8">
+            {/* Assessment Timeline */}
+            <ExamProgressionTimeline student={student} />
+
+            {/* 6-Subject Comparative Matrix */}
+            <MultiExamMatrix student={student} />
+
+            {/* Comparative Visual Chart */}
+            <SubjectPerformanceChart
+              subjects={student.currentPerformance.subjectList}
+              exam2Subjects={student.exams?.["exam-2"]?.subjectList}
+            />
+
+            {/* Academic Observations */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <AcademicInsightsCard student={student} />
+              <UpcomingExamsEmptyState />
+            </div>
+          </div>
+        ) : activeTab === "exam-1" ? (
+          <div className="space-y-6 sm:space-y-8">
+            <SubjectPerformanceChart subjects={student.currentPerformance.subjectList} />
+            <SubjectPerformanceList subjects={student.currentPerformance.subjectList} />
+          </div>
+        ) : (
+          <div className="space-y-6 sm:space-y-8">
+            <SubjectPerformanceChart
+              subjects={student.exams?.["exam-2"]?.subjectList || student.currentPerformance.subjectList}
+            />
+            <SubjectPerformanceList
+              subjects={student.exams?.["exam-2"]?.subjectList || student.currentPerformance.subjectList}
             />
           </div>
-        </section>
-
-        {/* Subject Performance Section */}
-        <section aria-label="Subject Performance Visualization and Breakdown" className="space-y-6">
-          <SubjectPerformanceChart subjects={student.currentPerformance.subjectList} />
-          <SubjectPerformanceList subjects={student.currentPerformance.subjectList} />
-        </section>
-
-        {/* Analytical Observations & Empty States */}
-        <section aria-label="Insights and Future Assessment Projections">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <AcademicInsightsCard student={student} />
-            <UpcomingExamsEmptyState />
-          </div>
-        </section>
-
-        {/* Longitudinal Performance Trend Section */}
-        <section aria-label="Longitudinal Trend">
-          <PerformanceTrendEmptyState />
-        </section>
+        )}
 
         {/* Print / Export Footer Bar */}
         <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">

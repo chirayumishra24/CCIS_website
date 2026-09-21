@@ -5,13 +5,15 @@ import { BarChart3 } from "lucide-react";
 
 interface SubjectPerformanceChartProps {
   subjects: SubjectRecord[];
+  exam2Subjects?: SubjectRecord[];
 }
 
 export default function SubjectPerformanceChart({
   subjects,
+  exam2Subjects,
 }: SubjectPerformanceChartProps) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs p-5 sm:p-6 transition-all duration-200 hover:shadow-sm">
+    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-5 sm:p-6 transition-all duration-200 hover:shadow-sm">
       {/* Chart Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
         <div>
@@ -20,44 +22,52 @@ export default function SubjectPerformanceChart({
             Subject Performance Comparison
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Current achievement levels across Grade IX curriculum disciplines
+            {exam2Subjects
+              ? "Comparative progress tracking across Exam-1 (Baseline) and Exam-2 (Mid Term)"
+              : "Current achievement levels across Grade IX curriculum disciplines"}
           </p>
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-4 text-xs text-slate-500">
-          <span className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-slate-500">
+          <span className="flex items-center gap-1.5 font-mono">
             <span className="w-3 h-3 rounded-xs bg-navy" />
-            Exact Score
+            Exam-1: Baseline
           </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-xs bg-blue-300 border border-blue-400" />
+          {exam2Subjects && (
+            <span className="flex items-center gap-1.5 font-mono">
+              <span className="w-3 h-3 rounded-xs bg-blue-500" />
+              Exam-2: Mid Term
+            </span>
+          )}
+          <span className="flex items-center gap-1.5 font-mono">
+            <span className="w-3 h-3 rounded-xs bg-blue-200 border border-blue-300" />
             Range Band
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-xs bg-slate-200" />
-            Exempt / Pending
           </span>
         </div>
       </div>
 
       {/* Responsive Bar Chart View */}
-      <div className="space-y-4 pt-1">
-        {subjects.map((sub) => {
-          const norm = sub.normalized;
-          const isExact = norm.type === "exact" && norm.value !== undefined;
-          const isRange = norm.type === "range" && norm.min !== undefined && norm.max !== undefined;
-          const isExempt = norm.type === "exempt";
+      <div className="space-y-5 pt-1">
+        {subjects.map((sub, idx) => {
+          const norm1 = sub.normalized;
+          const sub2 = exam2Subjects?.[idx];
+          const norm2 = sub2?.normalized;
 
-          // Calculate visual coordinates for the bar
-          const barWidth = isExact
-            ? Math.min(100, Math.max(0, norm.value!))
-            : isRange
-            ? Math.min(100, Math.max(0, norm.max!))
-            : 0;
+          // Exam 1 coordinates
+          const isExact1 = norm1.type === "exact" && norm1.value !== undefined;
+          const isRange1 = norm1.type === "range" && norm1.min !== undefined && norm1.max !== undefined;
+          const isExempt1 = norm1.type === "exempt";
+          const barWidth1 = isExact1 ? Math.min(100, Math.max(0, norm1.value!)) : isRange1 ? Math.min(100, Math.max(0, norm1.max!)) : 0;
+          const rangeStart1 = isRange1 ? Math.min(100, Math.max(0, norm1.min!)) : 0;
+          const rangeSpan1 = isRange1 ? Math.max(4, norm1.max! - norm1.min!) : 0;
 
-          const rangeStart = isRange ? Math.min(100, Math.max(0, norm.min!)) : 0;
-          const rangeSpan = isRange ? Math.max(4, norm.max! - norm.min!) : 0;
+          // Exam 2 coordinates
+          const isExact2 = norm2?.type === "exact" && norm2?.value !== undefined;
+          const val2Pct = isExact2 ? (norm2!.value! / 20) * 100 : null;
+          const barWidth2 = val2Pct !== null ? Math.min(100, Math.max(0, val2Pct)) : 0;
+          const isAbsent2 = norm2?.displayValue === "Absent (AB)";
+          const isExempt2 = norm2?.displayValue === "Exempt (-)";
 
           return (
             <div key={sub.id} className="group">
@@ -67,68 +77,72 @@ export default function SubjectPerformanceChart({
                   <span className="w-12 sm:w-14 font-mono font-semibold text-xs text-navy px-1.5 py-0.5 rounded bg-blue-50/80 border border-blue-100 text-center">
                     {sub.code}
                   </span>
-                  <span className="font-medium text-ink group-hover:text-navy transition-colors truncate max-w-[180px] sm:max-w-none">
+                  <span className="font-semibold text-slate-800 group-hover:text-navy transition-colors truncate max-w-[180px] sm:max-w-none">
                     {sub.label}
                   </span>
                 </div>
 
-                <span className="font-semibold text-xs sm:text-sm font-mono text-navy">
-                  {norm.displayValue}
-                </span>
-              </div>
-
-              {/* Bar Container */}
-              <div className="relative h-6 w-full bg-slate-100/90 rounded-md overflow-hidden p-0.5">
-                {/* 50%, 75%, 90% Grid lines */}
-                <div className="absolute inset-0 pointer-events-none flex justify-between px-0">
-                  <div className="h-full w-px bg-slate-200/80 left-[50%] absolute" />
-                  <div className="h-full w-px bg-slate-200/80 left-[75%] absolute" />
-                  <div className="h-full w-px bg-slate-200/80 left-[90%] absolute" />
-                </div>
-
-                {/* Exact Bar */}
-                {isExact && (
-                  <div
-                    className="h-full bg-navy rounded transition-all duration-700 relative group-hover:bg-[#1f376f]"
-                    style={{ width: `${barWidth}%` }}
-                  >
-                    {barWidth > 15 && (
-                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-mono font-semibold text-white/95">
-                        {norm.value}%
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                {/* Range Bar */}
-                {isRange && (
-                  <div
-                    className="h-full bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 rounded border border-blue-400/80 transition-all duration-700 relative"
-                    style={{
-                      left: `${rangeStart}%`,
-                      width: `${rangeSpan}%`,
-                    }}
-                  >
-                    <span className="absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 text-[10px] font-mono font-bold text-navy whitespace-nowrap px-1">
-                      {norm.min}–{norm.max}%
+                <div className="flex items-center gap-3 font-mono text-xs">
+                  <span className="text-navy font-bold">
+                    E1: {norm1.displayValue}
+                  </span>
+                  {norm2 && (
+                    <span className="text-blue-600 font-bold">
+                      E2: {norm2.displayValue} {val2Pct !== null ? `(${Math.round(val2Pct)}%)` : ""}
                     </span>
-                  </div>
-                )}
+                  )}
+                </div>
+              </div>
 
-                {/* Exempt Label */}
-                {isExempt && (
-                  <div className="h-full flex items-center px-3 text-xs text-slate-400 font-mono italic">
-                    Subject Exempted / Not Opted
+              {/* Bar 1 (Exam-1: Baseline) */}
+              <div className="relative h-4 w-full bg-slate-100/90 rounded overflow-hidden p-0.5 mb-1">
+                {isExact1 && (
+                  <div
+                    className="h-full bg-navy rounded transition-all duration-700 relative"
+                    style={{ width: `${barWidth1}%` }}
+                  />
+                )}
+                {isRange1 && (
+                  <div
+                    className="h-full bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 rounded border border-blue-400/80 transition-all duration-700"
+                    style={{ left: `${rangeStart1}%`, width: `${rangeSpan1}%` }}
+                  />
+                )}
+                {isExempt1 && (
+                  <div className="h-full flex items-center px-2 text-[10px] text-slate-400 font-mono italic">
+                    Exempted
                   </div>
                 )}
               </div>
+
+              {/* Bar 2 (Exam-2: Mid Term, if available) */}
+              {exam2Subjects && (
+                <div className="relative h-4 w-full bg-blue-50/70 rounded overflow-hidden p-0.5">
+                  {isExact2 && val2Pct !== null && (
+                    <div
+                      className="h-full bg-blue-500 rounded transition-all duration-700 relative"
+                      style={{ width: `${barWidth2}%` }}
+                    />
+                  )}
+                  {isAbsent2 && (
+                    <div className="h-full flex items-center px-2 text-[10px] text-rose-500 font-mono font-semibold">
+                      Absent in Mid Term
+                    </div>
+                  )}
+                  {isExempt2 && (
+                    <div className="h-full flex items-center px-2 text-[10px] text-slate-400 font-mono italic">
+                      Exempted
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           );
         })}
       </div>
 
       {/* Axis Scale */}
-      <div className="mt-4 pt-2 border-t border-slate-100 flex justify-between text-[11px] font-mono text-slate-400">
+      <div className="mt-5 pt-2.5 border-t border-slate-100 flex justify-between text-[11px] font-mono text-slate-400">
         <span>0%</span>
         <span className="hidden sm:inline">25%</span>
         <span>50%</span>

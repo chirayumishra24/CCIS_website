@@ -322,6 +322,11 @@ export default function DashboardHeader({
                 <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold text-slate-700 bg-slate-100 border border-slate-200">
                   {student.enrollmentNumber}
                 </span>
+                {student.secondLanguage && (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200/80">
+                    2nd Lang: {student.secondLanguage}
+                  </span>
+                )}
                 <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-full font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   Live Sync
