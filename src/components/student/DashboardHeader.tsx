@@ -11,6 +11,7 @@ import {
   ArrowRight,
   AlertCircle,
   Hash,
+  RefreshCw,
 } from "lucide-react";
 
 interface DashboardHeaderProps {
@@ -100,8 +101,32 @@ export default function DashboardHeader({
 }: DashboardHeaderProps) {
   const [inputValue, setInputValue] = useState(student?.enrollmentNumber || "");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncFeedback, setSyncFeedback] = useState<{ text: string; isError: boolean } | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleSyncSheet = async () => {
+    setIsSyncing(true);
+    setSyncFeedback(null);
+    try {
+      const res = await fetch("/api/student/sync", { method: "POST" });
+      const data = await res.json();
+      if (data.success) {
+        setSyncFeedback({
+          text: `Synced ${data.syncedCount || data.count || "all"} students from Google Sheet!`,
+          isError: false,
+        });
+        setTimeout(() => setSyncFeedback(null), 5000);
+      } else {
+        setSyncFeedback({ text: data.error || "Sync failed", isError: true });
+      }
+    } catch (err: any) {
+      setSyncFeedback({ text: err.message || "Failed to reach sync endpoint", isError: true });
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   // Sync input value when student changes externally
   useEffect(() => {
@@ -300,12 +325,34 @@ export default function DashboardHeader({
               <UserCheck className="w-4 h-4 text-navy" />
               <span>Full Directory</span>
             </button>
+
+            <button
+              type="button"
+              onClick={handleSyncSheet}
+              disabled={isSyncing}
+              title="Pull latest live marks from Google Sheet"
+              className="px-4 py-2.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 text-navy ${isSyncing ? "animate-spin" : ""}`} />
+              <span>{isSyncing ? "Syncing..." : "Sync Sheet"}</span>
+            </button>
           </form>
 
           {errorMsg && (
             <div className="mt-2.5 flex items-center gap-1.5 text-xs text-rose-600 font-medium">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{errorMsg}</span>
+            </div>
+          )}
+
+          {syncFeedback && (
+            <div className={`mt-2.5 flex items-center gap-1.5 text-xs font-medium ${syncFeedback.isError ? "text-rose-600" : "text-emerald-700"}`}>
+              {syncFeedback.isError ? (
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+              ) : (
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              )}
+              <span>{syncFeedback.text}</span>
             </div>
           )}
         </div>
