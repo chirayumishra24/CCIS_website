@@ -35,6 +35,7 @@ export default function StudentPortal() {
   const [isLookupOpen, setIsLookupOpen] = useState(false);
   const [isLiveUpdating, setIsLiveUpdating] = useState(false);
   const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2" | "target-calc">("target-calc");
+  const [landingSection, setLandingSection] = useState<"AURA" | "ZEN" | "NEO">("AURA");
 
   // 1. Fetch directory on mount
   useEffect(() => {
@@ -117,8 +118,6 @@ export default function StudentPortal() {
       </div>
     );
   }
-
-  const [landingSection, setLandingSection] = useState<"AURA" | "ZEN" | "NEO">("AURA");
 
   if (!student) {
     const sectionStudents = directory.filter((d) => d.group === landingSection);
