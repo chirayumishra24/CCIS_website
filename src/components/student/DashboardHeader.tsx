@@ -104,7 +104,7 @@ export default function DashboardHeader({
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncFeedback, setSyncFeedback] = useState<{ text: string; isError: boolean } | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLFormElement>(null);
 
   const handleSyncSheet = async () => {
     setIsSyncing(true);
@@ -195,30 +195,38 @@ export default function DashboardHeader({
     : "Recently synced";
 
   return (
-    <header className="bg-white border-b border-slate-200/80 shadow-xs relative overflow-hidden">
-      {/* Top brand color accent line */}
+    <header className="bg-white border-b border-slate-200/80 shadow-xs relative">
+      {/* Top brand gradient line */}
       <div className="h-1 w-full bg-gradient-to-r from-navy via-[#25407d] to-gold" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
-        {/* Option to enter enrollment number */}
-        <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
+        {/* Top Institutional Bar: School identity + Tools */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+          {/* School Brand */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-navy text-gold flex items-center justify-center font-serif font-bold text-lg border border-navy-light shadow-xs shrink-0">
+              CC
+            </div>
             <div>
-              <label
-                htmlFor="enrollment-search"
-                className="flex items-center gap-1.5 text-xs font-bold text-navy uppercase tracking-wider font-mono"
-              >
-                <Hash className="w-3.5 h-3.5 text-gold" />
-                Enter Student Enrollment Number
-              </label>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Type your enrollment number (e.g. CCIS-IX-AURA-02) or section roll number to view student performance.
+              <div className="flex items-center gap-2">
+                <span className="text-xs sm:text-sm font-bold text-navy tracking-tight font-serif uppercase">
+                  Cambridge Court International School
+                </span>
+                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-50 text-navy font-semibold border border-blue-100">
+                  Session 2026–27
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 font-medium">
+                Class IX Academic Performance & Target Tracking Portal
               </p>
             </div>
+          </div>
 
+          {/* Header Action Tools: Search, Section Shortcuts, Directory, Sync */}
+          <div className="flex flex-wrap items-center gap-2">
             {/* Quick Section Shortcuts */}
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[11px] text-slate-400 font-medium">Quick Sections:</span>
+            <div className="hidden sm:flex items-center gap-1 mr-1">
+              <span className="text-[10px] text-slate-400 font-mono uppercase tracking-wider mr-1">Sec:</span>
               {(["AURA", "ZEN", "NEO"] as const).map((sec) => (
                 <button
                   key={sec}
@@ -231,54 +239,55 @@ export default function DashboardHeader({
                       setErrorMsg(null);
                     }
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border transition-colors ${
+                  className={`px-2 py-1 rounded-md text-[11px] font-bold transition-all border ${
                     student?.group === sec
-                      ? "bg-navy text-white border-navy"
-                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-100"
+                      ? "bg-navy text-white border-navy shadow-xs"
+                      : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                   }`}
                 >
-                  IX-{sec}
+                  {sec}
                 </button>
               ))}
             </div>
-          </div>
 
-          <form onSubmit={handleSearchSubmit} className="relative flex flex-col sm:flex-row gap-2">
-            <div className="relative flex-1" ref={dropdownRef}>
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                id="enrollment-search"
-                type="text"
-                value={inputValue}
-                onChange={(e) => {
-                  setInputValue(e.target.value);
-                  setIsDropdownOpen(true);
-                  setErrorMsg(null);
-                }}
-                onFocus={() => {
-                  if (inputValue.trim()) setIsDropdownOpen(true);
-                }}
-                placeholder="Enter Enrollment No. (e.g. CCIS-IX-AURA-02, AURA-05, etc.)"
-                className="w-full pl-10 pr-9 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-semibold text-navy placeholder:text-slate-400 placeholder:font-normal focus:outline-hidden focus:border-navy focus:ring-2 focus:ring-navy/10 transition-all font-mono"
-                autoComplete="off"
-              />
-              {inputValue && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setInputValue("");
-                    setIsDropdownOpen(false);
+            {/* Compact Search Input Form */}
+            <form onSubmit={handleSearchSubmit} className="relative flex-1 sm:flex-initial sm:w-64" ref={dropdownRef}>
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  id="enrollment-search"
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => {
+                    setInputValue(e.target.value);
+                    setIsDropdownOpen(true);
+                    setErrorMsg(null);
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
-                  aria-label="Clear input"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
+                  onFocus={() => {
+                    if (inputValue.trim()) setIsDropdownOpen(true);
+                  }}
+                  placeholder="Enrollment (e.g. AURA-02)"
+                  className="w-full pl-8 pr-7 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-navy placeholder:text-slate-400 focus:outline-hidden focus:bg-white focus:border-navy focus:ring-1 focus:ring-navy/20 transition-all font-mono"
+                  autoComplete="off"
+                />
+                {inputValue && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setInputValue("");
+                      setIsDropdownOpen(false);
+                    }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
+                    aria-label="Clear input"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
 
               {/* Suggestions Dropdown */}
               {isDropdownOpen && filteredSuggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-xl border border-slate-200 shadow-xl max-h-60 overflow-y-auto z-50 divide-y divide-slate-100">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-slate-200 shadow-xl max-h-56 overflow-y-auto z-50 divide-y divide-slate-100">
                   {filteredSuggestions.map((item) => (
                     <button
                       key={item.studentId}
@@ -290,123 +299,123 @@ export default function DashboardHeader({
                         setIsDropdownOpen(false);
                         setErrorMsg(null);
                       }}
-                      className="w-full px-4 py-2.5 text-left hover:bg-blue-50/60 flex items-center justify-between group transition-colors"
+                      className="w-full px-3 py-2 text-left hover:bg-blue-50/60 flex items-center justify-between group transition-colors"
                     >
-                      <div className="flex items-center gap-2.5">
-                        <span className="font-mono text-xs font-semibold px-2 py-0.5 bg-slate-100 text-navy border border-slate-200 rounded">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-[10px] font-semibold px-1.5 py-0.5 bg-slate-100 text-navy border border-slate-200 rounded">
                           {item.enrollmentNumber}
                         </span>
-                        <span className="text-sm font-semibold text-slate-800 group-hover:text-navy">
+                        <span className="text-xs font-semibold text-slate-800 group-hover:text-navy truncate max-w-[120px]">
                           {item.name}
                         </span>
                       </div>
-                      <span className="text-xs text-slate-500 font-medium">
+                      <span className="text-[10px] text-slate-400 font-medium">
                         IX-{item.group}
                       </span>
                     </button>
                   ))}
                 </div>
               )}
-            </div>
+            </form>
 
-            <button
-              type="submit"
-              className="px-5 py-2.5 bg-navy hover:bg-navy-light active:bg-navy-dark text-white font-semibold text-sm rounded-xl transition-all shadow-xs flex items-center justify-center gap-1.5 shrink-0"
-            >
-              <span>View Student Data</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-
+            {/* Directory Button */}
             <button
               type="button"
               onClick={onOpenLookup}
-              className="px-4 py-2.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-1.5 shrink-0"
+              className="px-2.5 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold text-xs rounded-lg transition-all flex items-center gap-1.5 shrink-0"
+              title="Browse Complete Class IX Directory"
             >
-              <UserCheck className="w-4 h-4 text-navy" />
-              <span>Full Directory</span>
+              <UserCheck className="w-3.5 h-3.5 text-navy" />
+              <span className="hidden sm:inline">Directory</span>
             </button>
 
+            {/* Sync Sheet Button */}
             <button
               type="button"
               onClick={handleSyncSheet}
               disabled={isSyncing}
               title="Pull latest live marks from Google Sheet"
-              className="px-4 py-2.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50"
+              className="px-2.5 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold text-xs rounded-lg transition-all flex items-center gap-1.5 shrink-0 disabled:opacity-50"
             >
-              <RefreshCw className={`w-4 h-4 text-navy ${isSyncing ? "animate-spin" : ""}`} />
-              <span>{isSyncing ? "Syncing..." : "Sync Sheet"}</span>
+              <RefreshCw className={`w-3.5 h-3.5 text-navy ${isSyncing ? "animate-spin" : ""}`} />
+              <span className="hidden sm:inline">{isSyncing ? "Syncing..." : "Sync Sheet"}</span>
             </button>
-          </form>
-
-          {errorMsg && (
-            <div className="mt-2.5 flex items-center gap-1.5 text-xs text-rose-600 font-medium">
-              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-              <span>{errorMsg}</span>
-            </div>
-          )}
-
-          {syncFeedback && (
-            <div className={`mt-2.5 flex items-center gap-1.5 text-xs font-medium ${syncFeedback.isError ? "text-rose-600" : "text-emerald-700"}`}>
-              {syncFeedback.isError ? (
-                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-              ) : (
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              )}
-              <span>{syncFeedback.text}</span>
-            </div>
-          )}
+          </div>
         </div>
 
-        {/* Below the enrollment number option: Student details */}
-        {student && (
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sm:gap-6 pt-1">
-            <div className="space-y-1.5">
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-navy border border-blue-100">
-                  <School className="w-3.5 h-3.5 text-navy" />
-                  Class IX • Section {student.group}
-                </span>
-                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold text-slate-700 bg-slate-100 border border-slate-200">
-                  {student.enrollmentNumber}
-                </span>
-                {student.secondLanguage && (
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200/80">
-                    2nd Lang: {student.secondLanguage}
-                  </span>
-                )}
-                <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-full font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Live Sync
-                </span>
+        {/* Error / Sync notifications */}
+        {errorMsg && (
+          <div className="mt-2 flex items-center gap-1.5 text-xs text-rose-600 font-medium bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-100">
+            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+            <span>{errorMsg}</span>
+          </div>
+        )}
+
+        {syncFeedback && (
+          <div className={`mt-2 flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border ${
+            syncFeedback.isError ? "text-rose-600 bg-rose-50 border-rose-100" : "text-emerald-700 bg-emerald-50 border-emerald-100"
+          }`}>
+            {syncFeedback.isError ? (
+              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+            ) : (
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            )}
+            <span>{syncFeedback.text}</span>
+          </div>
+        )}
+
+        {/* Active Student Profile Banner */}
+        {student ? (
+          <div className="pt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              {/* Initials Avatar */}
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-navy to-[#182848] text-white flex items-center justify-center font-serif font-bold text-lg shadow-sm border border-slate-200 shrink-0">
+                {student.name
+                  .split(" ")
+                  .map((w) => w[0])
+                  .filter(Boolean)
+                  .slice(0, 2)
+                  .join("")}
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-bold text-navy tracking-tight font-serif">
-                Welcome, {student.name}
-              </h1>
+              <div>
+                <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                  <h1 className="text-xl sm:text-2xl font-bold text-navy tracking-tight font-serif">
+                    {student.name}
+                  </h1>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-bold text-slate-700 bg-slate-100 border border-slate-200">
+                    {student.enrollmentNumber}
+                  </span>
+                </div>
 
-              <p className="text-sm text-slate-500 flex items-center gap-2">
-                <span>Academic Session 2026–27</span>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5" />
-                  Synced: {formattedDate}
-                </span>
-              </p>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                  <span className="inline-flex items-center gap-1 font-semibold text-navy">
+                    <School className="w-3 h-3 text-navy" />
+                    Class IX - {student.group}
+                  </span>
+                  <span>•</span>
+                  <span>
+                    2nd Language: <strong className="text-slate-700">{student.secondLanguage || "Hindi"}</strong>
+                  </span>
+                  <span>•</span>
+                  <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-1.5 py-0.2 rounded-full text-[10px] font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Live Sync Verified
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2 self-start md:self-center">
-              <button
-                type="button"
-                onClick={() => {
-                  setInputValue("");
-                  onSelectStudent("");
-                }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-navy bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
-              >
-                <X className="w-3.5 h-3.5" />
-                <span>Search Another Student</span>
-              </button>
+            <div className="flex items-center gap-2 self-start md:self-center text-xs text-slate-400 font-mono">
+              <Calendar className="w-3.5 h-3.5 text-slate-400" />
+              <span>Synced: {formattedDate}</span>
             </div>
+          </div>
+        ) : (
+          <div className="pt-4 text-center py-2">
+            <p className="text-xs text-slate-500">
+              Select or search a student above (or choose <span className="font-semibold text-navy">AURA</span>, <span className="font-semibold text-navy">ZEN</span>, or <span className="font-semibold text-navy">NEO</span>) to view academic performance & target predictions.
+            </p>
           </div>
         )}
       </div>

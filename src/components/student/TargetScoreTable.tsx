@@ -1,12 +1,12 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { StudentRecord } from "@/lib/academicNormalizer";
 import {
   calculateRequiredScoresPerSubject,
   SubjectRequiredScore,
   RequiredScoreStatusTag,
 } from "@/lib/academicCalculations";
-import { Target } from "lucide-react";
+import { Target, Table as TableIcon, LayoutGrid, CheckCircle2, AlertTriangle, ArrowUpRight } from "lucide-react";
 
 interface TargetScoreTableProps {
   student: StudentRecord;
@@ -14,14 +14,50 @@ interface TargetScoreTableProps {
 
 const STATUS_CONFIG: Record<
   RequiredScoreStatusTag,
-  { label: string; emoji: string; color: string; barColor: string; bgColor: string }
+  { label: string; badgeClass: string; rowBg: string; textClass: string; barColor: string }
 > = {
-  ACHIEVED:          { label: "Met",    emoji: "🎉", color: "text-emerald-600", barColor: "bg-emerald-500", bgColor: "bg-emerald-50" },
-  ON_TRACK:          { label: "On Track", emoji: "✅", color: "text-blue-600",    barColor: "bg-blue-500",    bgColor: "bg-blue-50" },
-  NEEDS_FOCUS:       { label: "Effort",   emoji: "⚡", color: "text-amber-600",   barColor: "bg-amber-500",   bgColor: "bg-amber-50" },
-  NOT_REACHABLE:     { label: "Tough",    emoji: "🔴", color: "text-rose-600",    barColor: "bg-rose-500",    bgColor: "bg-rose-50" },
-  EXEMPT:            { label: "N/A",      emoji: "➖", color: "text-slate-400",   barColor: "bg-slate-200",   bgColor: "bg-slate-50" },
-  INSUFFICIENT_DATA: { label: "Pending",  emoji: "⏳", color: "text-slate-400",   barColor: "bg-slate-200",   bgColor: "bg-slate-50" },
+  ACHIEVED: {
+    label: "Target Met",
+    badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    rowBg: "bg-emerald-50/20",
+    textClass: "text-emerald-700",
+    barColor: "bg-emerald-500",
+  },
+  ON_TRACK: {
+    label: "On Track",
+    badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
+    rowBg: "",
+    textClass: "text-blue-700",
+    barColor: "bg-blue-500",
+  },
+  NEEDS_FOCUS: {
+    label: "Effort Needed",
+    badgeClass: "bg-amber-50 text-amber-700 border-amber-200",
+    rowBg: "bg-amber-50/15",
+    textClass: "text-amber-700",
+    barColor: "bg-amber-500",
+  },
+  NOT_REACHABLE: {
+    label: "Challenging",
+    badgeClass: "bg-rose-50 text-rose-700 border-rose-200",
+    rowBg: "bg-rose-50/20",
+    textClass: "text-rose-700",
+    barColor: "bg-rose-500",
+  },
+  EXEMPT: {
+    label: "Exempt",
+    badgeClass: "bg-slate-100 text-slate-500 border-slate-200",
+    rowBg: "bg-slate-50/50 opacity-60",
+    textClass: "text-slate-400",
+    barColor: "bg-slate-200",
+  },
+  INSUFFICIENT_DATA: {
+    label: "Pending",
+    badgeClass: "bg-slate-100 text-slate-500 border-slate-200",
+    rowBg: "",
+    textClass: "text-slate-400",
+    barColor: "bg-slate-200",
+  },
 };
 
 function getProgressPercent(subj: SubjectRequiredScore): number {
@@ -37,145 +73,372 @@ function getCurrentAvg(subj: SubjectRequiredScore): number | null {
 }
 
 export default function TargetScoreTable({ student }: TargetScoreTableProps) {
+  const [viewMode, setViewMode] = useState<"table" | "cards">("table");
   const result = useMemo(() => calculateRequiredScoresPerSubject(student), [student]);
-  const { subjects, overall, completedExams } = result;
+  const { subjects, overall, completedExams, pendingExams } = result;
   const visibleSubjects = subjects.filter((s) => s.status !== "EXEMPT");
 
+  const overallProgress = getProgressPercent(overall);
+  const overallAvg = getCurrentAvg(overall);
+  const remainingWeightPct = Math.round(overall.remainingWeight * 100);
+
   return (
-    <div className="space-y-3">
-      {/* Overall Hero */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
-        <div className="px-4 py-4 sm:px-5 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          {/* Left: target info */}
-          <div className="flex items-center gap-3 text-center sm:text-left">
-            <div className="w-9 h-9 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0">
-              <Target className="w-4 h-4 text-amber-600" />
+    <div className="space-y-4">
+      {/* Executive Hero Banner */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+        <div className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          {/* Left: Overall Target & Required Prediction */}
+          <div className="flex items-start sm:items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0">
+              <Target className="w-5 h-5 text-amber-600" />
             </div>
             <div>
-              <p className="text-[11px] text-slate-400 font-mono uppercase tracking-wider leading-none mb-0.5">
-                Overall Target: <span className="font-bold text-navy">{overall.targetDisplayValue}</span>
-              </p>
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-slate-400">
+                  Target Score Predictor
+                </span>
+                <span className="text-[10px] font-semibold px-2 py-0.2 rounded-full bg-slate-100 text-slate-600">
+                  {completedExams.length}/5 Exams Evaluated
+                </span>
+              </div>
+              <div className="flex flex-wrap items-baseline gap-2">
+                <span className="text-xs text-slate-500">School Target:</span>
+                <span className="text-sm font-bold text-navy font-mono">
+                  {overall.targetDisplayValue}
+                </span>
+                <span className="text-slate-300">•</span>
+                <span className="text-xs text-slate-500">Scored So Far:</span>
+                <span className="text-sm font-bold text-slate-800 font-mono">
+                  {overallAvg !== null ? `${overallAvg}%` : "—"}
+                </span>
+              </div>
               {overall.requiredInRemaining !== null && overall.requiredInRemaining > 0 ? (
-                <p className="text-xs text-slate-600">
-                  Need <span className={`font-bold text-sm ${
-                    overall.requiredInRemaining <= 60 ? "text-blue-600"
-                    : overall.requiredInRemaining <= 80 ? "text-amber-600"
+                <p className="text-xs text-slate-600 mt-1">
+                  Required in remaining {pendingExams.length} exams ({remainingWeightPct}% weight):{" "}
+                  <strong className={`font-mono text-sm ${
+                    overall.requiredInRemaining <= 65 ? "text-blue-600"
+                    : overall.requiredInRemaining <= 85 ? "text-amber-600"
                     : "text-rose-600"
-                  }`}>{Math.round(overall.requiredInRemaining)}%</span> avg in remaining exams
+                  }`}>
+                    {Math.round(overall.requiredInRemaining)}% avg
+                  </strong>
                 </p>
               ) : overall.status === "ACHIEVED" ? (
-                <p className="text-xs text-emerald-600 font-medium">🎉 Target on track!</p>
+                <p className="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  Target benchmark is on track! Maintain consistency in remaining terms.
+                </p>
               ) : (
-                <p className="text-xs text-slate-400">Calculating…</p>
+                <p className="text-xs text-slate-400 mt-1">Calculating required scores…</p>
               )}
             </div>
           </div>
 
-          {/* Right: exam progress dots */}
-          <div className="flex items-center gap-1.5">
-            {["E1", "E2", "E3", "E4", "E5"].map((label, i) => {
-              const done = i < completedExams.length;
-              return (
-                <div key={label} className="flex flex-col items-center gap-0.5">
-                  <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold border ${
-                    done
-                      ? "bg-emerald-500 border-emerald-500 text-white"
-                      : "bg-white border-slate-200 text-slate-400"
-                  }`}>
-                    {done ? "✓" : label}
+          {/* Right: Milestone Checkpoints + View Toggle */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            {/* Exam Milestones */}
+            <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+              {[
+                { label: "PT-1", w: "10%" },
+                { label: "Mid", w: "20%" },
+                { label: "PT-2", w: "10%" },
+                { label: "PB", w: "20%" },
+                { label: "Final", w: "40%" },
+              ].map((m, i) => {
+                const done = i < completedExams.length;
+                return (
+                  <div key={m.label} className="flex flex-col items-center">
+                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-all ${
+                      done
+                        ? "bg-emerald-500 border-emerald-500 text-white shadow-xs"
+                        : "bg-white border-slate-200 text-slate-400"
+                    }`}>
+                      {done ? "✓" : m.label}
+                    </span>
+                    <span className="text-[8px] font-mono text-slate-400 mt-0.5">{m.w}</span>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            {/* View Mode Toggle */}
+            <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 shrink-0">
+              <button
+                type="button"
+                onClick={() => setViewMode("table")}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold transition-all ${
+                  viewMode === "table"
+                    ? "bg-white text-navy shadow-xs"
+                    : "text-slate-500 hover:text-navy"
+                }`}
+                title="Structured Table View"
+              >
+                <TableIcon className="w-3.5 h-3.5" />
+                <span>Table</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode("cards")}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold transition-all ${
+                  viewMode === "cards"
+                    ? "bg-white text-navy shadow-xs"
+                    : "text-slate-500 hover:text-navy"
+                }`}
+                title="Visual Cards View"
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+                <span>Cards</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Subject Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {visibleSubjects.map((subj) => {
-          const cfg = STATUS_CONFIG[subj.status];
-          const progress = getProgressPercent(subj);
-          const currentAvg = getCurrentAvg(subj);
-          const isAchieved = subj.status === "ACHIEVED";
-
-          return (
-            <div
-              key={subj.subjectKey}
-              className={`rounded-xl border overflow-hidden transition-all hover:shadow-sm ${
-                isAchieved ? "border-emerald-200 bg-emerald-50/20"
-                : subj.status === "NOT_REACHABLE" ? "border-rose-200 bg-rose-50/10"
-                : "border-slate-200 bg-white"
-              }`}
-            >
-              {/* Subject header */}
-              <div className="px-3 py-2 border-b border-slate-100/80 flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-mono text-[9px] font-bold px-1.5 py-px rounded bg-slate-100 text-navy border border-slate-200">
-                    {subj.subjectCode}
-                  </span>
-                  <span className="font-semibold text-[11px] text-slate-700 truncate">{subj.subjectLabel}</span>
-                </div>
-                <span className="text-xs leading-none" title={cfg.label}>{cfg.emoji}</span>
-              </div>
-
-              <div className="px-3 py-3">
-                {/* Progress bar */}
-                <div className="mb-3">
-                  <div className="flex items-center justify-between text-[9px] text-slate-400 mb-1">
-                    <span>Progress</span>
-                    <span className="font-mono font-bold">{progress}%</span>
-                  </div>
-                  <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all duration-500 ${cfg.barColor}`}
-                      style={{ width: `${Math.min(100, progress)}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* 3 numbers */}
-                <div className="grid grid-cols-3 gap-1.5 text-center">
-                  <div className="bg-slate-50/80 rounded-lg py-1.5 px-1">
-                    <div className="text-[8px] text-slate-400 font-medium leading-none mb-0.5">Scored</div>
-                    <div className="text-sm font-bold text-slate-800 font-mono leading-tight">
-                      {currentAvg !== null ? `${currentAvg}%` : "—"}
-                    </div>
-                  </div>
-                  <div className="bg-slate-50/80 rounded-lg py-1.5 px-1">
-                    <div className="text-[8px] text-slate-400 font-medium leading-none mb-0.5">Target</div>
-                    <div className="text-sm font-bold text-navy font-mono leading-tight">
-                      {subj.targetDisplayValue}
-                    </div>
-                  </div>
-                  <div className={`rounded-lg py-1.5 px-1 ${cfg.bgColor}`}>
-                    <div className={`text-[8px] font-medium leading-none mb-0.5 ${cfg.color} opacity-70`}>Need</div>
-                    <div className={`text-sm font-bold font-mono leading-tight ${cfg.color}`}>
-                      {subj.requiredInRemaining !== null
-                        ? subj.requiredInRemaining <= 0 ? "✓" : `${Math.round(subj.requiredInRemaining)}%`
-                        : "—"}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Status */}
-                <p className={`mt-2 text-center text-[10px] font-medium leading-tight ${cfg.color}`}>
-                  {isAchieved ? "On track — keep it up!"
-                  : subj.status === "ON_TRACK" ? "Consistent effort will get you there."
-                  : subj.status === "NEEDS_FOCUS" ? "Push harder — still achievable."
-                  : subj.status === "NOT_REACHABLE" ? "Focus on improvement."
-                  : "More data needed."}
-                </p>
-              </div>
+      {/* View Mode: Structured Table */}
+      {viewMode === "table" ? (
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-navy font-serif">
+                Per-Subject Target & Score Requirement Matrix
+              </h3>
+              <p className="text-[11px] text-slate-500">
+                Formula: [Target - (PT-1 × 10% + MidTerm × 20%)] ÷ Remaining Weight (70%)
+              </p>
             </div>
-          );
-        })}
-      </div>
+            <span className="text-[10px] font-mono text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200">
+              CBSE Weighted Model
+            </span>
+          </div>
 
-      {/* Footer note */}
-      <p className="text-center text-[9px] text-slate-400 font-mono">
-        {completedExams.length}/5 exams done • Absent = 0 • PT-1 10% · Mid 20% · PT-2 10% · Pre-Board 20% · Final 40%
-      </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-slate-50/80 border-b border-slate-200 text-[10px] font-bold text-navy uppercase tracking-wider font-mono">
+                  <th className="py-2.5 px-3 sm:px-4">Subject</th>
+                  <th className="py-2.5 px-3 text-center">PT-1 (10%)</th>
+                  <th className="py-2.5 px-3 text-center">Mid Term (20%)</th>
+                  <th className="py-2.5 px-3 text-center">Current Avg</th>
+                  <th className="py-2.5 px-3 text-center">Target Goal</th>
+                  <th className="py-2.5 px-3 text-center bg-amber-50/50 border-x border-amber-200/50 text-amber-900 font-bold">
+                    Need in Remaining (70%)
+                  </th>
+                  <th className="py-2.5 px-3 text-center">Status</th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-slate-100">
+                {visibleSubjects.map((subj) => {
+                  const cfg = STATUS_CONFIG[subj.status];
+                  const currentAvg = getCurrentAvg(subj);
+                  const pt1Score = subj.examScores[0]?.normalizedPct;
+                  const midScore = subj.examScores[1]?.rawScore;
+                  const isOptional = subj.subjectKey === "secondLanguage";
+
+                  return (
+                    <tr
+                      key={subj.subjectKey}
+                      className={`hover:bg-slate-50/80 transition-colors ${cfg.rowBg}`}
+                    >
+                      {/* Subject Name */}
+                      <td className="py-2.5 px-3 sm:px-4">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-navy border border-slate-200">
+                            {subj.subjectCode}
+                          </span>
+                          <div>
+                            <span className="font-semibold text-slate-800">{subj.subjectLabel}</span>
+                            {isOptional && (
+                              <span className="ml-1.5 text-[9px] text-purple-600 bg-purple-50 px-1.5 py-0.2 rounded border border-purple-100 font-medium">
+                                2nd Lang
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* PT-1 Score */}
+                      <td className="py-2.5 px-3 text-center font-mono text-slate-600">
+                        {pt1Score !== null && pt1Score !== undefined ? `${pt1Score}%` : "—"}
+                      </td>
+
+                      {/* Mid Term Score */}
+                      <td className="py-2.5 px-3 text-center font-mono text-slate-600">
+                        {midScore !== null && midScore !== undefined ? (
+                          <span>
+                            {midScore}/20{" "}
+                            <span className="text-[10px] text-slate-400">
+                              ({(midScore / 20) * 100}%)
+                            </span>
+                          </span>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+
+                      {/* Current Avg */}
+                      <td className="py-2.5 px-3 text-center font-mono font-semibold text-slate-800">
+                        {currentAvg !== null ? `${currentAvg}%` : "—"}
+                      </td>
+
+                      {/* Target Goal */}
+                      <td className="py-2.5 px-3 text-center font-mono font-bold text-navy">
+                        {subj.targetDisplayValue}
+                      </td>
+
+                      {/* Required in Remaining Exams (Hero Column) */}
+                      <td className="py-2.5 px-3 text-center bg-amber-50/30 border-x border-amber-200/50">
+                        {subj.requiredInRemaining !== null ? (
+                          subj.requiredInRemaining <= 0 ? (
+                            <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-600">
+                              ✓ Goal Met
+                            </span>
+                          ) : (
+                            <span className={`inline-flex items-center gap-0.5 font-mono text-xs font-bold px-2 py-0.5 rounded-full ${
+                              subj.requiredInRemaining <= 65
+                                ? "bg-blue-100 text-blue-800"
+                                : subj.requiredInRemaining <= 85
+                                ? "bg-amber-100 text-amber-800"
+                                : "bg-rose-100 text-rose-800"
+                            }`}>
+                              <ArrowUpRight className="w-3 h-3" />
+                              {Math.round(subj.requiredInRemaining)}% avg
+                            </span>
+                          )
+                        ) : (
+                          <span className="text-slate-400 font-mono">—</span>
+                        )}
+                      </td>
+
+                      {/* Status Badge */}
+                      <td className="py-2.5 px-3 text-center">
+                        <span className={`inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border ${cfg.badgeClass}`}>
+                          {cfg.label}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        /* View Mode: Visual Cards */
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {visibleSubjects.map((subj) => {
+            const cfg = STATUS_CONFIG[subj.status];
+            const progress = getProgressPercent(subj);
+            const currentAvg = getCurrentAvg(subj);
+            const isAchieved = subj.status === "ACHIEVED";
+
+            return (
+              <div
+                key={subj.subjectKey}
+                className={`rounded-xl border overflow-hidden transition-all hover:shadow-sm ${
+                  isAchieved
+                    ? "border-emerald-200 bg-emerald-50/20"
+                    : subj.status === "NOT_REACHABLE"
+                    ? "border-rose-200 bg-rose-50/10"
+                    : "border-slate-200 bg-white"
+                }`}
+              >
+                {/* Subject header */}
+                <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between bg-slate-50/40">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-mono text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-navy border border-slate-200">
+                      {subj.subjectCode}
+                    </span>
+                    <span className="font-semibold text-xs text-slate-800 truncate">
+                      {subj.subjectLabel}
+                    </span>
+                  </div>
+                  <span className={`text-[10px] font-semibold px-1.5 py-0.2 rounded border ${cfg.badgeClass}`}>
+                    {cfg.label}
+                  </span>
+                </div>
+
+                <div className="p-3">
+                  {/* Progress bar */}
+                  <div className="mb-2.5">
+                    <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                      <span>Target Progress</span>
+                      <span className="font-mono font-bold text-slate-600">{progress}%</span>
+                    </div>
+                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${cfg.barColor}`}
+                        style={{ width: `${Math.min(100, progress)}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* 3 Metric Pills: Scored / Target / Need */}
+                  <div className="grid grid-cols-3 gap-1.5 text-center">
+                    <div className="bg-slate-50 rounded-lg py-1.5 px-1 border border-slate-100">
+                      <div className="text-[8px] text-slate-400 font-medium uppercase tracking-wider mb-0.5">
+                        Scored
+                      </div>
+                      <div className="text-xs font-bold text-slate-800 font-mono">
+                        {currentAvg !== null ? `${currentAvg}%` : "—"}
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-50 rounded-lg py-1.5 px-1 border border-slate-100">
+                      <div className="text-[8px] text-slate-400 font-medium uppercase tracking-wider mb-0.5">
+                        Target
+                      </div>
+                      <div className="text-xs font-bold text-navy font-mono">
+                        {subj.targetDisplayValue}
+                      </div>
+                    </div>
+
+                    <div className={`rounded-lg py-1.5 px-1 border ${
+                      subj.requiredInRemaining !== null && subj.requiredInRemaining > 85
+                        ? "bg-rose-50 border-rose-100 text-rose-700"
+                        : "bg-amber-50 border-amber-100 text-amber-700"
+                    }`}>
+                      <div className="text-[8px] font-medium uppercase tracking-wider mb-0.5 opacity-75">
+                        Need
+                      </div>
+                      <div className="text-xs font-bold font-mono">
+                        {subj.requiredInRemaining !== null
+                          ? subj.requiredInRemaining <= 0
+                            ? "✓ Met"
+                            : `${Math.round(subj.requiredInRemaining)}%`
+                          : "—"}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Verbal Guidance */}
+                  <p className={`mt-2 text-center text-[10px] font-medium leading-tight ${cfg.textClass}`}>
+                    {isAchieved
+                      ? "Target achieved! Maintain consistency."
+                      : subj.status === "ON_TRACK"
+                      ? "On track — steady preparation needed."
+                      : subj.status === "NEEDS_FOCUS"
+                      ? "Push harder in upcoming terms."
+                      : subj.status === "NOT_REACHABLE"
+                      ? "High focus required to maximize score."
+                      : "Awaiting exam records."}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Institutional Explanatory Footnote */}
+      <div className="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-[10px] text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <span className="font-mono">
+          CBSE Assessment Structure: PT-1 (10%) + Mid Term (20%) + PT-2 (10%) + Pre-Board (20%) + Annual Final (40%) = 100%
+        </span>
+        <span className="text-slate-400 shrink-0">
+          Absent (AB) evaluated as 0 • Optional: {student.secondLanguage || "Hindi/Sanskrit/French"}
+        </span>
+      </div>
     </div>
   );
 }

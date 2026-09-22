@@ -34,7 +34,7 @@ export default function StudentPortal() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLookupOpen, setIsLookupOpen] = useState(false);
   const [isLiveUpdating, setIsLiveUpdating] = useState(false);
-  const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2" | "target-calc">("matrix");
+  const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2" | "target-calc">("target-calc");
 
   // 1. Fetch directory on mount
   useEffect(() => {
@@ -177,46 +177,47 @@ export default function StudentPortal() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 space-y-6 sm:space-y-8">
         {/* Top 4 Core Metric Cards */}
+        {/* Top 4 Core Metric Cards */}
         <section aria-label="Core Academic Metrics">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Exam-1: Baseline */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex flex-col justify-between">
+            <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-navy p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
-                    Exam-1 • Baseline
+                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+                    Diagnostic Baseline
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-navy border border-blue-100">
-                    6 Subjects
+                    Weight: 10%
                   </span>
                 </div>
-                <div className="text-3xl font-bold text-navy font-serif tracking-tight">
+                <div className="text-2xl font-bold text-navy font-mono tracking-tight">
                   {student.exams?.["exam-1"]?.overall?.displayValue || student.currentPerformance.overall.displayValue}
                 </div>
               </div>
-              <div className="pt-3 border-t border-slate-100 mt-3 text-xs text-slate-500 flex items-center justify-between">
-                <span>Diagnostic Baseline</span>
-                <span className="font-mono text-slate-700 font-semibold">100% Scale</span>
+              <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
+                <span>Exam-1 Scale:</span>
+                <span className="font-mono text-slate-700 font-semibold">100% Normalized</span>
               </div>
             </div>
 
             {/* Exam-2: Mid Term */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex flex-col justify-between">
+            <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-blue-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
-                    Exam-2 • Mid Term
+                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+                    Mid Term Assessment
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    Latest Exam
+                    Weight: 20%
                   </span>
                 </div>
-                <div className="text-3xl font-bold text-navy font-serif tracking-tight">
+                <div className="text-2xl font-bold text-navy font-mono tracking-tight">
                   {student.exams?.["exam-2"]?.overall?.displayValue || "Pending"}
                 </div>
               </div>
-              <div className="pt-3 border-t border-slate-100 mt-3 text-xs text-slate-500 flex items-center justify-between">
-                <span>Total Marks:</span>
+              <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
+                <span>Scored Marks:</span>
                 <span className="font-mono text-navy font-bold">
                   {student.exams?.["exam-2"]?.totalMarksScored ?? student.exams?.["exam-2"]?.totalMarks ?? "-"}
                 </span>
@@ -224,17 +225,17 @@ export default function StudentPortal() {
             </div>
 
             {/* Progression Delta */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex flex-col justify-between">
+            <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-emerald-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
                     Progression Delta
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-mono">
-                    E1 vs E2
+                    PT-1 vs Mid Term
                   </span>
                 </div>
-                <div className="text-3xl font-bold font-serif tracking-tight flex items-baseline gap-2">
+                <div className="text-2xl font-bold font-mono tracking-tight flex items-baseline gap-2">
                   {e1Val !== undefined && e2Val !== undefined ? (
                     e2Val >= e1Val ? (
                       <span className="text-emerald-600">+{Math.round((e2Val - e1Val) * 10) / 10}%</span>
@@ -242,40 +243,40 @@ export default function StudentPortal() {
                       <span className="text-rose-600">{Math.round((e2Val - e1Val) * 10) / 10}%</span>
                     )
                   ) : (
-                    <span className="text-slate-400 text-2xl font-sans">N/A</span>
+                    <span className="text-slate-400 font-sans text-xl">N/A</span>
                   )}
                 </div>
               </div>
-              <div className="pt-3 border-t border-slate-100 mt-3 text-xs text-slate-500">
+              <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500">
                 {e1Val !== undefined && e2Val !== undefined && e2Val >= e1Val
-                  ? "Positive upward trajectory"
+                  ? "Positive trajectory across terms"
                   : e1Val !== undefined && e2Val !== undefined
-                  ? "Requires targeted focus"
-                  : "Awaiting multiple scores"}
+                  ? "Requires targeted term focus"
+                  : "Awaiting multiple assessments"}
               </div>
             </div>
 
-            {/* Target Goal & Gap */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex flex-col justify-between">
+            {/* Target Goal */}
+            <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-amber-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
                     School Target
                   </span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gold/20 text-navy font-bold">
-                    Goal
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-semibold">
+                    Target Goal
                   </span>
                 </div>
-                <div className="text-3xl font-bold text-navy font-serif tracking-tight">
+                <div className="text-2xl font-bold text-navy font-mono tracking-tight">
                   {student.schoolTarget?.overall?.displayValue && student.schoolTarget.overall.displayValue !== "Not Assigned"
                     ? student.schoolTarget.overall.displayValue
                     : "Not Assigned"}
                 </div>
               </div>
-              <div className="pt-3 border-t border-slate-100 mt-3 text-xs text-slate-500 flex items-center justify-between">
+              <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
                 <span>Target Status:</span>
                 <span className="font-semibold text-slate-700">
-                  {student.schoolTarget?.targetStatus === "ACHIEVED" ? "Achieved" : "In Progress"}
+                  {student.schoolTarget?.targetStatus === "ACHIEVED" ? "Met" : "In Progress"}
                 </span>
               </div>
             </div>
@@ -283,11 +284,24 @@ export default function StudentPortal() {
         </section>
 
         {/* View Mode Navigation Tabs */}
-        <div className="flex items-center gap-2 border-b border-slate-200/80 pb-3 overflow-x-auto">
+        <div className="flex items-center gap-2 border-b border-slate-200/80 pb-2.5 overflow-x-auto">
+          <button
+            type="button"
+            onClick={() => setActiveTab("target-calc")}
+            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
+              activeTab === "target-calc"
+                ? "bg-navy text-white shadow-xs"
+                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+            }`}
+          >
+            <Target className="w-4 h-4 text-gold" />
+            <span>Target & Score Predictions</span>
+          </button>
+
           <button
             type="button"
             onClick={() => setActiveTab("matrix")}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
+            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
               activeTab === "matrix"
                 ? "bg-navy text-white shadow-xs"
                 : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
@@ -300,40 +314,27 @@ export default function StudentPortal() {
           <button
             type="button"
             onClick={() => setActiveTab("exam-1")}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
+            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
               activeTab === "exam-1"
                 ? "bg-navy text-white shadow-xs"
                 : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
             }`}
           >
             <Layers className="w-4 h-4" />
-            <span>Exam-1 (Baseline) Cards</span>
+            <span>Exam-1 (Baseline)</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("exam-2")}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
+            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
               activeTab === "exam-2"
                 ? "bg-navy text-white shadow-xs"
                 : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
             }`}
           >
             <Layers className="w-4 h-4" />
-            <span>Exam-2 (Mid Term /20) Cards</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab("target-calc")}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
-              activeTab === "target-calc"
-                ? "bg-amber-600 text-white shadow-xs"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
-            }`}
-          >
-            <Target className="w-4 h-4" />
-            <span>🎯 Target Calculator</span>
+            <span>Exam-2 (Mid Term)</span>
           </button>
         </div>
 

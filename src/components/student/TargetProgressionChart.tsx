@@ -32,8 +32,8 @@ export default function TargetProgressionChart({ student }: TargetProgressionCha
   const active = allSubjects.find((s) => s.subjectKey === activeKey) || allSubjects[0];
   const c = COLORS[activeKey] || COLORS.overall;
 
-  const W = 620, H = 250;
-  const pad = { top: 28, right: 36, bottom: 52, left: 40 };
+  const W = 640, H = 260;
+  const pad = { top: 34, right: 44, bottom: 52, left: 42 };
   const cW = W - pad.left - pad.right, cH = H - pad.top - pad.bottom;
 
   const labels = ["PT-1", "Mid Term", "PT-2", "Pre-Board", "Final"];
