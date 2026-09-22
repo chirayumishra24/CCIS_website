@@ -34,7 +34,7 @@ export default function StudentPortal() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLookupOpen, setIsLookupOpen] = useState(false);
   const [isLiveUpdating, setIsLiveUpdating] = useState(false);
-  const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2" | "target-calc">("target-calc");
+  const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2" | "exam-3" | "exam-4" | "target-calc">("target-calc");
   const [landingSection, setLandingSection] = useState<"AURA" | "ZEN" | "NEO">("AURA");
 
   // 1. Fetch directory on mount
@@ -227,7 +227,7 @@ export default function StudentPortal() {
                 Predictive Target Score Modeling
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Calculates precise marks required in PT-2, Pre-Board, and Final exams to hit institutional benchmark targets.
+                Calculates precise marks required in Mid Term (/80), PT-2 (/20), and Final (/80) exams to hit institutional benchmark targets.
               </p>
             </div>
 
@@ -251,7 +251,7 @@ export default function StudentPortal() {
                 CBSE Weighted Distribution
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Evaluated under CBSE continuous scheme: PT-1 (10%), Mid Term (20%), PT-2 (10%), Pre-Board (20%), Annual Final (40%).
+                Evaluated under CBSE continuous scheme: PT-1 (10%), Mid Term (30%), PT-2 (10%), Final Exam (50%).
               </p>
             </div>
           </div>
@@ -271,6 +271,7 @@ export default function StudentPortal() {
   // Helper values for delta calculation
   const e1Val = student.exams?.["exam-1"]?.overall?.value ?? student.currentPerformance.overall.value;
   const e2Val = student.exams?.["exam-2"]?.overall?.value;
+  const targetVal = student.schoolTarget?.overall?.value;
 
   return (
     <div className="bg-slate-50/50 min-h-screen pb-16">
@@ -285,15 +286,14 @@ export default function StudentPortal() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 space-y-6 sm:space-y-8">
         {/* Top 4 Core Metric Cards */}
-        {/* Top 4 Core Metric Cards */}
         <section aria-label="Core Academic Metrics">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Exam-1: Baseline */}
+            {/* Exam-1: PT-1 Baseline */}
             <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-navy p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                    Diagnostic Baseline
+                    PT-1 Baseline
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-navy border border-blue-100">
                     Weight: 10%
@@ -304,51 +304,28 @@ export default function StudentPortal() {
                 </div>
               </div>
               <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
-                <span>Exam-1 Scale:</span>
-                <span className="font-mono text-slate-700 font-semibold">100% Normalized</span>
+                <span>Scale:</span>
+                <span className="font-mono text-slate-700 font-semibold">Out of 20 marks</span>
               </div>
             </div>
 
-            {/* Exam-2: Mid Term */}
-            <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-blue-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                    Mid Term Assessment
-                  </span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    Weight: 20%
-                  </span>
-                </div>
-                <div className="text-2xl font-bold text-navy font-mono tracking-tight">
-                  {student.exams?.["exam-2"]?.overall?.displayValue || "Pending"}
-                </div>
-              </div>
-              <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
-                <span>Scored Marks:</span>
-                <span className="font-mono text-navy font-bold">
-                  {student.exams?.["exam-2"]?.totalMarksScored ?? student.exams?.["exam-2"]?.totalMarks ?? "-"}
-                </span>
-              </div>
-            </div>
-
-            {/* Progression Delta */}
+            {/* Gap to Target */}
             <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-emerald-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                    Progression Delta
+                    Gap to Target
                   </span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-mono">
-                    PT-1 vs Mid Term
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    90% remaining
                   </span>
                 </div>
-                <div className="text-2xl font-bold font-mono tracking-tight flex items-baseline gap-2">
-                  {e1Val !== undefined && e2Val !== undefined ? (
-                    e2Val >= e1Val ? (
-                      <span className="text-emerald-600">+{Math.round((e2Val - e1Val) * 10) / 10}%</span>
+                <div className="text-2xl font-bold font-mono tracking-tight">
+                  {e1Val !== undefined && targetVal !== undefined ? (
+                    e1Val >= targetVal ? (
+                      <span className="text-emerald-600">On Track</span>
                     ) : (
-                      <span className="text-rose-600">{Math.round((e2Val - e1Val) * 10) / 10}%</span>
+                      <span className="text-amber-600">{Math.round((targetVal - e1Val) * 10) / 10}% gap</span>
                     )
                   ) : (
                     <span className="text-slate-400 font-sans text-xl">N/A</span>
@@ -356,11 +333,30 @@ export default function StudentPortal() {
                 </div>
               </div>
               <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500">
-                {e1Val !== undefined && e2Val !== undefined && e2Val >= e1Val
-                  ? "Positive trajectory across terms"
-                  : e1Val !== undefined && e2Val !== undefined
-                  ? "Requires targeted term focus"
-                  : "Awaiting multiple assessments"}
+                3 exams remaining to close the gap
+              </div>
+            </div>
+
+            {/* Upcoming: Mid Term */}
+            <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-blue-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+                    Next: Mid Term
+                  </span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-700 border border-violet-200">
+                    Weight: 30%
+                  </span>
+                </div>
+                <div className="text-2xl font-bold text-navy font-mono tracking-tight">
+                  {student.exams?.["exam-2"]?.isPredicted === false
+                    ? student.exams["exam-2"].overall?.displayValue || "Pending"
+                    : "Predicted"}
+                </div>
+              </div>
+              <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
+                <span>Scale:</span>
+                <span className="font-mono text-slate-700 font-semibold">Out of 80 marks</span>
               </div>
             </div>
 
@@ -371,8 +367,8 @@ export default function StudentPortal() {
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
                     School Target
                   </span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-semibold">
-                    Target Goal
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                    End-of-Year
                   </span>
                 </div>
                 <div className="text-2xl font-bold text-navy font-mono tracking-tight">
@@ -382,7 +378,7 @@ export default function StudentPortal() {
                 </div>
               </div>
               <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
-                <span>Target Status:</span>
+                <span>Status:</span>
                 <span className="font-semibold text-slate-700">
                   {student.schoolTarget?.targetStatus === "ACHIEVED" ? "Met" : "In Progress"}
                 </span>
@@ -403,7 +399,7 @@ export default function StudentPortal() {
             }`}
           >
             <Target className="w-4 h-4 text-gold" />
-            <span>Target & Score Predictions</span>
+            <span>Target & Predictions</span>
           </button>
 
           <button
@@ -416,7 +412,7 @@ export default function StudentPortal() {
             }`}
           >
             <BookOpen className="w-4 h-4" />
-            <span>Comparative Matrix & Timeline</span>
+            <span>4-Exam Matrix</span>
           </button>
 
           <button
@@ -429,20 +425,7 @@ export default function StudentPortal() {
             }`}
           >
             <Layers className="w-4 h-4" />
-            <span>Exam-1 (Baseline)</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab("exam-2")}
-            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
-              activeTab === "exam-2"
-                ? "bg-navy text-white shadow-xs"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
-            }`}
-          >
-            <Layers className="w-4 h-4" />
-            <span>Exam-2 (Mid Term)</span>
+            <span>PT-1 (Baseline /20)</span>
           </button>
         </div>
 
@@ -475,18 +458,13 @@ export default function StudentPortal() {
               <TargetSummaryCard student={student} onNavigate={() => setActiveTab("target-calc")} />
             </div>
           </div>
-        ) : activeTab === "exam-1" ? (
-          <div className="space-y-6 sm:space-y-8">
-            <SubjectPerformanceChart subjects={student.currentPerformance.subjectList} />
-            <SubjectPerformanceList subjects={student.currentPerformance.subjectList} />
-          </div>
         ) : (
           <div className="space-y-6 sm:space-y-8">
             <SubjectPerformanceChart
-              subjects={student.exams?.["exam-2"]?.subjectList || student.currentPerformance.subjectList}
+              subjects={student.exams?.[activeTab]?.subjectList || student.currentPerformance.subjectList}
             />
             <SubjectPerformanceList
-              subjects={student.exams?.["exam-2"]?.subjectList || student.currentPerformance.subjectList}
+              subjects={student.exams?.[activeTab]?.subjectList || student.currentPerformance.subjectList}
             />
           </div>
         )}

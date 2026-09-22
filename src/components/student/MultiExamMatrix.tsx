@@ -1,6 +1,9 @@
 "use client";
 import React from "react";
-import { StudentRecord } from "@/lib/academicNormalizer";
+import { StudentRecord, EXAM_WEIGHTS, EXAM_ORDER } from "@/lib/academicNormalizer";
+import {
+  calculateRequiredScoresPerSubject,
+} from "@/lib/academicCalculations";
 import {
   TrendingUp,
   TrendingDown,
@@ -16,12 +19,10 @@ interface MultiExamMatrixProps {
 }
 
 export default function MultiExamMatrix({ student }: MultiExamMatrixProps) {
-  const e1 = student.exams?.["exam-1"];
-  const e2 = student.exams?.["exam-2"];
   const target = student.schoolTarget;
   const lang2 = student.secondLanguage || "Hindi";
+  const calcResult = calculateRequiredScoresPerSubject(student);
 
-  // Build the 6 canonical subjects
   const subjectKeys = [
     { key: "english", code: "ENG", label: "English Language & Lit", isLang: false },
     { key: "secondLanguage", code: lang2.slice(0, 3).toUpperCase(), label: `${lang2} (2nd Language)`, isLang: true },
@@ -31,213 +32,245 @@ export default function MultiExamMatrix({ student }: MultiExamMatrixProps) {
     { key: "it", code: "IT", label: "Information Technology", isLang: false },
   ] as const;
 
+  // Build exam columns from the 4-exam structure
+  const examColumns = EXAM_ORDER.map((examId) => {
+    const w = EXAM_WEIGHTS[examId];
+    const exam = student.exams?.[examId];
+    const isCompleted = exam !== undefined && !exam.isPredicted;
+    return {
+      examId,
+      label: w.label,
+      shortLabel: w.shortLabel,
+      maxMarks: w.maxMarks,
+      weight: w.weight,
+      isCompleted,
+      isPredicted: !isCompleted,
+    };
+  });
+
+  function getSubjectValue(examId: string, subjectKey: string): {
+    display: string;
+    rawMarks: string;
+    pct: number | null;
+    isExempt: boolean;
+    isAbsent: boolean;
+    isPredicted: boolean;
+    confidence: string | null;
+  } {
+    const exam = student.exams?.[examId];
+    const w = EXAM_WEIGHTS[examId];
+
+    if (!exam) {
+      // Check prediction from calcResult
+      const subjCalc = calcResult.subjects.find((s) => s.subjectKey === subjectKey);
+      const examScore = subjCalc?.examScores.find((es) => es.examId === examId);
+      if (examScore?.isPredicted && examScore.predictedPct !== null) {
+        return {
+          display: `~${examScore.predictedPct}%`,
+          rawMarks: `~${examScore.predictedRawMarks}/${w.maxMarks}`,
+          pct: examScore.predictedPct,
+          isExempt: false,
+          isAbsent: false,
+          isPredicted: true,
+          confidence: examScore.confidence,
+        };
+      }
+      return { display: "—", rawMarks: "—", pct: null, isExempt: false, isAbsent: false, isPredicted: false, confidence: null };
+    }
+
+    const subj = (exam as any).subjects?.[subjectKey];
+    if (!subj) return { display: "—", rawMarks: "—", pct: null, isExempt: false, isAbsent: false, isPredicted: false, confidence: null };
+
+    if (subj.type === "exempt") {
+      return { display: "Exempt", rawMarks: "-", pct: null, isExempt: true, isAbsent: false, isPredicted: false, confidence: null };
+    }
+
+    if (subj.displayValue === "Absent (AB)") {
+      return { display: "AB", rawMarks: "0", pct: 0, isExempt: false, isAbsent: true, isPredicted: false, confidence: null };
+    }
+
+    if (subj.type === "exact" && subj.value !== undefined) {
+      const pct = subj.unit === "marks" ? Math.round((subj.value / w.maxMarks) * 10000) / 100 : subj.value;
+      const rawDisplay = subj.unit === "marks" ? `${subj.value}/${w.maxMarks}` : `${subj.value}%`;
+      return { display: `${pct}%`, rawMarks: rawDisplay, pct, isExempt: false, isAbsent: false, isPredicted: false, confidence: null };
+    }
+
+    if (subj.type === "range") {
+      return { display: subj.displayValue, rawMarks: subj.displayValue, pct: null, isExempt: false, isAbsent: false, isPredicted: false, confidence: null };
+    }
+
+    return { display: subj.displayValue || "—", rawMarks: subj.displayValue || "—", pct: null, isExempt: false, isAbsent: false, isPredicted: false, confidence: null };
+  }
+
+  function getTargetValue(subjectKey: string): string {
+    const targetSubjects = target?.subjects;
+    if (!targetSubjects) return "N/A";
+    const t = (targetSubjects as any)[subjectKey];
+    if (!t) return "N/A";
+    return t.displayValue || "N/A";
+  }
+
+  function getDeltaIcon(prev: number | null, curr: number | null) {
+    if (prev === null || curr === null) return <Minus className="w-3 h-3 text-slate-300" />;
+    if (curr > prev) return <TrendingUp className="w-3 h-3 text-emerald-500" />;
+    if (curr < prev) return <TrendingDown className="w-3 h-3 text-rose-500" />;
+    return <Minus className="w-3 h-3 text-slate-400" />;
+  }
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
-      {/* Table Header / Title */}
+      {/* Header */}
       <div className="p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/50">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-navy border border-blue-100 font-mono">
               <BookOpen className="w-3.5 h-3.5 text-navy" />
-              6-Subject Performance Matrix
+              4-Exam Performance Matrix
             </span>
           </div>
           <h3 className="text-lg sm:text-xl font-bold text-navy font-serif">
             Comparative Subject Breakdown
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            Cross-exam progression tracking across all 6 active curriculum disciplines
+            Cross-exam progression with predictive scoring for upcoming assessments
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs">
-          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white border border-slate-200 text-slate-600 font-mono">
-            <span className="w-2 h-2 rounded-full bg-navy" />
-            Exam-1: Baseline
-          </span>
-          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white border border-slate-200 text-slate-600 font-mono">
-            <span className="w-2 h-2 rounded-full bg-blue-500" />
-            Exam-2: Mid Term (/20)
-          </span>
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          {examColumns.map((col) => (
+            <span
+              key={col.examId}
+              className={`inline-flex items-center gap-1 px-2 py-1 rounded-md border font-mono ${
+                col.isCompleted
+                  ? "bg-white border-slate-200 text-slate-600"
+                  : "bg-violet-50 border-violet-200 text-violet-600 border-dashed"
+              }`}
+            >
+              <span className={`w-2 h-2 rounded-full ${col.isCompleted ? "bg-navy" : "bg-violet-400"}`} />
+              {col.shortLabel}: {col.label} (/{col.maxMarks})
+            </span>
+          ))}
         </div>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-xs">
           <thead>
-            <tr className="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-navy uppercase tracking-wider font-mono">
-              <th className="py-3.5 px-4 sm:px-6">Subject</th>
-              <th className="py-3.5 px-4 text-center">Exam-1 (Baseline)</th>
-              <th className="py-3.5 px-4 text-center">Exam-2 (Marks /20)</th>
-              <th className="py-3.5 px-4 text-center">Exam-2 (%)</th>
-              <th className="py-3.5 px-4 text-center">Progression (Δ)</th>
-              <th className="py-3.5 px-4 text-center">Target Goal</th>
-              <th className="py-3.5 px-4 text-center">Status</th>
+            <tr className="border-b border-slate-200 bg-slate-50/80">
+              <th className="text-left px-4 py-3 font-semibold text-slate-600 w-48 sticky left-0 bg-slate-50/80 z-10">
+                Subject
+              </th>
+              {examColumns.map((col) => (
+                <th
+                  key={col.examId}
+                  className={`text-center px-3 py-3 font-semibold min-w-[100px] ${
+                    col.isPredicted ? "text-violet-600" : "text-slate-600"
+                  }`}
+                >
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span>{col.shortLabel}</span>
+                    <span className="text-[10px] font-normal text-slate-400">
+                      {col.isCompleted ? (
+                        <span className="inline-flex items-center gap-0.5">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                          Actual
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-0.5 text-violet-500">
+                          <Sparkles className="w-3 h-3" />
+                          Predicted
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                </th>
+              ))}
+              <th className="text-center px-3 py-3 font-semibold text-amber-700 min-w-[80px]">
+                Target
+              </th>
             </tr>
           </thead>
-
-          <tbody className="divide-y divide-slate-100 text-sm">
-            {subjectKeys.map((subj) => {
-              const v1 = e1?.subjects[subj.key];
-              const v2 = e2?.subjects[subj.key];
-
-              // Numbers for calculation
-              const num1 = v1?.value ?? (v1?.min !== undefined && v1?.max !== undefined ? (v1.min + v1.max) / 2 : null);
-              const num2Marks = v2?.value ?? null;
-              const num2Pct = num2Marks !== null ? (num2Marks / 20) * 100 : null;
-
-              // Delta between Exam-2 % and Exam-1 %
-              let delta: number | null = null;
-              if (num1 !== null && num2Pct !== null) {
-                delta = Math.round((num2Pct - num1) * 10) / 10;
-              }
-
-              // Status check
-              let statusLabel = "On Track";
-              let statusClass = "bg-emerald-50 text-emerald-700 border-emerald-200";
-
-              if (v2?.displayValue === "Absent (AB)") {
-                statusLabel = "Absent";
-                statusClass = "bg-rose-50 text-rose-700 border-rose-200";
-              } else if (v2?.displayValue === "Exempt (-)") {
-                statusLabel = "Exempt";
-                statusClass = "bg-slate-100 text-slate-600 border-slate-200";
-              } else if (delta !== null && delta < -10) {
-                statusLabel = "Needs Focus";
-                statusClass = "bg-amber-50 text-amber-700 border-amber-200";
-              } else if (num2Pct !== null && num2Pct >= 80) {
-                statusLabel = "Strong";
-                statusClass = "bg-blue-50 text-navy border-blue-200";
-              }
+          <tbody>
+            {subjectKeys.map((subj, idx) => {
+              const values = examColumns.map((col) => getSubjectValue(col.examId, subj.key));
+              const targetDisplay = getTargetValue(subj.key);
 
               return (
-                <tr key={subj.key} className="hover:bg-slate-50/60 transition-colors">
-                  {/* Subject Name */}
-                  <td className="py-3.5 px-4 sm:px-6">
-                    <div className="flex items-center gap-2.5">
-                      <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-navy border border-slate-200 shrink-0">
+                <tr
+                  key={subj.key}
+                  className={`border-b border-slate-100 hover:bg-slate-50/50 transition-colors ${
+                    idx % 2 === 1 ? "bg-slate-50/30" : ""
+                  }`}
+                >
+                  <td className="px-4 py-3.5 sticky left-0 bg-white z-10">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 shrink-0">
                         {subj.code}
                       </span>
-                      <div>
-                        <div className="font-semibold text-slate-900">{subj.label}</div>
-                        {subj.isLang && (
-                          <span className="text-[11px] text-slate-500 font-medium">
-                            Optional Language Selected
-                          </span>
-                        )}
-                      </div>
+                      <span className="font-semibold text-slate-700 truncate text-xs">{subj.label}</span>
                     </div>
                   </td>
-
-                  {/* Exam-1 Baseline */}
-                  <td className="py-3.5 px-4 text-center font-mono font-semibold text-slate-800">
-                    {v1?.displayValue || "Pending"}
-                  </td>
-
-                  {/* Exam-2 Marks (/20) */}
-                  <td className="py-3.5 px-4 text-center font-mono font-bold text-navy">
-                    {v2 ? (
-                      v2.type === "exact" ? (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded bg-blue-50 text-navy border border-blue-100">
-                          {v2.value} / 20
-                        </span>
+                  {values.map((val, vi) => (
+                    <td key={examColumns[vi].examId} className="text-center px-3 py-3.5">
+                      {val.isExempt ? (
+                        <span className="text-slate-400 italic text-[11px]">Exempt</span>
+                      ) : val.isAbsent ? (
+                        <span className="text-rose-500 font-bold text-[11px]">AB</span>
+                      ) : val.isPredicted ? (
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="font-mono font-bold text-violet-600 text-sm border-b border-dashed border-violet-300">
+                            {val.rawMarks}
+                          </span>
+                          <span className="text-[10px] text-violet-400">
+                            {val.confidence === "high" ? "Likely" : val.confidence === "medium" ? "Moderate" : "Stretch"}
+                          </span>
+                        </div>
                       ) : (
-                        <span className="text-slate-500 text-xs">{v2.displayValue}</span>
-                      )
-                    ) : (
-                      "-"
-                    )}
-                  </td>
-
-                  {/* Exam-2 Percentage */}
-                  <td className="py-3.5 px-4 text-center font-mono font-semibold text-slate-700">
-                    {num2Pct !== null ? `${Math.round(num2Pct * 10) / 10}%` : "-"}
-                  </td>
-
-                  {/* Delta */}
-                  <td className="py-3.5 px-4 text-center font-mono">
-                    {delta !== null ? (
-                      delta > 0 ? (
-                        <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-600">
-                          <TrendingUp className="w-3.5 h-3.5" />
-                          +{delta}%
-                        </span>
-                      ) : delta < 0 ? (
-                        <span className="inline-flex items-center gap-0.5 text-xs font-bold text-rose-600">
-                          <TrendingDown className="w-3.5 h-3.5" />
-                          {delta}%
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-0.5 text-xs font-bold text-slate-500">
-                          <Minus className="w-3 h-3" />
-                          0%
-                        </span>
-                      )
-                    ) : (
-                      <span className="text-slate-400 text-xs">-</span>
-                    )}
-                  </td>
-
-                  {/* Target Goal */}
-                  <td className="py-3.5 px-4 text-center font-mono text-slate-600">
-                    {target?.overall?.displayValue && target.overall.displayValue !== "Not Assigned" && target.overall.displayValue !== "Pending"
-                      ? target.overall.displayValue
-                      : <span className="text-slate-400 text-xs">Target Pending</span>}
-                  </td>
-
-                  {/* Status Badge */}
-                  <td className="py-3.5 px-4 text-center">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold border ${statusClass}`}>
-                      {statusLabel}
-                    </span>
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="font-mono font-bold text-navy text-sm">{val.rawMarks}</span>
+                          {vi > 0 && (
+                            <span>{getDeltaIcon(values[vi - 1].pct, val.pct)}</span>
+                          )}
+                        </div>
+                      )}
+                    </td>
+                  ))}
+                  <td className="text-center px-3 py-3.5">
+                    <span className="font-mono font-bold text-amber-700 text-sm">{targetDisplay}</span>
                   </td>
                 </tr>
               );
             })}
 
-            {/* Total / Overall Row */}
-            <tr className="bg-slate-50/90 font-bold border-t-2 border-slate-200">
-              <td className="py-4 px-4 sm:px-6 text-navy font-serif">
-                OVERALL AGGREGATE (6 SUBJECTS)
+            {/* Overall Row */}
+            <tr className="bg-navy/5 border-t-2 border-navy/20 font-bold">
+              <td className="px-4 py-4 sticky left-0 bg-blue-50/50 z-10">
+                <span className="text-navy font-bold text-xs">OVERALL AGGREGATE</span>
               </td>
-              <td className="py-4 px-4 text-center font-mono text-navy text-base">
-                {e1?.overall?.displayValue || "Pending"}
-              </td>
-              <td className="py-4 px-4 text-center font-mono text-navy text-base">
-                {(e2?.totalMarksScored ?? e2?.totalMarks) !== undefined ? (
-                  <span className="px-2 py-1 rounded bg-blue-100 text-navy font-bold">
-                    {e2?.totalMarksScored ?? e2?.totalMarks}
-                  </span>
-                ) : (
-                  "-"
-                )}
-              </td>
-              <td className="py-4 px-4 text-center font-mono text-navy text-base">
-                {e2?.overall?.displayValue || "Pending"}
-              </td>
-              <td className="py-4 px-4 text-center font-mono text-xs">
-                {e1?.overall?.value && e2?.overall?.value ? (
-                  e2.overall.value >= e1.overall.value ? (
-                    <span className="text-emerald-600 font-bold">
-                      +{Math.round((e2.overall.value - e1.overall.value) * 10) / 10}%
-                    </span>
-                  ) : (
-                    <span className="text-rose-600 font-bold">
-                      {Math.round((e2.overall.value - e1.overall.value) * 10) / 10}%
-                    </span>
-                  )
-                ) : (
-                  "-"
-                )}
-              </td>
-              <td className="py-4 px-4 text-center font-mono text-navy text-base">
-                {target?.overall?.displayValue || "Pending"}
-              </td>
-              <td className="py-4 px-4 text-center">
-                <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-navy text-white font-mono font-medium">
-                  <Sparkles className="w-3 h-3 text-gold" />
-                  Official 6-Subj
+              {examColumns.map((col) => {
+                const exam = student.exams?.[col.examId];
+                const overall = exam?.overall;
+                const isActual = col.isCompleted && overall;
+                const overallCalc = calcResult.overall.examScores.find((es) => es.examId === col.examId);
+
+                return (
+                  <td key={col.examId} className="text-center px-3 py-4">
+                    {isActual && overall?.type === "exact" ? (
+                      <span className="font-mono text-navy text-sm">{overall.displayValue}</span>
+                    ) : overallCalc?.isPredicted && overallCalc.predictedPct !== null ? (
+                      <span className="font-mono text-violet-600 text-sm border-b border-dashed border-violet-300">
+                        ~{overallCalc.predictedPct}%
+                      </span>
+                    ) : (
+                      <span className="text-slate-400">—</span>
+                    )}
+                  </td>
+                );
+              })}
+              <td className="text-center px-3 py-4">
+                <span className="font-mono text-amber-700 text-sm">
+                  {target?.overall?.displayValue || "N/A"}
                 </span>
               </td>
             </tr>
@@ -245,12 +278,20 @@ export default function MultiExamMatrix({ student }: MultiExamMatrixProps) {
         </table>
       </div>
 
-      {/* Table Footer Note */}
-      <div className="p-3.5 sm:p-4 bg-slate-50/50 border-t border-slate-100 text-[11px] text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <p>
-          * Overall percentage is strictly computed across 6 taken subjects (English + {lang2} + Maths + Science + S.St + IT).
-        </p>
-        <span className="font-mono text-[11px] text-slate-400">CCIS Class IX Academic Engine</span>
+      {/* Legend */}
+      <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/30 flex flex-wrap items-center gap-4 text-[10px] text-slate-500">
+        <span className="inline-flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-navy" /> Actual Score
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-violet-400" /> Predicted Score
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <TrendingUp className="w-3 h-3 text-emerald-500" /> Improvement
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <TrendingDown className="w-3 h-3 text-rose-500" /> Decline
+        </span>
       </div>
     </div>
   );

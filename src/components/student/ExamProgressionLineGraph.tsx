@@ -1,11 +1,8 @@
 "use client";
-import React, { useState, useMemo } from "react";
-import { StudentRecord } from "@/lib/academicNormalizer";
-import { TrendingUp, Target, CheckCircle2, ArrowUpRight, ArrowDownRight, Layers } from "lucide-react";
-
-interface ExamProgressionLineGraphProps {
-  student: StudentRecord;
-}
+import React, { useMemo, useState } from "react";
+import { StudentRecord, EXAM_WEIGHTS, EXAM_ORDER } from "@/lib/academicNormalizer";
+import { calculateRequiredScoresPerSubject } from "@/lib/academicCalculations";
+import { TrendingUp, Layers, Sparkles, Target, CheckCircle2 } from "lucide-react";
 
 interface DataPoint {
   id: string;
@@ -14,179 +11,164 @@ interface DataPoint {
   score: number | null;
   displayValue: string;
   isCompleted: boolean;
+  isPredicted: boolean;
   maxMarks: number;
+  confidence?: string | null;
+}
+
+interface ExamProgressionLineGraphProps {
+  student: StudentRecord;
 }
 
 export default function ExamProgressionLineGraph({ student }: ExamProgressionLineGraphProps) {
-  const [activeSubject, setActiveSubject] = useState<string>("overall"); // "overall" | subject id
+  const [activeSubject, setActiveSubject] = useState("overall");
 
-  const e1 = useMemo(() => {
-    return (
-      student.exams?.["exam-1"] || {
-        overall: student.currentPerformance.overall,
-        subjectList: student.currentPerformance.subjectList,
-      }
-    );
+  const targetVal: number | null = useMemo(() => {
+    const t = student.schoolTarget?.overall;
+    if (!t) return null;
+    if (t.type === "exact" && t.value !== undefined) return t.value;
+    if (t.type === "range" && t.min !== undefined && t.max !== undefined) return (t.min + t.max) / 2;
+    return null;
   }, [student]);
 
-  const e2 = student.exams?.["exam-2"];
-  const targetVal = student.schoolTarget.overall.value || null;
+  const calcResult = useMemo(() => calculateRequiredScoresPerSubject(student), [student]);
 
-  // Available subjects for toggle
   const availableSubjects = useMemo(() => {
-    const list = [{ id: "overall", label: "Overall Aggregate" }];
-    const subjects = student.currentPerformance.subjectList || [];
-    subjects.forEach((s) => {
+    const list: { id: string; label: string }[] = [{ id: "overall", label: "Overall Aggregate" }];
+    (student.exams?.["exam-1"]?.subjectList || student.currentPerformance.subjectList || []).forEach((s) => {
       list.push({ id: s.id, label: s.label });
     });
     return list;
   }, [student]);
 
-  // Extract points along the 6 milestone exams: Exam-1, Exam-2, Exam-3, Exam-4, Exam-5, Target
+  // Map subject dropdown IDs to subject keys
+  const subjectIdToKey: Record<string, string> = {
+    eng: "english",
+    lang2: "secondLanguage",
+    math: "maths",
+    sci: "science",
+    sst: "socialScience",
+    it: "it",
+  };
+
+  // Build data points for the 4 exams + target
   const points: DataPoint[] = useMemo(() => {
-    if (activeSubject === "overall") {
-      const e1Score = e1.overall.value ?? null;
-      const e2Score = e2?.overall.value ?? null;
+    const result: DataPoint[] = [];
 
-      return [
-        {
-          id: "exam-1",
-          label: "Exam-1",
-          shortLabel: "E1 (Baseline)",
-          score: e1Score,
-          displayValue: e1.overall.displayValue || (e1Score ? `${e1Score}%` : "-"),
-          isCompleted: e1Score !== null,
-          maxMarks: 100,
-        },
-        {
-          id: "exam-2",
-          label: "Exam-2",
-          shortLabel: "E2 (Mid Term)",
-          score: e2Score,
-          displayValue: e2?.overall.displayValue || (e2Score ? `${e2Score}%` : "-"),
-          isCompleted: e2Score !== null,
-          maxMarks: 20,
-        },
-        {
-          id: "exam-3",
-          label: "Exam-3",
-          shortLabel: "E3 (PT-2)",
-          score: null,
-          displayValue: "Pending",
-          isCompleted: false,
-          maxMarks: 100,
-        },
-        {
-          id: "exam-4",
-          label: "Exam-4",
-          shortLabel: "E4 (Pre-Board)",
-          score: null,
-          displayValue: "Pending",
-          isCompleted: false,
-          maxMarks: 100,
-        },
-        {
-          id: "exam-5",
-          label: "Exam-5",
-          shortLabel: "E5 (Final Term)",
-          score: null,
-          displayValue: "Pending",
-          isCompleted: false,
-          maxMarks: 100,
-        },
-        {
-          id: "target",
-          label: "Target",
-          shortLabel: "Target Benchmark",
-          score: targetVal,
-          displayValue: student.schoolTarget.overall.displayValue || (targetVal ? `${targetVal}%` : "-"),
-          isCompleted: false,
-          maxMarks: 100,
-        },
-      ];
-    } else {
-      // Individual subject trajectory
-      const sub1 = student.currentPerformance.subjectList.find((s) => s.id === activeSubject);
-      const sub2 = e2?.subjectList?.find((s) => s.id === activeSubject);
+    for (const examId of EXAM_ORDER) {
+      const w = EXAM_WEIGHTS[examId];
+      const exam = student.exams?.[examId];
+      const isCompleted = exam !== undefined && !exam.isPredicted;
 
-      const val1: number | null = sub1?.normalized.value ?? null;
-      let val2: number | null = sub2?.normalized.value ?? null;
-      // Convert Exam-2 /20 marks into percentage if scored out of 20
-      if (val2 !== null && sub2?.normalized.unit === "marks") {
-        val2 = Math.round((val2 / 20) * 1000) / 10;
+      if (activeSubject === "overall") {
+        if (isCompleted && exam) {
+          const ov = exam.overall;
+          const score = ov?.type === "exact" ? ov.value ?? null : null;
+          result.push({
+            id: examId,
+            label: w.label,
+            shortLabel: `${w.shortLabel} (${w.label})`,
+            score,
+            displayValue: ov?.displayValue || (score !== null ? `${score}%` : "-"),
+            isCompleted: score !== null,
+            isPredicted: false,
+            maxMarks: w.maxMarks,
+          });
+        } else {
+          const overallCalc = calcResult.overall.examScores.find((es) => es.examId === examId);
+          const predicted = overallCalc?.predictedPct ?? null;
+          result.push({
+            id: examId,
+            label: w.label,
+            shortLabel: `${w.shortLabel} (${w.label})`,
+            score: predicted,
+            displayValue: predicted !== null ? `~${predicted}%` : "Pending",
+            isCompleted: false,
+            isPredicted: predicted !== null,
+            maxMarks: w.maxMarks,
+            confidence: overallCalc?.confidence,
+          });
+        }
+      } else {
+        const subjectKey = subjectIdToKey[activeSubject] || activeSubject;
+        if (isCompleted && exam) {
+          const subj = (exam as any).subjects?.[subjectKey];
+          let score: number | null = null;
+          let displayVal = "-";
+
+          if (subj?.type === "exact" && subj.value !== undefined) {
+            score = subj.unit === "marks" ? Math.round((subj.value / w.maxMarks) * 10000) / 100 : subj.value;
+            displayVal = `${score}%`;
+          } else if (subj?.type === "range" && subj.min !== undefined) {
+            score = (subj.min + subj.max) / 2;
+            displayVal = subj.displayValue;
+          }
+
+          result.push({
+            id: examId,
+            label: w.label,
+            shortLabel: `${w.shortLabel} (${w.label})`,
+            score,
+            displayValue: displayVal,
+            isCompleted: score !== null,
+            isPredicted: false,
+            maxMarks: w.maxMarks,
+          });
+        } else {
+          const subjCalc = calcResult.subjects.find((s) => s.subjectKey === subjectKey);
+          const examScore = subjCalc?.examScores.find((es) => es.examId === examId);
+          const predicted = examScore?.predictedPct ?? null;
+          result.push({
+            id: examId,
+            label: w.label,
+            shortLabel: `${w.shortLabel} (${w.label})`,
+            score: predicted,
+            displayValue: predicted !== null ? `~${predicted}%` : "Pending",
+            isCompleted: false,
+            isPredicted: predicted !== null,
+            maxMarks: w.maxMarks,
+            confidence: examScore?.confidence,
+          });
+        }
       }
-
-      return [
-        {
-          id: "exam-1",
-          label: "Exam-1",
-          shortLabel: "E1 (Baseline)",
-          score: val1,
-          displayValue: sub1?.normalized.displayValue || "-",
-          isCompleted: val1 !== null,
-          maxMarks: 100,
-        },
-        {
-          id: "exam-2",
-          label: "Exam-2",
-          shortLabel: "E2 (Mid Term)",
-          score: val2,
-          displayValue: sub2?.normalized.displayValue || (val2 ? `${val2}%` : "-"),
-          isCompleted: val2 !== null,
-          maxMarks: 20,
-        },
-        {
-          id: "exam-3",
-          label: "Exam-3",
-          shortLabel: "E3 (PT-2)",
-          score: null,
-          displayValue: "Pending",
-          isCompleted: false,
-          maxMarks: 100,
-        },
-        {
-          id: "exam-4",
-          label: "Exam-4",
-          shortLabel: "E4 (Pre-Board)",
-          score: null,
-          displayValue: "Pending",
-          isCompleted: false,
-          maxMarks: 100,
-        },
-        {
-          id: "exam-5",
-          label: "Exam-5",
-          shortLabel: "E5 (Final Term)",
-          score: null,
-          displayValue: "Pending",
-          isCompleted: false,
-          maxMarks: 100,
-        },
-        {
-          id: "target",
-          label: "Target",
-          shortLabel: "Target Benchmark",
-          score: targetVal,
-          displayValue: targetVal ? `${targetVal}%` : "-",
-          isCompleted: false,
-          maxMarks: 100,
-        },
-      ];
     }
-  }, [activeSubject, e1, e2, targetVal, student]);
+
+    // Add target point
+    let targetScore: number | null = null;
+    if (activeSubject === "overall") {
+      targetScore = targetVal;
+    } else {
+      const subjectKey = subjectIdToKey[activeSubject] || activeSubject;
+      const subjCalc = calcResult.subjects.find((s) => s.subjectKey === subjectKey);
+      targetScore = subjCalc?.targetScore ?? null;
+    }
+
+    result.push({
+      id: "target",
+      label: "Target",
+      shortLabel: "Target",
+      score: targetScore,
+      displayValue: targetScore !== null ? `${targetScore}%` : "-",
+      isCompleted: false,
+      isPredicted: false,
+      maxMarks: 100,
+    });
+
+    return result;
+  }, [activeSubject, student, targetVal, calcResult]);
 
   // SVG dimensions
   const svgWidth = 760;
-  const svgHeight = 260;
+  const svgHeight = 280;
   const paddingLeft = 55;
   const paddingRight = 45;
   const paddingTop = 30;
-  const paddingBottom = 45;
+  const paddingBottom = 50;
 
   const chartWidth = svgWidth - paddingLeft - paddingRight;
   const chartHeight = svgHeight - paddingTop - paddingBottom;
 
-  const yMin = 30;
+  const yMin = 20;
   const yMax = 100;
 
   const getY = (val: number) => {
@@ -200,47 +182,57 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
     return paddingLeft + index * step;
   };
 
-  // Completed recorded points for actual trend line
-  const completedPoints = points
+  // Separate actual and predicted points
+  const actualPoints = points
     .map((p, idx) => ({ ...p, idx, x: getX(idx), y: p.score !== null ? getY(p.score) : null }))
     .filter((p) => p.isCompleted && p.y !== null);
 
-  // Generate path string for completed points
+  const predictedPoints = points
+    .map((p, idx) => ({ ...p, idx, x: getX(idx), y: p.score !== null ? getY(p.score) : null }))
+    .filter((p) => p.isPredicted && p.y !== null);
+
+  // Generate actual path
   let actualPath = "";
   let areaPath = "";
-  if (completedPoints.length > 0) {
-    actualPath = `M ${completedPoints[0].x} ${completedPoints[0].y}`;
-    for (let i = 1; i < completedPoints.length; i++) {
-      const prev = completedPoints[i - 1];
-      const curr = completedPoints[i];
-      const cx1 = prev.x + (curr.x - prev.x) / 2;
-      const cy1 = prev.y!;
-      const cx2 = prev.x + (curr.x - prev.x) / 2;
-      const cy2 = curr.y!;
-      actualPath += ` C ${cx1} ${cy1}, ${cx2} ${cy2}, ${curr.x} ${curr.y}`;
+  if (actualPoints.length > 0) {
+    actualPath = `M ${actualPoints[0].x} ${actualPoints[0].y}`;
+    for (let i = 1; i < actualPoints.length; i++) {
+      const prev = actualPoints[i - 1];
+      const curr = actualPoints[i];
+      const cx = prev.x + (curr.x - prev.x) / 2;
+      actualPath += ` C ${cx} ${prev.y}, ${cx} ${curr.y}, ${curr.x} ${curr.y}`;
     }
 
-    const last = completedPoints[completedPoints.length - 1];
-    const first = completedPoints[0];
+    const last = actualPoints[actualPoints.length - 1];
+    const first = actualPoints[0];
     const baseY = getY(yMin);
     areaPath = `${actualPath} L ${last.x} ${baseY} L ${first.x} ${baseY} Z`;
   }
 
-  // Projected line from latest completed exam to Target
-  let projectedPath = "";
-  if (completedPoints.length > 0 && targetVal !== null) {
-    const lastCompleted = completedPoints[completedPoints.length - 1];
-    const targetPoint = {
-      x: getX(points.length - 1),
-      y: getY(targetVal),
-    };
-    projectedPath = `M ${lastCompleted.x} ${lastCompleted.y} L ${targetPoint.x} ${targetPoint.y}`;
+  // Generate predicted path (from last actual to all predicted points)
+  let predictedPath = "";
+  const allFuturePoints = [
+    ...(actualPoints.length > 0 ? [actualPoints[actualPoints.length - 1]] : []),
+    ...predictedPoints,
+  ];
+
+  if (allFuturePoints.length > 1) {
+    predictedPath = `M ${allFuturePoints[0].x} ${allFuturePoints[0].y}`;
+    for (let i = 1; i < allFuturePoints.length; i++) {
+      const prev = allFuturePoints[i - 1];
+      const curr = allFuturePoints[i];
+      const cx = prev.x + (curr.x - prev.x) / 2;
+      predictedPath += ` C ${cx} ${prev.y!}, ${cx} ${curr.y!}, ${curr.x} ${curr.y}`;
+    }
   }
 
-  // Delta between latest recorded exams
-  const e1Score = points[0].score;
-  const e2Score = points[1].score;
-  const delta = e1Score !== null && e2Score !== null ? Math.round((e2Score - e1Score) * 10) / 10 : null;
+  // Target reference line
+  const targetPoint = points.find((p) => p.id === "target");
+  const targetY = targetPoint?.score !== null && targetPoint?.score !== undefined ? getY(targetPoint.score) : null;
+
+  // KPI values
+  const baseline = points[0];
+  const latestCompleted = [...actualPoints].pop();
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-5 sm:p-6 transition-all duration-200 hover:shadow-sm">
@@ -253,16 +245,15 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
             </div>
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-navy font-serif">
-                Exam Progression & Trajectory Line Graph
+                4-Exam Progression & Predictions
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
-                Longitudinal performance curve from Baseline through Target Benchmark
+                Actual scores (solid) vs predicted trajectory (dashed) toward target
               </p>
             </div>
           </div>
         </div>
 
-        {/* Subject Filter Dropdown / Pills */}
         <div className="flex items-center gap-2">
           <label htmlFor="subject-select" className="text-xs font-semibold text-slate-500 flex items-center gap-1">
             <Layers className="w-3.5 h-3.5" />
@@ -275,343 +266,239 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
             className="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-navy focus:outline-none focus:ring-2 focus:ring-navy/20 cursor-pointer"
           >
             {availableSubjects.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.label}
-              </option>
+              <option key={s.id} value={s.id}>{s.label}</option>
             ))}
           </select>
         </div>
       </div>
 
-      {/* KPI Highlight Strip */}
+      {/* KPI Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-100">
           <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider block">
-            Baseline (Exam-1)
+            PT-1 Baseline
           </span>
           <span className="text-base sm:text-lg font-bold font-mono text-navy mt-0.5 block">
-            {points[0].displayValue}
+            {baseline.displayValue}
           </span>
         </div>
 
-        <div className="bg-blue-50/60 rounded-xl p-3 border border-blue-100">
-          <span className="text-[11px] font-mono text-blue-700 uppercase tracking-wider block">
-            Latest (Exam-2)
+        <div className="bg-violet-50/60 rounded-xl p-3 border border-violet-100">
+          <span className="text-[11px] font-mono text-violet-700 uppercase tracking-wider block">
+            Predicted Final
           </span>
-          <span className="text-base sm:text-lg font-bold font-mono text-blue-900 mt-0.5 block">
-            {points[1].displayValue}
+          <span className="text-base sm:text-lg font-bold font-mono text-violet-700 mt-0.5 block">
+            {points[3]?.displayValue || "—"}
           </span>
-        </div>
-
-        <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-100">
-          <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider block">
-            Progress Delta
-          </span>
-          <div className="flex items-center gap-1 mt-0.5">
-            {delta !== null ? (
-              delta >= 0 ? (
-                <>
-                  <ArrowUpRight className="w-4 h-4 text-emerald-600" />
-                  <span className="text-base sm:text-lg font-bold font-mono text-emerald-700">
-                    +{delta}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <ArrowDownRight className="w-4 h-4 text-rose-600" />
-                  <span className="text-base sm:text-lg font-bold font-mono text-rose-700">
-                    {delta}%
-                  </span>
-                </>
-              )
-            ) : (
-              <span className="text-base sm:text-lg font-bold font-mono text-slate-400">-</span>
-            )}
-          </div>
         </div>
 
         <div className="bg-amber-50/60 rounded-xl p-3 border border-amber-100">
           <span className="text-[11px] font-mono text-amber-700 uppercase tracking-wider block">
-            Target Goal
+            Target
           </span>
-          <span className="text-base sm:text-lg font-bold font-mono text-amber-900 mt-0.5 block">
-            {targetVal ? `${targetVal}%` : "Not Assigned"}
+          <span className="text-base sm:text-lg font-bold font-mono text-amber-700 mt-0.5 block">
+            {targetPoint?.displayValue || "—"}
+          </span>
+        </div>
+
+        <div className="bg-emerald-50/60 rounded-xl p-3 border border-emerald-100">
+          <span className="text-[11px] font-mono text-emerald-700 uppercase tracking-wider block">
+            Gap
+          </span>
+          <span className="text-base sm:text-lg font-bold font-mono text-emerald-700 mt-0.5 block">
+            {latestCompleted?.score !== null && latestCompleted?.score !== undefined && targetPoint?.score !== null && targetPoint?.score !== undefined
+              ? `${Math.round((targetPoint.score - latestCompleted.score) * 10) / 10}%`
+              : "—"}
           </span>
         </div>
       </div>
 
-      {/* SVG Line Graph View */}
-      <div className="relative w-full overflow-x-auto">
-        <div className="min-w-[620px]">
-          <svg
-            viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-            className="w-full h-auto overflow-visible select-none"
-          >
-            <defs>
-              {/* Gradient for area fill under actual line */}
-              <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#1e3a8a" stopOpacity="0.22" />
-                <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0.0" />
-              </linearGradient>
+      {/* SVG Chart */}
+      <div className="overflow-x-auto">
+        <svg
+          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+          className="w-full h-auto min-w-[600px]"
+          style={{ maxHeight: "320px" }}
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <defs>
+            <linearGradient id="actualGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#1e3a5f" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#1e3a5f" stopOpacity="0.01" />
+            </linearGradient>
+            <linearGradient id="predictedGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.08" />
+              <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.01" />
+            </linearGradient>
+          </defs>
 
-              {/* Shadow filter for node points */}
-              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0f172a" floodOpacity="0.15" />
-              </filter>
-            </defs>
+          {/* Grid lines */}
+          {[20, 40, 60, 80, 100].map((val) => (
+            <g key={val}>
+              <line
+                x1={paddingLeft}
+                y1={getY(val)}
+                x2={svgWidth - paddingRight}
+                y2={getY(val)}
+                stroke="#e2e8f0"
+                strokeDasharray="3,3"
+                strokeWidth={0.5}
+              />
+              <text
+                x={paddingLeft - 8}
+                y={getY(val) + 3}
+                fontSize={10}
+                fill="#94a3b8"
+                textAnchor="end"
+                fontFamily="monospace"
+              >
+                {val}%
+              </text>
+            </g>
+          ))}
 
-            {/* Horizontal Grid lines & Y-Axis Labels */}
-            {[40, 60, 80, 100].map((level) => {
-              const y = getY(level);
-              return (
-                <g key={level}>
-                  <line
-                    x1={paddingLeft}
-                    y1={y}
-                    x2={svgWidth - paddingRight}
-                    y2={y}
-                    stroke="#e2e8f0"
-                    strokeDasharray={level === 100 ? "none" : "3 3"}
-                    strokeWidth={1}
-                  />
-                  <text
-                    x={paddingLeft - 10}
-                    y={y + 4}
-                    textAnchor="end"
-                    className="text-[10px] font-mono fill-slate-400 font-medium"
-                  >
-                    {level}%
-                  </text>
-                </g>
-              );
-            })}
+          {/* Target reference line */}
+          {targetY !== null && (
+            <>
+              <line
+                x1={paddingLeft}
+                y1={targetY}
+                x2={svgWidth - paddingRight}
+                y2={targetY}
+                stroke="#d97706"
+                strokeDasharray="8,4"
+                strokeWidth={1.5}
+                opacity={0.6}
+              />
+              <text
+                x={svgWidth - paddingRight + 4}
+                y={targetY + 3}
+                fontSize={9}
+                fill="#d97706"
+                fontFamily="monospace"
+                fontWeight="bold"
+              >
+                TGT
+              </text>
+            </>
+          )}
 
-            {/* Target Goal Horizontal Line */}
-            {targetVal !== null && (
-              <g>
-                <line
-                  x1={paddingLeft}
-                  y1={getY(targetVal)}
-                  x2={svgWidth - paddingRight}
-                  y2={getY(targetVal)}
-                  stroke="#d97706"
-                  strokeWidth={1.5}
-                  strokeDasharray="4 4"
+          {/* Area fill for actual */}
+          {areaPath && (
+            <path d={areaPath} fill="url(#actualGradient)" />
+          )}
+
+          {/* Actual trend line */}
+          {actualPath && (
+            <path
+              d={actualPath}
+              fill="none"
+              stroke="#1e3a5f"
+              strokeWidth={2.5}
+              strokeLinecap="round"
+            />
+          )}
+
+          {/* Predicted trend line (dashed) */}
+          {predictedPath && (
+            <path
+              d={predictedPath}
+              fill="none"
+              stroke="#7c3aed"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeDasharray="6,4"
+              opacity={0.7}
+            />
+          )}
+
+          {/* Data points */}
+          {points.map((point, idx) => {
+            if (point.score === null) return null;
+            const x = getX(idx);
+            const y = getY(point.score);
+
+            return (
+              <g key={point.id}>
+                {/* Outer ring */}
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={point.isCompleted ? 6 : 5}
+                  fill="white"
+                  stroke={point.isCompleted ? "#1e3a5f" : point.isPredicted ? "#7c3aed" : "#d97706"}
+                  strokeWidth={2}
+                  strokeDasharray={point.isPredicted ? "3,2" : "none"}
                 />
-                <rect
-                  x={svgWidth - paddingRight - 85}
-                  y={getY(targetVal) - 10}
-                  width="85"
-                  height="18"
-                  rx="4"
-                  fill="#fef3c7"
-                  stroke="#fde68a"
+                {/* Inner dot */}
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={point.isCompleted ? 3 : 2.5}
+                  fill={point.isCompleted ? "#1e3a5f" : point.isPredicted ? "#7c3aed" : "#d97706"}
                 />
+                {/* Score label */}
                 <text
-                  x={svgWidth - paddingRight - 42}
-                  y={getY(targetVal) + 3}
+                  x={x}
+                  y={y - 12}
                   textAnchor="middle"
-                  className="text-[9px] font-bold font-mono fill-amber-800"
+                  fontSize={10}
+                  fontWeight="bold"
+                  fill={point.isCompleted ? "#1e3a5f" : point.isPredicted ? "#7c3aed" : "#d97706"}
+                  fontFamily="monospace"
                 >
-                  TARGET: {targetVal}%
+                  {point.displayValue}
                 </text>
               </g>
-            )}
+            );
+          })}
 
-            {/* Projected dotted trajectory from latest recorded exam to Target */}
-            {projectedPath && (
-              <path
-                d={projectedPath}
-                fill="none"
-                stroke="#94a3b8"
-                strokeWidth={2}
-                strokeDasharray="5 5"
-              />
-            )}
-
-            {/* Area fill under recorded line */}
-            {areaPath && <path d={areaPath} fill="url(#areaGradient)" />}
-
-            {/* Actual Recorded Continuous Curve */}
-            {actualPath && (
-              <path
-                d={actualPath}
-                fill="none"
-                stroke="#1e3a8a"
-                strokeWidth={3}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            )}
-
-            {/* Milestone Node Points & Labels */}
-            {points.map((p, idx) => {
-              const x = getX(idx);
-              const y = p.score !== null ? getY(p.score) : getY(50);
-              const isRecorded = p.isCompleted && p.score !== null;
-              const isTargetPoint = p.id === "target";
-
-              return (
-                <g key={p.id} className="cursor-pointer group">
-                  {/* Vertical Guideline */}
-                  <line
-                    x1={x}
-                    y1={paddingTop}
-                    x2={x}
-                    y2={svgHeight - paddingBottom}
-                    stroke="#f1f5f9"
-                    strokeWidth={1}
-                  />
-
-                  {/* Node Circle */}
-                  {isRecorded ? (
-                    <g filter="url(#shadow)">
-                      {/* Outer pulse ring for latest completed exam */}
-                      {idx === completedPoints.length - 1 && (
-                        <circle
-                          cx={x}
-                          cy={y}
-                          r={10}
-                          fill="none"
-                          stroke="#3b82f6"
-                          strokeWidth={2}
-                          opacity={0.6}
-                          className="animate-ping origin-center"
-                        />
-                      )}
-                      <circle
-                        cx={x}
-                        cy={y}
-                        r={6}
-                        fill="#ffffff"
-                        stroke="#1e3a8a"
-                        strokeWidth={3}
-                      />
-                      <circle cx={x} cy={y} r={2.5} fill="#1e3a8a" />
-
-                      {/* Score Value Pill above Node */}
-                      <g transform={`translate(${x}, ${y - 12})`}>
-                        <rect
-                          x="-22"
-                          y="-16"
-                          width="44"
-                          height="18"
-                          rx="9"
-                          fill="#0f172a"
-                        />
-                        <text
-                          x="0"
-                          y="-3.5"
-                          textAnchor="middle"
-                          className="text-[10px] font-mono font-bold fill-white"
-                        >
-                          {p.displayValue}
-                        </text>
-                      </g>
-                    </g>
-                  ) : isTargetPoint && targetVal !== null ? (
-                    /* Target Goal Node */
-                    <g filter="url(#shadow)">
-                      <circle
-                        cx={x}
-                        cy={getY(targetVal)}
-                        r={6}
-                        fill="#fef3c7"
-                        stroke="#d97706"
-                        strokeWidth={2.5}
-                      />
-                      <circle cx={x} cy={getY(targetVal)} r={2.5} fill="#b45309" />
-                      <g transform={`translate(${x}, ${getY(targetVal) - 12})`}>
-                        <rect
-                          x="-22"
-                          y="-16"
-                          width="44"
-                          height="18"
-                          rx="9"
-                          fill="#d97706"
-                        />
-                        <text
-                          x="0"
-                          y="-3.5"
-                          textAnchor="middle"
-                          className="text-[10px] font-mono font-bold fill-white"
-                        >
-                          {targetVal}%
-                        </text>
-                      </g>
-                    </g>
-                  ) : (
-                    /* Upcoming Empty Node */
-                    <g>
-                      <circle
-                        cx={x}
-                        cy={y}
-                        r={5}
-                        fill="#ffffff"
-                        stroke="#cbd5e1"
-                        strokeWidth={1.5}
-                        strokeDasharray="2 2"
-                      />
-                      <text
-                        x={x}
-                        y={y - 8}
-                        textAnchor="middle"
-                        className="text-[9px] font-mono fill-slate-400"
-                      >
-                        Pending
-                      </text>
-                    </g>
-                  )}
-
-                  {/* X-Axis Label */}
-                  <g transform={`translate(${x}, ${svgHeight - paddingBottom + 16})`}>
-                    <text
-                      x={0}
-                      y={0}
-                      textAnchor="middle"
-                      className={`text-[11px] font-semibold ${
-                        isRecorded ? "fill-navy font-mono" : isTargetPoint ? "fill-amber-700 font-mono" : "fill-slate-400 font-mono"
-                      }`}
-                    >
-                      {p.label}
-                    </text>
-                    <text
-                      x={0}
-                      y={13}
-                      textAnchor="middle"
-                      className="text-[9px] fill-slate-400 font-sans"
-                    >
-                      {idx === 0 ? "Baseline" : idx === 1 ? "Mid Term" : idx === 5 ? "Target" : "Upcoming"}
-                    </text>
-                  </g>
-                </g>
-              );
-            })}
-          </svg>
-        </div>
+          {/* X-axis labels */}
+          {points.map((point, idx) => (
+            <g key={`label-${point.id}`}>
+              <text
+                x={getX(idx)}
+                y={svgHeight - paddingBottom + 20}
+                textAnchor="middle"
+                fontSize={9}
+                fill={point.isCompleted ? "#475569" : point.isPredicted ? "#7c3aed" : "#d97706"}
+                fontFamily="monospace"
+                fontWeight="600"
+              >
+                {point.id === "target" ? "TARGET" : EXAM_WEIGHTS[point.id]?.shortLabel || point.id.toUpperCase()}
+              </text>
+              <text
+                x={getX(idx)}
+                y={svgHeight - paddingBottom + 32}
+                textAnchor="middle"
+                fontSize={7}
+                fill="#94a3b8"
+                fontFamily="monospace"
+              >
+                {point.id === "target" ? "" : `/${EXAM_WEIGHTS[point.id]?.maxMarks || ""}`}
+              </text>
+            </g>
+          ))}
+        </svg>
       </div>
 
-      {/* Legend & Note Footer */}
-      <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
-        <div className="flex flex-wrap items-center gap-4">
-          <span className="flex items-center gap-1.5 font-mono text-[11px]">
-            <span className="w-4 h-1 bg-navy rounded-full" />
-            Recorded Progress
-          </span>
-          <span className="flex items-center gap-1.5 font-mono text-[11px]">
-            <span className="w-4 h-0.5 border-b-2 border-dashed border-slate-400" />
-            Projected Trajectory
-          </span>
-          <span className="flex items-center gap-1.5 font-mono text-[11px]">
-            <span className="w-4 h-0.5 border-b-2 border-dashed border-amber-500" />
-            Target Benchmark
-          </span>
-        </div>
-
-        <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-          <span>Strict 6-subject calculation enforced</span>
-        </div>
+      {/* Legend */}
+      <div className="flex flex-wrap items-center gap-4 mt-4 pt-3 border-t border-slate-100 text-[10px] text-slate-500">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-6 h-0.5 bg-navy rounded" />
+          <CheckCircle2 className="w-3 h-3 text-navy" />
+          Actual Score
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-6 h-0.5 bg-violet-500 rounded" style={{ borderTop: "2px dashed #7c3aed" }} />
+          <Sparkles className="w-3 h-3 text-violet-500" />
+          Predicted Score
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-6 h-0.5 bg-amber-500 rounded" style={{ borderTop: "2px dashed #d97706" }} />
+          <Target className="w-3 h-3 text-amber-600" />
+          Target Line
+        </span>
       </div>
     </div>
   );

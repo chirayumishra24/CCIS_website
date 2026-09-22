@@ -19,12 +19,20 @@ export interface SubjectRecord {
 export interface ExamEntry {
   id: string; // 'exam-1', 'exam-2', etc.
   label: string; // 'Exam-1 (Baseline)', 'Exam-2 (Mid Term)', etc.
-  maxMarksPerSubject: number; // 100 or 20
+  maxMarksPerSubject: number; // 20 or 80
   overall: NormalizedValue;
   totalMarksScored?: number;
   totalMarks?: number;
   totalMaxMarks?: number;
   secondLanguageTaken: 'Hindi' | 'Sanskrit' | 'French';
+  isPredicted?: boolean; // true for future exams with predicted scores
+  predictedScores?: {
+    [subjectKey: string]: {
+      predictedPct: number;
+      predictedRawMarks: number;
+      confidence: 'high' | 'medium' | 'low';
+    };
+  };
   subjects: {
     english: NormalizedValue;
     secondLanguage: NormalizedValue;
@@ -254,14 +262,14 @@ export function parsePerformanceValue(
   };
 }
 
-/** Exam weightage breakdown (must sum to 1.0) */
+/** Exam weightage breakdown (must sum to 1.0) — 4-exam CBSE Class IX structure */
 export const EXAM_WEIGHTS: Record<string, { weight: number; label: string; shortLabel: string; maxMarks: number }> = {
-  'exam-1': { weight: 0.10, label: 'PT-1 (Baseline)', shortLabel: 'E1', maxMarks: 100 },
-  'exam-2': { weight: 0.20, label: 'Mid Term', shortLabel: 'E2', maxMarks: 20 },
-  'exam-3': { weight: 0.10, label: 'PT-2', shortLabel: 'E3', maxMarks: 100 },
-  'exam-4': { weight: 0.20, label: 'Pre-Board', shortLabel: 'E4', maxMarks: 100 },
-  'exam-5': { weight: 0.40, label: 'Final Term', shortLabel: 'E5', maxMarks: 100 },
+  'exam-1': { weight: 0.10, label: 'PT-1 (Baseline)', shortLabel: 'E1', maxMarks: 20 },
+  'exam-2': { weight: 0.30, label: 'Mid Term', shortLabel: 'E2', maxMarks: 80 },
+  'exam-3': { weight: 0.10, label: 'PT-2', shortLabel: 'E3', maxMarks: 20 },
+  'exam-4': { weight: 0.50, label: 'Final Exam', shortLabel: 'E4', maxMarks: 80 },
 };
 
-export const EXAM_ORDER = ['exam-1', 'exam-2', 'exam-3', 'exam-4', 'exam-5'];
+export const EXAM_ORDER = ['exam-1', 'exam-2', 'exam-3', 'exam-4'];
+
 

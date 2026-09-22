@@ -36,8 +36,11 @@ export default function TargetProgressionChart({ student }: TargetProgressionCha
   const pad = { top: 34, right: 44, bottom: 52, left: 42 };
   const cW = W - pad.left - pad.right, cH = H - pad.top - pad.bottom;
 
-  const labels = ["PT-1", "Mid Term", "PT-2", "Pre-Board", "Final"];
-  const weights = ["10%", "20%", "10%", "20%", "40%"];
+  const examMeta = EXAM_ORDER.map((id) => ({
+    label: EXAM_WEIGHTS[id].shortLabel,
+    weight: `${Math.round(EXAM_WEIGHTS[id].weight * 100)}%`,
+    maxMarks: EXAM_WEIGHTS[id].maxMarks,
+  }));
   const xStep = cW / (EXAM_ORDER.length - 1);
   const x = (i: number) => pad.left + i * xStep;
   const y = (v: number) => pad.top + cH - (v / 100) * cH;
@@ -49,6 +52,9 @@ export default function TargetProgressionChart({ student }: TargetProgressionCha
     if (es.isCompleted && es.normalizedPct !== null) {
       const pct = Math.max(0, Math.min(100, es.normalizedPct));
       actual.push({ x: x(i), y: y(pct), v: Math.round(pct * 10) / 10 });
+    } else if (es.isPredicted && es.predictedPct !== null) {
+      const pct = Math.max(0, Math.min(100, es.predictedPct));
+      predicted.push({ x: x(i), y: y(pct), v: Math.round(pct * 10) / 10 });
     } else if (active.requiredInRemaining !== null && active.requiredInRemaining > 0) {
       const req = Math.max(0, Math.min(100, active.requiredInRemaining));
       predicted.push({ x: x(i), y: y(req), v: Math.round(req * 10) / 10 });
@@ -122,18 +128,18 @@ export default function TargetProgressionChart({ student }: TargetProgressionCha
           ))}
 
           {/* X labels */}
-          {labels.map((lbl, i) => {
+          {examMeta.map((meta, i) => {
             const done = i < result.completedExams.length;
             return (
-              <g key={lbl}>
+              <g key={meta.label}>
                 <line x1={x(i)} y1={pad.top} x2={x(i)} y2={pad.top + cH} stroke="#f1f5f9" strokeWidth={0.4} />
                 <text x={x(i)} y={pad.top + cH + 13} textAnchor="middle" fontSize={9}
                   fontWeight={done ? 700 : 400} className={done ? "fill-navy" : "fill-slate-400"}>
-                  {lbl}
+                  {meta.label}
                 </text>
                 <text x={x(i)} y={pad.top + cH + 23} textAnchor="middle" fontSize={7}
                   fontFamily="monospace" className="fill-slate-300">
-                  ({weights[i]})
+                  ({meta.weight} • /{meta.maxMarks})
                 </text>
                 <circle cx={x(i)} cy={pad.top + cH + 33} r={2.5}
                   fill={done ? "#10b981" : "none"} stroke={done ? "#10b981" : "#cbd5e1"}

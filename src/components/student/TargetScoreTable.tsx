@@ -37,6 +37,13 @@ const STATUS_CONFIG: Record<
     textClass: "text-amber-700",
     barColor: "bg-amber-500",
   },
+  AT_RISK: {
+    label: "At Risk",
+    badgeClass: "bg-orange-50 text-orange-700 border-orange-200",
+    rowBg: "bg-orange-50/20",
+    textClass: "text-orange-700",
+    barColor: "bg-orange-500",
+  },
   NOT_REACHABLE: {
     label: "Challenging",
     badgeClass: "bg-rose-50 text-rose-700 border-rose-200",
@@ -98,7 +105,7 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                   Target Score Predictor
                 </span>
                 <span className="text-[10px] font-semibold px-2 py-0.2 rounded-full bg-slate-100 text-slate-600">
-                  {completedExams.length}/5 Exams Evaluated
+                  {completedExams.length}/4 Exams Evaluated
                 </span>
               </div>
               <div className="flex flex-wrap items-baseline gap-2">
@@ -139,11 +146,10 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
             {/* Exam Milestones */}
             <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
               {[
-                { label: "PT-1", w: "10%" },
-                { label: "Mid", w: "20%" },
-                { label: "PT-2", w: "10%" },
-                { label: "PB", w: "20%" },
-                { label: "Final", w: "40%" },
+                { label: "PT-1", w: "10% (/20)" },
+                { label: "Mid", w: "30% (/80)" },
+                { label: "PT-2", w: "10% (/20)" },
+                { label: "Final", w: "50% (/80)" },
               ].map((m, i) => {
                 const done = i < completedExams.length;
                 return (
@@ -203,11 +209,11 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                 Per-Subject Target & Score Requirement Matrix
               </h3>
               <p className="text-[11px] text-slate-500">
-                Formula: [Target - (PT-1 × 10% + MidTerm × 20%)] ÷ Remaining Weight (70%)
+                Formula: [Target - (PT-1 × 10%)] ÷ Remaining Weight ({remainingWeightPct}%)
               </p>
             </div>
             <span className="text-[10px] font-mono text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200">
-              CBSE Weighted Model
+              CBSE 4-Exam Weighted Model
             </span>
           </div>
 
@@ -216,24 +222,26 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
               <thead>
                 <tr className="bg-slate-50/80 border-b border-slate-200 text-[10px] font-bold text-navy uppercase tracking-wider font-mono">
                   <th className="py-2.5 px-3 sm:px-4">Subject</th>
-                  <th className="py-2.5 px-3 text-center">PT-1 (10%)</th>
-                  <th className="py-2.5 px-3 text-center">Mid Term (20%)</th>
-                  <th className="py-2.5 px-3 text-center">Current Avg</th>
-                  <th className="py-2.5 px-3 text-center">Target Goal</th>
-                  <th className="py-2.5 px-3 text-center bg-amber-50/50 border-x border-amber-200/50 text-amber-900 font-bold">
-                    Need in Remaining (70%)
+                  <th className="py-2.5 px-2 text-center">PT-1 (10% • /20)</th>
+                  <th className="py-2.5 px-2 text-center text-violet-700">Mid Term (30% • /80)</th>
+                  <th className="py-2.5 px-2 text-center text-violet-700">PT-2 (10% • /20)</th>
+                  <th className="py-2.5 px-2 text-center text-violet-700">Final (50% • /80)</th>
+                  <th className="py-2.5 px-2 text-center">Target Goal</th>
+                  <th className="py-2.5 px-2 text-center bg-amber-50/50 border-x border-amber-200/50 text-amber-900 font-bold">
+                    Need in Rem ({remainingWeightPct}%)
                   </th>
-                  <th className="py-2.5 px-3 text-center">Status</th>
+                  <th className="py-2.5 px-2 text-center">Status</th>
                 </tr>
               </thead>
 
               <tbody className="divide-y divide-slate-100">
                 {visibleSubjects.map((subj) => {
                   const cfg = STATUS_CONFIG[subj.status];
-                  const currentAvg = getCurrentAvg(subj);
-                  const pt1Score = subj.examScores[0]?.normalizedPct;
-                  const midScore = subj.examScores[1]?.rawScore;
                   const isOptional = subj.subjectKey === "secondLanguage";
+                  const pt1 = subj.examScores[0];
+                  const mid = subj.examScores[1];
+                  const pt2 = subj.examScores[2];
+                  const finalExam = subj.examScores[3];
 
                   return (
                     <tr
@@ -257,37 +265,82 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                         </div>
                       </td>
 
-                      {/* PT-1 Score */}
-                      <td className="py-2.5 px-3 text-center font-mono text-slate-600">
-                        {pt1Score !== null && pt1Score !== undefined ? `${pt1Score}%` : "—"}
-                      </td>
-
-                      {/* Mid Term Score */}
-                      <td className="py-2.5 px-3 text-center font-mono text-slate-600">
-                        {midScore !== null && midScore !== undefined ? (
-                          <span>
-                            {midScore}/20{" "}
-                            <span className="text-[10px] text-slate-400">
-                              ({(midScore / 20) * 100}%)
-                            </span>
-                          </span>
+                      {/* PT-1 Score (Actual /20) */}
+                      <td className="py-2.5 px-2 text-center font-mono text-slate-700">
+                        {pt1?.rawScore !== null && pt1?.rawScore !== undefined ? (
+                          <div className="flex flex-col items-center">
+                            <span className="font-bold">{pt1.rawScore}/20</span>
+                            <span className="text-[10px] text-slate-400">({pt1.normalizedPct}%)</span>
+                          </div>
                         ) : (
                           "—"
                         )}
                       </td>
 
-                      {/* Current Avg */}
-                      <td className="py-2.5 px-3 text-center font-mono font-semibold text-slate-800">
-                        {currentAvg !== null ? `${currentAvg}%` : "—"}
+                      {/* Mid Term Score (Predicted /80) */}
+                      <td className="py-2.5 px-2 text-center font-mono">
+                        {mid?.isCompleted && mid?.rawScore !== null ? (
+                          <div className="flex flex-col items-center text-slate-700">
+                            <span className="font-bold">{mid.rawScore}/80</span>
+                            <span className="text-[10px] text-slate-400">({mid.normalizedPct}%)</span>
+                          </div>
+                        ) : mid?.predictedRawMarks !== null ? (
+                          <div className="flex flex-col items-center text-violet-700">
+                            <span className="font-bold border-b border-dashed border-violet-300">
+                              ~{mid.predictedRawMarks}/80
+                            </span>
+                            <span className="text-[10px] text-violet-400">({mid.predictedPct}%)</span>
+                          </div>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+
+                      {/* PT-2 Score (Predicted /20) */}
+                      <td className="py-2.5 px-2 text-center font-mono">
+                        {pt2?.isCompleted && pt2?.rawScore !== null ? (
+                          <div className="flex flex-col items-center text-slate-700">
+                            <span className="font-bold">{pt2.rawScore}/20</span>
+                            <span className="text-[10px] text-slate-400">({pt2.normalizedPct}%)</span>
+                          </div>
+                        ) : pt2?.predictedRawMarks !== null ? (
+                          <div className="flex flex-col items-center text-violet-700">
+                            <span className="font-bold border-b border-dashed border-violet-300">
+                              ~{pt2.predictedRawMarks}/20
+                            </span>
+                            <span className="text-[10px] text-violet-400">({pt2.predictedPct}%)</span>
+                          </div>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+
+                      {/* Final Exam Score (Predicted /80) */}
+                      <td className="py-2.5 px-2 text-center font-mono">
+                        {finalExam?.isCompleted && finalExam?.rawScore !== null ? (
+                          <div className="flex flex-col items-center text-slate-700">
+                            <span className="font-bold">{finalExam.rawScore}/80</span>
+                            <span className="text-[10px] text-slate-400">({finalExam.normalizedPct}%)</span>
+                          </div>
+                        ) : finalExam?.predictedRawMarks !== null ? (
+                          <div className="flex flex-col items-center text-violet-700">
+                            <span className="font-bold border-b border-dashed border-violet-300">
+                              ~{finalExam.predictedRawMarks}/80
+                            </span>
+                            <span className="text-[10px] text-violet-400">({finalExam.predictedPct}%)</span>
+                          </div>
+                        ) : (
+                          "—"
+                        )}
                       </td>
 
                       {/* Target Goal */}
-                      <td className="py-2.5 px-3 text-center font-mono font-bold text-navy">
+                      <td className="py-2.5 px-2 text-center font-mono font-bold text-navy">
                         {subj.targetDisplayValue}
                       </td>
 
                       {/* Required in Remaining Exams (Hero Column) */}
-                      <td className="py-2.5 px-3 text-center bg-amber-50/30 border-x border-amber-200/50">
+                      <td className="py-2.5 px-2 text-center bg-amber-50/30 border-x border-amber-200/50">
                         {subj.requiredInRemaining !== null ? (
                           subj.requiredInRemaining <= 0 ? (
                             <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-600">
@@ -311,7 +364,7 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                       </td>
 
                       {/* Status Badge */}
-                      <td className="py-2.5 px-3 text-center">
+                      <td className="py-2.5 px-2 text-center">
                         <span className={`inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border ${cfg.badgeClass}`}>
                           {cfg.label}
                         </span>
@@ -319,6 +372,44 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                     </tr>
                   );
                 })}
+
+                {/* Overall Aggregate Row */}
+                <tr className="bg-navy/5 border-t-2 border-navy/20 font-bold">
+                  <td className="py-3 px-3 sm:px-4">
+                    <span className="text-navy font-bold text-xs uppercase font-serif">
+                      Overall Aggregate
+                    </span>
+                  </td>
+                  <td className="py-3 px-2 text-center font-mono text-navy font-bold">
+                    {overall.examScores[0]?.normalizedPct !== null ? `${overall.examScores[0].normalizedPct}%` : "—"}
+                  </td>
+                  <td className="py-3 px-2 text-center font-mono text-violet-700 font-bold">
+                    {overall.examScores[1]?.predictedPct !== null ? `~${overall.examScores[1].predictedPct}%` : "—"}
+                  </td>
+                  <td className="py-3 px-2 text-center font-mono text-violet-700 font-bold">
+                    {overall.examScores[2]?.predictedPct !== null ? `~${overall.examScores[2].predictedPct}%` : "—"}
+                  </td>
+                  <td className="py-3 px-2 text-center font-mono text-violet-700 font-bold">
+                    {overall.examScores[3]?.predictedPct !== null ? `~${overall.examScores[3].predictedPct}%` : "—"}
+                  </td>
+                  <td className="py-3 px-2 text-center font-mono font-bold text-navy">
+                    {overall.targetDisplayValue}
+                  </td>
+                  <td className="py-3 px-2 text-center bg-amber-50/40 border-x border-amber-200/50">
+                    {overall.requiredInRemaining !== null ? (
+                      <span className="font-mono text-xs font-bold text-amber-900">
+                        {Math.round(overall.requiredInRemaining)}% avg
+                      </span>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td className="py-3 px-2 text-center">
+                    <span className={`inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border ${STATUS_CONFIG[overall.status].badgeClass}`}>
+                      {STATUS_CONFIG[overall.status].label}
+                    </span>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -433,7 +524,7 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
       {/* Institutional Explanatory Footnote */}
       <div className="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-[10px] text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
         <span className="font-mono">
-          CBSE Assessment Structure: PT-1 (10%) + Mid Term (20%) + PT-2 (10%) + Pre-Board (20%) + Annual Final (40%) = 100%
+          CBSE Assessment Structure: PT-1 (10% • max 20) + Mid Term (30% • max 80) + PT-2 (10% • max 20) + Final Exam (50% • max 80) = 100%
         </span>
         <span className="text-slate-400 shrink-0">
           Absent (AB) evaluated as 0 • Optional: {student.secondLanguage || "Hindi/Sanskrit/French"}

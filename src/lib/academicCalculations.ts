@@ -1,9 +1,11 @@
 import { NormalizedValue, EXAM_WEIGHTS, EXAM_ORDER, StudentRecord, ExamEntry } from './academicNormalizer';
 
+// ─── Core Types ───
+
 export interface RequiredScoreInput {
   currentWeightedScore: number;
   targetScore: number;
-  remainingWeight: number; // e.g. 0.30 or 30
+  remainingWeight: number;
 }
 
 export type RequiredScoreStatus =
@@ -38,7 +40,6 @@ export function calculateRequiredScore(input: RequiredScoreInput): RequiredScore
     };
   }
 
-  // Normalize weight if passed as percentage (e.g. 30 -> 0.30)
   const weightFraction = remainingWeight > 1 ? remainingWeight / 100 : remainingWeight;
 
   if (weightFraction <= 0 || weightFraction > 1) {
@@ -48,7 +49,6 @@ export function calculateRequiredScore(input: RequiredScoreInput): RequiredScore
     };
   }
 
-  // If already at or above target
   if (currentWeightedScore >= targetScore) {
     return {
       status: 'TARGET_ACHIEVED',
@@ -76,6 +76,8 @@ export function calculateRequiredScore(input: RequiredScoreInput): RequiredScore
   };
 }
 
+// ─── Target Gap Analysis ───
+
 export interface TargetAnalysis {
   status: 'NOT_ASSIGNED' | 'ACHIEVED' | 'IN_PROGRESS' | 'RANGE_UNCERTAIN';
   gapPercentagePoints?: number;
@@ -100,7 +102,6 @@ export function evaluateTargetGap(
     };
   }
 
-  // Case 1: Both exact
   if (current.type === 'exact' && target.type === 'exact' && current.value !== undefined && target.value !== undefined) {
     const diff = target.value - current.value;
     const gap = Math.round(diff * 100) / 100;
@@ -120,7 +121,6 @@ export function evaluateTargetGap(
     };
   }
 
-  // Case 2: Current is a range, Target is exact
   if (current.type === 'range' && target.type === 'exact' && current.min !== undefined && current.max !== undefined && target.value !== undefined) {
     if (current.min >= target.value) {
       return {
@@ -144,7 +144,6 @@ export function evaluateTargetGap(
     };
   }
 
-  // Case 3: Target is a range
   if (target.type === 'range' && target.min !== undefined) {
     if (current.type === 'exact' && current.value !== undefined) {
       if (current.value >= target.min) {
@@ -168,6 +167,8 @@ export function evaluateTargetGap(
   };
 }
 
+// ─── Academic Insights ───
+
 export function generateAcademicInsights(student: {
   currentPerformance: {
     overall: NormalizedValue;
@@ -180,7 +181,6 @@ export function generateAcademicInsights(student: {
   const insights: string[] = [];
   const subjects = student.currentPerformance.subjectList;
 
-  // Find exact scored subjects
   const exactSubjects = subjects
     .filter((s) => s.normalized.type === 'exact' && s.normalized.value !== undefined)
     .map((s) => ({ label: s.label, score: s.normalized.value! }))
@@ -199,7 +199,6 @@ export function generateAcademicInsights(student: {
     }
   }
 
-  // Range-based feedback
   const rangeSubjects = subjects.filter((s) => s.normalized.type === 'range');
   if (rangeSubjects.length > 0) {
     insights.push(
@@ -207,7 +206,6 @@ export function generateAcademicInsights(student: {
     );
   }
 
-  // Target comparison insight
   if (student.schoolTarget.overall.type === 'exact' && student.currentPerformance.overall.type === 'exact') {
     const targetVal = student.schoolTarget.overall.value!;
     const overallVal = student.currentPerformance.overall.value!;
@@ -223,12 +221,13 @@ export function generateAcademicInsights(student: {
   return insights;
 }
 
-// ─── Target Score Calculator (Weighted) ───
+// ─── Target Score Calculator (Weighted) — 4-Exam Model ───
 
 export type RequiredScoreStatusTag =
   | 'ACHIEVED'
   | 'ON_TRACK'
   | 'NEEDS_FOCUS'
+  | 'AT_RISK'
   | 'NOT_REACHABLE'
   | 'EXEMPT'
   | 'INSUFFICIENT_DATA';
@@ -242,6 +241,10 @@ export interface ExamScoreEntry {
   rawScore: number | null;       // actual marks scored (null = not taken yet)
   normalizedPct: number | null;  // score as percentage
   isCompleted: boolean;
+  isPredicted: boolean;
+  predictedPct: number | null;   // predicted percentage for future exams
+  predictedRawMarks: number | null; // predicted raw marks (e.g., 62/80)
+  confidence: 'high' | 'medium' | 'low' | null;
 }
 
 export interface SubjectRequiredScore {
@@ -268,7 +271,6 @@ export interface TargetCalculatorResult {
 
 /**
  * Normalizes a raw exam score to percentage.
- * If the exam is scored out of 20 (Mid Term), converts to /100.
  */
 function normalizeToPercent(rawScore: number | null, maxMarks: number): number | null {
   if (rawScore === null || rawScore === undefined) return null;
@@ -278,8 +280,6 @@ function normalizeToPercent(rawScore: number | null, maxMarks: number): number |
 
 /**
  * Extracts subject score from a student's exam entry.
- * Handles NormalizedValue with unit 'marks' (convert /20 → %) or 'percent'.
- * Returns null for exempt, absent returns 0.
  */
 function getSubjectExamScore(
   examEntry: ExamEntry,
@@ -291,21 +291,20 @@ function getSubjectExamScore(
   const subj = (examEntry as any).subjects?.[subjectKey] as NormalizedValue | undefined;
   if (!subj) return { raw: null, pct: null };
 
-  // Exempt subject
   if (subj.type === 'exempt') return { raw: null, pct: null };
 
-  // Absent → 0
   if (subj.displayValue === 'Absent (AB)' || subj.statusNote?.includes('Absent')) {
     return { raw: 0, pct: 0 };
   }
 
   if (subj.type === 'exact' && subj.value !== undefined) {
     const raw = subj.value;
+    // If unit is marks, the value is raw marks → normalize to %
+    // If unit is percent, the value is already %
     const pct = subj.unit === 'marks' ? normalizeToPercent(raw, maxMarks) : raw;
     return { raw, pct };
   }
 
-  // Range — use midpoint
   if (subj.type === 'range' && subj.min !== undefined && subj.max !== undefined) {
     const mid = (subj.min + subj.max) / 2;
     const pct = subj.unit === 'marks' ? normalizeToPercent(mid, maxMarks) : mid;
@@ -316,41 +315,42 @@ function getSubjectExamScore(
 }
 
 /**
- * Extracts target score for a subject. Returns percentage value.
+ * Extracts target score for a subject from schoolTarget.subjects or falls back to currentPerformance.
  */
 function getSubjectTarget(
   student: StudentRecord,
   subjectKey: string
 ): { value: number | null; displayValue: string } {
+  // First try schoolTarget.subjects
   const targetSubjects = student.schoolTarget?.subjects;
-  if (!targetSubjects) {
-    // Fall back to currentPerformance subjects (which ARE the targets from the target sheet)
-    const perfSubjects = student.currentPerformance?.subjects;
-    const perf = perfSubjects?.[subjectKey as keyof typeof perfSubjects] as NormalizedValue | undefined;
-    if (!perf) return { value: null, displayValue: 'N/A' };
-
-    if (perf.type === 'exact' && perf.value !== undefined) {
-      return { value: perf.value, displayValue: perf.displayValue };
+  if (targetSubjects) {
+    const target = targetSubjects[subjectKey as keyof typeof targetSubjects] as NormalizedValue | undefined;
+    if (target) {
+      if (target.type === 'exact' && target.value !== undefined) {
+        return { value: target.value, displayValue: target.displayValue };
+      }
+      if (target.type === 'range' && target.min !== undefined && target.max !== undefined) {
+        return { value: (target.min + target.max) / 2, displayValue: target.displayValue };
+      }
+      if (target.type === 'exempt') {
+        return { value: null, displayValue: 'Exempt' };
+      }
+      return { value: null, displayValue: target.displayValue || 'N/A' };
     }
-    if (perf.type === 'range' && perf.min !== undefined && perf.max !== undefined) {
-      return { value: (perf.min + perf.max) / 2, displayValue: perf.displayValue };
-    }
-    return { value: null, displayValue: perf.displayValue || 'N/A' };
   }
 
-  const target = targetSubjects[subjectKey as keyof typeof targetSubjects] as NormalizedValue | undefined;
-  if (!target) return { value: null, displayValue: 'N/A' };
+  // Fall back to currentPerformance subjects (legacy: these ARE the targets from target sheet)
+  const perfSubjects = student.currentPerformance?.subjects;
+  const perf = perfSubjects?.[subjectKey as keyof typeof perfSubjects] as NormalizedValue | undefined;
+  if (!perf) return { value: null, displayValue: 'N/A' };
 
-  if (target.type === 'exact' && target.value !== undefined) {
-    return { value: target.value, displayValue: target.displayValue };
+  if (perf.type === 'exact' && perf.value !== undefined) {
+    return { value: perf.value, displayValue: perf.displayValue };
   }
-  if (target.type === 'range' && target.min !== undefined && target.max !== undefined) {
-    return { value: (target.min + target.max) / 2, displayValue: target.displayValue };
+  if (perf.type === 'range' && perf.min !== undefined && perf.max !== undefined) {
+    return { value: (perf.min + perf.max) / 2, displayValue: perf.displayValue };
   }
-  if (target.type === 'exempt') {
-    return { value: null, displayValue: 'Exempt' };
-  }
-  return { value: null, displayValue: target.displayValue || 'N/A' };
+  return { value: null, displayValue: perf.displayValue || 'N/A' };
 }
 
 const SUBJECT_META: { key: string; code: string; label: string }[] = [
@@ -362,28 +362,93 @@ const SUBJECT_META: { key: string; code: string; label: string }[] = [
   { key: 'it', code: 'IT', label: 'Information Technology' },
 ];
 
+/** Realistic prediction ceiling — no student is predicted above 95% */
+const PREDICTION_CEILING = 95;
+
+/**
+ * Distributes the required average across pending exams using momentum-adjusted weighting.
+ * Earlier pending exams get a slightly lower prediction (student improves over time).
+ */
+function distributePredictions(
+  requiredAvg: number,
+  pendingExamIds: string[],
+  currentAvg: number | null
+): Map<string, { pct: number; confidence: 'high' | 'medium' | 'low' }> {
+  const predictions = new Map<string, { pct: number; confidence: 'high' | 'medium' | 'low' }>();
+
+  if (pendingExamIds.length === 0) return predictions;
+
+  // If required > 100, cap at ceiling but mark as low confidence
+  const capped = Math.min(requiredAvg, PREDICTION_CEILING);
+  const isUnreachable = requiredAvg > 100;
+
+  if (pendingExamIds.length === 1) {
+    const conf = isUnreachable ? 'low' : capped <= 75 ? 'high' : capped <= 90 ? 'medium' : 'low';
+    predictions.set(pendingExamIds[0], { pct: Math.round(capped * 10) / 10, confidence: conf });
+    return predictions;
+  }
+
+  // Momentum: student should improve gradually — distribute with a slight upward ramp
+  // e.g., for 3 pending exams with required avg 70: predict 65, 70, 75
+  const rampFactor = 0.08; // 8% ramp between first and last pending exam
+  const rampStep = (capped * rampFactor) / (pendingExamIds.length - 1);
+  const baseOffset = -(capped * rampFactor) / 2;
+
+  for (let i = 0; i < pendingExamIds.length; i++) {
+    let predicted = capped + baseOffset + rampStep * i;
+
+    // Blend with current performance — if student scored 40%, don't predict 90% immediately
+    if (currentAvg !== null && predicted > currentAvg + 20) {
+      // Dampen aggressive jumps: blend 60% prediction + 40% realistic ceiling
+      const realisticCeiling = currentAvg + 20;
+      predicted = predicted * 0.6 + realisticCeiling * 0.4;
+    }
+
+    predicted = Math.max(0, Math.min(PREDICTION_CEILING, predicted));
+    predicted = Math.round(predicted * 10) / 10;
+
+    const conf: 'high' | 'medium' | 'low' = isUnreachable
+      ? 'low'
+      : predicted <= 75
+      ? 'high'
+      : predicted <= 90
+      ? 'medium'
+      : 'low';
+
+    predictions.set(pendingExamIds[i], { pct: predicted, confidence: conf });
+  }
+
+  return predictions;
+}
+
 export function calculateRequiredScoresPerSubject(
   student: StudentRecord
 ): TargetCalculatorResult {
   const completedExams: string[] = [];
   const pendingExams: string[] = [];
 
-  // Determine which exams are completed
   for (const examId of EXAM_ORDER) {
-    if (student.exams?.[examId]) {
+    if (student.exams?.[examId] && !student.exams[examId].isPredicted) {
       completedExams.push(examId);
     } else {
       pendingExams.push(examId);
     }
   }
 
-  // Resolve second language code
   const lang2 = student.secondLanguage || 'Hindi';
   const lang2Code = lang2.slice(0, 3).toUpperCase();
 
   const subjectResults: SubjectRequiredScore[] = SUBJECT_META.map((meta) => {
     const code = meta.key === 'secondLanguage' ? lang2Code : meta.code;
     const label = meta.key === 'secondLanguage' ? `2nd Lang: ${lang2}` : meta.label;
+
+    // Check if subject is exempt in all completed exams
+    const allExempt = completedExams.length > 0 && completedExams.every((eid) => {
+      const exam = student.exams?.[eid];
+      if (!exam) return false;
+      const subj = (exam as any).subjects?.[meta.key] as NormalizedValue | undefined;
+      return subj?.type === 'exempt';
+    });
 
     // Build exam scores array
     const examScores: ExamScoreEntry[] = EXAM_ORDER.map((examId) => {
@@ -401,16 +466,12 @@ export function calculateRequiredScoresPerSubject(
         maxMarks: w.maxMarks,
         rawScore: raw,
         normalizedPct: pct,
-        isCompleted: exam !== undefined && raw !== null,
+        isCompleted: exam !== undefined && !exam.isPredicted && raw !== null,
+        isPredicted: false,
+        predictedPct: null,
+        predictedRawMarks: null,
+        confidence: null,
       };
-    });
-
-    // Check if subject is exempt in all exams (optional language not taken)
-    const allExempt = completedExams.every((eid) => {
-      const exam = student.exams?.[eid];
-      if (!exam) return false;
-      const subj = (exam as any).subjects?.[meta.key] as NormalizedValue | undefined;
-      return subj?.type === 'exempt';
     });
 
     if (allExempt) {
@@ -450,30 +511,46 @@ export function calculateRequiredScoresPerSubject(
     let status: RequiredScoreStatusTag = 'INSUFFICIENT_DATA';
     let gap: number | null = null;
 
+    // Current average from completed exams
+    const currentAvg = completedWeight > 0 ? weightedContribution / completedWeight : null;
+
     if (target.value !== null && completedWeight > 0) {
-      const targetTotal = target.value; // target %
+      const targetTotal = target.value;
       const deficit = targetTotal - weightedContribution;
-      
+
       if (deficit <= 0) {
         requiredInRemaining = 0;
         status = 'ACHIEVED';
         gap = 0;
       } else if (remainingWeight > 0) {
         requiredInRemaining = Math.round((deficit / remainingWeight) * 10) / 10;
-        gap = Math.round((targetTotal - (weightedContribution / completedWeight) * 100) * 10) / 10;
-        // Recalculate gap as simple: target - currentProjectedAverage
-        const currentAvg = weightedContribution / completedWeight;
-        gap = Math.round((targetTotal - currentAvg) * 10) / 10;
+        gap = currentAvg !== null ? Math.round((targetTotal - currentAvg) * 10) / 10 : null;
 
         if (requiredInRemaining <= 0) status = 'ACHIEVED';
         else if (requiredInRemaining <= 75) status = 'ON_TRACK';
-        else if (requiredInRemaining <= 100) status = 'NEEDS_FOCUS';
+        else if (requiredInRemaining <= 90) status = 'NEEDS_FOCUS';
+        else if (requiredInRemaining <= 100) status = 'AT_RISK';
         else status = 'NOT_REACHABLE';
       } else {
-        // All exams done
         status = deficit <= 0 ? 'ACHIEVED' : 'NOT_REACHABLE';
         requiredInRemaining = deficit <= 0 ? 0 : null;
         gap = deficit;
+      }
+
+      // Generate predictions for pending exams
+      if (remainingWeight > 0 && requiredInRemaining !== null) {
+        const pendingIds = examScores.filter((es) => !es.isCompleted).map((es) => es.examId);
+        const predictions = distributePredictions(requiredInRemaining, pendingIds, currentAvg);
+
+        for (const es of examScores) {
+          const pred = predictions.get(es.examId);
+          if (pred) {
+            es.isPredicted = true;
+            es.predictedPct = pred.pct;
+            es.predictedRawMarks = Math.round((pred.pct / 100) * es.maxMarks * 10) / 10;
+            es.confidence = pred.confidence;
+          }
+        }
       }
     }
 
@@ -493,7 +570,7 @@ export function calculateRequiredScoresPerSubject(
     };
   });
 
-  // Overall calculation
+  // ─── Overall calculation ───
   const nonExemptSubjects = subjectResults.filter((s) => s.status !== 'EXEMPT');
   const overallTarget = student.schoolTarget?.overall;
   let overallTargetVal: number | null = null;
@@ -507,7 +584,6 @@ export function calculateRequiredScoresPerSubject(
     overallTargetDisplay = overallTarget.displayValue;
   }
 
-  // Overall weighted contribution = average of subject weighted contributions
   const totalWeightedContrib = nonExemptSubjects.reduce((sum, s) => sum + s.weightedContribution, 0);
   const avgWeightedContrib = nonExemptSubjects.length > 0 ? totalWeightedContrib / nonExemptSubjects.length : 0;
   const overallCompletedWeight = nonExemptSubjects.length > 0 ? nonExemptSubjects[0].completedWeight : 0;
@@ -530,10 +606,13 @@ export function calculateRequiredScoresPerSubject(
 
       if (overallRequired <= 0) overallStatus = 'ACHIEVED';
       else if (overallRequired <= 75) overallStatus = 'ON_TRACK';
-      else if (overallRequired <= 100) overallStatus = 'NEEDS_FOCUS';
+      else if (overallRequired <= 90) overallStatus = 'NEEDS_FOCUS';
+      else if (overallRequired <= 100) overallStatus = 'AT_RISK';
       else overallStatus = 'NOT_REACHABLE';
     }
   }
+
+  const overallCurrentAvg = overallCompletedWeight > 0 ? avgWeightedContrib / overallCompletedWeight : null;
 
   const overallExamScores: ExamScoreEntry[] = EXAM_ORDER.map((examId) => {
     const w = EXAM_WEIGHTS[examId];
@@ -541,6 +620,8 @@ export function calculateRequiredScoresPerSubject(
     const overallNorm = exam ? (exam as any).overall as NormalizedValue | undefined : undefined;
     let pct: number | null = null;
     if (overallNorm?.type === 'exact' && overallNorm.value !== undefined) pct = overallNorm.value;
+
+    const isComp = exam !== undefined && !exam.isPredicted && pct !== null;
 
     return {
       examId,
@@ -550,9 +631,29 @@ export function calculateRequiredScoresPerSubject(
       maxMarks: w.maxMarks,
       rawScore: pct,
       normalizedPct: pct,
-      isCompleted: exam !== undefined && pct !== null,
+      isCompleted: isComp,
+      isPredicted: false,
+      predictedPct: null,
+      predictedRawMarks: null,
+      confidence: null,
     };
   });
+
+  // Generate overall predictions
+  if (overallRemainingWeight > 0 && overallRequired !== null && overallRequired > 0) {
+    const pendingIds = overallExamScores.filter((es) => !es.isCompleted).map((es) => es.examId);
+    const predictions = distributePredictions(overallRequired, pendingIds, overallCurrentAvg);
+
+    for (const es of overallExamScores) {
+      const pred = predictions.get(es.examId);
+      if (pred) {
+        es.isPredicted = true;
+        es.predictedPct = pred.pct;
+        es.predictedRawMarks = Math.round((pred.pct / 100) * es.maxMarks * 10) / 10;
+        es.confidence = pred.confidence;
+      }
+    }
+  }
 
   const overall: SubjectRequiredScore = {
     subjectKey: 'overall',
