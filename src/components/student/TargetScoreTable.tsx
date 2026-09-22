@@ -157,25 +157,33 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
           {/* Right: Milestone Checkpoints + View Toggle */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             {/* Exam Milestones */}
-            <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+            <div className="flex items-center bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
               {[
                 { label: "PT-1", w: "10% (/20)" },
                 { label: "Mid", w: "30% (/80)" },
                 { label: "PT-2", w: "10% (/20)" },
                 { label: "Final", w: "50% (/80)" },
-              ].map((m, i) => {
+              ].map((m, i, arr) => {
                 const done = i < completedExams.length;
                 return (
-                  <div key={m.label} className="flex flex-col items-center">
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-all ${
-                      done
-                        ? "bg-emerald-500 border-emerald-500 text-white shadow-xs"
-                        : "bg-white border-slate-200 text-slate-400"
-                    }`}>
-                      {done ? "✓" : m.label}
-                    </span>
-                    <span className="text-[8px] font-mono text-slate-400 mt-0.5">{m.w}</span>
-                  </div>
+                  <React.Fragment key={m.label}>
+                    <div className="flex flex-col items-center min-w-[48px]">
+                      <span className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold border-2 transition-all ${
+                        done
+                          ? "bg-emerald-500 border-emerald-500 text-white shadow-sm"
+                          : "bg-white border-slate-300 text-slate-400"
+                      }`}>
+                        {done ? "✓" : i + 1}
+                      </span>
+                      <span className={`text-[10px] font-semibold mt-1 leading-none ${done ? "text-emerald-600" : "text-slate-500"}`}>
+                        {m.label}
+                      </span>
+                      <span className="text-[8px] font-mono text-slate-400 mt-0.5 whitespace-nowrap">{m.w}</span>
+                    </div>
+                    {i < arr.length - 1 && (
+                      <div className={`w-5 h-px mx-0.5 mt-[-14px] ${done && i + 1 < completedExams.length ? "bg-emerald-400" : "bg-slate-200"}`} />
+                    )}
+                  </React.Fragment>
                 );
               })}
             </div>
