@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -54,7 +54,43 @@ export default function Header() {
     type?: "admissions" | "urgent" | "info";
   } | null>(null);
   const [showTicker, setShowTicker] = useState(true);
+  const [headerHeight, setHeaderHeight] = useState<number>(0);
+  const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
+
+  // Load ticker dismissal preference from sessionStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const dismissed = sessionStorage.getItem("ccis_ticker_dismissed");
+      if (dismissed === "true") {
+        setShowTicker(false);
+      }
+    }
+  }, []);
+
+  // Measure dynamic header height whenever ticker, announcement, or scroll state changes
+  useEffect(() => {
+    if (!headerRef.current) return;
+    const el = headerRef.current;
+    const updateHeight = () => {
+      if (el) {
+        const h = el.offsetHeight;
+        setHeaderHeight(h);
+        document.documentElement.style.setProperty("--header-height", `${h}px`);
+      }
+    };
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [showTicker, announcement, isScrolled]);
+
+  const handleDismissTicker = () => {
+    setShowTicker(false);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("ccis_ticker_dismissed", "true");
+    }
+  };
 
   // Fetch live announcement banner
   useEffect(() => {
@@ -98,7 +134,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-[990] transition-all duration-300">
+      <header ref={headerRef} className="fixed top-0 left-0 w-full z-[990] transition-all duration-300">
 
         {/* Dynamic Global Notice Ticker (if active & enabled) */}
         {announcement?.active && showTicker && (
@@ -137,7 +173,7 @@ export default function Header() {
               )}
             </div>
             <button
-              onClick={() => setShowTicker(false)}
+              onClick={handleDismissTicker}
               className="text-white/50 hover:text-white transition-colors p-0.5 shrink-0"
               aria-label="Dismiss banner"
             >
@@ -435,6 +471,13 @@ export default function Header() {
           </div>
         </div>
       </header>
+
+      {/* Dynamic Header Spacer to prevent layout overlap */}
+      <div
+        style={{ height: headerHeight ? `${headerHeight}px` : undefined }}
+        className={!headerHeight ? "h-[64px] sm:h-[104px] lg:h-[106px]" : "w-full shrink-0 transition-all duration-300"}
+        aria-hidden="true"
+      />
 
       {/* Global Quick Search Modal (Cmd+K) */}
       <QuickSearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
