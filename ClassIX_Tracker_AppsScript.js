@@ -72,6 +72,7 @@ function getSettings() {
 function getColumnMapping(headerRow) {
   const mapping = {
     sNo: undefined,
+    enrollment: undefined,
     name: undefined,
     section: undefined,
     target: undefined,
@@ -136,6 +137,7 @@ function getColumnMapping(headerRow) {
 
     // ─── Standard columns ───
     if (val.includes("S") && val.includes("NO") && !val.includes("SCI")) mapping.sNo = c;
+    else if (val.includes("ENROLL")) mapping.enrollment = c;
     else if (val.includes("STUDENT") && val.includes("NAME")) mapping.name = c;
     else if (val === "NAME") mapping.name = c;
     else if (val === "SECTION" || val === "SEC" || val === "GROUP") mapping.section = c;
@@ -195,6 +197,7 @@ function parseRow(sheetName, rowVals, mapping, rowIndex) {
 
   var row = {
     sNo: mapping.sNo !== undefined ? rowVals[mapping.sNo] : rowIndex - 1,
+    enrollmentNumber: mapping.enrollment !== undefined ? rowVals[mapping.enrollment] : null,
     name: name,
     group: section,
     section: section,
@@ -397,9 +400,9 @@ function pushCurrentDataToSheet() {
       sheet = ss.insertSheet(CONFIG.MASTER_TAB_NAME, 0);
     }
 
-    // 28 Clean Headers
+    // 29 Clean Headers
     var headers = [
-      "S.NO", "STUDENT NAME", "SECTION", "TARGET %",
+      "S.NO", "ENROLLMENT NUMBER", "STUDENT NAME", "SECTION", "TARGET %",
       "E1-ENG", "E1-MATH", "E1-SST", "E1-HSF", "E1-SCI", "E1-IT",
       "E2-ENG", "E2-MATH", "E2-SST", "E2-HSF", "E2-SCI", "E2-IT",
       "E3-ENG", "E3-MATH", "E3-SST", "E3-HSF", "E3-SCI", "E3-IT",
@@ -430,8 +433,11 @@ function pushCurrentDataToSheet() {
         ? (st.schoolTarget.overall.displayValue || "")
         : "";
 
+      var enrollNo = st.enrollmentNumber || ("CCIS-IX-" + (st.group || "AURA") + "-" + (j + 1 < 10 ? "0" : "") + (j + 1));
+
       rows.push([
         j + 1,
+        enrollNo,
         st.name || "",
         (st.group || "AURA").toUpperCase(),
         targetPct,
@@ -470,7 +476,7 @@ function pushCurrentDataToSheet() {
 
     // Freeze header row and center numerical columns
     sheet.setFrozenRows(1);
-    sheet.setFrozenColumns(3); // Freeze S.NO, Name, Section
+    sheet.setFrozenColumns(4); // Freeze S.NO, Enrollment, Name, Section
 
     ui.alert(
       "📤 Master Sheet Created!",

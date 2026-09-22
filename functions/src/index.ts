@@ -374,7 +374,7 @@ export const syncClass9Performance = functions.https.onRequest(async (req, res) 
           const serialNo = Number(row.sNo) || 1;
           const cleanName = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
           const studentId = `ccis-ix-${group.toLowerCase()}-${cleanName}`;
-          const enrollmentNumber = `CCIS-IX-${group}-${String(serialNo).padStart(2, '0')}`;
+          const enrollmentNumber = row.enrollmentNumber || row.enrollment || `CCIS-IX-${group}-${String(serialNo).padStart(2, '0')}`;
 
           // ─── Parse Exam-1 (PT-1 /20) from flat fields or exam1 object ───
           const e1MaxMarks = EXAM_CONFIG['exam-1'].maxMarks;
