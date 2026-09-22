@@ -1,8 +1,8 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { StudentRecord, EXAM_WEIGHTS, EXAM_ORDER } from "@/lib/academicNormalizer";
-import { calculateRequiredScoresPerSubject } from "@/lib/academicCalculations";
-import { TrendingUp, Layers, Sparkles, Target, CheckCircle2 } from "lucide-react";
+import { calculateRequiredScoresPerSubject, compareActualVsPredicted } from "@/lib/academicCalculations";
+import { TrendingUp, Layers, Sparkles, Target, CheckCircle2, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 interface DataPoint {
   id: string;
@@ -14,6 +14,7 @@ interface DataPoint {
   isPredicted: boolean;
   maxMarks: number;
   confidence?: string | null;
+  predictionDelta?: number | null;  // actual - predicted (positive = beat prediction)
 }
 
 interface ExamProgressionLineGraphProps {
@@ -32,6 +33,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
   }, [student]);
 
   const calcResult = useMemo(() => calculateRequiredScoresPerSubject(student), [student]);
+  const achievementData = useMemo(() => compareActualVsPredicted(student), [student]);
 
   const availableSubjects = useMemo(() => {
     const list: { id: string; label: string }[] = [{ id: "overall", label: "Overall Aggregate" }];
@@ -154,8 +156,20 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
       maxMarks: 100,
     });
 
+    // Annotate prediction deltas for completed exams
+    for (const dp of result) {
+      if (!dp.isCompleted || dp.id === 'target') continue;
+      const subjectKey = activeSubject === 'overall' ? null : (subjectIdToKey[activeSubject] || activeSubject);
+      if (subjectKey) {
+        const detail = achievementData.find(d => d.subjectKey === subjectKey && d.examId === dp.id);
+        if (detail && detail.delta !== null) {
+          dp.predictionDelta = detail.delta;
+        }
+      }
+    }
+
     return result;
-  }, [activeSubject, student, targetVal, calcResult]);
+  }, [activeSubject, student, targetVal, calcResult, achievementData]);
 
   // SVG dimensions
   const svgWidth = 760;
@@ -449,6 +463,32 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
                 >
                   {point.displayValue}
                 </text>
+
+                {/* Prediction delta annotation */}
+                {point.predictionDelta !== null && point.predictionDelta !== undefined && (
+                  <g>
+                    <rect
+                      x={x + 8}
+                      y={y - 22}
+                      width={point.predictionDelta > 0 ? 36 : 32}
+                      height={14}
+                      rx={3}
+                      fill={point.predictionDelta > 2 ? "#dbeafe" : point.predictionDelta < -2 ? "#fef3c7" : "#f1f5f9"}
+                      stroke={point.predictionDelta > 2 ? "#93c5fd" : point.predictionDelta < -2 ? "#fcd34d" : "#cbd5e1"}
+                      strokeWidth={0.5}
+                    />
+                    <text
+                      x={x + 10}
+                      y={y - 12}
+                      fontSize={8}
+                      fontWeight="bold"
+                      fill={point.predictionDelta > 2 ? "#2563eb" : point.predictionDelta < -2 ? "#d97706" : "#64748b"}
+                      fontFamily="monospace"
+                    >
+                      {point.predictionDelta > 0 ? `↑+${point.predictionDelta}%` : `↓${point.predictionDelta}%`}
+                    </text>
+                  </g>
+                )}
               </g>
             );
           })}
@@ -499,6 +539,12 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           <Target className="w-3 h-3 text-amber-600" />
           Target Line
         </span>
+        {achievementData.some(d => d.delta !== null) && (
+          <span className="inline-flex items-center gap-1.5">
+            <span className="text-[9px] font-mono font-bold px-1 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-200">↑+X%</span>
+            vs Prediction
+          </span>
+        )}
       </div>
     </div>
   );

@@ -368,18 +368,21 @@ const PREDICTION_CEILING = 95;
 /**
  * Distributes the required average across pending exams using momentum-adjusted weighting.
  * Earlier pending exams get a slightly lower prediction (student improves over time).
+ * @param momentumBoost - adaptive offset from comparing actual vs predicted in completed exams
  */
 function distributePredictions(
   requiredAvg: number,
   pendingExamIds: string[],
-  currentAvg: number | null
+  currentAvg: number | null,
+  momentumBoost: number = 0
 ): Map<string, { pct: number; confidence: 'high' | 'medium' | 'low' }> {
   const predictions = new Map<string, { pct: number; confidence: 'high' | 'medium' | 'low' }>();
 
   if (pendingExamIds.length === 0) return predictions;
 
-  // If required > 100, cap at ceiling but mark as low confidence
-  const capped = Math.min(requiredAvg, PREDICTION_CEILING);
+  // Apply momentum boost (positive if beating predictions, negative if missing)
+  const boosted = requiredAvg + momentumBoost;
+  const capped = Math.min(boosted, PREDICTION_CEILING);
   const isUnreachable = requiredAvg > 100;
 
   if (pendingExamIds.length === 1) {
@@ -389,17 +392,14 @@ function distributePredictions(
   }
 
   // Momentum: student should improve gradually — distribute with a slight upward ramp
-  // e.g., for 3 pending exams with required avg 70: predict 65, 70, 75
-  const rampFactor = 0.08; // 8% ramp between first and last pending exam
+  const rampFactor = 0.08;
   const rampStep = (capped * rampFactor) / (pendingExamIds.length - 1);
   const baseOffset = -(capped * rampFactor) / 2;
 
   for (let i = 0; i < pendingExamIds.length; i++) {
     let predicted = capped + baseOffset + rampStep * i;
 
-    // Blend with current performance — if student scored 40%, don't predict 90% immediately
     if (currentAvg !== null && predicted > currentAvg + 20) {
-      // Dampen aggressive jumps: blend 60% prediction + 40% realistic ceiling
       const realisticCeiling = currentAvg + 20;
       predicted = predicted * 0.6 + realisticCeiling * 0.4;
     }
@@ -671,4 +671,95 @@ export function calculateRequiredScoresPerSubject(
   };
 
   return { subjects: subjectResults, overall, completedExams, pendingExams };
+}
+
+// ─── Achievement Detail Types ───
+
+export interface AchievementDetail {
+  subjectKey: string;
+  examId: string;
+  predicted: number | null;
+  actual: number | null;
+  delta: number | null;       // actual - predicted (positive = beat prediction)
+  verdict: 'ABOVE' | 'BELOW' | 'MATCH' | 'PENDING';
+  targetAchieved: boolean;    // overall target met for this subject?
+}
+
+/**
+ * Compares actual exam scores against prior predictions for each completed exam.
+ * Powers the "Target Achieved" / "Above/Below Prediction" badges in the TargetScoreTable.
+ */
+export function compareActualVsPredicted(
+  student: StudentRecord
+): AchievementDetail[] {
+  const results: AchievementDetail[] = [];
+  if (!student.exams) return results;
+
+  const completedExamIds = EXAM_ORDER.filter((eid) =>
+    student.exams?.[eid] && !student.exams[eid].isPredicted
+  );
+
+  const calcResult = calculateRequiredScoresPerSubject(student);
+
+  for (const meta of SUBJECT_META) {
+    const subjResult = calcResult.subjects.find((s) => s.subjectKey === meta.key);
+    const targetAchieved = subjResult?.status === 'ACHIEVED';
+
+    for (const examId of completedExamIds) {
+      const exam = student.exams?.[examId];
+      if (!exam) continue;
+
+      const w = EXAM_WEIGHTS[examId];
+      const subj = (exam as any).subjects?.[meta.key] as NormalizedValue | undefined;
+      if (!subj || subj.type !== 'exact' || subj.value === undefined) {
+        results.push({
+          subjectKey: meta.key,
+          examId,
+          predicted: null,
+          actual: null,
+          delta: null,
+          verdict: 'PENDING',
+          targetAchieved,
+        });
+        continue;
+      }
+
+      const actualPct = subj.unit === 'marks'
+        ? (subj.value / w.maxMarks) * 100
+        : subj.value;
+
+      // Check if there was a prediction stored for this exam
+      const predictedPct = exam.predictedScores?.[meta.key]?.predictedPct ?? null;
+
+      if (predictedPct === null) {
+        // No prediction existed (e.g., first exam) — just report actual
+        results.push({
+          subjectKey: meta.key,
+          examId,
+          predicted: null,
+          actual: Math.round(actualPct * 10) / 10,
+          delta: null,
+          verdict: 'PENDING',
+          targetAchieved,
+        });
+        continue;
+      }
+
+      const delta = Math.round((actualPct - predictedPct) * 10) / 10;
+      const verdict: 'ABOVE' | 'BELOW' | 'MATCH' =
+        delta > 2 ? 'ABOVE' : delta < -2 ? 'BELOW' : 'MATCH';
+
+      results.push({
+        subjectKey: meta.key,
+        examId,
+        predicted: predictedPct,
+        actual: Math.round(actualPct * 10) / 10,
+        delta,
+        verdict,
+        targetAchieved,
+      });
+    }
+  }
+
+  return results;
 }

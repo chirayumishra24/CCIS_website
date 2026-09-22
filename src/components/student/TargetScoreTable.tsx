@@ -3,10 +3,12 @@ import React, { useState, useMemo } from "react";
 import { StudentRecord } from "@/lib/academicNormalizer";
 import {
   calculateRequiredScoresPerSubject,
+  compareActualVsPredicted,
   SubjectRequiredScore,
   RequiredScoreStatusTag,
+  AchievementDetail,
 } from "@/lib/academicCalculations";
-import { Target, Table as TableIcon, LayoutGrid, CheckCircle2, AlertTriangle, ArrowUpRight } from "lucide-react";
+import { Target, Table as TableIcon, LayoutGrid, CheckCircle2, AlertTriangle, ArrowUpRight, ArrowDownRight, TrendingUp, TrendingDown } from "lucide-react";
 
 interface TargetScoreTableProps {
   student: StudentRecord;
@@ -88,6 +90,17 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
   const overallProgress = getProgressPercent(overall);
   const overallAvg = getCurrentAvg(overall);
   const remainingWeightPct = Math.round(overall.remainingWeight * 100);
+
+  // Achievement comparison data
+  const achievementData = useMemo(() => compareActualVsPredicted(student), [student]);
+
+  // Helper to get the latest achievement detail for a subject
+  const getSubjectAchievement = (subjectKey: string): AchievementDetail | null => {
+    const details = achievementData.filter((d) => d.subjectKey === subjectKey);
+    if (details.length === 0) return null;
+    // Return the most recent completed exam's detail
+    return details[details.length - 1];
+  };
 
   return (
     <div className="space-y-4">
@@ -231,6 +244,9 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                     Need in Rem ({remainingWeightPct}%)
                   </th>
                   <th className="py-2.5 px-2 text-center">Status</th>
+                  <th className="py-2.5 px-2 text-center bg-emerald-50/40 border-l border-emerald-200/50 text-emerald-900 font-bold">
+                    Target Achieved
+                  </th>
                 </tr>
               </thead>
 
@@ -369,6 +385,63 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                           {cfg.label}
                         </span>
                       </td>
+
+                      {/* Target Achieved Column */}
+                      <td className="py-2.5 px-2 text-center bg-emerald-50/10 border-l border-emerald-200/30">
+                        {(() => {
+                          const achievement = getSubjectAchievement(subj.subjectKey);
+                          if (!achievement) {
+                            return <span className="text-[10px] text-slate-400 font-medium">⏳ Pending</span>;
+                          }
+
+                          if (achievement.targetAchieved) {
+                            return (
+                              <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <CheckCircle2 className="w-3 h-3" />
+                                Achieved
+                              </span>
+                            );
+                          }
+
+                          if (achievement.verdict === 'ABOVE') {
+                            return (
+                              <div className="flex flex-col items-center">
+                                <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                                  <TrendingUp className="w-3 h-3" />
+                                  Above
+                                </span>
+                                {achievement.delta !== null && (
+                                  <span className="text-[9px] text-blue-500 font-mono mt-0.5">+{achievement.delta}%</span>
+                                )}
+                              </div>
+                            );
+                          }
+
+                          if (achievement.verdict === 'BELOW') {
+                            return (
+                              <div className="flex flex-col items-center">
+                                <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+                                  <TrendingDown className="w-3 h-3" />
+                                  Below
+                                </span>
+                                {achievement.delta !== null && (
+                                  <span className="text-[9px] text-amber-500 font-mono mt-0.5">{achievement.delta}%</span>
+                                )}
+                              </div>
+                            );
+                          }
+
+                          if (achievement.verdict === 'MATCH') {
+                            return (
+                              <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-50 text-slate-600 border border-slate-200">
+                                ≈ On Track
+                              </span>
+                            );
+                          }
+
+                          return <span className="text-[10px] text-slate-400 font-medium">⏳ Pending</span>;
+                        })()}
+                      </td>
                     </tr>
                   );
                 })}
@@ -408,6 +481,25 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                     <span className={`inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border ${STATUS_CONFIG[overall.status].badgeClass}`}>
                       {STATUS_CONFIG[overall.status].label}
                     </span>
+                  </td>
+                  {/* Overall Target Achieved */}
+                  <td className="py-3 px-2 text-center bg-emerald-50/10 border-l border-emerald-200/30">
+                    {overall.status === 'ACHIEVED' ? (
+                      <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Achieved
+                      </span>
+                    ) : overall.status === 'ON_TRACK' ? (
+                      <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                        On Track
+                      </span>
+                    ) : overall.status === 'INSUFFICIENT_DATA' ? (
+                      <span className="text-[10px] text-slate-400">⏳ Pending</span>
+                    ) : (
+                      <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+                        In Progress
+                      </span>
+                    )}
                   </td>
                 </tr>
               </tbody>
