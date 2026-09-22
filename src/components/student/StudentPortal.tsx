@@ -118,7 +118,11 @@ export default function StudentPortal() {
     );
   }
 
+  const [landingSection, setLandingSection] = useState<"AURA" | "ZEN" | "NEO">("AURA");
+
   if (!student) {
+    const sectionStudents = directory.filter((d) => d.group === landingSection);
+
     return (
       <div className="bg-slate-50/50 min-h-screen">
         <DashboardHeader
@@ -128,24 +132,129 @@ export default function StudentPortal() {
           onOpenLookup={() => setIsLookupOpen(true)}
           isLiveUpdating={false}
         />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-          <div className="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 shadow-xs">
-            <div className="w-14 h-14 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-navy mx-auto mb-4">
-              <AlertCircle className="w-7 h-7 text-navy" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+          {/* Institutional Welcome Banner */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-xs text-center relative overflow-hidden">
+            <div className="max-w-3xl mx-auto space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-navy border border-blue-100 text-xs font-mono font-semibold">
+                <span>CBSE Affiliated No. 1730867</span>
+                <span>•</span>
+                <span>Class IX Academic Performance Portal</span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-bold text-navy font-serif tracking-tight">
+                Class IX Student Academic Records & Target Tracker
+              </h2>
+
+              <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto leading-relaxed">
+                Continuous performance evaluation, weighted mark aggregation, and predictive target modeling for Cambridge Court International School scholars.
+              </p>
+
+              {/* Quick Section Tabs */}
+              <div className="pt-4 flex flex-col items-center gap-3">
+                <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200">
+                  {(["AURA", "ZEN", "NEO"] as const).map((sec) => (
+                    <button
+                      key={sec}
+                      type="button"
+                      onClick={() => setLandingSection(sec)}
+                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                        landingSection === sec
+                          ? "bg-navy text-white shadow-xs"
+                          : "text-slate-600 hover:text-navy hover:bg-slate-200/60"
+                      }`}
+                    >
+                      Section IX-{sec}
+                    </button>
+                  ))}
+                </div>
+                <span className="text-[11px] text-slate-400 font-medium">
+                  Showing {sectionStudents.length} enrolled students in Section IX-{landingSection}
+                </span>
+              </div>
             </div>
-            <h2 className="text-2xl font-bold text-navy font-serif">
-              Enter an Enrollment Number Above
-            </h2>
-            <p className="text-sm text-slate-500 max-w-md mx-auto mt-2 leading-relaxed">
-              Use the search box above to enter your enrollment number (e.g. <span className="font-mono font-semibold text-navy">CCIS-IX-AURA-02</span>) or click below to browse the directory.
-            </p>
-            <button
-              onClick={() => setIsLookupOpen(true)}
-              type="button"
-              className="mt-6 px-5 py-2.5 rounded-xl bg-navy hover:bg-navy-light text-white font-semibold text-sm transition-all shadow-xs"
-            >
-              Browse Student Directory
-            </button>
+
+            {/* Quick-Pick Student Grid */}
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-left">
+              {sectionStudents.slice(0, 8).map((item) => (
+                <button
+                  key={item.studentId}
+                  type="button"
+                  onClick={() => handleSelectStudent(item.studentId)}
+                  className="p-3.5 rounded-xl border border-slate-200 bg-white hover:border-navy/40 hover:bg-blue-50/40 transition-all text-left group shadow-2xs flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <span className="text-[10px] font-mono font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                        {item.enrollmentNumber}
+                      </span>
+                      <span className="text-[10px] font-semibold text-slate-400">
+                        IX-{item.group}
+                      </span>
+                    </div>
+                    <h4 className="text-xs font-bold text-navy group-hover:text-blue-700 transition-colors truncate">
+                      {item.name}
+                    </h4>
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                    <span>Baseline Score:</span>
+                    <span className="font-mono font-bold text-navy">{item.overallDisplay || "Recorded"}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Directory Button */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <button
+                onClick={() => setIsLookupOpen(true)}
+                type="button"
+                className="px-5 py-2.5 rounded-xl bg-navy hover:bg-navy-light text-white font-semibold text-xs transition-all shadow-xs inline-flex items-center gap-2"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Browse All 97 Class IX Students</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Institutional Feature Highlights */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center mb-3">
+                <Target className="w-4 h-4 text-amber-600" />
+              </div>
+              <h3 className="text-sm font-bold text-navy mb-1 font-serif">
+                Predictive Target Score Modeling
+              </h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Calculates precise marks required in PT-2, Pre-Board, and Final exams to hit institutional benchmark targets.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center mb-3">
+                <BookOpen className="w-4 h-4 text-navy" />
+              </div>
+              <h3 className="text-sm font-bold text-navy mb-1 font-serif">
+                Continuous 6-Subject Evaluation
+              </h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Side-by-side progression tracking across English, Maths, Science, Social Science, IT, and 2nd Language (Hindi/Sanskrit/French).
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center mb-3">
+                <Layers className="w-4 h-4 text-emerald-600" />
+              </div>
+              <h3 className="text-sm font-bold text-navy mb-1 font-serif">
+                CBSE Weighted Distribution
+              </h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Evaluated under CBSE continuous scheme: PT-1 (10%), Mid Term (20%), PT-2 (10%), Pre-Board (20%), Annual Final (40%).
+              </p>
+            </div>
           </div>
         </div>
 
@@ -339,7 +448,12 @@ export default function StudentPortal() {
         </div>
 
         {/* Realigned Content View */}
-        {activeTab === "matrix" ? (
+        {activeTab === "target-calc" ? (
+          <div className="space-y-6 sm:space-y-8">
+            <TargetScoreTable student={student} />
+            <TargetProgressionChart student={student} />
+          </div>
+        ) : activeTab === "matrix" ? (
           <div className="space-y-6 sm:space-y-8">
             {/* Assessment Timeline */}
             <ExamProgressionTimeline student={student} />
@@ -367,7 +481,7 @@ export default function StudentPortal() {
             <SubjectPerformanceChart subjects={student.currentPerformance.subjectList} />
             <SubjectPerformanceList subjects={student.currentPerformance.subjectList} />
           </div>
-        ) : activeTab === "exam-2" ? (
+        ) : (
           <div className="space-y-6 sm:space-y-8">
             <SubjectPerformanceChart
               subjects={student.exams?.["exam-2"]?.subjectList || student.currentPerformance.subjectList}
@@ -375,11 +489,6 @@ export default function StudentPortal() {
             <SubjectPerformanceList
               subjects={student.exams?.["exam-2"]?.subjectList || student.currentPerformance.subjectList}
             />
-          </div>
-        ) : (
-          <div className="space-y-6 sm:space-y-8">
-            <TargetScoreTable student={student} />
-            <TargetProgressionChart student={student} />
           </div>
         )}
 
