@@ -1,0 +1,2136 @@
+[
+  {
+    "sNo": 1,
+    "name": "ACHINTYA KHANDAL",
+    "section": "AURA",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 68,
+      "maths": 70,
+      "socialScience": 65,
+      "secondLanguage": 60,
+      "science": 75,
+      "it": 75
+    },
+    "exam1": {
+      "english": "12",
+      "maths": "11.5",
+      "sSt": "10.5",
+      "hsf": "11.5",
+      "science": "10.5",
+      "it": "14"
+    }
+  },
+  {
+    "sNo": 2,
+    "name": "AAFRIN KHAN",
+    "section": "AURA",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 67,
+      "maths": 52,
+      "socialScience": 56,
+      "secondLanguage": "65-70",
+      "science": "50-53",
+      "it": 70
+    },
+    "exam1": {
+      "english": "13",
+      "maths": "8",
+      "sSt": "13",
+      "hsf": "9.5",
+      "science": "10.5",
+      "it": "17.5"
+    }
+  },
+  {
+    "sNo": 3,
+    "name": "AMOGH RAWAL",
+    "section": "AURA",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 70,
+      "socialScience": 70,
+      "secondLanguage": 70,
+      "science": 75,
+      "it": 80
+    },
+    "exam1": {
+      "english": "14.5",
+      "maths": "11.5",
+      "sSt": "16.5",
+      "hsf": "17",
+      "science": "12.5",
+      "it": "19.5"
+    }
+  },
+  {
+    "sNo": 4,
+    "name": "ARYAN YADAV",
+    "section": "AURA",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 60,
+      "maths": 75,
+      "socialScience": 70,
+      "secondLanguage": 65,
+      "science": 70,
+      "it": 75
+    },
+    "exam1": {
+      "english": "3",
+      "maths": "5",
+      "sSt": "5.5",
+      "hsf": "5",
+      "science": "3.5",
+      "it": "11"
+    }
+  },
+  {
+    "sNo": 5,
+    "name": "ATHRAV SINGHAL",
+    "section": "AURA",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 80,
+      "socialScience": 75,
+      "secondLanguage": 70,
+      "science": 85,
+      "it": 90
+    },
+    "exam1": {
+      "english": "9",
+      "maths": "10",
+      "sSt": "11",
+      "hsf": "12",
+      "science": "10.5",
+      "it": "12"
+    }
+  },
+  {
+    "sNo": 6,
+    "name": "DARSH CHAUHAN",
+    "section": "AURA",
+    "target": "95.0%",
+    "targetSubjects": {
+      "english": 65,
+      "maths": 70,
+      "socialScience": 70,
+      "secondLanguage": 65,
+      "science": 70,
+      "it": 75
+    },
+    "exam1": {
+      "english": "9.5",
+      "maths": null,
+      "sSt": "8",
+      "hsf": "12",
+      "science": "8",
+      "it": "16"
+    }
+  },
+  {
+    "sNo": 7,
+    "name": "DARSH SHARMA",
+    "section": "AURA",
+    "target": "92.0%",
+    "targetSubjects": {
+      "english": 72,
+      "maths": 74,
+      "socialScience": 71,
+      "secondLanguage": 73,
+      "science": 75,
+      "it": 45
+    },
+    "exam1": {
+      "english": "11.5",
+      "maths": "10.5",
+      "sSt": "10.5",
+      "hsf": "13.5",
+      "science": "12",
+      "it": "14"
+    }
+  },
+  {
+    "sNo": 8,
+    "name": "DARSHIL MEENA",
+    "section": "AURA",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 65,
+      "socialScience": 70,
+      "secondLanguage": 75,
+      "science": 70,
+      "it": 75
+    },
+    "exam1": {
+      "english": "12.5",
+      "maths": "4.5",
+      "sSt": "10.5",
+      "hsf": "10.5",
+      "science": null,
+      "it": "12"
+    }
+  },
+  {
+    "sNo": 9,
+    "name": "FIONA JAIN",
+    "section": "AURA",
+    "target": "70-75%",
+    "targetSubjects": {
+      "english": "85-90",
+      "maths": 80,
+      "socialScience": "90-92",
+      "secondLanguage": 80,
+      "science": "65-70",
+      "it": 95
+    },
+    "exam1": {
+      "english": "9",
+      "maths": "7.5",
+      "sSt": "8.5",
+      "hsf": "8",
+      "science": "10",
+      "it": "15"
+    }
+  },
+  {
+    "sNo": 10,
+    "name": "GARVIT MODI",
+    "section": "AURA",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 68,
+      "socialScience": 65,
+      "secondLanguage": 72,
+      "science": 65,
+      "it": 70
+    },
+    "exam1": {
+      "english": "9.5",
+      "maths": "12",
+      "sSt": "13.5",
+      "hsf": "16.5",
+      "science": "13.5",
+      "it": "16"
+    }
+  },
+  {
+    "sNo": 11,
+    "name": "HARDIK DEWANI",
+    "section": "AURA",
+    "target": "75.0%",
+    "targetSubjects": {
+      "english": 65,
+      "maths": 60,
+      "socialScience": 70,
+      "secondLanguage": 67,
+      "science": 60,
+      "it": 75
+    },
+    "exam1": {
+      "english": "7.5",
+      "maths": "5",
+      "sSt": "7.5",
+      "hsf": "9",
+      "science": "6",
+      "it": "16"
+    }
+  },
+  {
+    "sNo": 12,
+    "name": "HEER LONGANI",
+    "section": "AURA",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 55,
+      "socialScience": 57,
+      "secondLanguage": 78,
+      "science": 58,
+      "it": 79
+    },
+    "exam1": {
+      "english": "10.5",
+      "maths": "5",
+      "sSt": "10",
+      "hsf": "9",
+      "science": "4",
+      "it": "17"
+    }
+  },
+  {
+    "sNo": 13,
+    "name": "HRIDHAAN SARASWAT",
+    "section": "AURA",
+    "target": "96.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 80,
+      "socialScience": 72,
+      "secondLanguage": 65,
+      "science": 75,
+      "it": 80
+    },
+    "exam1": {
+      "english": "15.5",
+      "maths": null,
+      "sSt": "17",
+      "hsf": "16.5",
+      "science": "14.5",
+      "it": "18.5"
+    }
+  },
+  {
+    "sNo": 14,
+    "name": "ISHAAN DEEGWAL",
+    "section": "AURA",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 65,
+      "maths": 75,
+      "socialScience": 60,
+      "secondLanguage": 60,
+      "science": 75,
+      "it": 75
+    },
+    "exam1": {
+      "english": "13.5",
+      "maths": "9.5",
+      "sSt": "12",
+      "hsf": "6.5",
+      "science": "8.5",
+      "it": "12.5"
+    }
+  },
+  {
+    "sNo": 15,
+    "name": "ISHIT SHARMA",
+    "section": "AURA",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 70,
+      "socialScience": 65,
+      "secondLanguage": 60,
+      "science": 70,
+      "it": 65
+    },
+    "exam1": {
+      "english": "11",
+      "maths": "10.5",
+      "sSt": "9",
+      "hsf": "11",
+      "science": "10",
+      "it": "12"
+    }
+  },
+  {
+    "sNo": 16,
+    "name": "JINISHA SAINI",
+    "section": "AURA",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 79,
+      "maths": 50,
+      "socialScience": 79,
+      "secondLanguage": 67,
+      "science": 65,
+      "it": 75
+    },
+    "exam1": {
+      "english": "11",
+      "maths": "3",
+      "sSt": "9",
+      "hsf": "8",
+      "science": "10.5",
+      "it": "17.5"
+    }
+  },
+  {
+    "sNo": 17,
+    "name": "JIYA GUPTA",
+    "section": "AURA",
+    "target": "90-95%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 75,
+      "socialScience": 70,
+      "secondLanguage": 75,
+      "science": 70,
+      "it": 75
+    },
+    "exam1": {
+      "english": "15",
+      "maths": null,
+      "sSt": "16.5",
+      "hsf": "18",
+      "science": "15.5",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 18,
+    "name": "KINSHUK SHARMA",
+    "section": "AURA",
+    "target": "95.0%",
+    "targetSubjects": {
+      "english": 65,
+      "maths": 75,
+      "socialScience": 70,
+      "secondLanguage": 65,
+      "science": 70,
+      "it": 40
+    },
+    "exam1": {
+      "english": "11.5",
+      "maths": null,
+      "sSt": "6",
+      "hsf": "9",
+      "science": "5",
+      "it": "11.5"
+    }
+  },
+  {
+    "sNo": 19,
+    "name": "KULDEEP BADHALA",
+    "section": "AURA",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 70,
+      "socialScience": 70,
+      "secondLanguage": 75,
+      "science": 70,
+      "it": 55
+    },
+    "exam1": {
+      "english": "9",
+      "maths": "7.5",
+      "sSt": "12",
+      "hsf": "9.5",
+      "science": "12",
+      "it": "12.5"
+    }
+  },
+  {
+    "sNo": 20,
+    "name": "KUSH YADAV",
+    "section": "AURA",
+    "target": "80-85%",
+    "targetSubjects": {
+      "english": 65,
+      "maths": 70,
+      "socialScience": 65,
+      "secondLanguage": 60,
+      "science": 70,
+      "it": 65
+    },
+    "exam1": {
+      "english": null,
+      "maths": "10",
+      "sSt": "12",
+      "hsf": "11",
+      "science": null,
+      "it": null
+    }
+  },
+  {
+    "sNo": 21,
+    "name": "KUSH GUPTA",
+    "section": "AURA",
+    "target": "85%%",
+    "targetSubjects": {
+      "english": "50-55",
+      "maths": "72-75",
+      "socialScience": "50-55",
+      "secondLanguage": "60-65",
+      "science": "69-72",
+      "it": "60-70"
+    },
+    "exam1": {
+      "english": "9.5",
+      "maths": "13.5",
+      "sSt": "11",
+      "hsf": "9",
+      "science": "11.5",
+      "it": "9.5"
+    }
+  },
+  {
+    "sNo": 22,
+    "name": "MAHIKA SHARMA",
+    "section": "AURA",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 60,
+      "maths": "50-55",
+      "socialScience": "60-65",
+      "secondLanguage": 55,
+      "science": 60,
+      "it": 75
+    },
+    "exam1": {
+      "english": "11",
+      "maths": "9.5",
+      "sSt": "8",
+      "hsf": "5.5",
+      "science": "10.5",
+      "it": "16.5"
+    }
+  },
+  {
+    "sNo": 23,
+    "name": "NAKSHATRA SHRIVASTAVA",
+    "section": "AURA",
+    "target": "80-85%",
+    "targetSubjects": {
+      "english": 60,
+      "maths": 65,
+      "socialScience": 60,
+      "secondLanguage": 65,
+      "science": 60,
+      "it": 60
+    },
+    "exam1": {
+      "english": "8",
+      "maths": "9",
+      "sSt": "8",
+      "hsf": "9",
+      "science": "7.5",
+      "it": "12.5"
+    }
+  },
+  {
+    "sNo": 24,
+    "name": "NIVAN SETHI",
+    "section": "AURA",
+    "target": "98.0%",
+    "targetSubjects": {
+      "english": 100,
+      "maths": 100,
+      "socialScience": 95,
+      "secondLanguage": 95,
+      "science": 100,
+      "it": 100
+    },
+    "exam1": {
+      "english": "13",
+      "maths": null,
+      "sSt": "13.5",
+      "hsf": "14.5",
+      "science": "15",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 25,
+    "name": "ROUNAK JEPH",
+    "section": "AURA",
+    "target": "97-98%",
+    "targetSubjects": {
+      "english": 92,
+      "maths": 98,
+      "socialScience": 100,
+      "secondLanguage": 98,
+      "science": 95,
+      "it": 100
+    },
+    "exam1": {
+      "english": "14",
+      "maths": "15.5",
+      "sSt": "15",
+      "hsf": "19",
+      "science": "13",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 26,
+    "name": "RUDRAKSHA AGRAWAL",
+    "section": "AURA",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 75,
+      "socialScience": 65,
+      "secondLanguage": 65,
+      "science": 75,
+      "it": 80
+    },
+    "exam1": {
+      "english": "9",
+      "maths": "7",
+      "sSt": "10.5",
+      "hsf": "10",
+      "science": "9.5",
+      "it": "18.5"
+    }
+  },
+  {
+    "sNo": 27,
+    "name": "SAKSHAM ANAND",
+    "section": "AURA",
+    "target": null,
+    "targetSubjects": {
+      "english": 65,
+      "maths": 70,
+      "socialScience": 65,
+      "secondLanguage": 60,
+      "science": 60,
+      "it": 75
+    },
+    "exam1": {
+      "english": "13",
+      "maths": "6.5",
+      "sSt": "9.5",
+      "hsf": "6.5",
+      "science": "4.5",
+      "it": "14.5"
+    }
+  },
+  {
+    "sNo": 28,
+    "name": "SATVIK GARG",
+    "section": "AURA",
+    "target": "99.0%",
+    "targetSubjects": {
+      "english": 78,
+      "maths": 75,
+      "socialScience": 78,
+      "secondLanguage": 74,
+      "science": 79,
+      "it": 75
+    },
+    "exam1": {
+      "english": "13",
+      "maths": "8",
+      "sSt": "13",
+      "hsf": "8",
+      "science": "13",
+      "it": "13.5"
+    }
+  },
+  {
+    "sNo": 29,
+    "name": "SURYA PRATAP SINGH NATHAWAT",
+    "section": "AURA",
+    "target": "94.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 90,
+      "socialScience": 95,
+      "secondLanguage": 75,
+      "science": 91,
+      "it": 95
+    },
+    "exam1": {
+      "english": "10.5",
+      "maths": "12.5",
+      "sSt": "16",
+      "hsf": "14",
+      "science": "14.5",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 30,
+    "name": "VEDEHI SIHAG",
+    "section": "AURA",
+    "target": "90-95%",
+    "targetSubjects": {
+      "english": 95,
+      "maths": "80-90",
+      "socialScience": "85-95",
+      "secondLanguage": "85-90",
+      "science": "90-95",
+      "it": 90
+    },
+    "exam1": {
+      "english": "12.5",
+      "maths": "11.5",
+      "sSt": "12.5",
+      "hsf": "12.5",
+      "science": "12.5",
+      "it": "16.5"
+    }
+  },
+  {
+    "sNo": 31,
+    "name": "YAJNESH JAJORIYA",
+    "section": "AURA",
+    "target": "80-85%",
+    "targetSubjects": {
+      "english": "60-70",
+      "maths": "50-60",
+      "socialScience": "72-75",
+      "secondLanguage": "70-75",
+      "science": "70-80",
+      "it": "35-40"
+    },
+    "exam1": {
+      "english": "9.5",
+      "maths": "3.5",
+      "sSt": "7.5",
+      "hsf": "11",
+      "science": "6.5",
+      "it": "14.5"
+    }
+  },
+  {
+    "sNo": 32,
+    "name": "YASHVARDHAN SINGH",
+    "section": "AURA",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 70,
+      "socialScience": 72,
+      "secondLanguage": 65,
+      "science": 70,
+      "it": 75
+    },
+    "exam1": {
+      "english": "9",
+      "maths": "12.5",
+      "sSt": "9.5",
+      "hsf": "10",
+      "science": "8.5",
+      "it": "13.5"
+    }
+  },
+  {
+    "sNo": 33,
+    "name": "AARADHYA GOYAL",
+    "section": "ZEN",
+    "target": "98.3%",
+    "targetSubjects": {
+      "english": 96.25,
+      "maths": 100,
+      "socialScience": 97.5,
+      "secondLanguage": 98.5,
+      "science": 97.5,
+      "it": 100
+    },
+    "exam1": {
+      "english": "15.5",
+      "maths": "18.5",
+      "sSt": "19.5",
+      "hsf": "19",
+      "science": "17.5",
+      "it": "18.5"
+    }
+  },
+  {
+    "sNo": 34,
+    "name": "AARADHYA SHARMA",
+    "section": "ZEN",
+    "target": "85-90%",
+    "targetSubjects": {
+      "english": 80,
+      "maths": 75,
+      "socialScience": 85,
+      "secondLanguage": 95,
+      "science": 75,
+      "it": 95
+    },
+    "exam1": {
+      "english": "14",
+      "maths": "7",
+      "sSt": "14.5",
+      "hsf": "16.5",
+      "science": "11",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 35,
+    "name": "AARUHI SHARMA",
+    "section": "ZEN",
+    "target": "98.0%",
+    "targetSubjects": {
+      "english": 95,
+      "maths": 96,
+      "socialScience": 98,
+      "secondLanguage": 100,
+      "science": 96,
+      "it": 99
+    },
+    "exam1": {
+      "english": "13",
+      "maths": "10.5",
+      "sSt": "11",
+      "hsf": "10.5",
+      "science": "12",
+      "it": "16"
+    }
+  },
+  {
+    "sNo": 36,
+    "name": "ADITI PANDIT",
+    "section": "ZEN",
+    "target": "100%",
+    "targetSubjects": {
+      "english": 96,
+      "maths": 85,
+      "socialScience": 100,
+      "secondLanguage": 98,
+      "science": 95,
+      "it": 100
+    },
+    "exam1": {
+      "english": "13.5",
+      "maths": "8",
+      "sSt": "16.5",
+      "hsf": "13",
+      "science": "10.5",
+      "it": null
+    }
+  },
+  {
+    "sNo": 37,
+    "name": "AKSHOBHYA TIWARI",
+    "section": "ZEN",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 80,
+      "socialScience": 70,
+      "secondLanguage": 60,
+      "science": 90,
+      "it": 75
+    },
+    "exam1": {
+      "english": null,
+      "maths": null,
+      "sSt": null,
+      "hsf": null,
+      "science": null,
+      "it": null
+    }
+  },
+  {
+    "sNo": 38,
+    "name": "ANUSHKA BHASKAR",
+    "section": "ZEN",
+    "target": "98.0%",
+    "targetSubjects": {
+      "english": 95,
+      "maths": 96,
+      "socialScience": 97,
+      "secondLanguage": 100,
+      "science": 98,
+      "it": 100
+    },
+    "exam1": {
+      "english": "11",
+      "maths": "8",
+      "sSt": "11",
+      "hsf": "12",
+      "science": "11",
+      "it": "17"
+    }
+  },
+  {
+    "sNo": 39,
+    "name": "ANUSHKA FOGLA",
+    "section": "ZEN",
+    "target": "92.0%",
+    "targetSubjects": {
+      "english": "69-89",
+      "maths": "71-72",
+      "socialScience": "71-72",
+      "secondLanguage": 77,
+      "science": 73,
+      "it": 75
+    },
+    "exam1": {
+      "english": "7",
+      "maths": "6.5",
+      "sSt": "5",
+      "hsf": "8",
+      "science": "5.5",
+      "it": "13"
+    }
+  },
+  {
+    "sNo": 40,
+    "name": "ARTH PAREEK",
+    "section": "ZEN",
+    "target": null,
+    "targetSubjects": {
+      "english": "80-83",
+      "maths": 90,
+      "socialScience": "85-87",
+      "secondLanguage": "80-83",
+      "science": 90,
+      "it": 90
+    },
+    "exam1": {
+      "english": null,
+      "maths": null,
+      "sSt": null,
+      "hsf": null,
+      "science": null,
+      "it": null
+    }
+  },
+  {
+    "sNo": 41,
+    "name": "ARAV CHITRANSH",
+    "section": "ZEN",
+    "target": null,
+    "targetSubjects": {
+      "english": 60,
+      "maths": 50,
+      "socialScience": 90,
+      "secondLanguage": "60-65",
+      "science": 80,
+      "it": 70
+    },
+    "exam1": {
+      "english": "6.5",
+      "maths": "4.5",
+      "sSt": "7.5",
+      "hsf": "6",
+      "science": "7.5",
+      "it": "13"
+    }
+  },
+  {
+    "sNo": 42,
+    "name": "ARPIT NITHARWAL",
+    "section": "ZEN",
+    "target": "86.0%",
+    "targetSubjects": {
+      "english": 80,
+      "maths": 90,
+      "socialScience": 90,
+      "secondLanguage": 85,
+      "science": 90,
+      "it": 90
+    },
+    "exam1": {
+      "english": "10.5",
+      "maths": "12.5",
+      "sSt": "11.5",
+      "hsf": "13",
+      "science": "8.5",
+      "it": "17.5"
+    }
+  },
+  {
+    "sNo": 43,
+    "name": "AVI SHARMA",
+    "section": "ZEN",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 85,
+      "socialScience": 90,
+      "secondLanguage": 95,
+      "science": 85,
+      "it": 95
+    },
+    "exam1": {
+      "english": "12",
+      "maths": null,
+      "sSt": null,
+      "hsf": null,
+      "science": "11",
+      "it": "17"
+    }
+  },
+  {
+    "sNo": 44,
+    "name": "DAKSHESH TANK",
+    "section": "ZEN",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 82,
+      "socialScience": 65,
+      "secondLanguage": 80,
+      "science": 90,
+      "it": 85
+    },
+    "exam1": {
+      "english": "7",
+      "maths": "7.5",
+      "sSt": "4.5",
+      "hsf": "5",
+      "science": "7.5",
+      "it": "12"
+    }
+  },
+  {
+    "sNo": 45,
+    "name": "DIVYANSHI KATARIYA",
+    "section": "ZEN",
+    "target": null,
+    "targetSubjects": {
+      "english": 95,
+      "maths": 90,
+      "socialScience": 100,
+      "secondLanguage": 100,
+      "science": 95,
+      "it": 100
+    },
+    "exam1": {
+      "english": "12.5",
+      "maths": "7",
+      "sSt": "12.5",
+      "hsf": "13",
+      "science": "8",
+      "it": "13.5"
+    }
+  },
+  {
+    "sNo": 46,
+    "name": "GOURANGI TIWARI",
+    "section": "ZEN",
+    "target": "98.5%",
+    "targetSubjects": {
+      "english": 76,
+      "maths": 79,
+      "socialScience": 80,
+      "secondLanguage": 80,
+      "science": 79,
+      "it": 80
+    },
+    "exam1": {
+      "english": "17.5",
+      "maths": "18.5",
+      "sSt": "18.5",
+      "hsf": "19",
+      "science": "18.5",
+      "it": "20"
+    }
+  },
+  {
+    "sNo": 47,
+    "name": "HAVISH CHOUDHARY",
+    "section": "ZEN",
+    "target": null,
+    "targetSubjects": {
+      "english": 85,
+      "maths": 70,
+      "socialScience": "70-80",
+      "secondLanguage": 85,
+      "science": 65,
+      "it": 85
+    },
+    "exam1": {
+      "english": "6",
+      "maths": "4.5",
+      "sSt": "4",
+      "hsf": "9",
+      "science": "5.5",
+      "it": "10"
+    }
+  },
+  {
+    "sNo": 48,
+    "name": "HIYA GOYAL",
+    "section": "ZEN",
+    "target": "98-99%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 100,
+      "socialScience": 90,
+      "secondLanguage": 95,
+      "science": 95,
+      "it": 100
+    },
+    "exam1": {
+      "english": "11.5",
+      "maths": "18",
+      "sSt": "9.5",
+      "hsf": "13",
+      "science": "13.5",
+      "it": "19.5"
+    }
+  },
+  {
+    "sNo": 49,
+    "name": "INAYA YADAV",
+    "section": "ZEN",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 85,
+      "socialScience": 80,
+      "secondLanguage": 75,
+      "science": 80,
+      "it": 85
+    },
+    "exam1": {
+      "english": "12.5",
+      "maths": "18",
+      "sSt": "12",
+      "hsf": "11.5",
+      "science": "8.5",
+      "it": "17.5"
+    }
+  },
+  {
+    "sNo": 50,
+    "name": "KAVISH KUSHWAHA",
+    "section": "ZEN",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 70,
+      "socialScience": 75,
+      "secondLanguage": 75,
+      "science": 75,
+      "it": 75
+    },
+    "exam1": {
+      "english": "14",
+      "maths": "12.5",
+      "sSt": "13.5",
+      "hsf": "15.5",
+      "science": "12",
+      "it": "15"
+    }
+  },
+  {
+    "sNo": 51,
+    "name": "KAVYA BANSAL",
+    "section": "ZEN",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 85,
+      "maths": 75,
+      "socialScience": 80,
+      "secondLanguage": 80,
+      "science": 75,
+      "it": 85
+    },
+    "exam1": {
+      "english": "15",
+      "maths": "3.5",
+      "sSt": "10",
+      "hsf": "9.5",
+      "science": "5",
+      "it": "14.5"
+    }
+  },
+  {
+    "sNo": 52,
+    "name": "KHUSH SHARMA",
+    "section": "ZEN",
+    "target": "61.0%",
+    "targetSubjects": {
+      "english": 48,
+      "maths": 44,
+      "socialScience": 52,
+      "secondLanguage": 60,
+      "science": 55,
+      "it": 40
+    },
+    "exam1": {
+      "english": "2",
+      "maths": "2.5",
+      "sSt": null,
+      "hsf": "5",
+      "science": "2.5",
+      "it": "3.5"
+    }
+  },
+  {
+    "sNo": 53,
+    "name": "KRISHANA JANGIR",
+    "section": "ZEN",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 80,
+      "maths": 72,
+      "socialScience": 75,
+      "secondLanguage": 78,
+      "science": 85,
+      "it": 80
+    },
+    "exam1": {
+      "english": "12",
+      "maths": "7",
+      "sSt": "16.5",
+      "hsf": "12.5",
+      "science": "11",
+      "it": "10"
+    }
+  },
+  {
+    "sNo": 54,
+    "name": "KRITIKA MATWA",
+    "section": "ZEN",
+    "target": "98.0%",
+    "targetSubjects": {
+      "english": 96,
+      "maths": 90,
+      "socialScience": 95,
+      "secondLanguage": 98,
+      "science": 95,
+      "it": 99
+    },
+    "exam1": {
+      "english": "15.5",
+      "maths": "8",
+      "sSt": "19.5",
+      "hsf": "18.5",
+      "science": "13",
+      "it": "18.5"
+    }
+  },
+  {
+    "sNo": 55,
+    "name": "KUSHAGRA SINGH",
+    "section": "ZEN",
+    "target": "98.0%",
+    "targetSubjects": {
+      "english": 95,
+      "maths": 100,
+      "socialScience": 98,
+      "secondLanguage": 100,
+      "science": 98,
+      "it": 97
+    },
+    "exam1": {
+      "english": "14",
+      "maths": "17.5",
+      "sSt": "14.5",
+      "hsf": "18.5",
+      "science": "17",
+      "it": "16"
+    }
+  },
+  {
+    "sNo": 56,
+    "name": "LOVE GUPTA",
+    "section": "ZEN",
+    "target": "92.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 100,
+      "socialScience": 99,
+      "secondLanguage": 80,
+      "science": 100,
+      "it": 80
+    },
+    "exam1": {
+      "english": "11.5",
+      "maths": "15",
+      "sSt": "13.5",
+      "hsf": "12.5",
+      "science": "13.5",
+      "it": "11.5"
+    }
+  },
+  {
+    "sNo": 57,
+    "name": "MIHIRA PUROHIT",
+    "section": "ZEN",
+    "target": "98-100%",
+    "targetSubjects": {
+      "english": 95,
+      "maths": 100,
+      "socialScience": 95,
+      "secondLanguage": 95,
+      "science": 100,
+      "it": 100
+    },
+    "exam1": {
+      "english": "16",
+      "maths": null,
+      "sSt": "13",
+      "hsf": "16.5",
+      "science": "15.5",
+      "it": "17.5"
+    }
+  },
+  {
+    "sNo": 58,
+    "name": "MILAN YADAV",
+    "section": "ZEN",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 75,
+      "socialScience": 80,
+      "secondLanguage": 80,
+      "science": 85,
+      "it": 95
+    },
+    "exam1": {
+      "english": "11.5",
+      "maths": "6.5",
+      "sSt": "12.5",
+      "hsf": "12.5",
+      "science": "9.5",
+      "it": "15.5"
+    }
+  },
+  {
+    "sNo": 59,
+    "name": "NAGENDRA YADAV",
+    "section": "ZEN",
+    "target": "95.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 95,
+      "socialScience": 90,
+      "secondLanguage": 95,
+      "science": 95,
+      "it": 90
+    },
+    "exam1": {
+      "english": "11",
+      "maths": "7.5",
+      "sSt": "11.5",
+      "hsf": "17.5",
+      "science": "11",
+      "it": "13"
+    }
+  },
+  {
+    "sNo": 60,
+    "name": "NIMISHA KATODA",
+    "section": "ZEN",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 91,
+      "maths": 85,
+      "socialScience": 90,
+      "secondLanguage": 95,
+      "science": 85,
+      "it": 95
+    },
+    "exam1": {
+      "english": "10",
+      "maths": "6.5",
+      "sSt": "12",
+      "hsf": "14",
+      "science": "14",
+      "it": "16.5"
+    }
+  },
+  {
+    "sNo": 61,
+    "name": "NIRVI MAHESHWARI",
+    "section": "ZEN",
+    "target": "90.8%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 75,
+      "socialScience": 80,
+      "secondLanguage": 85,
+      "science": 75,
+      "it": 90
+    },
+    "exam1": {
+      "english": "9",
+      "maths": null,
+      "sSt": "14",
+      "hsf": "11.5",
+      "science": "2.5",
+      "it": "11"
+    }
+  },
+  {
+    "sNo": 62,
+    "name": "ROHAN POONIA",
+    "section": "ZEN",
+    "target": "93.2%",
+    "targetSubjects": {
+      "english": 87,
+      "maths": 97,
+      "socialScience": 95,
+      "secondLanguage": 87,
+      "science": 94,
+      "it": 96
+    },
+    "exam1": {
+      "english": "13.5",
+      "maths": "8.5",
+      "sSt": "14",
+      "hsf": "14",
+      "science": "16",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 63,
+    "name": "SARTHAK SANYAL",
+    "section": "ZEN",
+    "target": "70.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 80,
+      "socialScience": 80,
+      "secondLanguage": 65,
+      "science": 65,
+      "it": 65
+    },
+    "exam1": {
+      "english": "7",
+      "maths": "6.5",
+      "sSt": "8",
+      "hsf": "3",
+      "science": "7.5",
+      "it": "9"
+    }
+  },
+  {
+    "sNo": 64,
+    "name": "TEJAS DHINGRA",
+    "section": "ZEN",
+    "target": "60.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 50,
+      "socialScience": 65,
+      "secondLanguage": 65,
+      "science": 60,
+      "it": 85
+    },
+    "exam1": {
+      "english": "9.5",
+      "maths": "6.5",
+      "sSt": "9.5",
+      "hsf": "8",
+      "science": "8.5",
+      "it": "9.5"
+    }
+  },
+  {
+    "sNo": 65,
+    "name": "VIKASH CHOUDHARY",
+    "section": "ZEN",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 80,
+      "maths": 95,
+      "socialScience": 80,
+      "secondLanguage": 95,
+      "science": 80,
+      "it": 80
+    },
+    "exam1": {
+      "english": "7.5",
+      "maths": "11",
+      "sSt": "7",
+      "hsf": "11.5",
+      "science": "8",
+      "it": "10.5"
+    }
+  },
+  {
+    "sNo": 66,
+    "name": "AADIT TIWARI",
+    "section": "NEO",
+    "target": "85-90%",
+    "targetSubjects": {
+      "english": "60-70",
+      "maths": "65-70",
+      "socialScience": "65-75",
+      "secondLanguage": "65-70",
+      "science": "70-80",
+      "it": "40-45"
+    },
+    "exam1": {
+      "english": "10.5",
+      "maths": "9",
+      "sSt": "8.5",
+      "hsf": "5",
+      "science": "9",
+      "it": "14"
+    }
+  },
+  {
+    "sNo": 67,
+    "name": "AARAV ALHA",
+    "section": "NEO",
+    "target": "95.0%",
+    "targetSubjects": {
+      "english": 95,
+      "maths": 95,
+      "socialScience": 95,
+      "secondLanguage": 95,
+      "science": 95,
+      "it": 95
+    },
+    "exam1": {
+      "english": "13.5",
+      "maths": "11.5",
+      "sSt": "16.5",
+      "hsf": "15",
+      "science": "15",
+      "it": "16"
+    }
+  },
+  {
+    "sNo": 68,
+    "name": "ABHAY AGARWAL",
+    "section": "NEO",
+    "target": "89.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 80,
+      "socialScience": 97,
+      "secondLanguage": 95,
+      "science": 85,
+      "it": 70
+    },
+    "exam1": {
+      "english": null,
+      "maths": null,
+      "sSt": null,
+      "hsf": null,
+      "science": null,
+      "it": null
+    }
+  },
+  {
+    "sNo": 69,
+    "name": "ADHYAYAN AWASTHI",
+    "section": "NEO",
+    "target": "95.0%",
+    "targetSubjects": {
+      "english": 100,
+      "maths": 100,
+      "socialScience": 95,
+      "secondLanguage": 95,
+      "science": 100,
+      "it": 100
+    },
+    "exam1": {
+      "english": "13.5",
+      "maths": "14",
+      "sSt": "10.5",
+      "hsf": "11",
+      "science": "16",
+      "it": "19"
+    }
+  },
+  {
+    "sNo": 70,
+    "name": "AADYA KHANDELWAL",
+    "section": "NEO",
+    "target": "91.0%",
+    "targetSubjects": {
+      "english": 95,
+      "maths": 90,
+      "socialScience": 85,
+      "secondLanguage": 96,
+      "science": 94,
+      "it": 85
+    },
+    "exam1": {
+      "english": null,
+      "maths": null,
+      "sSt": null,
+      "hsf": null,
+      "science": "10.5",
+      "it": null
+    }
+  },
+  {
+    "sNo": 71,
+    "name": "AKSHIT DAGAR",
+    "section": "NEO",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": "50-60",
+      "maths": "75-90",
+      "socialScience": "55-65",
+      "secondLanguage": "60-70",
+      "science": 90,
+      "it": 35
+    },
+    "exam1": {
+      "english": "4.5",
+      "maths": "15",
+      "sSt": "6",
+      "hsf": "5",
+      "science": "10",
+      "it": "8.5"
+    }
+  },
+  {
+    "sNo": 72,
+    "name": "AYAAN NITHARWAL",
+    "section": "NEO",
+    "target": "98.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 100,
+      "socialScience": 95,
+      "secondLanguage": 97,
+      "science": 99,
+      "it": 99
+    },
+    "exam1": {
+      "english": "12",
+      "maths": "14",
+      "sSt": "15.5",
+      "hsf": "14",
+      "science": "13",
+      "it": "13.5"
+    }
+  },
+  {
+    "sNo": 73,
+    "name": "AYANA AGARWAL",
+    "section": "NEO",
+    "target": "100%",
+    "targetSubjects": {
+      "english": 100,
+      "maths": 100,
+      "socialScience": 100,
+      "secondLanguage": "-",
+      "science": 100,
+      "it": 100
+    },
+    "exam1": {
+      "english": "15",
+      "maths": "10.5",
+      "sSt": "16",
+      "hsf": "13.5",
+      "science": "17",
+      "it": "19.5"
+    }
+  },
+  {
+    "sNo": 74,
+    "name": "BHAVYA JEPH",
+    "section": "NEO",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 65,
+      "maths": 90,
+      "socialScience": 70,
+      "secondLanguage": 60,
+      "science": 80,
+      "it": 50
+    },
+    "exam1": {
+      "english": "11.5",
+      "maths": "7",
+      "sSt": "15",
+      "hsf": "11",
+      "science": "15",
+      "it": "18.5"
+    }
+  },
+  {
+    "sNo": 75,
+    "name": "DAKSH DUDI",
+    "section": "NEO",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 80,
+      "maths": 90,
+      "socialScience": 90,
+      "secondLanguage": 80,
+      "science": 90,
+      "it": 90
+    },
+    "exam1": {
+      "english": "10",
+      "maths": "12",
+      "sSt": "13",
+      "hsf": "12",
+      "science": "13",
+      "it": "12"
+    }
+  },
+  {
+    "sNo": 76,
+    "name": "DAKSH YADAV",
+    "section": "NEO",
+    "target": null,
+    "targetSubjects": {
+      "english": 60,
+      "maths": 65,
+      "socialScience": 65,
+      "secondLanguage": 60,
+      "science": 65,
+      "it": "55-60"
+    },
+    "exam1": {
+      "english": "10",
+      "maths": "7.5",
+      "sSt": "9",
+      "hsf": "10",
+      "science": "4.5",
+      "it": "11"
+    }
+  },
+  {
+    "sNo": 77,
+    "name": "DARSH LAL PRAKASH",
+    "section": "NEO",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 100,
+      "maths": 85,
+      "socialScience": 70,
+      "secondLanguage": 100,
+      "science": 85,
+      "it": 100
+    },
+    "exam1": {
+      "english": "10",
+      "maths": "10",
+      "sSt": "6",
+      "hsf": "9.5",
+      "science": "7",
+      "it": "13"
+    }
+  },
+  {
+    "sNo": 78,
+    "name": "DHANYA DHAMA",
+    "section": "NEO",
+    "target": "93-95%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 68,
+      "socialScience": 70,
+      "secondLanguage": 69,
+      "science": 70,
+      "it": 75
+    },
+    "exam1": {
+      "english": "10.5",
+      "maths": "2",
+      "sSt": "7.5",
+      "hsf": "11.5",
+      "science": "8",
+      "it": "10"
+    }
+  },
+  {
+    "sNo": 79,
+    "name": "DUSHYANT GOYAL",
+    "section": "NEO",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 85,
+      "maths": 95,
+      "socialScience": 90,
+      "secondLanguage": 85,
+      "science": 90,
+      "it": 90
+    },
+    "exam1": {
+      "english": "5.5",
+      "maths": "11.5",
+      "sSt": "7.5",
+      "hsf": "4.5",
+      "science": "9",
+      "it": "11"
+    }
+  },
+  {
+    "sNo": 80,
+    "name": "DWIJ NEGI",
+    "section": "NEO",
+    "target": "75.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 80,
+      "socialScience": 65,
+      "secondLanguage": 65,
+      "science": 75,
+      "it": 70
+    },
+    "exam1": {
+      "english": "12",
+      "maths": null,
+      "sSt": null,
+      "hsf": null,
+      "science": "15",
+      "it": null
+    }
+  },
+  {
+    "sNo": 81,
+    "name": "GAVYA CHAUDHARY",
+    "section": "NEO",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 80,
+      "maths": 60,
+      "socialScience": 80,
+      "secondLanguage": 90,
+      "science": 75,
+      "it": 90
+    },
+    "exam1": {
+      "english": "13",
+      "maths": "6.5",
+      "sSt": "14",
+      "hsf": "13.5",
+      "science": "15",
+      "it": null
+    }
+  },
+  {
+    "sNo": 82,
+    "name": "HRIDHAAN CHANDHOK",
+    "section": "NEO",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 80,
+      "socialScience": 90,
+      "secondLanguage": 95,
+      "science": 80,
+      "it": 95
+    },
+    "exam1": {
+      "english": "8.5",
+      "maths": "6.5",
+      "sSt": "11",
+      "hsf": "14.5",
+      "science": "8",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 83,
+    "name": "HIMANSHU GURJAR",
+    "section": "NEO",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 60,
+      "socialScience": 90,
+      "secondLanguage": 80,
+      "science": 70,
+      "it": 70
+    },
+    "exam1": {
+      "english": null,
+      "maths": null,
+      "sSt": null,
+      "hsf": null,
+      "science": null,
+      "it": null
+    }
+  },
+  {
+    "sNo": 84,
+    "name": "ISHIKA CHOUDHARY",
+    "section": "NEO",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 56,
+      "maths": 60,
+      "socialScience": 60,
+      "secondLanguage": 55,
+      "science": 55,
+      "it": 70
+    },
+    "exam1": {
+      "english": "8.5",
+      "maths": null,
+      "sSt": "6.5",
+      "hsf": "5.5",
+      "science": "2",
+      "it": "8.5"
+    }
+  },
+  {
+    "sNo": 85,
+    "name": "NISHANT PUGLIA JAIN",
+    "section": "NEO",
+    "target": "93.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 90,
+      "socialScience": 87,
+      "secondLanguage": 89,
+      "science": 95,
+      "it": 86
+    },
+    "exam1": {
+      "english": "10.5",
+      "maths": "14",
+      "sSt": "11.5",
+      "hsf": "13",
+      "science": "12",
+      "it": "13.5"
+    }
+  },
+  {
+    "sNo": 86,
+    "name": "PANKHURI BHARDWAJ",
+    "section": "NEO",
+    "target": "80-85%",
+    "targetSubjects": {
+      "english": 85,
+      "maths": 80,
+      "socialScience": 80,
+      "secondLanguage": 80,
+      "science": 85,
+      "it": 80
+    },
+    "exam1": {
+      "english": "10.5",
+      "maths": "4.5",
+      "sSt": "8",
+      "hsf": "12.5",
+      "science": "7",
+      "it": "8.5"
+    }
+  },
+  {
+    "sNo": 87,
+    "name": "PRATEEK SAREEN",
+    "section": "NEO",
+    "target": "77.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 90,
+      "socialScience": 70,
+      "secondLanguage": 80,
+      "science": 90,
+      "it": 75
+    },
+    "exam1": {
+      "english": "10.5",
+      "maths": "16",
+      "sSt": "10",
+      "hsf": "14",
+      "science": "13",
+      "it": "13.5"
+    }
+  },
+  {
+    "sNo": 88,
+    "name": "RAJVEER CHOUDHARY",
+    "section": "NEO",
+    "target": "75.0%",
+    "targetSubjects": {
+      "english": 70,
+      "maths": 50,
+      "socialScience": 80,
+      "secondLanguage": 80,
+      "science": 65,
+      "it": 65
+    },
+    "exam1": {
+      "english": "6",
+      "maths": "7",
+      "sSt": "7",
+      "hsf": "8",
+      "science": "4.5",
+      "it": "10.5"
+    }
+  },
+  {
+    "sNo": 89,
+    "name": "RANVIJAY SINGH SHEKHAWAT",
+    "section": "NEO",
+    "target": "75.0%",
+    "targetSubjects": {
+      "english": "55-60",
+      "maths": "40-45",
+      "socialScience": "50-55",
+      "secondLanguage": 55,
+      "science": 60,
+      "it": 75
+    },
+    "exam1": {
+      "english": "2",
+      "maths": "4.5",
+      "sSt": "6",
+      "hsf": "2.5",
+      "science": "3.5",
+      "it": "7.5"
+    }
+  },
+  {
+    "sNo": 90,
+    "name": "REET KINRA",
+    "section": "NEO",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 85,
+      "socialScience": 85,
+      "secondLanguage": 96,
+      "science": 85,
+      "it": 95
+    },
+    "exam1": {
+      "english": "16",
+      "maths": null,
+      "sSt": "14.5",
+      "hsf": "16.5",
+      "science": "15.5",
+      "it": "19"
+    }
+  },
+  {
+    "sNo": 91,
+    "name": "SHIVANSHI CHOUDHARY",
+    "section": "NEO",
+    "target": "100%",
+    "targetSubjects": {
+      "english": 100,
+      "maths": 100,
+      "socialScience": 100,
+      "secondLanguage": 100,
+      "science": 100,
+      "it": 100
+    },
+    "exam1": {
+      "english": "15",
+      "maths": "14.5",
+      "sSt": "17.5",
+      "hsf": "12",
+      "science": "15",
+      "it": "17"
+    }
+  },
+  {
+    "sNo": 92,
+    "name": "SHREET SHARMA",
+    "section": "NEO",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 80,
+      "maths": 70,
+      "socialScience": 70,
+      "secondLanguage": 80,
+      "science": 80,
+      "it": 45
+    },
+    "exam1": {
+      "english": "11",
+      "maths": null,
+      "sSt": null,
+      "hsf": null,
+      "science": null,
+      "it": "14"
+    }
+  },
+  {
+    "sNo": 93,
+    "name": "TANISHKA NEGI",
+    "section": "NEO",
+    "target": "90.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 80,
+      "socialScience": 92,
+      "secondLanguage": 95,
+      "science": 80,
+      "it": 95
+    },
+    "exam1": {
+      "english": "14.5",
+      "maths": "8.5",
+      "sSt": "17",
+      "hsf": "17.5",
+      "science": "14.5",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 94,
+    "name": "TEJAS MEHLA",
+    "section": "NEO",
+    "target": "85.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 80,
+      "socialScience": 70,
+      "secondLanguage": 70,
+      "science": 80,
+      "it": 90
+    },
+    "exam1": {
+      "english": "6.5",
+      "maths": "6.5",
+      "sSt": "8.5",
+      "hsf": "3.5",
+      "science": "6.5",
+      "it": "11"
+    }
+  },
+  {
+    "sNo": 95,
+    "name": "VISHESH SHIVHARE",
+    "section": "NEO",
+    "target": "80.0%",
+    "targetSubjects": {
+      "english": 75,
+      "maths": 75,
+      "socialScience": 80,
+      "secondLanguage": 65,
+      "science": 85,
+      "it": 95
+    },
+    "exam1": {
+      "english": "8",
+      "maths": "8.5",
+      "sSt": "7",
+      "hsf": null,
+      "science": "6.5",
+      "it": "11"
+    }
+  },
+  {
+    "sNo": 96,
+    "name": "YAASHI MATHUR",
+    "section": "NEO",
+    "target": "95.0%",
+    "targetSubjects": {
+      "english": 90,
+      "maths": 85,
+      "socialScience": 90,
+      "secondLanguage": 97,
+      "science": 93,
+      "it": 90
+    },
+    "exam1": {
+      "english": "13.5",
+      "maths": "9.5",
+      "sSt": "14.5",
+      "hsf": "15.5",
+      "science": "12.5",
+      "it": "18"
+    }
+  },
+  {
+    "sNo": 97,
+    "name": "YOGESH KARWASRA",
+    "section": "NEO",
+    "target": "88.0%",
+    "targetSubjects": {
+      "english": 85,
+      "maths": 80,
+      "socialScience": 82,
+      "secondLanguage": 90,
+      "science": 90,
+      "it": 87
+    },
+    "exam1": {
+      "english": "9.5",
+      "maths": "6.5",
+      "sSt": "9",
+      "hsf": "13.5",
+      "science": "12.5",
+      "it": "16.5"
+    }
+  }
+]

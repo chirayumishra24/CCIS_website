@@ -369,21 +369,22 @@ export const syncClass9Performance = functions.https.onRequest(async (req, res) 
 
       for (const row of chunk) {
         try {
-          const group = (row.group || 'AURA').toUpperCase().replace(/^IX-?/, '');
+          const group = (row.section || row.group || 'AURA').toUpperCase().replace(/^IX-?/, '');
           const name = String(row.name || 'Unknown').trim().toUpperCase();
           const serialNo = Number(row.sNo) || 1;
           const cleanName = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
           const studentId = `ccis-ix-${group.toLowerCase()}-${cleanName}`;
           const enrollmentNumber = `CCIS-IX-${group}-${String(serialNo).padStart(2, '0')}`;
 
-          // ─── Parse Exam-1 (PT-1 /20) from flat fields (backward compatible) ───
+          // ─── Parse Exam-1 (PT-1 /20) from flat fields or exam1 object ───
           const e1MaxMarks = EXAM_CONFIG['exam-1'].maxMarks;
-          const e1English = parseMarks(row.english, e1MaxMarks);
-          const e1Maths = parseMarks(row.maths, e1MaxMarks);
-          const e1SSt = parseMarks(row.sSt, e1MaxMarks);
-          const e1Hsf = parseMarks(row.hsf, e1MaxMarks);
-          const e1Science = parseMarks(row.science, e1MaxMarks);
-          const e1It = parseMarks(row.it, e1MaxMarks);
+          const e1Raw = (row.exam1 && typeof row.exam1 === 'object') ? row.exam1 : row;
+          const e1English = parseMarks(e1Raw.english, e1MaxMarks);
+          const e1Maths = parseMarks(e1Raw.maths, e1MaxMarks);
+          const e1SSt = parseMarks(e1Raw.sSt, e1MaxMarks);
+          const e1Hsf = parseMarks(e1Raw.hsf, e1MaxMarks);
+          const e1Science = parseMarks(e1Raw.science, e1MaxMarks);
+          const e1It = parseMarks(e1Raw.it, e1MaxMarks);
 
           // Calculate Exam-1 overall
           const e1Subjects = [e1English, e1Maths, e1SSt, e1Hsf, e1Science, e1It];
@@ -489,15 +490,18 @@ export const syncClass9Performance = functions.https.onRequest(async (req, res) 
           const completedExamIds = EXAM_ORDER.filter(eid => exams[eid] && !exams[eid].isPredicted);
           const pendingExamIds = EXAM_ORDER.filter(eid => !completedExamIds.includes(eid));
 
-          // ─── Parse target ───
-          const targetNorm = parseValue(row.target, true);
-
-          // ─── Also try to read existing Firestore doc to preserve previous predictions ───
+          // ─── Also try to read existing Firestore doc to preserve previous targets & predictions ───
           let existingDoc: any = null;
           try {
             const existingSnap = await firestore.collection('students').doc(studentId).get();
             if (existingSnap.exists) existingDoc = existingSnap.data();
           } catch (_) { /* ignore */ }
+
+          // ─── Parse target (with fallback to existing) ───
+          let targetNorm = parseValue(row.target, true);
+          if (targetNorm.type === 'empty' && existingDoc?.schoolTarget?.overall) {
+            targetNorm = existingDoc.schoolTarget.overall;
+          }
 
           // ─── Build per-subject target from existing data or currentPerformance ───
           const existingTargetSubjects = existingDoc?.schoolTarget?.subjects;
@@ -697,7 +701,7 @@ export const syncClass9Performance = functions.https.onRequest(async (req, res) 
             exams,
             examOrder: EXAM_ORDER,
             source: {
-              sheetName: row.sheetName || `IX-${group}`,
+              sheetName: row.sheetName || 'Class-IX',
               sourceRow: Number(row.sourceRow) || serialNo + 1,
               serialNo,
               lastSyncedAt: now,
