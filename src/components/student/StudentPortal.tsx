@@ -9,20 +9,11 @@ import {
   StudentDirectoryItem,
 } from "@/lib/firebaseDb";
 import DashboardHeader from "./DashboardHeader";
-import OverallPerformanceCard from "./OverallPerformanceCard";
-import SchoolTargetCard from "./SchoolTargetCard";
-import TargetGapCard from "./TargetGapCard";
-import SubjectPerformanceChart from "./SubjectPerformanceChart";
-import SubjectPerformanceList from "./SubjectPerformanceList";
 import AcademicInsightsCard from "./AcademicInsightsCard";
-import MultiExamMatrix from "./MultiExamMatrix";
-import ExamProgressionTimeline from "./ExamProgressionTimeline";
 import ExamProgressionLineGraph from "./ExamProgressionLineGraph";
 import TargetScoreTable from "./TargetScoreTable";
-import TargetProgressionChart from "./TargetProgressionChart";
 import StudentLookupModal from "./StudentLookupModal";
-import { UpcomingExamsEmptyState, TargetSummaryCard } from "./EmptyStates";
-import { Loader2, AlertCircle, RefreshCw, Printer, BookOpen, Layers, Target } from "lucide-react";
+import { Loader2, Printer, BookOpen, Layers, Target } from "lucide-react";
 
 export default function StudentPortal() {
   const searchParams = useSearchParams();
@@ -34,7 +25,6 @@ export default function StudentPortal() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLookupOpen, setIsLookupOpen] = useState(false);
   const [isLiveUpdating, setIsLiveUpdating] = useState(false);
-  const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2" | "exam-3" | "exam-4" | "target-calc">("target-calc");
   const [landingSection, setLandingSection] = useState<"AURA" | "ZEN" | "NEO">("AURA");
 
   // 1. Fetch directory on mount
@@ -387,87 +377,19 @@ export default function StudentPortal() {
           </div>
         </section>
 
-        {/* View Mode Navigation Tabs */}
-        <div className="flex items-center gap-2 border-b border-slate-200/80 pb-2.5 overflow-x-auto">
-          <button
-            type="button"
-            onClick={() => setActiveTab("target-calc")}
-            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
-              activeTab === "target-calc"
-                ? "bg-navy text-white shadow-xs"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
-            }`}
-          >
-            <Target className="w-4 h-4 text-gold" />
-            <span>Target & Predictions</span>
-          </button>
+        {/* Target & Prediction Section */}
+        <section aria-label="Target & Prediction Analytics" className="space-y-6 sm:space-y-8">
+          {/* Longitudinal Exam Line Graph with Predictions */}
+          <ExamProgressionLineGraph student={student} />
 
-          <button
-            type="button"
-            onClick={() => setActiveTab("matrix")}
-            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
-              activeTab === "matrix"
-                ? "bg-navy text-white shadow-xs"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
-            }`}
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>4-Exam Matrix</span>
-          </button>
+          {/* Per-Subject Target Score & Requirement Table */}
+          <TargetScoreTable student={student} />
 
-          <button
-            type="button"
-            onClick={() => setActiveTab("exam-1")}
-            className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
-              activeTab === "exam-1"
-                ? "bg-navy text-white shadow-xs"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
-            }`}
-          >
-            <Layers className="w-4 h-4" />
-            <span>PT-1 (Baseline /20)</span>
-          </button>
-        </div>
-
-        {/* Realigned Content View */}
-        {activeTab === "target-calc" ? (
-          <div className="space-y-6 sm:space-y-8">
-            <TargetScoreTable student={student} />
-            <TargetProgressionChart student={student} />
+          {/* Academic Observations */}
+          <div className="grid grid-cols-1 gap-6">
+            <AcademicInsightsCard student={student} />
           </div>
-        ) : activeTab === "matrix" ? (
-          <div className="space-y-6 sm:space-y-8">
-            {/* Assessment Timeline */}
-            <ExamProgressionTimeline student={student} />
-
-            {/* Longitudinal Exam Line Graph */}
-            <ExamProgressionLineGraph student={student} />
-
-            {/* 6-Subject Comparative Matrix */}
-            <MultiExamMatrix student={student} />
-
-            {/* Comparative Visual Chart */}
-            <SubjectPerformanceChart
-              subjects={student.currentPerformance.subjectList}
-              exam2Subjects={student.exams?.["exam-2"]?.subjectList}
-            />
-
-            {/* Academic Observations */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <AcademicInsightsCard student={student} />
-              <TargetSummaryCard student={student} onNavigate={() => setActiveTab("target-calc")} />
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-6 sm:space-y-8">
-            <SubjectPerformanceChart
-              subjects={student.exams?.[activeTab]?.subjectList || student.currentPerformance.subjectList}
-            />
-            <SubjectPerformanceList
-              subjects={student.exams?.[activeTab]?.subjectList || student.currentPerformance.subjectList}
-            />
-          </div>
-        )}
+        </section>
 
         {/* Print / Export Footer Bar */}
         <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
