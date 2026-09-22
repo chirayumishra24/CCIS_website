@@ -1,6 +1,8 @@
 "use client";
-import React from "react";
-import { LineChart, CalendarClock, Info } from "lucide-react";
+import React, { useMemo } from "react";
+import { LineChart, CalendarClock, Info, Target, ArrowRight, CheckCircle2, AlertTriangle, TrendingDown } from "lucide-react";
+import { StudentRecord } from "@/lib/academicNormalizer";
+import { calculateRequiredScoresPerSubject } from "@/lib/academicCalculations";
 
 export function PerformanceTrendEmptyState() {
   return (
@@ -62,6 +64,108 @@ export function UpcomingExamsEmptyState() {
           <span>Formulas validated & ready for Term assessment deployment</span>
         </div>
       </div>
+    </div>
+  );
+}
+
+interface TargetSummaryCardProps {
+  student: StudentRecord;
+  onNavigate: () => void;
+}
+
+export function TargetSummaryCard({ student, onNavigate }: TargetSummaryCardProps) {
+  const result = useMemo(() => calculateRequiredScoresPerSubject(student), [student]);
+
+  const { overall, subjects } = result;
+  const hasTarget = overall.targetScore !== null;
+  const needsFocus = subjects.filter((s) => s.status === "NEEDS_FOCUS" || s.status === "NOT_REACHABLE");
+
+  if (!hasTarget) {
+    return <UpcomingExamsEmptyState />;
+  }
+
+  const overallReq = overall.requiredInRemaining;
+  const statusColor =
+    overall.status === "ACHIEVED"
+      ? "text-emerald-600"
+      : overall.status === "ON_TRACK"
+      ? "text-navy"
+      : overall.status === "NEEDS_FOCUS"
+      ? "text-amber-600"
+      : "text-rose-600";
+
+  const StatusIcon =
+    overall.status === "ACHIEVED"
+      ? CheckCircle2
+      : overall.status === "ON_TRACK"
+      ? Target
+      : overall.status === "NEEDS_FOCUS"
+      ? AlertTriangle
+      : TrendingDown;
+
+  return (
+    <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs p-5 sm:p-6 transition-all duration-200 hover:shadow-sm flex flex-col justify-between">
+      <div>
+        <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+          <div>
+            <h2 className="text-lg sm:text-xl font-bold text-navy font-serif flex items-center gap-2">
+              <Target className="w-5 h-5 text-amber-600" />
+              Target Calculator
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Required score in upcoming exams
+            </p>
+          </div>
+        </div>
+
+        <div className="text-center py-4">
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <StatusIcon className={`w-6 h-6 ${statusColor}`} />
+            <span className={`text-4xl font-extrabold font-serif tracking-tight ${statusColor}`}>
+              {overallReq !== null
+                ? overallReq <= 0
+                  ? "Met ✓"
+                  : `${overallReq}%`
+                : "N/A"}
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 mt-1">
+            {overallReq !== null && overallReq > 0
+              ? `Required average in remaining exams to hit ${overall.targetDisplayValue} target`
+              : overall.status === "ACHIEVED"
+              ? "Overall target has been achieved!"
+              : "Insufficient data for calculation"}
+          </p>
+        </div>
+
+        {/* Quick subject alerts */}
+        {needsFocus.length > 0 && (
+          <div className="mt-3 space-y-1.5">
+            {needsFocus.slice(0, 3).map((s) => (
+              <div
+                key={s.subjectKey}
+                className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-amber-50/60 border border-amber-100 text-xs"
+              >
+                <span className="font-semibold text-amber-800">{s.subjectCode} — {s.subjectLabel}</span>
+                <span className={`font-mono font-bold ${
+                  s.status === "NOT_REACHABLE" ? "text-rose-600" : "text-amber-700"
+                }`}>
+                  {s.requiredInRemaining !== null ? `${s.requiredInRemaining}%` : "—"}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <button
+        type="button"
+        onClick={onNavigate}
+        className="mt-4 w-full py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm transition-all shadow-xs flex items-center justify-center gap-2"
+      >
+        <span>View Full Breakdown</span>
+        <ArrowRight className="w-4 h-4" />
+      </button>
     </div>
   );
 }

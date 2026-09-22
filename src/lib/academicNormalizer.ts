@@ -58,6 +58,14 @@ export interface StudentRecord {
   };
   schoolTarget: {
     overall: NormalizedValue;
+    subjects?: {
+      english: NormalizedValue;
+      maths: NormalizedValue;
+      socialScience: NormalizedValue;
+      secondLanguage: NormalizedValue;
+      science: NormalizedValue;
+      it: NormalizedValue;
+    };
     targetStatus: 'NOT_ASSIGNED' | 'ACHIEVED' | 'IN_PROGRESS' | 'RANGE_UNCERTAIN';
     gapPercentagePoints?: number;
     gapDescription?: string;
@@ -245,3 +253,15 @@ export function parsePerformanceValue(
     statusNote: 'Unsupported data type',
   };
 }
+
+/** Exam weightage breakdown (must sum to 1.0) */
+export const EXAM_WEIGHTS: Record<string, { weight: number; label: string; shortLabel: string; maxMarks: number }> = {
+  'exam-1': { weight: 0.10, label: 'PT-1 (Baseline)', shortLabel: 'E1', maxMarks: 100 },
+  'exam-2': { weight: 0.20, label: 'Mid Term', shortLabel: 'E2', maxMarks: 20 },
+  'exam-3': { weight: 0.10, label: 'PT-2', shortLabel: 'E3', maxMarks: 100 },
+  'exam-4': { weight: 0.20, label: 'Pre-Board', shortLabel: 'E4', maxMarks: 100 },
+  'exam-5': { weight: 0.40, label: 'Final Term', shortLabel: 'E5', maxMarks: 100 },
+};
+
+export const EXAM_ORDER = ['exam-1', 'exam-2', 'exam-3', 'exam-4', 'exam-5'];
+

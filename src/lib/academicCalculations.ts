@@ -1,4 +1,4 @@
-import { NormalizedValue } from './academicNormalizer';
+import { NormalizedValue, EXAM_WEIGHTS, EXAM_ORDER, StudentRecord, ExamEntry } from './academicNormalizer';
 
 export interface RequiredScoreInput {
   currentWeightedScore: number;
@@ -221,4 +221,353 @@ export function generateAcademicInsights(student: {
   }
 
   return insights;
+}
+
+// ─── Target Score Calculator (Weighted) ───
+
+export type RequiredScoreStatusTag =
+  | 'ACHIEVED'
+  | 'ON_TRACK'
+  | 'NEEDS_FOCUS'
+  | 'NOT_REACHABLE'
+  | 'EXEMPT'
+  | 'INSUFFICIENT_DATA';
+
+export interface ExamScoreEntry {
+  examId: string;
+  label: string;
+  shortLabel: string;
+  weight: number;
+  maxMarks: number;
+  rawScore: number | null;       // actual marks scored (null = not taken yet)
+  normalizedPct: number | null;  // score as percentage
+  isCompleted: boolean;
+}
+
+export interface SubjectRequiredScore {
+  subjectKey: string;
+  subjectLabel: string;
+  subjectCode: string;
+  examScores: ExamScoreEntry[];
+  targetScore: number | null;       // per-subject target %
+  targetDisplayValue: string;
+  weightedContribution: number;     // sum of (score% × weight) for completed exams
+  completedWeight: number;          // sum of weights for completed exams
+  remainingWeight: number;          // sum of weights for uncompleted exams
+  requiredInRemaining: number | null;
+  status: RequiredScoreStatusTag;
+  gap: number | null;               // target - current weighted projection
+}
+
+export interface TargetCalculatorResult {
+  subjects: SubjectRequiredScore[];
+  overall: SubjectRequiredScore;
+  completedExams: string[];
+  pendingExams: string[];
+}
+
+/**
+ * Normalizes a raw exam score to percentage.
+ * If the exam is scored out of 20 (Mid Term), converts to /100.
+ */
+function normalizeToPercent(rawScore: number | null, maxMarks: number): number | null {
+  if (rawScore === null || rawScore === undefined) return null;
+  if (maxMarks === 100) return rawScore;
+  return Math.round((rawScore / maxMarks) * 10000) / 100;
+}
+
+/**
+ * Extracts subject score from a student's exam entry.
+ * Handles NormalizedValue with unit 'marks' (convert /20 → %) or 'percent'.
+ * Returns null for exempt, absent returns 0.
+ */
+function getSubjectExamScore(
+  examEntry: ExamEntry,
+  subjectKey: string,
+  maxMarks: number
+): { raw: number | null; pct: number | null } {
+  if (!examEntry) return { raw: null, pct: null };
+
+  const subj = (examEntry as any).subjects?.[subjectKey] as NormalizedValue | undefined;
+  if (!subj) return { raw: null, pct: null };
+
+  // Exempt subject
+  if (subj.type === 'exempt') return { raw: null, pct: null };
+
+  // Absent → 0
+  if (subj.displayValue === 'Absent (AB)' || subj.statusNote?.includes('Absent')) {
+    return { raw: 0, pct: 0 };
+  }
+
+  if (subj.type === 'exact' && subj.value !== undefined) {
+    const raw = subj.value;
+    const pct = subj.unit === 'marks' ? normalizeToPercent(raw, maxMarks) : raw;
+    return { raw, pct };
+  }
+
+  // Range — use midpoint
+  if (subj.type === 'range' && subj.min !== undefined && subj.max !== undefined) {
+    const mid = (subj.min + subj.max) / 2;
+    const pct = subj.unit === 'marks' ? normalizeToPercent(mid, maxMarks) : mid;
+    return { raw: mid, pct };
+  }
+
+  return { raw: null, pct: null };
+}
+
+/**
+ * Extracts target score for a subject. Returns percentage value.
+ */
+function getSubjectTarget(
+  student: StudentRecord,
+  subjectKey: string
+): { value: number | null; displayValue: string } {
+  const targetSubjects = student.schoolTarget?.subjects;
+  if (!targetSubjects) {
+    // Fall back to currentPerformance subjects (which ARE the targets from the target sheet)
+    const perfSubjects = student.currentPerformance?.subjects;
+    const perf = perfSubjects?.[subjectKey as keyof typeof perfSubjects] as NormalizedValue | undefined;
+    if (!perf) return { value: null, displayValue: 'N/A' };
+
+    if (perf.type === 'exact' && perf.value !== undefined) {
+      return { value: perf.value, displayValue: perf.displayValue };
+    }
+    if (perf.type === 'range' && perf.min !== undefined && perf.max !== undefined) {
+      return { value: (perf.min + perf.max) / 2, displayValue: perf.displayValue };
+    }
+    return { value: null, displayValue: perf.displayValue || 'N/A' };
+  }
+
+  const target = targetSubjects[subjectKey as keyof typeof targetSubjects] as NormalizedValue | undefined;
+  if (!target) return { value: null, displayValue: 'N/A' };
+
+  if (target.type === 'exact' && target.value !== undefined) {
+    return { value: target.value, displayValue: target.displayValue };
+  }
+  if (target.type === 'range' && target.min !== undefined && target.max !== undefined) {
+    return { value: (target.min + target.max) / 2, displayValue: target.displayValue };
+  }
+  if (target.type === 'exempt') {
+    return { value: null, displayValue: 'Exempt' };
+  }
+  return { value: null, displayValue: target.displayValue || 'N/A' };
+}
+
+const SUBJECT_META: { key: string; code: string; label: string }[] = [
+  { key: 'english', code: 'ENG', label: 'English Language & Lit' },
+  { key: 'secondLanguage', code: 'LANG', label: '2nd Language' },
+  { key: 'maths', code: 'MATH', label: 'Mathematics' },
+  { key: 'science', code: 'SCI', label: 'General Science' },
+  { key: 'socialScience', code: 'S.ST', label: 'Social Science' },
+  { key: 'it', code: 'IT', label: 'Information Technology' },
+];
+
+export function calculateRequiredScoresPerSubject(
+  student: StudentRecord
+): TargetCalculatorResult {
+  const completedExams: string[] = [];
+  const pendingExams: string[] = [];
+
+  // Determine which exams are completed
+  for (const examId of EXAM_ORDER) {
+    if (student.exams?.[examId]) {
+      completedExams.push(examId);
+    } else {
+      pendingExams.push(examId);
+    }
+  }
+
+  // Resolve second language code
+  const lang2 = student.secondLanguage || 'Hindi';
+  const lang2Code = lang2.slice(0, 3).toUpperCase();
+
+  const subjectResults: SubjectRequiredScore[] = SUBJECT_META.map((meta) => {
+    const code = meta.key === 'secondLanguage' ? lang2Code : meta.code;
+    const label = meta.key === 'secondLanguage' ? `2nd Lang: ${lang2}` : meta.label;
+
+    // Build exam scores array
+    const examScores: ExamScoreEntry[] = EXAM_ORDER.map((examId) => {
+      const w = EXAM_WEIGHTS[examId];
+      const exam = student.exams?.[examId];
+      const { raw, pct } = exam
+        ? getSubjectExamScore(exam as any, meta.key, w.maxMarks)
+        : { raw: null, pct: null };
+
+      return {
+        examId,
+        label: w.label,
+        shortLabel: w.shortLabel,
+        weight: w.weight,
+        maxMarks: w.maxMarks,
+        rawScore: raw,
+        normalizedPct: pct,
+        isCompleted: exam !== undefined && raw !== null,
+      };
+    });
+
+    // Check if subject is exempt in all exams (optional language not taken)
+    const allExempt = completedExams.every((eid) => {
+      const exam = student.exams?.[eid];
+      if (!exam) return false;
+      const subj = (exam as any).subjects?.[meta.key] as NormalizedValue | undefined;
+      return subj?.type === 'exempt';
+    });
+
+    if (allExempt) {
+      return {
+        subjectKey: meta.key,
+        subjectLabel: label,
+        subjectCode: code,
+        examScores,
+        targetScore: null,
+        targetDisplayValue: 'Exempt',
+        weightedContribution: 0,
+        completedWeight: 0,
+        remainingWeight: 0,
+        requiredInRemaining: null,
+        status: 'EXEMPT' as RequiredScoreStatusTag,
+        gap: null,
+      };
+    }
+
+    // Calculate weighted contribution from completed exams
+    let weightedContribution = 0;
+    let completedWeight = 0;
+
+    for (const es of examScores) {
+      if (es.isCompleted && es.normalizedPct !== null) {
+        weightedContribution += es.normalizedPct * es.weight;
+        completedWeight += es.weight;
+      }
+    }
+
+    const remainingWeight = 1.0 - completedWeight;
+
+    // Get target
+    const target = getSubjectTarget(student, meta.key);
+
+    let requiredInRemaining: number | null = null;
+    let status: RequiredScoreStatusTag = 'INSUFFICIENT_DATA';
+    let gap: number | null = null;
+
+    if (target.value !== null && completedWeight > 0) {
+      const targetTotal = target.value; // target %
+      const deficit = targetTotal - weightedContribution;
+      
+      if (deficit <= 0) {
+        requiredInRemaining = 0;
+        status = 'ACHIEVED';
+        gap = 0;
+      } else if (remainingWeight > 0) {
+        requiredInRemaining = Math.round((deficit / remainingWeight) * 10) / 10;
+        gap = Math.round((targetTotal - (weightedContribution / completedWeight) * 100) * 10) / 10;
+        // Recalculate gap as simple: target - currentProjectedAverage
+        const currentAvg = weightedContribution / completedWeight;
+        gap = Math.round((targetTotal - currentAvg) * 10) / 10;
+
+        if (requiredInRemaining <= 0) status = 'ACHIEVED';
+        else if (requiredInRemaining <= 75) status = 'ON_TRACK';
+        else if (requiredInRemaining <= 100) status = 'NEEDS_FOCUS';
+        else status = 'NOT_REACHABLE';
+      } else {
+        // All exams done
+        status = deficit <= 0 ? 'ACHIEVED' : 'NOT_REACHABLE';
+        requiredInRemaining = deficit <= 0 ? 0 : null;
+        gap = deficit;
+      }
+    }
+
+    return {
+      subjectKey: meta.key,
+      subjectLabel: label,
+      subjectCode: code,
+      examScores,
+      targetScore: target.value,
+      targetDisplayValue: target.displayValue,
+      weightedContribution: Math.round(weightedContribution * 100) / 100,
+      completedWeight: Math.round(completedWeight * 100) / 100,
+      remainingWeight: Math.round(remainingWeight * 100) / 100,
+      requiredInRemaining,
+      status,
+      gap,
+    };
+  });
+
+  // Overall calculation
+  const nonExemptSubjects = subjectResults.filter((s) => s.status !== 'EXEMPT');
+  const overallTarget = student.schoolTarget?.overall;
+  let overallTargetVal: number | null = null;
+  let overallTargetDisplay = 'N/A';
+
+  if (overallTarget?.type === 'exact' && overallTarget.value !== undefined) {
+    overallTargetVal = overallTarget.value;
+    overallTargetDisplay = overallTarget.displayValue;
+  } else if (overallTarget?.type === 'range' && overallTarget.min !== undefined && overallTarget.max !== undefined) {
+    overallTargetVal = (overallTarget.min + overallTarget.max) / 2;
+    overallTargetDisplay = overallTarget.displayValue;
+  }
+
+  // Overall weighted contribution = average of subject weighted contributions
+  const totalWeightedContrib = nonExemptSubjects.reduce((sum, s) => sum + s.weightedContribution, 0);
+  const avgWeightedContrib = nonExemptSubjects.length > 0 ? totalWeightedContrib / nonExemptSubjects.length : 0;
+  const overallCompletedWeight = nonExemptSubjects.length > 0 ? nonExemptSubjects[0].completedWeight : 0;
+  const overallRemainingWeight = nonExemptSubjects.length > 0 ? nonExemptSubjects[0].remainingWeight : 1;
+
+  let overallRequired: number | null = null;
+  let overallStatus: RequiredScoreStatusTag = 'INSUFFICIENT_DATA';
+  let overallGap: number | null = null;
+
+  if (overallTargetVal !== null && overallCompletedWeight > 0) {
+    const deficit = overallTargetVal - avgWeightedContrib;
+    if (deficit <= 0) {
+      overallRequired = 0;
+      overallStatus = 'ACHIEVED';
+      overallGap = 0;
+    } else if (overallRemainingWeight > 0) {
+      overallRequired = Math.round((deficit / overallRemainingWeight) * 10) / 10;
+      const currentAvg = avgWeightedContrib / overallCompletedWeight;
+      overallGap = Math.round((overallTargetVal - currentAvg) * 10) / 10;
+
+      if (overallRequired <= 0) overallStatus = 'ACHIEVED';
+      else if (overallRequired <= 75) overallStatus = 'ON_TRACK';
+      else if (overallRequired <= 100) overallStatus = 'NEEDS_FOCUS';
+      else overallStatus = 'NOT_REACHABLE';
+    }
+  }
+
+  const overallExamScores: ExamScoreEntry[] = EXAM_ORDER.map((examId) => {
+    const w = EXAM_WEIGHTS[examId];
+    const exam = student.exams?.[examId];
+    const overallNorm = exam ? (exam as any).overall as NormalizedValue | undefined : undefined;
+    let pct: number | null = null;
+    if (overallNorm?.type === 'exact' && overallNorm.value !== undefined) pct = overallNorm.value;
+
+    return {
+      examId,
+      label: w.label,
+      shortLabel: w.shortLabel,
+      weight: w.weight,
+      maxMarks: w.maxMarks,
+      rawScore: pct,
+      normalizedPct: pct,
+      isCompleted: exam !== undefined && pct !== null,
+    };
+  });
+
+  const overall: SubjectRequiredScore = {
+    subjectKey: 'overall',
+    subjectLabel: 'Overall Aggregate',
+    subjectCode: 'ALL',
+    examScores: overallExamScores,
+    targetScore: overallTargetVal,
+    targetDisplayValue: overallTargetDisplay,
+    weightedContribution: Math.round(avgWeightedContrib * 100) / 100,
+    completedWeight: overallCompletedWeight,
+    remainingWeight: overallRemainingWeight,
+    requiredInRemaining: overallRequired,
+    status: overallStatus,
+    gap: overallGap,
+  };
+
+  return { subjects: subjectResults, overall, completedExams, pendingExams };
 }

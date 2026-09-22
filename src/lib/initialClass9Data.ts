@@ -138,13 +138,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 68.0,
+                  "type": "exact",
+                  "value": 68.0,
+                  "displayValue": "68.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -562,13 +607,60 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 67.0,
+                  "type": "exact",
+                  "value": 67.0,
+                  "displayValue": "67.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 52.0,
+                  "type": "exact",
+                  "value": 52.0,
+                  "displayValue": "52.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 56.0,
+                  "type": "exact",
+                  "value": 56.0,
+                  "displayValue": "56.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "65-70",
+                  "type": "range",
+                  "min": 65.0,
+                  "max": 70.0,
+                  "displayValue": "65.0–70.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": "50-53",
+                  "type": "range",
+                  "min": 50.0,
+                  "max": 53.0,
+                  "displayValue": "50.0–53.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -986,13 +1078,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -1406,13 +1543,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -1826,13 +2008,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -2246,13 +2473,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.95,
+            "type": "exact",
+            "value": 95.0,
+            "displayValue": "95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -2666,13 +2938,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.92,
+            "type": "exact",
+            "value": 92.0,
+            "displayValue": "92.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 72.0,
+                  "type": "exact",
+                  "value": 72.0,
+                  "displayValue": "72.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 74.0,
+                  "type": "exact",
+                  "value": 74.0,
+                  "displayValue": "74.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 71.0,
+                  "type": "exact",
+                  "value": 71.0,
+                  "displayValue": "71.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 73.0,
+                  "type": "exact",
+                  "value": 73.0,
+                  "displayValue": "73.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 45.0,
+                  "type": "exact",
+                  "value": 45.0,
+                  "displayValue": "45.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -3086,13 +3403,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -3513,13 +3875,62 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "70-75%",
+            "type": "range",
+            "min": 70.0,
+            "max": 75.0,
+            "displayValue": "70.0–75.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": "85-90",
+                  "type": "range",
+                  "min": 85.0,
+                  "max": 90.0,
+                  "displayValue": "85.0–90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "90-92",
+                  "type": "range",
+                  "min": 90.0,
+                  "max": 92.0,
+                  "displayValue": "90.0–92.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": "65-70",
+                  "type": "range",
+                  "min": 65.0,
+                  "max": 70.0,
+                  "displayValue": "65.0–70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -3940,13 +4351,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 68.0,
+                  "type": "exact",
+                  "value": 68.0,
+                  "displayValue": "68.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 72.0,
+                  "type": "exact",
+                  "value": 72.0,
+                  "displayValue": "72.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -4360,13 +4816,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.75,
+            "type": "exact",
+            "value": 75.0,
+            "displayValue": "75.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 67.0,
+                  "type": "exact",
+                  "value": 67.0,
+                  "displayValue": "67.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -4780,13 +5281,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 55.0,
+                  "type": "exact",
+                  "value": 55.0,
+                  "displayValue": "55.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 57.0,
+                  "type": "exact",
+                  "value": 57.0,
+                  "displayValue": "57.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 78.0,
+                  "type": "exact",
+                  "value": 78.0,
+                  "displayValue": "78.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 58.0,
+                  "type": "exact",
+                  "value": 58.0,
+                  "displayValue": "58.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 79.0,
+                  "type": "exact",
+                  "value": 79.0,
+                  "displayValue": "79.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -5200,13 +5746,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.96,
+            "type": "exact",
+            "value": 96.0,
+            "displayValue": "96.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 72.0,
+                  "type": "exact",
+                  "value": 72.0,
+                  "displayValue": "72.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -5620,13 +6211,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -6040,13 +6676,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -6460,13 +7141,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 79.0,
+                  "type": "exact",
+                  "value": 79.0,
+                  "displayValue": "79.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 50.0,
+                  "type": "exact",
+                  "value": 50.0,
+                  "displayValue": "50.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 79.0,
+                  "type": "exact",
+                  "value": 79.0,
+                  "displayValue": "79.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 67.0,
+                  "type": "exact",
+                  "value": 67.0,
+                  "displayValue": "67.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -6881,13 +7607,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "90-95%",
+            "type": "range",
+            "min": 90.0,
+            "max": 95.0,
+            "displayValue": "90.0–95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -7302,13 +8074,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.95,
+            "type": "exact",
+            "value": 95.0,
+            "displayValue": "95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 40.0,
+                  "type": "exact",
+                  "value": 40.0,
+                  "displayValue": "40.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -7722,13 +8539,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 55.0,
+                  "type": "exact",
+                  "value": 55.0,
+                  "displayValue": "55.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -8143,13 +9005,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "80-85%",
+            "type": "range",
+            "min": 80.0,
+            "max": 85.0,
+            "displayValue": "80.0–85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -8572,13 +9480,64 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "85%%",
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": "50-55",
+                  "type": "range",
+                  "min": 50.0,
+                  "max": 55.0,
+                  "displayValue": "50.0–55.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": "72-75",
+                  "type": "range",
+                  "min": 72.0,
+                  "max": 75.0,
+                  "displayValue": "72.0–75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "50-55",
+                  "type": "range",
+                  "min": 50.0,
+                  "max": 55.0,
+                  "displayValue": "50.0–55.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "60-65",
+                  "type": "range",
+                  "min": 60.0,
+                  "max": 65.0,
+                  "displayValue": "60.0–65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": "69-72",
+                  "type": "range",
+                  "min": 69.0,
+                  "max": 72.0,
+                  "displayValue": "69.0–72.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": "60-70",
+                  "type": "range",
+                  "min": 60.0,
+                  "max": 70.0,
+                  "displayValue": "60.0–70.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -9008,13 +9967,60 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": "50-55",
+                  "type": "range",
+                  "min": 50.0,
+                  "max": 55.0,
+                  "displayValue": "50.0–55.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "60-65",
+                  "type": "range",
+                  "min": 60.0,
+                  "max": 65.0,
+                  "displayValue": "60.0–65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 55.0,
+                  "type": "exact",
+                  "value": 55.0,
+                  "displayValue": "55.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -9433,13 +10439,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "80-85%",
+            "type": "range",
+            "min": 80.0,
+            "max": 85.0,
+            "displayValue": "80.0–85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -9854,13 +10906,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.98,
+            "type": "exact",
+            "value": 98.0,
+            "displayValue": "98.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -10275,13 +11372,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "97-98%",
+            "type": "range",
+            "min": 97.0,
+            "max": 98.0,
+            "displayValue": "97.0–98.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 92.0,
+                  "type": "exact",
+                  "value": 92.0,
+                  "displayValue": "92.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 98.0,
+                  "type": "exact",
+                  "value": 98.0,
+                  "displayValue": "98.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 98.0,
+                  "type": "exact",
+                  "value": 98.0,
+                  "displayValue": "98.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -10696,13 +11839,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -11115,13 +12303,57 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": null,
+            "type": "empty",
+            "displayValue": "Not Assigned",
+            "unit": "percent"
+      },
+      "subjects": {
+            "english": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
       },
       "targetStatus": "NOT_ASSIGNED"
-    },
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -11534,13 +12766,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.99,
+            "type": "exact",
+            "value": 99.0,
+            "displayValue": "99.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 78.0,
+                  "type": "exact",
+                  "value": 78.0,
+                  "displayValue": "78.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 78.0,
+                  "type": "exact",
+                  "value": 78.0,
+                  "displayValue": "78.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 74.0,
+                  "type": "exact",
+                  "value": 74.0,
+                  "displayValue": "74.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 79.0,
+                  "type": "exact",
+                  "value": 79.0,
+                  "displayValue": "79.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -11954,13 +13231,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.94,
+            "type": "exact",
+            "value": 94.0,
+            "displayValue": "94.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 91.0,
+                  "type": "exact",
+                  "value": 91.0,
+                  "displayValue": "91.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -12383,13 +13705,63 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "90-95%",
+            "type": "range",
+            "min": 90.0,
+            "max": 95.0,
+            "displayValue": "90.0–95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": "80-90",
+                  "type": "range",
+                  "min": 80.0,
+                  "max": 90.0,
+                  "displayValue": "80.0–90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "85-95",
+                  "type": "range",
+                  "min": 85.0,
+                  "max": 95.0,
+                  "displayValue": "85.0–95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "85-90",
+                  "type": "range",
+                  "min": 85.0,
+                  "max": 90.0,
+                  "displayValue": "85.0–90.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": "90-95",
+                  "type": "range",
+                  "min": 90.0,
+                  "max": 95.0,
+                  "displayValue": "90.0–95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -12825,13 +14197,65 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "80-85%",
+            "type": "range",
+            "min": 80.0,
+            "max": 85.0,
+            "displayValue": "80.0–85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": "60-70",
+                  "type": "range",
+                  "min": 60.0,
+                  "max": 70.0,
+                  "displayValue": "60.0–70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": "50-60",
+                  "type": "range",
+                  "min": 50.0,
+                  "max": 60.0,
+                  "displayValue": "50.0–60.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "72-75",
+                  "type": "range",
+                  "min": 72.0,
+                  "max": 75.0,
+                  "displayValue": "72.0–75.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "70-75",
+                  "type": "range",
+                  "min": 70.0,
+                  "max": 75.0,
+                  "displayValue": "70.0–75.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": "70-80",
+                  "type": "range",
+                  "min": 70.0,
+                  "max": 80.0,
+                  "displayValue": "70.0–80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": "35-40",
+                  "type": "range",
+                  "min": 35.0,
+                  "max": 40.0,
+                  "displayValue": "35.0–40.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -13258,13 +14682,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 72.0,
+                  "type": "exact",
+                  "value": 72.0,
+                  "displayValue": "72.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -13678,13 +15147,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9828,
+            "type": "exact",
+            "value": 98.28,
+            "displayValue": "98.28%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 96.25,
+                  "type": "exact",
+                  "value": 96.25,
+                  "displayValue": "96.25%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 97.5,
+                  "type": "exact",
+                  "value": 97.5,
+                  "displayValue": "97.5%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 98.5,
+                  "type": "exact",
+                  "value": 98.5,
+                  "displayValue": "98.5%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 97.5,
+                  "type": "exact",
+                  "value": 97.5,
+                  "displayValue": "97.5%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -14099,13 +15613,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "85-90%",
+            "type": "range",
+            "min": 85.0,
+            "max": 90.0,
+            "displayValue": "85.0–90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -14520,13 +16080,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.98,
+            "type": "exact",
+            "value": 98.0,
+            "displayValue": "98.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 96.0,
+                  "type": "exact",
+                  "value": 96.0,
+                  "displayValue": "96.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 98.0,
+                  "type": "exact",
+                  "value": 98.0,
+                  "displayValue": "98.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 96.0,
+                  "type": "exact",
+                  "value": 96.0,
+                  "displayValue": "96.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 99.0,
+                  "type": "exact",
+                  "value": 99.0,
+                  "displayValue": "99.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -14940,13 +16545,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 1.0,
+            "type": "exact",
+            "value": 100.0,
+            "displayValue": "100.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 96.0,
+                  "type": "exact",
+                  "value": 96.0,
+                  "displayValue": "96.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 98.0,
+                  "type": "exact",
+                  "value": 98.0,
+                  "displayValue": "98.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -15360,13 +17010,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -15769,13 +17464,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.98,
+            "type": "exact",
+            "value": 98.0,
+            "displayValue": "98.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 96.0,
+                  "type": "exact",
+                  "value": 96.0,
+                  "displayValue": "96.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 97.0,
+                  "type": "exact",
+                  "value": 97.0,
+                  "displayValue": "97.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 98.0,
+                  "type": "exact",
+                  "value": 98.0,
+                  "displayValue": "98.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -16195,13 +17935,61 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.92,
+            "type": "exact",
+            "value": 92.0,
+            "displayValue": "92.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": "69-89",
+                  "type": "range",
+                  "min": 69.0,
+                  "max": 89.0,
+                  "displayValue": "69.0–89.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": "71-72",
+                  "type": "range",
+                  "min": 71.0,
+                  "max": 72.0,
+                  "displayValue": "71.0–72.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "71-72",
+                  "type": "range",
+                  "min": 71.0,
+                  "max": 72.0,
+                  "displayValue": "71.0–72.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 77.0,
+                  "type": "exact",
+                  "value": 77.0,
+                  "displayValue": "77.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 73.0,
+                  "type": "exact",
+                  "value": 73.0,
+                  "displayValue": "73.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -16626,13 +18414,60 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": null,
+            "type": "empty",
+            "displayValue": "Not Assigned",
+            "unit": "percent"
+      },
+      "subjects": {
+            "english": {
+                  "rawValue": "80-83",
+                  "type": "range",
+                  "min": 80.0,
+                  "max": 83.0,
+                  "displayValue": "80.0–83.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "85-87",
+                  "type": "range",
+                  "min": 85.0,
+                  "max": 87.0,
+                  "displayValue": "85.0–87.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "80-83",
+                  "type": "range",
+                  "min": 80.0,
+                  "max": 83.0,
+                  "displayValue": "80.0–83.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
       },
       "targetStatus": "NOT_ASSIGNED"
-    },
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -17039,13 +18874,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": null,
+            "type": "empty",
+            "displayValue": "Not Assigned",
+            "unit": "percent"
+      },
+      "subjects": {
+            "english": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 50.0,
+                  "type": "exact",
+                  "value": 50.0,
+                  "displayValue": "50.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "60-65",
+                  "type": "range",
+                  "min": 60.0,
+                  "max": 65.0,
+                  "displayValue": "60.0–65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            }
       },
       "targetStatus": "NOT_ASSIGNED"
-    },
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -17460,13 +19340,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.86,
+            "type": "exact",
+            "value": 86.0,
+            "displayValue": "86.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -17880,13 +19805,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -18298,13 +20268,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 82.0,
+                  "type": "exact",
+                  "value": 82.0,
+                  "displayValue": "82.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -18717,13 +20732,57 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": null,
+            "type": "empty",
+            "displayValue": "Not Assigned",
+            "unit": "percent"
+      },
+      "subjects": {
+            "english": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
       },
       "targetStatus": "NOT_ASSIGNED"
-    },
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -19136,13 +21195,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.985,
+            "type": "exact",
+            "value": 98.5,
+            "displayValue": "98.5%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 76.0,
+                  "type": "exact",
+                  "value": 76.0,
+                  "displayValue": "76.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 79.0,
+                  "type": "exact",
+                  "value": 79.0,
+                  "displayValue": "79.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 79.0,
+                  "type": "exact",
+                  "value": 79.0,
+                  "displayValue": "79.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -19557,13 +21661,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": null,
+            "type": "empty",
+            "displayValue": "Not Assigned",
+            "unit": "percent"
+      },
+      "subjects": {
+            "english": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "70-80",
+                  "type": "range",
+                  "min": 70.0,
+                  "max": 80.0,
+                  "displayValue": "70.0–80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            }
       },
       "targetStatus": "NOT_ASSIGNED"
-    },
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -19979,13 +22128,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "98-99%",
+            "type": "range",
+            "min": 98.0,
+            "max": 99.0,
+            "displayValue": "98.0–99.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -20400,13 +22595,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -20820,13 +23060,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -21240,13 +23525,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -21660,13 +23990,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.61,
+            "type": "exact",
+            "value": 61.0,
+            "displayValue": "61.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 48.0,
+                  "type": "exact",
+                  "value": 48.0,
+                  "displayValue": "48.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 44.0,
+                  "type": "exact",
+                  "value": 44.0,
+                  "displayValue": "44.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 52.0,
+                  "type": "exact",
+                  "value": 52.0,
+                  "displayValue": "52.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 55.0,
+                  "type": "exact",
+                  "value": 55.0,
+                  "displayValue": "55.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 40.0,
+                  "type": "exact",
+                  "value": 40.0,
+                  "displayValue": "40.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -22080,13 +24455,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 72.0,
+                  "type": "exact",
+                  "value": 72.0,
+                  "displayValue": "72.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 78.0,
+                  "type": "exact",
+                  "value": 78.0,
+                  "displayValue": "78.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -22500,13 +24920,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.98,
+            "type": "exact",
+            "value": 98.0,
+            "displayValue": "98.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 96.0,
+                  "type": "exact",
+                  "value": 96.0,
+                  "displayValue": "96.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 98.0,
+                  "type": "exact",
+                  "value": 98.0,
+                  "displayValue": "98.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 99.0,
+                  "type": "exact",
+                  "value": 99.0,
+                  "displayValue": "99.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -22920,13 +25385,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.98,
+            "type": "exact",
+            "value": 98.0,
+            "displayValue": "98.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 98.0,
+                  "type": "exact",
+                  "value": 98.0,
+                  "displayValue": "98.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 98.0,
+                  "type": "exact",
+                  "value": 98.0,
+                  "displayValue": "98.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 97.0,
+                  "type": "exact",
+                  "value": 97.0,
+                  "displayValue": "97.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -23340,13 +25850,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.92,
+            "type": "exact",
+            "value": 92.0,
+            "displayValue": "92.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 99.0,
+                  "type": "exact",
+                  "value": 99.0,
+                  "displayValue": "99.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -23761,13 +26316,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "98-100%",
+            "type": "range",
+            "min": 98.0,
+            "max": 100.0,
+            "displayValue": "98.0–100.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -24182,13 +26783,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -24602,13 +27248,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.95,
+            "type": "exact",
+            "value": 95.0,
+            "displayValue": "95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -25022,13 +27713,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 91.0,
+                  "type": "exact",
+                  "value": 91.0,
+                  "displayValue": "91.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -25442,13 +28178,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9085,
+            "type": "exact",
+            "value": 90.85,
+            "displayValue": "90.85%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -25862,13 +28643,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9315,
+            "type": "exact",
+            "value": 93.15,
+            "displayValue": "93.15%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 87.0,
+                  "type": "exact",
+                  "value": 87.0,
+                  "displayValue": "87.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 97.0,
+                  "type": "exact",
+                  "value": 97.0,
+                  "displayValue": "97.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 87.0,
+                  "type": "exact",
+                  "value": 87.0,
+                  "displayValue": "87.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 94.0,
+                  "type": "exact",
+                  "value": 94.0,
+                  "displayValue": "94.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 96.0,
+                  "type": "exact",
+                  "value": 96.0,
+                  "displayValue": "96.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -26282,13 +29108,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.7,
+            "type": "exact",
+            "value": 70.0,
+            "displayValue": "70.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -26702,13 +29573,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.6,
+            "type": "exact",
+            "value": 60.0,
+            "displayValue": "60.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 50.0,
+                  "type": "exact",
+                  "value": 50.0,
+                  "displayValue": "50.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -27122,13 +30038,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -27555,13 +30516,65 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "85-90%",
+            "type": "range",
+            "min": 85.0,
+            "max": 90.0,
+            "displayValue": "85.0–90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": "60-70",
+                  "type": "range",
+                  "min": 60.0,
+                  "max": 70.0,
+                  "displayValue": "60.0–70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": "65-70",
+                  "type": "range",
+                  "min": 65.0,
+                  "max": 70.0,
+                  "displayValue": "65.0–70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "65-75",
+                  "type": "range",
+                  "min": 65.0,
+                  "max": 75.0,
+                  "displayValue": "65.0–75.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "65-70",
+                  "type": "range",
+                  "min": 65.0,
+                  "max": 70.0,
+                  "displayValue": "65.0–70.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": "70-80",
+                  "type": "range",
+                  "min": 70.0,
+                  "max": 80.0,
+                  "displayValue": "70.0–80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": "40-45",
+                  "type": "range",
+                  "min": 40.0,
+                  "max": 45.0,
+                  "displayValue": "40.0–45.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -27988,13 +31001,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.95,
+            "type": "exact",
+            "value": 95.0,
+            "displayValue": "95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -28408,13 +31466,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.89,
+            "type": "exact",
+            "value": 89.0,
+            "displayValue": "89.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 97.0,
+                  "type": "exact",
+                  "value": 97.0,
+                  "displayValue": "97.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -28825,13 +31928,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.95,
+            "type": "exact",
+            "value": 95.0,
+            "displayValue": "95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -29245,13 +32393,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.91,
+            "type": "exact",
+            "value": 91.0,
+            "displayValue": "91.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 96.0,
+                  "type": "exact",
+                  "value": 96.0,
+                  "displayValue": "96.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 94.0,
+                  "type": "exact",
+                  "value": 94.0,
+                  "displayValue": "94.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -29667,13 +32860,62 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": "50-60",
+                  "type": "range",
+                  "min": 50.0,
+                  "max": 60.0,
+                  "displayValue": "50.0–60.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": "75-90",
+                  "type": "range",
+                  "min": 75.0,
+                  "max": 90.0,
+                  "displayValue": "75.0–90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "55-65",
+                  "type": "range",
+                  "min": 55.0,
+                  "max": 65.0,
+                  "displayValue": "55.0–65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "60-70",
+                  "type": "range",
+                  "min": 60.0,
+                  "max": 70.0,
+                  "displayValue": "60.0–70.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 35.0,
+                  "type": "exact",
+                  "value": 35.0,
+                  "displayValue": "35.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -30095,13 +33337,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.98,
+            "type": "exact",
+            "value": 98.0,
+            "displayValue": "98.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 97.0,
+                  "type": "exact",
+                  "value": 97.0,
+                  "displayValue": "97.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 99.0,
+                  "type": "exact",
+                  "value": 99.0,
+                  "displayValue": "99.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 99.0,
+                  "type": "exact",
+                  "value": 99.0,
+                  "displayValue": "99.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -30513,13 +33800,57 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 100.0,
+            "type": "exact",
+            "value": 100.0,
+            "displayValue": "100.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": "-",
+                  "type": "exempt",
+                  "displayValue": "Exempt (-)",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -30931,13 +34262,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 50.0,
+                  "type": "exact",
+                  "value": 50.0,
+                  "displayValue": "50.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -31351,13 +34727,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -31772,13 +35193,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": null,
+            "type": "empty",
+            "displayValue": "Not Assigned",
+            "unit": "percent"
+      },
+      "subjects": {
+            "english": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": "55-60",
+                  "type": "range",
+                  "min": 55.0,
+                  "max": 60.0,
+                  "displayValue": "55.0–60.0%",
+                  "unit": "percent"
+            }
       },
       "targetStatus": "NOT_ASSIGNED"
-    },
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -32193,13 +35659,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -32614,13 +36125,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "93-95%",
+            "type": "range",
+            "min": 93.0,
+            "max": 95.0,
+            "displayValue": "93.0–95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 68.0,
+                  "type": "exact",
+                  "value": 68.0,
+                  "displayValue": "68.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 69.0,
+                  "type": "exact",
+                  "value": 69.0,
+                  "displayValue": "69.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -33035,13 +36592,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -33455,13 +37057,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.75,
+            "type": "exact",
+            "value": 75.0,
+            "displayValue": "75.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -33869,13 +37516,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -34287,13 +37979,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -34707,13 +38444,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -35120,13 +38902,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 56.0,
+                  "type": "exact",
+                  "value": 56.0,
+                  "displayValue": "56.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 55.0,
+                  "type": "exact",
+                  "value": 55.0,
+                  "displayValue": "55.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 55.0,
+                  "type": "exact",
+                  "value": 55.0,
+                  "displayValue": "55.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -35540,13 +39367,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.93,
+            "type": "exact",
+            "value": 93.0,
+            "displayValue": "93.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 87.0,
+                  "type": "exact",
+                  "value": 87.0,
+                  "displayValue": "87.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 89.0,
+                  "type": "exact",
+                  "value": 89.0,
+                  "displayValue": "89.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 86.0,
+                  "type": "exact",
+                  "value": 86.0,
+                  "displayValue": "86.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -35961,13 +39833,59 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": "80-85%",
+            "type": "range",
+            "min": 80.0,
+            "max": 85.0,
+            "displayValue": "80.0–85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "RANGE_UNCERTAIN"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -36382,13 +40300,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.77,
+            "type": "exact",
+            "value": 77.0,
+            "displayValue": "77.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -36802,13 +40765,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.75,
+            "type": "exact",
+            "value": 75.0,
+            "displayValue": "75.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 50.0,
+                  "type": "exact",
+                  "value": 50.0,
+                  "displayValue": "50.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -37228,13 +41236,61 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.75,
+            "type": "exact",
+            "value": 75.0,
+            "displayValue": "75.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": "55-60",
+                  "type": "range",
+                  "min": 55.0,
+                  "max": 60.0,
+                  "displayValue": "55.0–60.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": "40-45",
+                  "type": "range",
+                  "min": 40.0,
+                  "max": 45.0,
+                  "displayValue": "40.0–45.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": "50-55",
+                  "type": "range",
+                  "min": 50.0,
+                  "max": 55.0,
+                  "displayValue": "50.0–55.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 55.0,
+                  "type": "exact",
+                  "value": 55.0,
+                  "displayValue": "55.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 60.0,
+                  "type": "exact",
+                  "value": 60.0,
+                  "displayValue": "60.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -37654,13 +41710,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 96.0,
+                  "type": "exact",
+                  "value": 96.0,
+                  "displayValue": "96.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -38072,13 +42173,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 100.0,
+            "type": "exact",
+            "value": 100.0,
+            "displayValue": "100.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 100.0,
+                  "type": "exact",
+                  "value": 100.0,
+                  "displayValue": "100.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -38492,13 +42638,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 45.0,
+                  "type": "exact",
+                  "value": 45.0,
+                  "displayValue": "45.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -38908,13 +43099,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.9,
+            "type": "exact",
+            "value": 90.0,
+            "displayValue": "90.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 92.0,
+                  "type": "exact",
+                  "value": 92.0,
+                  "displayValue": "92.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -39328,13 +43564,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.85,
+            "type": "exact",
+            "value": 85.0,
+            "displayValue": "85.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 70.0,
+                  "type": "exact",
+                  "value": 70.0,
+                  "displayValue": "70.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -39748,13 +44029,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.8,
+            "type": "exact",
+            "value": 80.0,
+            "displayValue": "80.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 75.0,
+                  "type": "exact",
+                  "value": 75.0,
+                  "displayValue": "75.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 65.0,
+                  "type": "exact",
+                  "value": 65.0,
+                  "displayValue": "65.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 95.0,
+                  "type": "exact",
+                  "value": 95.0,
+                  "displayValue": "95.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -40168,13 +44494,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.95,
+            "type": "exact",
+            "value": 95.0,
+            "displayValue": "95.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 97.0,
+                  "type": "exact",
+                  "value": 97.0,
+                  "displayValue": "97.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 93.0,
+                  "type": "exact",
+                  "value": 93.0,
+                  "displayValue": "93.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",
@@ -40588,13 +44959,58 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "schoolTarget": {
       "overall": {
-        "rawValue": "Not Assigned",
-        "type": "invalid",
-        "displayValue": "Not Assigned",
-        "unit": "percent"
+            "rawValue": 0.88,
+            "type": "exact",
+            "value": 88.0,
+            "displayValue": "88.0%",
+            "unit": "percent"
       },
-      "targetStatus": "NOT_ASSIGNED"
-    },
+      "subjects": {
+            "english": {
+                  "rawValue": 85.0,
+                  "type": "exact",
+                  "value": 85.0,
+                  "displayValue": "85.0%",
+                  "unit": "percent"
+            },
+            "maths": {
+                  "rawValue": 80.0,
+                  "type": "exact",
+                  "value": 80.0,
+                  "displayValue": "80.0%",
+                  "unit": "percent"
+            },
+            "socialScience": {
+                  "rawValue": 82.0,
+                  "type": "exact",
+                  "value": 82.0,
+                  "displayValue": "82.0%",
+                  "unit": "percent"
+            },
+            "secondLanguage": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "science": {
+                  "rawValue": 90.0,
+                  "type": "exact",
+                  "value": 90.0,
+                  "displayValue": "90.0%",
+                  "unit": "percent"
+            },
+            "it": {
+                  "rawValue": 87.0,
+                  "type": "exact",
+                  "value": 87.0,
+                  "displayValue": "87.0%",
+                  "unit": "percent"
+            }
+      },
+      "targetStatus": "IN_PROGRESS"
+},
     "exams": {
       "exam-1": {
         "id": "exam-1",

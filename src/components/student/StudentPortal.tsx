@@ -18,9 +18,11 @@ import AcademicInsightsCard from "./AcademicInsightsCard";
 import MultiExamMatrix from "./MultiExamMatrix";
 import ExamProgressionTimeline from "./ExamProgressionTimeline";
 import ExamProgressionLineGraph from "./ExamProgressionLineGraph";
+import TargetScoreTable from "./TargetScoreTable";
+import TargetProgressionChart from "./TargetProgressionChart";
 import StudentLookupModal from "./StudentLookupModal";
-import { UpcomingExamsEmptyState } from "./EmptyStates";
-import { Loader2, AlertCircle, RefreshCw, Printer, BookOpen, Layers } from "lucide-react";
+import { UpcomingExamsEmptyState, TargetSummaryCard } from "./EmptyStates";
+import { Loader2, AlertCircle, RefreshCw, Printer, BookOpen, Layers, Target } from "lucide-react";
 
 export default function StudentPortal() {
   const searchParams = useSearchParams();
@@ -32,7 +34,7 @@ export default function StudentPortal() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLookupOpen, setIsLookupOpen] = useState(false);
   const [isLiveUpdating, setIsLiveUpdating] = useState(false);
-  const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2">("matrix");
+  const [activeTab, setActiveTab] = useState<"matrix" | "exam-1" | "exam-2" | "target-calc">("matrix");
 
   // 1. Fetch directory on mount
   useEffect(() => {
@@ -320,6 +322,19 @@ export default function StudentPortal() {
             <Layers className="w-4 h-4" />
             <span>Exam-2 (Mid Term /20) Cards</span>
           </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("target-calc")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shrink-0 ${
+              activeTab === "target-calc"
+                ? "bg-amber-600 text-white shadow-xs"
+                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+            }`}
+          >
+            <Target className="w-4 h-4" />
+            <span>🎯 Target Calculator</span>
+          </button>
         </div>
 
         {/* Realigned Content View */}
@@ -343,7 +358,7 @@ export default function StudentPortal() {
             {/* Academic Observations */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <AcademicInsightsCard student={student} />
-              <UpcomingExamsEmptyState />
+              <TargetSummaryCard student={student} onNavigate={() => setActiveTab("target-calc")} />
             </div>
           </div>
         ) : activeTab === "exam-1" ? (
@@ -351,7 +366,7 @@ export default function StudentPortal() {
             <SubjectPerformanceChart subjects={student.currentPerformance.subjectList} />
             <SubjectPerformanceList subjects={student.currentPerformance.subjectList} />
           </div>
-        ) : (
+        ) : activeTab === "exam-2" ? (
           <div className="space-y-6 sm:space-y-8">
             <SubjectPerformanceChart
               subjects={student.exams?.["exam-2"]?.subjectList || student.currentPerformance.subjectList}
@@ -359,6 +374,11 @@ export default function StudentPortal() {
             <SubjectPerformanceList
               subjects={student.exams?.["exam-2"]?.subjectList || student.currentPerformance.subjectList}
             />
+          </div>
+        ) : (
+          <div className="space-y-6 sm:space-y-8">
+            <TargetScoreTable student={student} />
+            <TargetProgressionChart student={student} />
           </div>
         )}
 
