@@ -695,29 +695,6 @@ export default function Home() {
               </div>
             </div>
           </AnimatedSection>
-
-          {/* Official IB Disclaimer */}
-          <div className="mt-8 p-5 sm:p-6 rounded-2xl border border-cream-line bg-white shadow-card text-xs text-ink-muted leading-relaxed">
-            <p className="font-serif font-bold text-navy text-sm mb-1.5">Disclaimer</p>
-            <p className="mb-2">
-              *CCIS is pursuing authorisation as an IB World School. IB World Schools share a common philosophy- a commitment to high-quality, challenging, international education- that we believe is important for our students.
-            </p>
-            <p className="mb-2">
-              *Only schools authorized by the IB Organization can offer any of its four academic programmes: the Primary Years Programme (PYP), the Middle Years Programme (MYP), the Diploma Programme (DP), or the Career-related Programme (CP). Candidate status gives no guarantee that authorization will be granted.
-            </p>
-            <p>
-              For further information about the IB and its programmes visit{" "}
-              <a
-                href="http://www.ibo.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gold-dark hover:underline font-semibold"
-              >
-                http://www.ibo.org
-              </a>
-              .
-            </p>
-          </div>
         </div>
       </section>
 
@@ -861,11 +838,11 @@ export default function Home() {
                 </div>
 
                 <p className="text-ink-muted leading-relaxed text-sm">
-                  Our Central Board of Secondary Education (CBSE) stream delivers rigorous academic instruction from Nursery up to Grade XII. Featuring comprehensive preparations for national engineering (JEE), medical (NEET), and commerce entrance courses alongside mandatory athletic training.
+                  Our Central Board of Secondary Education (CBSE) stream delivers rigorous academic instruction from Grade VI up to Grade XII. Featuring comprehensive preparations for national engineering (JEE), medical (NEET), and commerce entrance courses alongside mandatory athletic training.
                 </p>
 
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm font-semibold text-navy">
-                  <li className="flex items-center gap-2">✓ Nursery to Class XII</li>
+                  <li className="flex items-center gap-2">✓ Grade VI to Class XII</li>
                   <li className="flex items-center gap-2">✓ Rigorous Science &amp; Commerce</li>
                   <li className="flex items-center gap-2">✓ Advanced Elective Options</li>
                   <li className="flex items-center gap-2">✓ Integrated Entrance coaching</li>

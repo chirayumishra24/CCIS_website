@@ -17,7 +17,7 @@ const contactInfo = [
 
 const faqs = [
   { q: "What age groups do you admit?", a: "We admit students from Nursery (age 3+) through Grade XI under both CBSE and IB pathways. Transfer admissions are available subject to seat availability." },
-  { q: "What curriculum does CCIS follow?", a: "CCIS offers a dual-curriculum model — the CBSE national board from Nursery to Class XII, and the IB Primary Years Programme (PYP) for Ages 3-12." },
+  { q: "What curriculum does CCIS follow?", a: "CCIS offers a dual-curriculum model — the CBSE national board from Grade VI to Class XII, and the IB Primary Years Programme (PYP) for Ages 3-12." },
   { q: "Is transportation available?", a: "Yes, we operate GPS-tracked school buses covering most residential areas across Jaipur including Mansarovar, Vaishali Nagar, Malviya Nagar, Jagatpura, and Tonk Road." },
   { q: "What extracurricular activities are offered?", a: "We offer 20+ clubs and societies including Robotics & AI, MUN, Theatre, Basketball Academy, Chess Club, School Band, Swimming, and Visual Arts programs." },
   { q: "How can I schedule a campus visit?", a: "You can fill out the enquiry form below, call our admissions office at +91-9660551977, or message us on WhatsApp. We arrange guided tours Monday through Saturday." },

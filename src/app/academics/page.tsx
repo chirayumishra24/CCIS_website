@@ -7,7 +7,6 @@ import Button from "@/components/ui/Button";
 import Curriculum3DViewer from "@/components/3d/Curriculum3DViewer";
 
 const cbseGrades = [
-  { grade: "Primary (Grades I-V)", focus: "Fundamental literacy, basic math, environmental science, art integrations, moral values." },
   { grade: "Middle School (Grades VI-VIII)", focus: "Scientific enquiry, advanced mathematics, social studies, secondary languages, computer studies." },
   { grade: "Secondary School (Grades IX-X)", focus: "Board preparation, analytical sciences, mathematical equations, social histories, vocational electives." },
   { grade: "Senior Secondary (Grades XI-XII)", focus: "Specialized streams (Science, Commerce, Humanities), pre-entrance mocks (JEE/NEET), elective portfolio works." },
@@ -22,7 +21,7 @@ const ibConcepts = [
 
 const comparisonTable = [
   { feature: "Curriculum Origin", cbse: "National (India)", ib: "International (Geneva)" },
-  { feature: "Grade Range", cbse: "Nursery – Class XII", ib: "PYP (Ages 3–12)" },
+  { feature: "Grade Range", cbse: "Grade VI – Class XII", ib: "PYP (Ages 3–12)" },
   { feature: "Teaching Style", cbse: "Structured & exam-focused", ib: "Inquiry-based & project-led" },
   { feature: "Assessment", cbse: "Board examinations", ib: "Continuous + portfolio" },
   { feature: "Entrance Prep", cbse: "JEE, NEET, CUET coaching", ib: "Global university credits" },
