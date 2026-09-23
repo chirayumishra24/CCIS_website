@@ -9,6 +9,27 @@ import Toast from "@/components/ui/Toast";
 import { Search, Mail, MapPin, Briefcase, GraduationCap, X, Award, CheckCircle, Sparkles, ZoomIn } from "lucide-react";
 import { fetchAlumni as fetchAlumniFromDb, registerAlumni } from "@/lib/firebaseDb";
 
+function formatBatchProgram(batch: any, program?: string) {
+  const batchNum = Number(batch);
+  const hasValidBatch = batchNum > 1990;
+  const rawProgram = (program || "").trim();
+  const isGeneral =
+    !rawProgram ||
+    rawProgram.toLowerCase() === "general" ||
+    rawProgram.toLowerCase() === "ccgs";
+
+  if (hasValidBatch && isGeneral) {
+    return `Class of ${batchNum}`;
+  }
+  if (hasValidBatch && !isGeneral) {
+    return `Class of '${String(batchNum).slice(-2)} • ${rawProgram}`;
+  }
+  if (!isGeneral) {
+    return rawProgram;
+  }
+  return "CCIS Alumnus";
+}
+
 export default function Alumni() {
   const [alumni, setAlumni] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -167,6 +188,30 @@ export default function Alumni() {
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent z-20" />
       </section>
 
+      {/* ━━━ Alumni Global Highlights ━━━ */}
+      <section className="bg-cream/25 border-b border-cream-line py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="flex flex-col items-center">
+              <span className="font-serif font-extrabold text-2xl sm:text-3xl text-navy">13,500+</span>
+              <span className="text-[11px] sm:text-xs text-ink-muted font-sans uppercase tracking-wider font-semibold mt-1">Global Alumni</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="font-serif font-extrabold text-2xl sm:text-3xl text-gold-dark">40+</span>
+              <span className="text-[11px] sm:text-xs text-ink-muted font-sans uppercase tracking-wider font-semibold mt-1">Top Universities</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="font-serif font-extrabold text-2xl sm:text-3xl text-navy">250+</span>
+              <span className="text-[11px] sm:text-xs text-ink-muted font-sans uppercase tracking-wider font-semibold mt-1">Industry Mentors</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="font-serif font-extrabold text-2xl sm:text-3xl text-gold-dark">18+</span>
+              <span className="text-[11px] sm:text-xs text-ink-muted font-sans uppercase tracking-wider font-semibold mt-1">Countries Worldwide</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ━━━ Directory Section ━━━ */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 flex flex-col gap-10">
@@ -222,13 +267,13 @@ export default function Alumni() {
 
           {/* Directory Grid */}
           {loading ? (
-            <div className="grid grid-cols-3 gap-2.5 sm:gap-4 md:gap-6">
-              {[1, 2, 3, 4, 5, 6].map((n) => (
-                <div key={n} className="flex flex-col gap-2.5 sm:gap-4 p-3 sm:p-5 border border-cream-line rounded-xl sm:rounded-2xl items-center text-center bg-cream/5">
-                  <Skeleton className="w-12 h-12 sm:w-20 sm:h-20 rounded-full" />
-                  <Skeleton className="h-4 sm:h-5 w-3/4" />
-                  <Skeleton className="h-3 sm:h-4 w-1/2" />
-                  <Skeleton className="h-6 sm:h-10 w-full" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                <div key={n} className="flex flex-col gap-3 p-5 border border-cream-line rounded-2xl items-center text-center bg-cream/10 animate-pulse">
+                  <Skeleton className="w-20 h-20 rounded-full" />
+                  <Skeleton className="h-5 w-3/4 rounded-md" />
+                  <Skeleton className="h-4 w-1/2 rounded-md" />
+                  <Skeleton className="h-8 w-full rounded-xl mt-2" />
                 </div>
               ))}
             </div>
@@ -238,7 +283,7 @@ export default function Alumni() {
               <p className="text-xs text-ink-muted leading-relaxed">Try adjusting your filters or search keywords.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-2.5 sm:gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
               {filteredAlumni.map((a) => {
                 const name = a.user?.name || a.name || "Alumni Graduate";
                 const avatar =
@@ -252,50 +297,61 @@ export default function Alumni() {
                     key={a.id}
                     animation="scale-in"
                     onClick={() => setZoomedAlumni(a)}
-                    className="group bg-white border border-cream-line p-2.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between items-center text-center cursor-pointer relative"
+                    className="group bg-white border border-cream-line/80 hover:border-gold/60 p-5 sm:p-6 rounded-2xl shadow-card hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between items-center text-center cursor-pointer relative overflow-hidden"
                   >
-                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-gold hidden sm:block" title="Click to zoom">
+                    {/* Top gradient highlight on hover */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold/40 group-hover:via-gold to-transparent transition-all duration-300" />
+
+                    <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity text-gold hidden sm:block" title="Click to view full profile">
                       <ZoomIn className="w-4 h-4" />
                     </div>
 
                     <div className="flex flex-col items-center w-full">
-                      <div className="relative w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-gold shadow-md">
-                        <img
-                          src={avatar}
-                          alt={name}
-                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                        />
+                      {/* Avatar with gold ring & shadow */}
+                      <div className="relative w-20 h-20 rounded-full p-1 bg-gradient-to-br from-gold/40 via-cream-line to-gold/20 shadow-md group-hover:shadow-glow-gold transition-all duration-300">
+                        <div className="w-full h-full rounded-full overflow-hidden bg-cream/20">
+                          <img
+                            src={avatar}
+                            alt={name}
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
                         {a.isMentor && (
                           <div
-                            className="absolute bottom-0 right-0 p-0.5 sm:p-1 bg-gold text-navy rounded-full shadow-md"
-                            title="Alumni Mentor"
+                            className="absolute -bottom-1 -right-1 p-1 bg-gold text-navy rounded-full shadow-md border-2 border-white"
+                            title="Official Alumni Mentor"
                           >
-                            <Award className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                            <Award className="w-3 h-3" />
                           </div>
                         )}
                       </div>
 
-                      <h4 className="font-serif font-bold text-navy text-xs sm:text-base mt-2 sm:mt-4 leading-snug truncate w-full" title={name}>
+                      <h4 className="font-serif font-bold text-navy text-base mt-3.5 leading-snug truncate w-full group-hover:text-gold-dark transition-colors" title={name}>
                         {name}
                       </h4>
 
-                      <div className="flex items-center justify-center gap-1 text-[9px] sm:text-[10px] text-gold-dark font-sans font-bold uppercase tracking-wider mt-0.5 sm:mt-1 w-full">
-                        <GraduationCap className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 hidden sm:inline" />
-                        {Number(a.batch) > 1990 ? `'${String(a.batch).slice(-2)} \u2022 ` : ""}{a.program || "CCGS"}
+                      <div className="inline-flex items-center gap-1.5 text-[11px] font-sans font-bold uppercase tracking-wider text-gold-dark bg-gold/10 px-2.5 py-0.5 rounded-full mt-1.5">
+                        <GraduationCap className="w-3.5 h-3.5 shrink-0" />
+                        <span>{formatBatchProgram(a.batch, a.program)}</span>
                       </div>
 
                       {a.role && (
-                        <div className="text-[10px] sm:text-xs text-ink-muted font-sans leading-snug mt-1.5 sm:mt-2.5 text-center w-full line-clamp-1 sm:line-clamp-2 px-0.5 sm:px-1 border-t border-cream-line/40 pt-1 sm:pt-2">
-                          <span>{a.role} <strong className="text-navy font-semibold hidden sm:inline">at {a.company || "Self"}</strong></span>
+                        <div className="text-xs text-ink-muted font-sans mt-3 text-center w-full border-t border-cream-line/50 pt-2.5">
+                          <p className="font-semibold text-navy line-clamp-1">{a.role}</p>
+                          {a.company && (
+                            <p className="text-[11px] text-ink-muted line-clamp-1 mt-0.5">
+                              at <span className="text-navy/80 font-medium">{a.company}</span>
+                            </p>
+                          )}
                         </div>
                       )}
 
                       {a.skills && (
-                        <div className="hidden sm:flex flex-wrap gap-1 justify-center mt-2">
+                        <div className="flex flex-wrap gap-1 justify-center mt-3 w-full">
                           {a.skills.split(",").slice(0, 2).map((s: string, idx: number) => (
                             <span
                               key={idx}
-                              className="text-[9px] font-sans font-semibold bg-cream/60 px-2 py-0.5 rounded text-ink-muted"
+                              className="text-[10px] font-sans font-medium bg-cream/50 text-navy/70 px-2 py-0.5 rounded-md border border-cream-line/50 truncate max-w-[120px]"
                             >
                               {s.trim()}
                             </span>
@@ -304,25 +360,29 @@ export default function Alumni() {
                       )}
 
                       {a.bio && (
-                        <p className="hidden md:block text-[11px] text-ink-muted leading-relaxed mt-3 italic line-clamp-2 border-t border-cream-line/40 pt-2.5 w-full px-1">
+                        <p className="hidden md:block text-[11px] text-ink-muted/80 leading-relaxed mt-3 italic line-clamp-2 w-full px-1">
                           &ldquo;{a.bio}&rdquo;
                         </p>
                       )}
                     </div>
 
-                    {a.linkedin && (
+                    {a.linkedin ? (
                       <a
                         href={a.linkedin.startsWith("http") ? a.linkedin : `https://${a.linkedin}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="mt-2 sm:mt-4 w-full py-1 sm:py-2 border border-cream-line hover:border-gold rounded-lg sm:rounded-xl text-navy hover:text-gold flex items-center justify-center gap-1 sm:gap-1.5 text-[9px] sm:text-[10px] uppercase font-bold tracking-wider bg-cream/15 shadow-sm transition-all duration-300"
+                        className="mt-4 w-full py-2 border border-cream-line hover:border-gold rounded-xl text-navy hover:text-gold flex items-center justify-center gap-2 text-[11px] font-sans font-bold uppercase tracking-wider bg-cream/10 hover:bg-gold/10 transition-all duration-300"
                       >
                         <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#0A66C2] fill-current shrink-0" viewBox="0 0 24 24">
                           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                         </svg>
-                        <span className="hidden sm:inline">LinkedIn</span>
+                        <span>Connect</span>
                       </a>
+                    ) : (
+                      <div className="mt-4 w-full py-2 text-[10px] font-sans font-semibold text-ink-muted/50 uppercase tracking-wider flex items-center justify-center gap-1">
+                        <span>View Profile</span>
+                      </div>
                     )}
                   </AnimatedSection>
                 );
@@ -377,7 +437,7 @@ export default function Alumni() {
 
             <div className="flex items-center justify-center gap-1.5 text-xs text-gold-dark font-sans font-bold uppercase tracking-wider mt-1.5">
               <GraduationCap className="w-4 h-4 shrink-0" />
-              {Number(zoomedAlumni.batch) > 1990 ? `Batch of ${zoomedAlumni.batch} \u2022 ` : ""}{zoomedAlumni.program || "CCGS"}
+              <span>{formatBatchProgram(zoomedAlumni.batch, zoomedAlumni.program)}</span>
             </div>
 
             {zoomedAlumni.isMentor && (
