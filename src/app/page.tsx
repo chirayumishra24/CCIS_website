@@ -849,7 +849,7 @@ export default function Home() {
                 </ul>
               </div>
 
-              <Link href="/academics" className="mt-2">
+              <Link href="/admissions" className="mt-2">
                 <Button variant="secondary" className="w-full sm:w-auto rounded-xl">Explore CBSE Pathway</Button>
               </Link>
             </AnimatedSection>
@@ -906,7 +906,7 @@ export default function Home() {
                 </ul>
               </div>
 
-              <Link href="/academics" className="mt-2 relative z-10">
+              <Link href="/admissions" className="mt-2 relative z-10">
                 <Button variant="gold" className="w-full sm:w-auto rounded-xl shadow-glow-gold">Explore IB Pathway</Button>
               </Link>
             </AnimatedSection>

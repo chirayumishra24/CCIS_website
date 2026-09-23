@@ -14,7 +14,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Core academic & admissions pages
     { path: '/about', changeFrequency: 'monthly', priority: 0.9 },
-    { path: '/academics', changeFrequency: 'monthly', priority: 0.9 },
     { path: '/admissions', changeFrequency: 'weekly', priority: 0.9 },
     { path: '/faculty', changeFrequency: 'monthly', priority: 0.8 },
 

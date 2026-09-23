@@ -59,7 +59,6 @@ export default function Footer() {
           </h4>
           <ul className="flex flex-col gap-3.5 text-sm">
             <li><Link href="/about" className="hover:text-gold transition-colors">About CCIS</Link></li>
-            <li><Link href="/academics" className="hover:text-gold transition-colors">Academics & Boards</Link></li>
             <li><Link href="/admissions" className="hover:text-gold transition-colors">Admissions 2026-27</Link></li>
             <li><Link href="/campus-life" className="hover:text-gold transition-colors">Campus Life & Facilities</Link></li>
             <li><Link href="/news-events" className="hover:text-gold transition-colors">Latest News & Notices</Link></li>
@@ -73,8 +72,8 @@ export default function Footer() {
             Our Programs
           </h4>
           <ul className="flex flex-col gap-3.5 text-sm">
-            <li><Link href="/academics" className="hover:text-gold transition-colors">IB Primary Years Programme (PYP)</Link></li>
-            <li><Link href="/academics" className="hover:text-gold transition-colors">CBSE Secondary & Senior Secondary</Link></li>
+            <li><Link href="/admissions" className="hover:text-gold transition-colors">IB Primary Years Programme (PYP)</Link></li>
+            <li><Link href="/admissions" className="hover:text-gold transition-colors">CBSE Secondary & Senior Secondary</Link></li>
             <li><Link href="/policies" className="hover:text-gold transition-colors">Curriculum Policies</Link></li>
             <li><a href="/Mandatory_Disclosure_Details_SARAS.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-gold">Mandatory Disclosure (SARAS)</a></li>
             <li><a href="/VITAL%20INFORMATION%20(1).pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-gold">Vital Information</a></li>

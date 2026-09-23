@@ -30,8 +30,8 @@ const FAQ_RESPONSES: Record<string, { answer: string; actionText?: string; actio
   },
   curriculum: {
     answer: "CCIS offers a unique dual advantage: the globally recognized inquiry-based International Baccalaureate Primary Years Programme (IB PYP) alongside the rigorous National CBSE curriculum.",
-    actionText: "Explore Academics",
-    actionUrl: "/academics",
+    actionText: "Explore Admissions",
+    actionUrl: "/admissions",
   },
   contact: {
     answer: "You can reach our official admissions team directly via Phone or WhatsApp at +91 9660551977, or email info@ccischool.org. Campus address: Sector-3, Mansarovar, Jaipur - 302020.",
