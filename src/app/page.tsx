@@ -776,9 +776,6 @@ export default function Home() {
                     : 'bg-transparent text-ink-muted hover:text-navy'
                 }`}
               >
-                <div className="w-5 h-5 relative shrink-0">
-                  <Image src="/images/cbse-logo.webp" alt="CBSE" fill className="object-contain" />
-                </div>
                 <span>CBSE Curriculum</span>
               </button>
               <button
@@ -790,9 +787,6 @@ export default function Home() {
                     : 'bg-transparent text-ink-muted hover:text-navy'
                 }`}
               >
-                <div className="w-5 h-5 relative shrink-0">
-                  <Image src="/images/ib-pyp-logo.png" alt="IB" fill className="object-contain" />
-                </div>
                 <span>IB Programme</span>
               </button>
             </div>
@@ -811,9 +805,6 @@ export default function Home() {
                   <span className="inline-block px-3 py-1 bg-navy/5 text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-bold">
                     National Standard
                   </span>
-                  <div className="relative w-14 h-14 bg-white p-1 rounded-xl border border-cream-line shadow-xs flex items-center justify-center shrink-0">
-                    <Image src="/images/cbse-logo.webp" alt="CBSE Affiliated Logo" width={48} height={48} className="object-contain" priority />
-                  </div>
                 </div>
 
                 <div>
@@ -868,9 +859,6 @@ export default function Home() {
                   <span className="relative inline-block px-3 py-1 bg-gold text-navy font-sans text-[11px] uppercase tracking-widest rounded-full font-bold shadow-glow-gold animate-pulse-gold">
                     International Baccalaureate
                   </span>
-                  <div className="relative w-24 h-12 bg-white p-1.5 rounded-xl border border-white/20 shadow-md flex items-center justify-center shrink-0">
-                    <Image src="/images/ib-world-school-logo.png" alt="Authorised IB World School Logo" width={96} height={48} className="object-contain" priority />
-                  </div>
                 </div>
 
                 <div>

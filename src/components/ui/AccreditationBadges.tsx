@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import { Globe, GraduationCap } from "lucide-react";
 
 export default function AccreditationBadges() {
   return (
@@ -7,15 +7,8 @@ export default function AccreditationBadges() {
       <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-around gap-4 sm:gap-6 md:gap-8">
         {/* IB Badge */}
         <div className="col-span-1 flex flex-col sm:flex-row items-center text-center sm:text-left gap-2.5 sm:gap-4">
-          <div className="relative w-16 h-12 sm:w-20 sm:h-14 bg-white rounded-xl flex items-center justify-center p-1 border border-cream-line shadow-sm shrink-0">
-            <Image
-              src="/images/ib-world-school-logo.png"
-              alt="IB World School Authorised Logo"
-              width={80}
-              height={48}
-              className="object-contain"
-              priority
-            />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gold/15 text-gold-dark flex items-center justify-center shrink-0 border border-gold/20">
+            <Globe className="w-6 h-6" />
           </div>
           <div>
             <h4 className="font-serif font-bold text-navy text-xs sm:text-sm md:text-base leading-snug">
@@ -31,15 +24,8 @@ export default function AccreditationBadges() {
 
         {/* CBSE Badge */}
         <div className="col-span-1 flex flex-col sm:flex-row items-center text-center sm:text-left gap-2.5 sm:gap-4">
-          <div className="relative w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl flex items-center justify-center p-1 border border-cream-line shadow-sm shrink-0">
-            <Image
-              src="/images/cbse-logo.webp"
-              alt="Central Board of Secondary Education Logo"
-              width={48}
-              height={48}
-              className="object-contain"
-              priority
-            />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-navy/5 text-navy flex items-center justify-center shrink-0 border border-navy/10">
+            <GraduationCap className="w-6 h-6" />
           </div>
           <div>
             <h4 className="font-serif font-bold text-navy text-xs sm:text-sm md:text-base leading-snug">

@@ -15,12 +15,6 @@ export default function Footer() {
             <Link href="/" className="flex items-center w-fit bg-white py-1.5 px-3 rounded-lg shadow-sm">
               <Image src="/images/logo.webp" alt="CCIS Logo" width={160} height={40} className="h-8 md:h-10 w-auto object-contain" />
             </Link>
-            <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="Authorised IB World School">
-              <Image src="/images/ib-world-school-logo.png" alt="Authorised IB World School" width={32} height={32} className="h-7 w-auto object-contain" />
-            </div>
-            <div className="bg-white p-1 rounded-lg border border-white/15 shrink-0 flex items-center justify-center" title="CBSE Affiliated">
-              <Image src="/images/cbse-logo.webp" alt="CBSE Affiliation" width={32} height={32} className="h-7 w-auto object-contain" />
-            </div>
           </div>
           <p className="text-sm text-cream-dark/70 leading-relaxed mt-2">
             Where Learning Meets Life! Providing dual CBSE and IB curriculum pathways to nurture future global leaders with solid traditional Indian values.

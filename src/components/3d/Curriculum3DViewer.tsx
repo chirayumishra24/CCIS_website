@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import {
   Compass,
   BookOpen,
@@ -255,9 +254,6 @@ export default function Curriculum3DViewer() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="relative w-8 h-8 shrink-0 bg-navy/5 p-1 rounded-lg border border-navy/10">
-                      <Image src="/images/cbse-logo.webp" alt="CBSE Logo" fill className="object-contain p-0.5" />
-                    </div>
                     <span className="text-[11px] font-bold bg-navy/5 text-navy px-3 py-1 rounded-full">
                       {activeStage.grades}
                     </span>
@@ -306,9 +302,6 @@ export default function Curriculum3DViewer() {
                       </span>
                       <h4 className="font-serif font-bold text-white text-xl">IB PYP Pathway</h4>
                     </div>
-                  </div>
-                  <div className="relative w-8 h-8 shrink-0 bg-white/10 p-1 rounded-lg">
-                    <Image src="/images/ib-world-school-logo.png" alt="IB Logo" fill className="object-contain p-0.5" />
                   </div>
                 </div>
 
