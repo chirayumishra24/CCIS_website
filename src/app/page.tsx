@@ -8,7 +8,6 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import StatsCounter from '@/components/ui/StatsCounter';
 import VideoModal from '@/components/ui/VideoModal';
 import Skeleton from '@/components/ui/Skeleton';
-import AccreditationBadges from '@/components/ui/AccreditationBadges';
 import HeroCanvas3D from '@/components/ui/HeroCanvas3D';
 import MobileQuickDock from '@/components/ui/MobileQuickDock';
 import AgeCalculator from '@/components/ui/AgeCalculator';
@@ -276,10 +275,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ━━━ 2. ACCREDITATION BAR ━━━ */}
-        <div className="relative z-20 max-w-6xl mx-auto px-4 w-full mt-6 md:mt-8">
-          <AccreditationBadges />
-        </div>
 
         {/* Subtle gold line at hero bottom */}
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
