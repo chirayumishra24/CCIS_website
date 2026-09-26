@@ -17,7 +17,7 @@ export default function Footer() {
             </Link>
           </div>
           <p className="text-sm text-cream-dark/70 leading-relaxed mt-2">
-            Where Learning Meets Life! Providing world-class CBSE and IB curriculum pathways to nurture future global leaders with solid traditional Indian values.
+            Where Learning Meets Life! Providing world-class academic pathways to nurture future global leaders with solid traditional Indian values.
           </p>
           {/* Social Icons (custom SVGs to avoid import barrel issues) */}
           <div className="flex items-center gap-4 mt-2">
