@@ -18,8 +18,8 @@ export function adminAuth(passcode: string): boolean {
 
 // ─── Announcements ───
 const defaultAnnouncement = {
-  active: true,
-  message: 'CBSE & IB Admissions Open for Academic Session 2026-27. Book a personalized campus tour today.',
+  active: false,
+  message: 'Admissions Open for Academic Session 2026-27. Book a personalized campus tour today.',
   linkText: 'Apply Now',
   linkUrl: '/admissions',
   type: 'admissions',

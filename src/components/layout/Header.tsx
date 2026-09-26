@@ -135,51 +135,6 @@ export default function Header() {
     <>
       <header ref={headerRef} className="fixed top-0 left-0 w-full z-[990] transition-all duration-300">
 
-        {/* Dynamic Global Notice Ticker (if active & enabled) */}
-        {announcement?.active && showTicker && (
-          <div
-            className={`py-1.5 px-4 text-white text-xs transition-all duration-300 border-b flex items-center justify-between gap-3 ${
-              announcement.type === "urgent"
-                ? "bg-maroon-dark border-rose-500/30"
-                : announcement.type === "admissions"
-                ? "bg-navy-dark border-gold/30"
-                : "bg-navy border-blue-400/30"
-            }`}
-          >
-            <div className="max-w-7xl mx-auto flex-1 flex items-center justify-center gap-2 overflow-hidden">
-              <span
-                className={`text-[9px] font-sans font-extrabold uppercase px-2 py-0.5 tracking-wider rounded shrink-0 flex items-center gap-1 ${
-                  announcement.type === "urgent"
-                    ? "bg-rose-600 text-white"
-                    : announcement.type === "admissions"
-                    ? "bg-gold text-navy font-bold shadow-glow-gold"
-                    : "bg-blue-500 text-white"
-                }`}
-              >
-                <Bell className="w-2.5 h-2.5" />
-                {announcement.type === "urgent" ? "URGENT" : announcement.type === "admissions" ? "ADMISSIONS" : "NOTICE"}
-              </span>
-              <p className="truncate text-white/90 text-xs font-medium">
-                {announcement.message}
-              </p>
-              {announcement.linkText && (
-                <Link
-                  href={announcement.linkUrl || "/admissions"}
-                  className="text-gold hover:underline font-bold text-xs shrink-0 hidden sm:inline ml-1"
-                >
-                  {announcement.linkText} &rarr;
-                </Link>
-              )}
-            </div>
-            <button
-              onClick={handleDismissTicker}
-              className="text-white/50 hover:text-white transition-colors p-0.5 shrink-0"
-              aria-label="Dismiss banner"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        )}
 
         {/* Top Info Bar */}
         <div

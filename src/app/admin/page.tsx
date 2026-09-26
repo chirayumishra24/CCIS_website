@@ -70,8 +70,8 @@ export default function AdminDashboard() {
   const [alumni, setAlumni] = useState<AlumniProfile[]>([]);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [announcement, setAnnouncement] = useState<AnnouncementSettings>({
-    active: true,
-    message: "CBSE & IB Admissions Open for Academic Session 2026-27. Book a campus tour today.",
+    active: false,
+    message: "Admissions Open for Academic Session 2026-27. Book a campus tour today.",
     linkText: "Apply Now",
     linkUrl: "/admissions",
     type: "admissions",
