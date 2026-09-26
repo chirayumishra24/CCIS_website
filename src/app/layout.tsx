@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s | CCIS",
   },
   description:
-    "CCIS, Jaipur — a premium dual-curriculum (IB + CBSE) day school offering outstanding academic achievements, world-class amenities, and holistic growth.",
+    "CCIS, Jaipur — a premier day school offering outstanding academic achievements (IB & CBSE), world-class amenities, and holistic growth.",
   keywords: [
     "CCIS",
     "Best CBSE school Jaipur",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     siteName: "CCIS",
     title: "CCIS | Best IB & CBSE School in Jaipur",
     description:
-      "A premium dual-curriculum day school with a global vision and solid Indian values.",
+      "A premier day school with a global vision and solid Indian values.",
     images: [
       {
         url: "/images/home_hero1.png",

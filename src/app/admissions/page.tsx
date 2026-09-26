@@ -67,7 +67,7 @@ export default function Admissions() {
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
-            Join Jaipur&apos;s leading dual-curriculum institution offering world-class CBSE &amp; International Baccalaureate (IB PYP) pathways from Nursery to Grade XI.
+            Join Jaipur&apos;s leading institution offering world-class CBSE &amp; International Baccalaureate (IB PYP) pathways from Nursery to Grade XI.
           </p>
 
           <div className="flex flex-wrap gap-3 justify-center mt-2">

@@ -30,7 +30,7 @@ const awardsData: AwardItem[] = [
     category: "National Honors",
     year: "2024",
     conferredBy: "All India Education Forum",
-    description: "Conferred to CCIS Leadership for exemplary integration of dual-curriculum international frameworks with national board outcomes.",
+    description: "Conferred to CCIS Leadership for exemplary integration of international frameworks with national board outcomes.",
     level: "National",
     badgeColor: "bg-purple-100 text-purple-900 border-purple-300",
   },

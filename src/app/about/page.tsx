@@ -6,14 +6,14 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 
 export const metadata: Metadata = {
   title: "About Us — 25+ Years of Educational Excellence",
-  description: "Discover the legacy, vision, and leadership behind CCIS — Jaipur's premier dual-curriculum (IB + CBSE) school since 1998.",
+  description: "Discover the legacy, vision, and leadership behind CCIS — Jaipur's premier IB & CBSE school since 1998.",
 };
 
 const milestones = [
   { year: "1998", title: "Foundation Laid", desc: "CCGS was established in Mansarovar, Jaipur, to deliver high-quality education with a strong character focus." },
   { year: "2012", title: "Expansion & Laboratories Upgrade", desc: "Advanced chemistry, physics, and computer science facilities were integrated to support state-of-the-art academic projects." },
   { year: "2025", title: "CCIS Established", desc: "CCIS was established, officially authorized as an International Baccalaureate (IB) World School for the Primary Years Programme." },
-  { year: "2026", title: "Jaipur's Best Dual-Curriculum Center", desc: "Serving over 3,000 active students with outstanding sports accolades and college acceptances globally." },
+  { year: "2026", title: "Jaipur's Best International Learning Center", desc: "Serving over 3,000 active students with outstanding sports accolades and college acceptances globally." },
 ];
 
 export default function About() {
@@ -43,7 +43,7 @@ export default function About() {
             Nurturing Excellence Since 1998
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-sans max-w-2xl">
-            Discover the legacy, values, and leadership behind Jaipur&apos;s premier dual-curriculum school.
+            Discover the legacy, values, and leadership behind Jaipur&apos;s premier educational institution.
           </p>
         </div>
 

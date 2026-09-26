@@ -14,7 +14,7 @@ interface Message {
 
 const FAQ_RESPONSES: Record<string, { answer: string; actionText?: string; actionUrl?: string }> = {
   admissions: {
-    answer: "Admissions for the academic session 2026-27 are currently OPEN for Playgroup to Grade XI (Dual CBSE & IB PYP). You can submit an online application or schedule a personalized counseling visit.",
+    answer: "Admissions for the academic session 2026-27 are currently OPEN for Playgroup to Grade XI (CBSE & IB PYP). You can submit an online application or schedule a personalized counseling visit.",
     actionText: "Apply for Admissions 2026-27",
     actionUrl: "/admissions",
   },

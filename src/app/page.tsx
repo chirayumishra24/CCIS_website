@@ -85,7 +85,7 @@ const whyChooseCards = [
   {
     icon: <Compass className="w-5 h-5 text-gold" />,
     title: "Future-Ready Education Approach",
-    desc: "Instilling ethics, empathy, inquiry, and critical thinking through dual-curriculum exploration.",
+    desc: "Instilling ethics, empathy, inquiry, and critical thinking through holistic curriculum exploration.",
     img: "/generated/kids-collaborative.jpg",
     badge: "Holistic Growth"
   },
@@ -447,7 +447,7 @@ export default function Home() {
               </h2>
 
               <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-lg font-sans">
-                Book a visit today to see how CCIS can prepare your child for a meaningful, fulfilling life with dual-curriculum advantage, modern AI labs, and personalized care.
+                Book a visit today to see how CCIS can prepare your child for a meaningful, fulfilling life with world-class curriculum pathways, modern AI labs, and personalized care.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3.5 mt-2">
@@ -701,7 +701,7 @@ export default function Home() {
               Our <span className="text-gold">Leaders</span>
             </h2>
             <p className="text-ink-muted text-sm mt-4 leading-relaxed max-w-xl mx-auto">
-              Guided by distinguished educationists and visionaries, our leadership team is dedicated to pioneering dual-curriculum excellence.
+              Guided by distinguished educationists and visionaries, our leadership team is dedicated to pioneering educational excellence.
             </p>
           </div>
           
