@@ -28,14 +28,14 @@ jobs:
           NEXT_PUBLIC_APP_URL: https://ccischool.org
 
       - name: Deploy to Hostinger via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.SFTP_HOST || secrets.FTP_SERVER || '187.124.193.92' }}
-          username: ${{ secrets.SFTP_USER || secrets.FTP_USER }}
-          password: ${{ secrets.SFTP_PASS || secrets.FTP_PASS }}
-          port: ${{ secrets.SFTP_PORT || 65002 }}
-          local_path: './out/*'
-          remote_path: ${{ secrets.SFTP_DIR || secrets.FTP_DIR || '/home/u460407084/domains/ccischool.org/public_html/' }}
+          server: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          port: ${{ secrets.SFTP_PORT }}
+          local_path: "./out/*"
+          remote_path: "/home/u460407084/domains/ccischool.org/public_html/"
           sftp_only: true
           delete_remote_files: false
 
