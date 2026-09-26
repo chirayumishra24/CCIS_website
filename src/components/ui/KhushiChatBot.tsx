@@ -29,7 +29,7 @@ const FAQ_RESPONSES: Record<string, { answer: string; actionText?: string; actio
     actionUrl: "/admissions",
   },
   curriculum: {
-    answer: "CCIS offers a unique dual advantage: the globally recognized inquiry-based International Baccalaureate Primary Years Programme (IB PYP) alongside the rigorous National CBSE curriculum.",
+    answer: "CCIS offers world-class academic pathways: the globally recognized inquiry-based International Baccalaureate Primary Years Programme (IB PYP) alongside the rigorous National CBSE curriculum.",
     actionText: "Explore Admissions",
     actionUrl: "/admissions",
   },

@@ -37,7 +37,7 @@ const defaultStudentReviews = [
 const heroSlides = [
   {
     img: '/generated/kids-collaborative.jpg',
-    title: 'Dual Advantage: CBSE & IB Curriculum',
+    title: 'World-Class Academic Excellence',
     desc: 'Empowering future global leaders through world-class academic pathways and deep-rooted Indian values.'
   },
   {
