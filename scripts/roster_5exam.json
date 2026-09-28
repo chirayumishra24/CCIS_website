@@ -1,6 +1,4 @@
-import { StudentRecord } from './academicNormalizer';
-
-export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
+[
   {
     "studentId": "ccis-ix-aura-aafrin-khan",
     "enrollmentNumber": "CCIS-IX-AURA-01",
@@ -45899,4 +45897,4 @@ export const INITIAL_CLASS_IX_STUDENTS: StudentRecord[] = [
     },
     "updatedAt": "2026-09-28T06:44:46.000Z"
   }
-];
+]

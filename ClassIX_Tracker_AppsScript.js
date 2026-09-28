@@ -1,22 +1,31 @@
 /**
  * ==============================================================================
- * CCIS CLASS IX STUDENT PERFORMANCE & TARGET TRACKER - GOOGLE APPS SCRIPT v3
+ * CCIS CLASS IX STUDENT PERFORMANCE & TARGET TRACKER - GOOGLE APPS SCRIPT v4
  * ==============================================================================
  * 
  * UNIFIED MASTER SHEET (Class-IX):
- * Maintains ONE consolidated master tab for all 97 Class IX students across
- * sections (AURA, ZEN, NEO) with multi-exam tracking and automated target
+ * Maintains ONE consolidated master tab for all Class IX students across
+ * sections (AURA, ZEN, NEO) with 5-exam tracking and automated target
  * achievement comparison.
+ * 
+ * 5-EXAM STRUCTURE:
+ *   E1 = Pre Mid Term (/20)  — 10% weight
+ *   E2 = Mid Term (/20)      — 10% weight
+ *   E3 = Half Yearly (/80)   — 20% weight
+ *   E4 = PT-2 (/20)          — 10% weight
+ *   E5 = Final Exam (/80)    — 50% weight
  * 
  * COLUMN STRUCTURE (Row 1):
  *   [A] S.NO
- *   [B] STUDENT NAME
- *   [C] SECTION (AURA / ZEN / NEO)
- *   [D] TARGET % (e.g. 85%, 90%)
- *   [E - J]   E1-ENG | E1-MATH | E1-SST | E1-HSF | E1-SCI | E1-IT  (Exam-1 /20)
- *   [K - P]   E2-ENG | E2-MATH | E2-SST | E2-HSF | E2-SCI | E2-IT  (Exam-2 /80 - Mid Term)
- *   [Q - V]   E3-ENG | E3-MATH | E3-SST | E3-HSF | E3-SCI | E3-IT  (Exam-3 /20 - PT-2)
- *   [W - AB]  E4-ENG | E4-MATH | E4-SST | E4-HSF | E4-SCI | E4-IT  (Exam-4 /80 - Final)
+ *   [B] ENROLLMENT NUMBER
+ *   [C] STUDENT NAME
+ *   [D] SECTION (AURA / ZEN / NEO)
+ *   [E] TARGET %
+ *   [F - K]   E1-ENG | E1-MATH | E1-SST | E1-HSF | E1-SCI | E1-IT  (Pre Mid Term /20)
+ *   [L - Q]   E2-ENG | E2-MATH | E2-SST | E2-HSF | E2-SCI | E2-IT  (Mid Term /20)
+ *   [R - W]   E3-ENG | E3-MATH | E3-SST | E3-HSF | E3-SCI | E3-IT  (Half Yearly /80)
+ *   [X - AC]  E4-ENG | E4-MATH | E4-SST | E4-HSF | E4-SCI | E4-IT  (PT-2 /20)
+ *   [AD - AI] E5-ENG | E5-MATH | E5-SST | E5-HSF | E5-SCI | E5-IT  (Final /80)
  * 
  * INSTRUCTIONS:
  * 1. In your Google Sheet, click "Extensions" -> "Apps Script".
@@ -43,10 +52,22 @@ const CONFIG = {
 };
 
 /**
+ * Safely retrieve UI context without crashing when run from the Apps Script editor console
+ */
+function safeGetUi() {
+  try {
+    return SpreadsheetApp.getUi();
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
  * Creates custom menu in Google Sheets
  */
 function onOpen() {
-  const ui = SpreadsheetApp.getUi();
+  var ui = safeGetUi();
+  if (!ui) return;
   ui.createMenu("🎓 CCIS Portal Sync")
     .addItem("⚡ Sync Sheet Data to Portal", "syncMasterSheet")
     .addSeparator()
@@ -81,6 +102,7 @@ function getColumnMapping(headerRow) {
     exam2: {},
     exam3: {},
     exam4: {},
+    exam5: {},
   };
 
   for (var c = 0; c < headerRow.length; c++) {
@@ -132,6 +154,18 @@ function getColumnMapping(headerRow) {
       else if (subj4.includes("HSF") || subj4.includes("H/S/F") || subj4.includes("HINDI") || subj4.includes("FRENCH") || subj4.includes("SANSKRIT")) mapping.exam4.hsf = c;
       else if (subj4.includes("SCI")) mapping.exam4.science = c;
       else if (subj4 === "IT" || subj4.includes("INFO")) mapping.exam4.it = c;
+      continue;
+    }
+
+    // ─── Exam-5 prefixed columns (E5-...) ───
+    if (val.match(/^E5[\-\s]/)) {
+      var subj5 = val.replace(/^E5[\-\s]+/, "");
+      if (subj5.includes("ENG")) mapping.exam5.english = c;
+      else if (subj5.includes("MATH")) mapping.exam5.maths = c;
+      else if (subj5.includes("SST") || subj5.includes("S.ST") || subj5.includes("S ST")) mapping.exam5.sSt = c;
+      else if (subj5.includes("HSF") || subj5.includes("H/S/F") || subj5.includes("HINDI") || subj5.includes("FRENCH") || subj5.includes("SANSKRIT")) mapping.exam5.hsf = c;
+      else if (subj5.includes("SCI")) mapping.exam5.science = c;
+      else if (subj5 === "IT" || subj5.includes("INFO")) mapping.exam5.it = c;
       continue;
     }
 
@@ -194,6 +228,7 @@ function parseRow(sheetName, rowVals, mapping, rowIndex) {
   var e2 = extractExamMarks(rowVals, mapping.exam2);
   var e3 = extractExamMarks(rowVals, mapping.exam3);
   var e4 = extractExamMarks(rowVals, mapping.exam4);
+  var e5 = extractExamMarks(rowVals, mapping.exam5);
 
   var row = {
     sNo: mapping.sNo !== undefined ? rowVals[mapping.sNo] : rowIndex - 1,
@@ -213,6 +248,7 @@ function parseRow(sheetName, rowVals, mapping, rowIndex) {
     exam2: e2,
     exam3: e3,
     exam4: e4,
+    exam5: e5,
     sourceRow: rowIndex,
     sheetName: sheetName,
   };
@@ -224,16 +260,16 @@ function parseRow(sheetName, rowVals, mapping, rowIndex) {
  * Synchronizes the Master Sheet (Class-IX) or all section tabs
  */
 function syncMasterSheet() {
-  var ui = SpreadsheetApp.getUi();
+  var ui = safeGetUi();
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var settings = getSettings();
 
-  var masterSheet = ss.getSheetByName(CONFIG.MASTER_TAB_NAME);
+  var masterSheet = ss ? ss.getSheetByName(CONFIG.MASTER_TAB_NAME) : null;
   var sheetsToSync = [];
 
   if (masterSheet) {
     sheetsToSync.push(masterSheet);
-  } else {
+  } else if (ss) {
     // Fallback: Check if legacy tabs exist
     CONFIG.LEGACY_TABS.forEach(function (tabName) {
       var s = ss.getSheetByName(tabName);
@@ -242,7 +278,9 @@ function syncMasterSheet() {
   }
 
   if (sheetsToSync.length === 0) {
-    ui.alert("⚠️ Neither '" + CONFIG.MASTER_TAB_NAME + "' nor section tabs were found in this spreadsheet.");
+    var errNoSheet = "Neither '" + CONFIG.MASTER_TAB_NAME + "' nor section tabs were found in this spreadsheet.";
+    Logger.log("⚠️ " + errNoSheet);
+    if (ui) ui.alert("⚠️ " + errNoSheet);
     return;
   }
 
@@ -267,7 +305,9 @@ function syncMasterSheet() {
   });
 
   if (allRows.length === 0) {
-    ui.alert("⚠️ No student records found to synchronize.");
+    var errNoRows = "No student records found to synchronize.";
+    Logger.log("⚠️ " + errNoRows);
+    if (ui) ui.alert("⚠️ " + errNoRows);
     return;
   }
 
@@ -275,6 +315,7 @@ function syncMasterSheet() {
   var e2Count = allRows.filter(function(r) { return r.exam2; }).length;
   var e3Count = allRows.filter(function(r) { return r.exam3; }).length;
   var e4Count = allRows.filter(function(r) { return r.exam4; }).length;
+  var e5Count = allRows.filter(function(r) { return r.exam5; }).length;
 
   try {
     var response = UrlFetchApp.fetch(settings.endpoint, {
@@ -283,7 +324,7 @@ function syncMasterSheet() {
       headers: { "x-sync-secret": settings.secret },
       payload: JSON.stringify({
         students: allRows,
-        syncSource: "Google Apps Script v3 — Master Sheet Sync",
+        syncSource: "Google Apps Script v4 — 5-Exam Master Sheet Sync",
         timestamp: new Date().toISOString(),
       }),
       muteHttpExceptions: true,
@@ -295,17 +336,22 @@ function syncMasterSheet() {
     if (code === 200 && result.success) {
       var msg = "✅ Sync Complete!\n\n" +
         "Students Synced: " + allRows.length + "\n" +
-        "Exam-1 (PT-1 /20): " + e1Count + " students with marks\n" +
-        "Exam-2 (Mid Term /80): " + e2Count + " students with marks\n" +
-        "Exam-3 (PT-2 /20): " + e3Count + " students with marks\n" +
-        "Exam-4 (Final /80): " + e4Count + " students with marks\n\n" +
+        "E1 - Pre Mid Term (/20): " + e1Count + " students with marks\n" +
+        "E2 - Mid Term (/20): " + e2Count + " students with marks\n" +
+        "E3 - Half Yearly (/80): " + e3Count + " students with marks\n" +
+        "E4 - PT-2 (/20): " + e4Count + " students with marks\n" +
+        "E5 - Final (/80): " + e5Count + " students with marks\n\n" +
         "Predictions & targets updated in CCIS Portal.";
-      ui.alert("✅ Sync Complete!", msg, SpreadsheetApp.getUi().ButtonSet.OK);
+      Logger.log(msg);
+      if (ui) ui.alert("✅ Sync Complete!", msg, ui.ButtonSet.OK);
     } else {
-      ui.alert("❌ Sync Error (" + code + ")", result.error || result.details || response.getContentText(), SpreadsheetApp.getUi().ButtonSet.OK);
+      var syncErr = "Sync Error (" + code + "): " + (result.error || result.details || response.getContentText());
+      Logger.log("❌ " + syncErr);
+      if (ui) ui.alert("❌ Sync Error (" + code + ")", result.error || result.details || response.getContentText(), ui.ButtonSet.OK);
     }
   } catch (err) {
-    ui.alert("❌ Network Error", err.message, SpreadsheetApp.getUi().ButtonSet.OK);
+    Logger.log("❌ Network Error: " + err.message);
+    if (ui) ui.alert("❌ Network Error", err.message, ui.ButtonSet.OK);
   }
 }
 
@@ -342,7 +388,7 @@ function handleInstallableEdit(e) {
       headers: { "x-sync-secret": settings.secret },
       payload: JSON.stringify({
         singleStudent: parsedStudent,
-        syncSource: "Live Edit on " + sheetName + " (Row " + editedRow + ") — Master Sheet v3",
+        syncSource: "Live Edit on " + sheetName + " (Row " + editedRow + ") — Master Sheet v4",
       }),
       muteHttpExceptions: true,
     });
@@ -353,26 +399,33 @@ function handleInstallableEdit(e) {
 
 /**
  * PUSH CURRENT DATA TO SHEET (Unified Master Tab: Class-IX)
- * Fetches all 97 student records from portal and builds a single consolidated tab.
+ * Fetches all student records from portal and builds a single consolidated tab.
+ * Now supports 5-exam structure.
  */
 function pushCurrentDataToSheet() {
-  var ui = SpreadsheetApp.getUi();
+  var ui = safeGetUi();
   var settings = getSettings();
 
-  var confirm = ui.alert(
-    "📤 Push Current Data to Sheet",
-    "This will create/update a single master tab named '" + CONFIG.MASTER_TAB_NAME + "' with all Class IX students.\n\n" +
-    "• Column C: SECTION (AURA, ZEN, NEO)\n" +
-    "• Column D: TARGET %\n" +
-    "• Columns E-J: E1 marks (/20)\n" +
-    "• Columns K-AB: E2, E3, E4 marks (blank for entry)\n\n" +
-    "Do you want to proceed?",
-    SpreadsheetApp.getUi().ButtonSet.YES_NO
-  );
+  if (ui) {
+    var confirm = ui.alert(
+      "📤 Push Current Data to Sheet",
+      "This will create/update a single master tab named '" + CONFIG.MASTER_TAB_NAME + "' with all Class IX students.\n\n" +
+      "• Column D: SECTION (AURA, ZEN, NEO)\n" +
+      "• Column E: TARGET %\n" +
+      "• Columns F-K:  E1 marks (Pre Mid Term /20)\n" +
+      "• Columns L-Q:  E2 marks (Mid Term /20)\n" +
+      "• Columns R-W:  E3 marks (Half Yearly /80)\n" +
+      "• Columns X-AC: E4 marks (PT-2 /20)\n" +
+      "• Columns AD-AI: E5 marks (Final /80)\n\n" +
+      "Do you want to proceed?",
+      ui.ButtonSet.YES_NO
+    );
 
-  if (confirm !== SpreadsheetApp.getUi().Button.YES) return;
+    if (confirm !== ui.Button.YES) return;
+  }
 
   try {
+    Logger.log("Fetching student records from " + settings.endpoint + "...");
     var exportUrl = settings.endpoint + "?action=export";
     var response = UrlFetchApp.fetch(exportUrl, {
       method: "get",
@@ -382,13 +435,17 @@ function pushCurrentDataToSheet() {
 
     var code = response.getResponseCode();
     if (code !== 200) {
-      ui.alert("❌ Export failed (" + code + "): " + response.getContentText());
+      var errExport = "Export failed (" + code + "): " + response.getContentText();
+      Logger.log("❌ " + errExport);
+      if (ui) ui.alert("❌ " + errExport);
       return;
     }
 
     var result = JSON.parse(response.getContentText() || "{}");
     if (!result.success || !result.students || result.students.length === 0) {
-      ui.alert("⚠️ No student data returned from portal.");
+      var errNoData = "No student data returned from portal.";
+      Logger.log("⚠️ " + errNoData);
+      if (ui) ui.alert("⚠️ " + errNoData);
       return;
     }
 
@@ -400,13 +457,14 @@ function pushCurrentDataToSheet() {
       sheet = ss.insertSheet(CONFIG.MASTER_TAB_NAME, 0);
     }
 
-    // 29 Clean Headers
+    // 35 Clean Headers (5 base + 6 subjects × 5 exams = 35)
     var headers = [
       "S.NO", "ENROLLMENT NUMBER", "STUDENT NAME", "SECTION", "TARGET %",
       "E1-ENG", "E1-MATH", "E1-SST", "E1-HSF", "E1-SCI", "E1-IT",
       "E2-ENG", "E2-MATH", "E2-SST", "E2-HSF", "E2-SCI", "E2-IT",
       "E3-ENG", "E3-MATH", "E3-SST", "E3-HSF", "E3-SCI", "E3-IT",
-      "E4-ENG", "E4-MATH", "E4-SST", "E4-HSF", "E4-SCI", "E4-IT"
+      "E4-ENG", "E4-MATH", "E4-SST", "E4-HSF", "E4-SCI", "E4-IT",
+      "E5-ENG", "E5-MATH", "E5-SST", "E5-HSF", "E5-SCI", "E5-IT"
     ];
 
     sheet.clear();
@@ -428,6 +486,7 @@ function pushCurrentDataToSheet() {
       var e2 = exams["exam-2"];
       var e3 = exams["exam-3"];
       var e4 = exams["exam-4"];
+      var e5 = exams["exam-5"];
 
       var targetPct = st.schoolTarget && st.schoolTarget.overall
         ? (st.schoolTarget.overall.displayValue || "")
@@ -441,32 +500,41 @@ function pushCurrentDataToSheet() {
         st.name || "",
         (st.group || "AURA").toUpperCase(),
         targetPct,
-        // Exam 1 actuals (/20)
+        // Exam 1 (Pre Mid Term /20)
         extractSubjectMark(e1, "english"),
         extractSubjectMark(e1, "maths"),
         extractSubjectMark(e1, "socialScience"),
         extractSubjectMark(e1, "secondLanguage"),
         extractSubjectMark(e1, "science"),
         extractSubjectMark(e1, "it"),
-        // Exam 2, 3, 4 (blank for teacher entry if predicted)
+        // Exam 2 (Mid Term /20)
         extractSubjectMark(e2, "english"),
         extractSubjectMark(e2, "maths"),
         extractSubjectMark(e2, "socialScience"),
         extractSubjectMark(e2, "secondLanguage"),
         extractSubjectMark(e2, "science"),
         extractSubjectMark(e2, "it"),
+        // Exam 3 (Half Yearly /80)
         extractSubjectMark(e3, "english"),
         extractSubjectMark(e3, "maths"),
         extractSubjectMark(e3, "socialScience"),
         extractSubjectMark(e3, "secondLanguage"),
         extractSubjectMark(e3, "science"),
         extractSubjectMark(e3, "it"),
+        // Exam 4 (PT-2 /20)
         extractSubjectMark(e4, "english"),
         extractSubjectMark(e4, "maths"),
         extractSubjectMark(e4, "socialScience"),
         extractSubjectMark(e4, "secondLanguage"),
         extractSubjectMark(e4, "science"),
         extractSubjectMark(e4, "it"),
+        // Exam 5 (Final /80)
+        extractSubjectMark(e5, "english"),
+        extractSubjectMark(e5, "maths"),
+        extractSubjectMark(e5, "socialScience"),
+        extractSubjectMark(e5, "secondLanguage"),
+        extractSubjectMark(e5, "science"),
+        extractSubjectMark(e5, "it"),
       ]);
     }
 
@@ -474,20 +542,27 @@ function pushCurrentDataToSheet() {
       sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
     }
 
-    // Freeze header row and center numerical columns
+    // Freeze header row and key columns
     sheet.setFrozenRows(1);
     sheet.setFrozenColumns(4); // Freeze S.NO, Enrollment, Name, Section
 
-    ui.alert(
-      "📤 Master Sheet Created!",
-      "Populated single tab '" + CONFIG.MASTER_TAB_NAME + "' with all " + students.length + " students.\n\n" +
-      "• E1-ENG to E1-IT: Filled with Exam 1 baseline marks (/20)\n" +
-      "• E2, E3, E4: Ready for teachers to enter marks\n" +
-      "• Section: Identified in Column C (AURA, ZEN, NEO)",
-      SpreadsheetApp.getUi().ButtonSet.OK
-    );
+    var doneMsg = "Populated single tab '" + CONFIG.MASTER_TAB_NAME + "' with all " + students.length + " students.\n\n" +
+      "• E1-ENG to E1-IT: Pre Mid Term marks (/20)\n" +
+      "• E2-ENG to E2-IT: Mid Term marks (/20)\n" +
+      "• E3: Half Yearly (/80) — Ready for entry\n" +
+      "• E4: PT-2 (/20) — Ready for entry\n" +
+      "• E5: Final (/80) — Ready for entry\n" +
+      "• Section: Identified in Column D (AURA, ZEN, NEO)";
+
+    Logger.log("✅ Master Sheet Created: " + doneMsg);
+    if (ui) {
+      ui.alert("📤 Master Sheet Created!", doneMsg, ui.ButtonSet.OK);
+    }
   } catch (err) {
-    ui.alert("❌ Push Failed", err.message, SpreadsheetApp.getUi().ButtonSet.OK);
+    Logger.log("❌ Push Failed: " + err.message);
+    if (ui) {
+      ui.alert("❌ Push Failed", err.message, ui.ButtonSet.OK);
+    }
   }
 }
 
@@ -510,7 +585,7 @@ function extractSubjectMark(examEntry, subjectKey) {
  * Connection & Setup Diagnostics
  */
 function checkConnection() {
-  var ui = SpreadsheetApp.getUi();
+  var ui = safeGetUi();
   var settings = getSettings();
 
   try {
@@ -519,19 +594,28 @@ function checkConnection() {
     var text = resp.getContentText();
 
     if (code === 200) {
-      ui.alert(
-        "✅ Cloud Function Online",
-        "Endpoint reachable!\n\nResponse:\n" + text,
-        SpreadsheetApp.getUi().ButtonSet.OK
-      );
+      Logger.log("✅ Cloud Function Online: " + text);
+      if (ui) {
+        ui.alert(
+          "✅ Cloud Function Online",
+          "Endpoint reachable!\n\nResponse:\n" + text,
+          ui.ButtonSet.OK
+        );
+      }
     } else {
-      ui.alert(
-        "⚠️ Unexpected Response (" + code + ")",
-        text,
-        SpreadsheetApp.getUi().ButtonSet.OK
-      );
+      Logger.log("⚠️ Unexpected Response (" + code + "): " + text);
+      if (ui) {
+        ui.alert(
+          "⚠️ Unexpected Response (" + code + ")",
+          text,
+          ui.ButtonSet.OK
+        );
+      }
     }
   } catch (err) {
-    ui.alert("❌ Connection Error", err.message, SpreadsheetApp.getUi().ButtonSet.OK);
+    Logger.log("❌ Connection Error: " + err.message);
+    if (ui) {
+      ui.alert("❌ Connection Error", err.message, ui.ButtonSet.OK);
+    }
   }
 }

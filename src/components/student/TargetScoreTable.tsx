@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo } from "react";
-import { StudentRecord } from "@/lib/academicNormalizer";
+import { StudentRecord, EXAM_WEIGHTS, EXAM_ORDER } from "@/lib/academicNormalizer";
 import {
   calculateRequiredScoresPerSubject,
   compareActualVsPredicted,
@@ -158,30 +158,25 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             {/* Exam Milestones */}
             <div className="flex items-center bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
-              {[
-                { label: "PT-1", w: "10% (/20)" },
-                { label: "Mid", w: "30% (/80)" },
-                { label: "PT-2", w: "10% (/20)" },
-                { label: "Final", w: "50% (/80)" },
-              ].map((m, i, arr) => {
+              {EXAM_ORDER.map((examId, i, arr) => {
+                const cfg = EXAM_WEIGHTS[examId];
                 const done = i < completedExams.length;
                 return (
-                  <React.Fragment key={m.label}>
+                  <React.Fragment key={examId}>
                     <div className="flex flex-col items-center min-w-[48px]">
-                      <span className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold border-2 transition-all ${
+                      <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full border ${
                         done
-                          ? "bg-emerald-500 border-emerald-500 text-white shadow-sm"
-                          : "bg-white border-slate-300 text-slate-400"
+                          ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                          : "bg-slate-100 text-slate-500 border-slate-200"
                       }`}>
-                        {done ? "✓" : i + 1}
+                        {cfg.shortLabel}
                       </span>
-                      <span className={`text-[10px] font-semibold mt-1 leading-none ${done ? "text-emerald-600" : "text-slate-500"}`}>
-                        {m.label}
+                      <span className="text-[8px] text-slate-400 mt-0.5">
+                        {Math.round(cfg.weight * 100)}% (/{cfg.maxMarks})
                       </span>
-                      <span className="text-[8px] font-mono text-slate-400 mt-0.5 whitespace-nowrap">{m.w}</span>
                     </div>
                     {i < arr.length - 1 && (
-                      <div className={`w-5 h-px mx-0.5 mt-[-14px] ${done && i + 1 < completedExams.length ? "bg-emerald-400" : "bg-slate-200"}`} />
+                      <div className={`w-4 h-px mx-0.5 ${done ? "bg-emerald-300" : "bg-slate-200"}`} />
                     )}
                   </React.Fragment>
                 );
@@ -230,11 +225,11 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                 Per-Subject Target & Score Requirement Matrix
               </h3>
               <p className="text-[11px] text-slate-500">
-                Formula: [Target - (PT-1 × 10%)] ÷ Remaining Weight ({remainingWeightPct}%)
+                Formula: [Target - (Completed Weighted Scores)] ÷ Remaining Weight ({remainingWeightPct}%)
               </p>
             </div>
             <span className="text-[10px] font-mono text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200">
-              CBSE 4-Exam Weighted Model
+              CBSE 5-Exam Weighted Model
             </span>
           </div>
 
@@ -243,10 +238,15 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
               <thead>
                 <tr className="bg-slate-50/80 border-b border-slate-200 text-[10px] font-bold text-navy uppercase tracking-wider font-mono">
                   <th className="py-2.5 px-3 sm:px-4">Subject</th>
-                  <th className="py-2.5 px-2 text-center">PT-1 (10% • /20)</th>
-                  <th className="py-2.5 px-2 text-center text-violet-700">Mid Term (30% • /80)</th>
-                  <th className="py-2.5 px-2 text-center text-violet-700">PT-2 (10% • /20)</th>
-                  <th className="py-2.5 px-2 text-center text-violet-700">Final (50% • /80)</th>
+                  {EXAM_ORDER.map((examId, i) => {
+                    const cfg = EXAM_WEIGHTS[examId];
+                    const isCompleted = i < completedExams.length;
+                    return (
+                      <th key={examId} className={`py-2.5 px-2 text-center ${isCompleted ? '' : 'text-violet-700'}`}>
+                        {cfg.shortLabel} ({Math.round(cfg.weight * 100)}% • /{cfg.maxMarks})
+                      </th>
+                    );
+                  })}
                   <th className="py-2.5 px-2 text-center">Target Goal</th>
                   <th className="py-2.5 px-2 text-center bg-amber-50/50 border-x border-amber-200/50 text-amber-900 font-bold">
                     Need in Rem ({remainingWeightPct}%)
@@ -262,10 +262,6 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                 {visibleSubjects.map((subj) => {
                   const cfg = STATUS_CONFIG[subj.status];
                   const isOptional = subj.subjectKey === "secondLanguage";
-                  const pt1 = subj.examScores[0];
-                  const mid = subj.examScores[1];
-                  const pt2 = subj.examScores[2];
-                  const finalExam = subj.examScores[3];
 
                   return (
                     <tr
@@ -289,74 +285,30 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                         </div>
                       </td>
 
-                      {/* PT-1 Score (Actual /20) */}
-                      <td className="py-2.5 px-2 text-center font-mono text-slate-700">
-                        {pt1?.rawScore !== null && pt1?.rawScore !== undefined ? (
-                          <div className="flex flex-col items-center">
-                            <span className="font-bold">{pt1.rawScore}/20</span>
-                            <span className="text-[10px] text-slate-400">({pt1.normalizedPct}%)</span>
-                          </div>
-                        ) : (
-                          "—"
-                        )}
-                      </td>
-
-                      {/* Mid Term Score (Predicted /80) */}
-                      <td className="py-2.5 px-2 text-center font-mono">
-                        {mid?.isCompleted && mid?.rawScore !== null ? (
-                          <div className="flex flex-col items-center text-slate-700">
-                            <span className="font-bold">{mid.rawScore}/80</span>
-                            <span className="text-[10px] text-slate-400">({mid.normalizedPct}%)</span>
-                          </div>
-                        ) : mid?.predictedRawMarks !== null ? (
-                          <div className="flex flex-col items-center text-violet-700">
-                            <span className="font-bold border-b border-dashed border-violet-300">
-                              ~{mid.predictedRawMarks}/80
-                            </span>
-                            <span className="text-[10px] text-violet-400">({mid.predictedPct}%)</span>
-                          </div>
-                        ) : (
-                          "—"
-                        )}
-                      </td>
-
-                      {/* PT-2 Score (Predicted /20) */}
-                      <td className="py-2.5 px-2 text-center font-mono">
-                        {pt2?.isCompleted && pt2?.rawScore !== null ? (
-                          <div className="flex flex-col items-center text-slate-700">
-                            <span className="font-bold">{pt2.rawScore}/20</span>
-                            <span className="text-[10px] text-slate-400">({pt2.normalizedPct}%)</span>
-                          </div>
-                        ) : pt2?.predictedRawMarks !== null ? (
-                          <div className="flex flex-col items-center text-violet-700">
-                            <span className="font-bold border-b border-dashed border-violet-300">
-                              ~{pt2.predictedRawMarks}/20
-                            </span>
-                            <span className="text-[10px] text-violet-400">({pt2.predictedPct}%)</span>
-                          </div>
-                        ) : (
-                          "—"
-                        )}
-                      </td>
-
-                      {/* Final Exam Score (Predicted /80) */}
-                      <td className="py-2.5 px-2 text-center font-mono">
-                        {finalExam?.isCompleted && finalExam?.rawScore !== null ? (
-                          <div className="flex flex-col items-center text-slate-700">
-                            <span className="font-bold">{finalExam.rawScore}/80</span>
-                            <span className="text-[10px] text-slate-400">({finalExam.normalizedPct}%)</span>
-                          </div>
-                        ) : finalExam?.predictedRawMarks !== null ? (
-                          <div className="flex flex-col items-center text-violet-700">
-                            <span className="font-bold border-b border-dashed border-violet-300">
-                              ~{finalExam.predictedRawMarks}/80
-                            </span>
-                            <span className="text-[10px] text-violet-400">({finalExam.predictedPct}%)</span>
-                          </div>
-                        ) : (
-                          "—"
-                        )}
-                      </td>
+                      {/* Dynamic Exam Columns */}
+                      {EXAM_ORDER.map((examId, idx) => {
+                        const es = subj.examScores[idx];
+                        const maxM = EXAM_WEIGHTS[examId].maxMarks;
+                        return (
+                          <td key={examId} className="py-2.5 px-2 text-center font-mono">
+                            {es?.isCompleted && es?.rawScore !== null ? (
+                              <div className="flex flex-col items-center text-slate-700">
+                                <span className="font-bold">{es.rawScore}/{maxM}</span>
+                                <span className="text-[10px] text-slate-400">({es.normalizedPct}%)</span>
+                              </div>
+                            ) : es?.predictedRawMarks !== null && es?.predictedRawMarks !== undefined ? (
+                              <div className="flex flex-col items-center text-violet-700">
+                                <span className="font-bold border-b border-dashed border-violet-300">
+                                  ~{es.predictedRawMarks}/{maxM}
+                                </span>
+                                <span className="text-[10px] text-violet-400">({es.predictedPct}%)</span>
+                              </div>
+                            ) : (
+                              "—"
+                            )}
+                          </td>
+                        );
+                      })}
 
                       {/* Target Goal */}
                       <td className="py-2.5 px-2 text-center font-mono font-bold text-navy">
@@ -464,15 +416,18 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                   <td className="py-3 px-2 text-center font-mono text-navy font-bold">
                     {overall.examScores[0]?.normalizedPct !== null ? `${overall.examScores[0].normalizedPct}%` : "—"}
                   </td>
-                  <td className="py-3 px-2 text-center font-mono text-violet-700 font-bold">
-                    {overall.examScores[1]?.predictedPct !== null ? `~${overall.examScores[1].predictedPct}%` : "—"}
-                  </td>
-                  <td className="py-3 px-2 text-center font-mono text-violet-700 font-bold">
-                    {overall.examScores[2]?.predictedPct !== null ? `~${overall.examScores[2].predictedPct}%` : "—"}
-                  </td>
-                  <td className="py-3 px-2 text-center font-mono text-violet-700 font-bold">
-                    {overall.examScores[3]?.predictedPct !== null ? `~${overall.examScores[3].predictedPct}%` : "—"}
-                  </td>
+                  {EXAM_ORDER.slice(1).map((examId, idx) => {
+                    const es = overall.examScores[idx + 1];
+                    return (
+                      <td key={examId} className="py-3 px-2 text-center font-mono text-violet-700 font-bold">
+                        {es?.isCompleted && es?.normalizedPct !== null
+                          ? `${es.normalizedPct}%`
+                          : es?.predictedPct !== null && es?.predictedPct !== undefined
+                            ? `~${es.predictedPct}%`
+                            : "—"}
+                      </td>
+                    );
+                  })}
                   <td className="py-3 px-2 text-center font-mono font-bold text-navy">
                     {overall.targetDisplayValue}
                   </td>
@@ -624,7 +579,10 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
       {/* Institutional Explanatory Footnote */}
       <div className="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-[10px] text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
         <span className="font-mono">
-          CBSE Assessment Structure: PT-1 (10% • max 20) + Mid Term (30% • max 80) + PT-2 (10% • max 20) + Final Exam (50% • max 80) = 100%
+          CBSE Assessment Structure: {EXAM_ORDER.map(id => {
+            const c = EXAM_WEIGHTS[id];
+            return `${c.shortLabel} (${Math.round(c.weight * 100)}% • max ${c.maxMarks})`;
+          }).join(' + ')} = 100%
         </span>
         <span className="text-slate-400 shrink-0">
           Absent (AB) evaluated as 0 • Optional: {student.secondLanguage || "Hindi/Sanskrit/French"}

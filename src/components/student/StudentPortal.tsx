@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { StudentRecord } from "@/lib/academicNormalizer";
+import { StudentRecord, EXAM_WEIGHTS } from "@/lib/academicNormalizer";
 import {
   fetchStudentById,
   subscribeStudentById,
@@ -241,7 +241,7 @@ export default function StudentPortal() {
                 CBSE Weighted Distribution
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Evaluated under CBSE continuous scheme: PT-1 (10%), Mid Term (30%), PT-2 (10%), Final Exam (50%).
+                Evaluated under CBSE continuous scheme: Pre Mid Term (10%), Mid Term (10%), Half Yearly (20%), PT-2 (10%), Final Exam (50%).
               </p>
             </div>
           </div>
@@ -261,7 +261,17 @@ export default function StudentPortal() {
   // Helper values for delta calculation
   const e1Val = student.exams?.["exam-1"]?.overall?.value ?? student.currentPerformance.overall.value;
   const e2Val = student.exams?.["exam-2"]?.overall?.value;
+  const latestCompletedExam = ["exam-5", "exam-4", "exam-3", "exam-2", "exam-1"]
+    .map((id) => student.exams?.[id])
+    .find((e) => e && !e.isPredicted && e.overall?.value !== undefined);
+  const currentVal = latestCompletedExam?.overall?.value ?? e2Val ?? e1Val;
   const targetVal = student.schoolTarget?.overall?.value;
+
+  const exams = student.exams || {};
+  const completedList = ["exam-1", "exam-2", "exam-3", "exam-4", "exam-5"]
+    .filter((id) => exams[id] && !exams[id].isPredicted);
+  const completedWeight = completedList.reduce((sum, id) => sum + (EXAM_WEIGHTS[id]?.weight || 0), 0);
+  const remainingWeightPct = Math.round((1 - completedWeight) * 100);
 
   return (
     <div className="bg-slate-50/50 min-h-screen pb-16">
@@ -278,19 +288,40 @@ export default function StudentPortal() {
         {/* Top 4 Core Metric Cards */}
         <section aria-label="Core Academic Metrics">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Exam-1: PT-1 Baseline */}
+            {/* Exam-1: Pre Mid Term (/20) */}
             <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-navy p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                    PT-1 Baseline
+                    E1: Pre Mid Term
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-navy border border-blue-100">
                     Weight: 10%
                   </span>
                 </div>
                 <div className="text-2xl font-bold text-navy font-mono tracking-tight">
-                  {student.exams?.["exam-1"]?.overall?.displayValue || student.currentPerformance.overall.displayValue}
+                  {student.exams?.["exam-1"]?.overall?.displayValue || "Pending"}
+                </div>
+              </div>
+              <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
+                <span>Scale:</span>
+                <span className="font-mono text-slate-700 font-semibold">Out of 20 marks</span>
+              </div>
+            </div>
+
+            {/* Exam-2: Mid Term (/20) */}
+            <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-blue-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+                    E2: Mid Term
+                  </span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                    Weight: 10%
+                  </span>
+                </div>
+                <div className="text-2xl font-bold text-navy font-mono tracking-tight">
+                  {student.exams?.["exam-2"]?.overall?.displayValue || "Pending"}
                 </div>
               </div>
               <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
@@ -307,15 +338,15 @@ export default function StudentPortal() {
                     Gap to Target
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    90% remaining
+                    {remainingWeightPct}% weight left
                   </span>
                 </div>
                 <div className="text-2xl font-bold font-mono tracking-tight">
-                  {e1Val !== undefined && targetVal !== undefined ? (
-                    e1Val >= targetVal ? (
+                  {currentVal !== undefined && targetVal !== undefined ? (
+                    currentVal >= targetVal ? (
                       <span className="text-emerald-600">On Track</span>
                     ) : (
-                      <span className="text-amber-600">{Math.round((targetVal - e1Val) * 10) / 10}% gap</span>
+                      <span className="text-amber-600">{Math.round((targetVal - currentVal) * 10) / 10}% gap</span>
                     )
                   ) : (
                     <span className="text-slate-400 font-sans text-xl">N/A</span>
@@ -323,30 +354,7 @@ export default function StudentPortal() {
                 </div>
               </div>
               <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500">
-                3 exams remaining to close the gap
-              </div>
-            </div>
-
-            {/* Upcoming: Mid Term */}
-            <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-blue-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                    Next: Mid Term
-                  </span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-700 border border-violet-200">
-                    Weight: 30%
-                  </span>
-                </div>
-                <div className="text-2xl font-bold text-navy font-mono tracking-tight">
-                  {student.exams?.["exam-2"]?.isPredicted === false
-                    ? student.exams["exam-2"].overall?.displayValue || "Pending"
-                    : "Predicted"}
-                </div>
-              </div>
-              <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
-                <span>Scale:</span>
-                <span className="font-mono text-slate-700 font-semibold">Out of 80 marks</span>
+                {5 - completedList.length} exams remaining to close the gap
               </div>
             </div>
 

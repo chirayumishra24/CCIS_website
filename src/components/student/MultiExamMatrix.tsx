@@ -125,7 +125,7 @@ export default function MultiExamMatrix({ student }: MultiExamMatrixProps) {
           <div className="flex items-center gap-2 mb-1">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-navy border border-blue-100 font-mono">
               <BookOpen className="w-3.5 h-3.5 text-navy" />
-              4-Exam Performance Matrix
+              5-Exam Performance Matrix
             </span>
           </div>
           <h3 className="text-lg sm:text-xl font-bold text-navy font-serif">

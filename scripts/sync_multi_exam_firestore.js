@@ -28,10 +28,13 @@ const db = admin.firestore();
 db.settings({ ignoreUndefinedProperties: true });
 
 async function syncMultiExamData() {
-  const rawData = fs.readFileSync(path.join(__dirname, 'full_records.json'), 'utf8');
+  const fileToLoad = fs.existsSync(path.join(__dirname, 'full_records_5exam.json'))
+    ? 'full_records_5exam.json'
+    : 'full_records.json';
+  const rawData = fs.readFileSync(path.join(__dirname, fileToLoad), 'utf8');
   const fullRecords = JSON.parse(rawData);
 
-  console.log(`Starting Firestore sync for ${fullRecords.length} multi-exam student records...`);
+  console.log(`Starting Firestore sync for ${fullRecords.length} 5-exam student records (source: ${fileToLoad})...`);
 
   let batch = db.batch();
   let opCount = 0;

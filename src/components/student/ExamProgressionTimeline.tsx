@@ -27,7 +27,7 @@ export default function ExamProgressionTimeline({ student }: ExamProgressionTime
         badge = "Completed";
       } else if (overallExamScore?.predictedPct !== null && overallExamScore?.predictedPct !== undefined) {
         scoreDisplay = `~${overallExamScore.predictedPct}%`;
-        badge = idx === 1 ? "Next Exam" : "Predicted";
+        badge = calcResult.pendingExams[0] === examId ? "Next Exam" : "Predicted";
       }
 
       return {
@@ -65,12 +65,12 @@ export default function ExamProgressionTimeline({ student }: ExamProgressionTime
             Academic Assessment Timeline
           </h3>
           <p className="text-xs text-slate-500">
-            Longitudinal progression across 4 assessment terms toward institutional target
+            Longitudinal progression across 5 assessment terms toward institutional target
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 relative">
         {milestones.map((m, idx) => (
           <div
             key={m.id}

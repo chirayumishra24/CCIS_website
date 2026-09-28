@@ -100,14 +100,15 @@ export const onAlumniProfileCreate = functions.firestore
 // PREDICTION ENGINE — Server-Side (mirrors academicCalculations.ts)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/** 4-exam CBSE Class IX structure */
+/** 5-exam CBSE Class IX structure */
 const EXAM_CONFIG: Record<string, { weight: number; label: string; shortLabel: string; maxMarks: number }> = {
-  'exam-1': { weight: 0.10, label: 'PT-1 (Baseline)', shortLabel: 'E1', maxMarks: 20 },
-  'exam-2': { weight: 0.30, label: 'Mid Term',        shortLabel: 'E2', maxMarks: 80 },
-  'exam-3': { weight: 0.10, label: 'PT-2',            shortLabel: 'E3', maxMarks: 20 },
-  'exam-4': { weight: 0.50, label: 'Final Exam',      shortLabel: 'E4', maxMarks: 80 },
+  'exam-1': { weight: 0.10, label: 'Pre Mid Term', shortLabel: 'E1', maxMarks: 20 },
+  'exam-2': { weight: 0.10, label: 'Mid Term',     shortLabel: 'E2', maxMarks: 20 },
+  'exam-3': { weight: 0.20, label: 'Half Yearly',  shortLabel: 'E3', maxMarks: 80 },
+  'exam-4': { weight: 0.10, label: 'PT-2',         shortLabel: 'E4', maxMarks: 20 },
+  'exam-5': { weight: 0.50, label: 'Final Exam',   shortLabel: 'E5', maxMarks: 80 },
 };
-const EXAM_ORDER = ['exam-1', 'exam-2', 'exam-3', 'exam-4'];
+const EXAM_ORDER = ['exam-1', 'exam-2', 'exam-3', 'exam-4', 'exam-5'];
 const SUBJECT_KEYS = ['english', 'maths', 'socialScience', 'secondLanguage', 'science', 'it'] as const;
 const PREDICTION_CEILING = 95;
 
@@ -435,9 +436,9 @@ export const syncClass9Performance = functions.https.onRequest(async (req, res) 
           }
 
           // ─── Parse Exam-2, 3, 4 from nested objects ───
-          const examFieldMap: Record<string, string> = { 'exam-2': 'exam2', 'exam-3': 'exam3', 'exam-4': 'exam4' };
+          const examFieldMap: Record<string, string> = { 'exam-2': 'exam2', 'exam-3': 'exam3', 'exam-4': 'exam4', 'exam-5': 'exam5' };
 
-          for (const examId of ['exam-2', 'exam-3', 'exam-4']) {
+          for (const examId of ['exam-2', 'exam-3', 'exam-4', 'exam-5']) {
             const fieldKey = examFieldMap[examId];
             const examRaw = row[fieldKey];
             if (!examRaw || typeof examRaw !== 'object') continue;

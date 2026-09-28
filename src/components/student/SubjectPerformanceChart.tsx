@@ -123,12 +123,12 @@ export default function SubjectPerformanceChart({
           <div className="flex items-center gap-3 text-xs text-slate-500">
             <span className="flex items-center gap-1.5 font-mono">
               <span className="w-3 h-3 rounded-xs bg-navy" />
-              Exam-1
+              Pre Mid Term
             </span>
             {exam2Subjects && (
               <span className="flex items-center gap-1.5 font-mono">
                 <span className="w-3 h-3 rounded-xs bg-blue-500" />
-                Exam-2
+                Mid Term
               </span>
             )}
           </div>

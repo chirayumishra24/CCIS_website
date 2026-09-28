@@ -259,7 +259,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
             </div>
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-navy font-serif">
-                4-Exam Progression & Predictions
+                5-Exam Progression & Predictions
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
                 Actual scores (solid) vs predicted trajectory (dashed) toward target
@@ -290,7 +290,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-100">
           <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider block">
-            PT-1 Baseline
+            Pre Mid Term
           </span>
           <span className="text-base sm:text-lg font-bold font-mono text-navy mt-0.5 block">
             {baseline.displayValue}
@@ -302,7 +302,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
             Predicted Final
           </span>
           <span className="text-base sm:text-lg font-bold font-mono text-violet-700 mt-0.5 block">
-            {points[3]?.displayValue || "—"}
+            {(points.find(p => p.id === 'exam-5') || points[points.length - 1])?.displayValue || "—"}
           </span>
         </div>
 

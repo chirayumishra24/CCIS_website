@@ -73,7 +73,7 @@ export interface StudentRecord {
       secondLanguage: NormalizedValue;
       science: NormalizedValue;
       it: NormalizedValue;
-    };
+    } | null;
     targetStatus: 'NOT_ASSIGNED' | 'ACHIEVED' | 'IN_PROGRESS' | 'RANGE_UNCERTAIN';
     gapPercentagePoints?: number;
     gapDescription?: string;
@@ -262,14 +262,15 @@ export function parsePerformanceValue(
   };
 }
 
-/** Exam weightage breakdown (must sum to 1.0) — 4-exam CBSE Class IX structure */
+/** Exam weightage breakdown (must sum to 1.0) — 5-exam CBSE Class IX structure */
 export const EXAM_WEIGHTS: Record<string, { weight: number; label: string; shortLabel: string; maxMarks: number }> = {
-  'exam-1': { weight: 0.10, label: 'PT-1 (Baseline)', shortLabel: 'E1', maxMarks: 20 },
-  'exam-2': { weight: 0.30, label: 'Mid Term', shortLabel: 'E2', maxMarks: 80 },
-  'exam-3': { weight: 0.10, label: 'PT-2', shortLabel: 'E3', maxMarks: 20 },
-  'exam-4': { weight: 0.50, label: 'Final Exam', shortLabel: 'E4', maxMarks: 80 },
+  'exam-1': { weight: 0.10, label: 'Pre Mid Term', shortLabel: 'E1', maxMarks: 20 },
+  'exam-2': { weight: 0.10, label: 'Mid Term',     shortLabel: 'E2', maxMarks: 20 },
+  'exam-3': { weight: 0.20, label: 'Half Yearly',  shortLabel: 'E3', maxMarks: 80 },
+  'exam-4': { weight: 0.10, label: 'PT-2',         shortLabel: 'E4', maxMarks: 20 },
+  'exam-5': { weight: 0.50, label: 'Final Exam',   shortLabel: 'E5', maxMarks: 80 },
 };
 
-export const EXAM_ORDER = ['exam-1', 'exam-2', 'exam-3', 'exam-4'];
+export const EXAM_ORDER = ['exam-1', 'exam-2', 'exam-3', 'exam-4', 'exam-5'];
 
 
