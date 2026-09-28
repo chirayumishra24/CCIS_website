@@ -27,7 +27,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
@@ -39,10 +39,12 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
     }
     if (isDropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
       document.addEventListener("keydown", handleKeyDown);
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isDropdownOpen]);
@@ -274,7 +276,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-5 sm:p-6 transition-all duration-200 hover:shadow-sm">
       {/* Header & Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 pb-4 border-b border-slate-100 relative z-30">
         <div>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-navy/10 flex items-center justify-center text-navy">
@@ -304,7 +306,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
               id="subject-select"
               aria-haspopup="listbox"
               aria-expanded={isDropdownOpen}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              onClick={() => setIsDropdownOpen((prev) => !prev)}
               className="inline-flex items-center justify-between gap-3 px-3.5 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl text-xs font-semibold text-navy shadow-xs transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-navy/20 min-w-[180px] sm:min-w-[210px]"
             >
               <span className="truncate">
@@ -318,11 +320,11 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
             </button>
           </div>
 
-          {/* Animated Dropdown Menu */}
+          {/* Dropdown Menu */}
           {isDropdownOpen && (
             <div
               role="listbox"
-              className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-200/90 py-1.5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150"
+              className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 overflow-hidden"
             >
               <div className="px-3.5 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 flex items-center justify-between">
                 <span>Academic Disciplines</span>
