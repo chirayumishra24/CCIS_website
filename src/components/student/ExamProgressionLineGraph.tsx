@@ -21,6 +21,15 @@ interface ExamProgressionLineGraphProps {
   student: StudentRecord;
 }
 
+const SUBJECT_ID_TO_KEY: Record<string, string> = {
+  eng: "english",
+  lang2: "secondLanguage",
+  math: "maths",
+  sci: "science",
+  sst: "socialScience",
+  it: "it",
+};
+
 export default function ExamProgressionLineGraph({ student }: ExamProgressionLineGraphProps) {
   const [activeSubject, setActiveSubject] = useState("overall");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -68,15 +77,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
     return list;
   }, [student]);
 
-  // Map subject dropdown IDs to subject keys
-  const subjectIdToKey: Record<string, string> = {
-    eng: "english",
-    lang2: "secondLanguage",
-    math: "maths",
-    sci: "science",
-    sst: "socialScience",
-    it: "it",
-  };
+
 
   // Build data points for the 4 exams + target
   const points: DataPoint[] = useMemo(() => {
@@ -117,7 +118,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           });
         }
       } else {
-        const subjectKey = subjectIdToKey[activeSubject] || activeSubject;
+        const subjectKey = SUBJECT_ID_TO_KEY[activeSubject] || activeSubject;
         if (isCompleted && exam) {
           const subj = (exam as any).subjects?.[subjectKey];
           let score: number | null = null;
@@ -165,7 +166,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
     if (activeSubject === "overall") {
       targetScore = targetVal;
     } else {
-      const subjectKey = subjectIdToKey[activeSubject] || activeSubject;
+      const subjectKey = SUBJECT_ID_TO_KEY[activeSubject] || activeSubject;
       const subjCalc = calcResult.subjects.find((s) => s.subjectKey === subjectKey);
       targetScore = subjCalc?.targetScore ?? null;
     }
@@ -184,7 +185,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
     // Annotate prediction deltas for completed exams
     for (const dp of result) {
       if (!dp.isCompleted || dp.id === 'target') continue;
-      const subjectKey = activeSubject === 'overall' ? null : (subjectIdToKey[activeSubject] || activeSubject);
+      const subjectKey = activeSubject === 'overall' ? null : (SUBJECT_ID_TO_KEY[activeSubject] || activeSubject);
       if (subjectKey) {
         const detail = achievementData.find(d => d.subjectKey === subjectKey && d.examId === dp.id);
         if (detail && detail.delta !== null) {
@@ -270,7 +271,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
   const targetY = targetPoint?.score !== null && targetPoint?.score !== undefined ? getY(targetPoint.score) : null;
 
   // Recommended realistic target for outperforming students
-  const activeSubjectKey = activeSubject === "overall" ? null : (subjectIdToKey[activeSubject] || activeSubject);
+  const activeSubjectKey = activeSubject === "overall" ? null : (SUBJECT_ID_TO_KEY[activeSubject] || activeSubject);
   const currentSubjectCalc = activeSubject === "overall" ? calcResult.overall : calcResult.subjects.find((s) => s.subjectKey === activeSubjectKey);
   const recommendedTarget = currentSubjectCalc?.recommendedTarget || null;
   const recTargetY = recommendedTarget && recommendedTarget.value !== null ? getY(recommendedTarget.value) : null;

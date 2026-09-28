@@ -28,6 +28,12 @@ export default function StudentPortal() {
   const [isLiveUpdating, setIsLiveUpdating] = useState(false);
   const [landingSection, setLandingSection] = useState<"AURA" | "ZEN" | "NEO">("AURA");
 
+  // Calculate target results unconditionally at the top
+  const calcResult = useMemo(
+    () => (student ? calculateRequiredScoresPerSubject(student) : null),
+    [student]
+  );
+
   // 1. Fetch directory on mount
   useEffect(() => {
     fetchStudentDirectory()
@@ -274,8 +280,7 @@ export default function StudentPortal() {
   const completedWeight = completedList.reduce((sum, id) => sum + (EXAM_WEIGHTS[id]?.weight || 0), 0);
   const remainingWeightPct = Math.round((1 - completedWeight) * 100);
 
-  const calcResult = useMemo(() => calculateRequiredScoresPerSubject(student), [student]);
-  const recommendedTarget = calcResult.overall.recommendedTarget;
+  const recommendedTarget = calcResult?.overall?.recommendedTarget ?? null;
 
   return (
     <div className="bg-slate-50/50 min-h-screen pb-16">
