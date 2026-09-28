@@ -237,22 +237,32 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-slate-50/80 border-b border-slate-200 text-[10px] font-bold text-navy uppercase tracking-wider font-mono">
-                  <th className="py-2.5 px-3 sm:px-4">Subject</th>
+                  <th className="py-2.5 px-3 sm:px-4 align-middle">Subject</th>
                   {EXAM_ORDER.map((examId, i) => {
                     const cfg = EXAM_WEIGHTS[examId];
                     const isCompleted = i < completedExams.length;
                     return (
-                      <th key={examId} className={`py-2.5 px-2 text-center ${isCompleted ? '' : 'text-violet-700'}`}>
-                        {cfg.shortLabel} ({Math.round(cfg.weight * 100)}% • /{cfg.maxMarks})
+                      <th key={examId} className={`py-2 px-2 text-center align-middle ${isCompleted ? '' : 'text-violet-700'}`}>
+                        <div className="flex flex-col items-center justify-center">
+                          <span className="whitespace-nowrap">{cfg.label}</span>
+                          <span className={`text-[9px] font-normal whitespace-nowrap mt-0.5 ${isCompleted ? 'text-slate-400' : 'text-violet-500'}`}>
+                            /{cfg.maxMarks} • {Math.round(cfg.weight * 100)}%
+                          </span>
+                        </div>
                       </th>
                     );
                   })}
-                  <th className="py-2.5 px-2 text-center">Target Goal</th>
-                  <th className="py-2.5 px-2 text-center bg-amber-50/50 border-x border-amber-200/50 text-amber-900 font-bold">
-                    Need in Rem ({remainingWeightPct}%)
+                  <th className="py-2.5 px-2 text-center align-middle whitespace-nowrap">Target Goal</th>
+                  <th className="py-2.5 px-2 text-center align-middle bg-amber-50/50 border-x border-amber-200/50 text-amber-900 font-bold">
+                    <div className="flex flex-col items-center justify-center">
+                      <span className="whitespace-nowrap">Need in Rem</span>
+                      <span className="text-[9px] font-normal text-amber-700/80 whitespace-nowrap mt-0.5">
+                        ({remainingWeightPct}%)
+                      </span>
+                    </div>
                   </th>
-                  <th className="py-2.5 px-2 text-center">Status</th>
-                  <th className="py-2.5 px-2 text-center bg-emerald-50/40 border-l border-emerald-200/50 text-emerald-900 font-bold">
+                  <th className="py-2.5 px-2 text-center align-middle">Status</th>
+                  <th className="py-2.5 px-2 text-center align-middle bg-emerald-50/40 border-l border-emerald-200/50 text-emerald-900 font-bold whitespace-nowrap">
                     Target Achieved
                   </th>
                 </tr>
