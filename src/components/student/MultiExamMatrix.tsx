@@ -147,7 +147,7 @@ export default function MultiExamMatrix({ student }: MultiExamMatrixProps) {
               }`}
             >
               <span className={`w-2 h-2 rounded-full ${col.isCompleted ? "bg-navy" : "bg-violet-400"}`} />
-              {col.shortLabel}: {col.label} (/{col.maxMarks})
+              {col.label} (/{col.maxMarks})
             </span>
           ))}
         </div>

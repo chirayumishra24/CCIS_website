@@ -102,11 +102,11 @@ export const onAlumniProfileCreate = functions.firestore
 
 /** 5-exam CBSE Class IX structure */
 const EXAM_CONFIG: Record<string, { weight: number; label: string; shortLabel: string; maxMarks: number }> = {
-  'exam-1': { weight: 0.10, label: 'Pre Mid Term', shortLabel: 'E1', maxMarks: 20 },
-  'exam-2': { weight: 0.10, label: 'Mid Term',     shortLabel: 'E2', maxMarks: 20 },
-  'exam-3': { weight: 0.20, label: 'Half Yearly',  shortLabel: 'E3', maxMarks: 80 },
-  'exam-4': { weight: 0.10, label: 'PT-2',         shortLabel: 'E4', maxMarks: 20 },
-  'exam-5': { weight: 0.50, label: 'Final Exam',   shortLabel: 'E5', maxMarks: 80 },
+  'exam-1': { weight: 0.10, label: 'Premid Term',  shortLabel: 'Premid Term',  maxMarks: 20 },
+  'exam-2': { weight: 0.10, label: 'Midterm',      shortLabel: 'Midterm',      maxMarks: 20 },
+  'exam-3': { weight: 0.20, label: 'Half Yearly',  shortLabel: 'Half Yearly',  maxMarks: 80 },
+  'exam-4': { weight: 0.10, label: 'Midterm 2',    shortLabel: 'Midterm 2',    maxMarks: 20 },
+  'exam-5': { weight: 0.50, label: 'Annual Exam',  shortLabel: 'Annual Exam',  maxMarks: 80 },
 };
 const EXAM_ORDER = ['exam-1', 'exam-2', 'exam-3', 'exam-4', 'exam-5'];
 const SUBJECT_KEYS = ['english', 'maths', 'socialScience', 'secondLanguage', 'science', 'it'] as const;

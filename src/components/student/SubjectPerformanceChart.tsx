@@ -84,7 +84,7 @@ export default function SubjectPerformanceChart({
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
             {exam2Subjects
-              ? "Comparative progress tracking across Exam-1 (Baseline) and Exam-2 (Mid Term)"
+              ? "Comparative progress tracking across Premid Term (Baseline) and Midterm"
               : "Current achievement levels across Grade IX curriculum disciplines"}
           </p>
         </div>
@@ -123,12 +123,12 @@ export default function SubjectPerformanceChart({
           <div className="flex items-center gap-3 text-xs text-slate-500">
             <span className="flex items-center gap-1.5 font-mono">
               <span className="w-3 h-3 rounded-xs bg-navy" />
-              Pre Mid Term
+              Premid Term
             </span>
             {exam2Subjects && (
               <span className="flex items-center gap-1.5 font-mono">
                 <span className="w-3 h-3 rounded-xs bg-blue-500" />
-                Mid Term
+                Midterm
               </span>
             )}
           </div>
@@ -295,11 +295,11 @@ export default function SubjectPerformanceChart({
 
                   <div className="flex items-center gap-3 font-mono text-xs">
                     <span className="text-navy font-bold">
-                      E1: {norm1.displayValue}
+                      Premid Term: {norm1.displayValue}
                     </span>
                     {norm2 && (
                       <span className="text-blue-600 font-bold">
-                        E2: {norm2.displayValue} {val2Pct !== null ? `(${Math.round(val2Pct)}%)` : ""}
+                        Midterm: {norm2.displayValue} {val2Pct !== null ? `(${Math.round(val2Pct)}%)` : ""}
                       </span>
                     )}
                   </div>

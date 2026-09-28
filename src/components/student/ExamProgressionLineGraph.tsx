@@ -94,7 +94,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           result.push({
             id: examId,
             label: w.label,
-            shortLabel: `${w.shortLabel} (${w.label})`,
+            shortLabel: w.label,
             score,
             displayValue: ov?.displayValue || (score !== null ? `${score}%` : "-"),
             isCompleted: score !== null,
@@ -107,7 +107,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           result.push({
             id: examId,
             label: w.label,
-            shortLabel: `${w.shortLabel} (${w.label})`,
+            shortLabel: w.label,
             score: predicted,
             displayValue: predicted !== null ? `~${predicted}%` : "Pending",
             isCompleted: false,
@@ -134,7 +134,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           result.push({
             id: examId,
             label: w.label,
-            shortLabel: `${w.shortLabel} (${w.label})`,
+            shortLabel: w.label,
             score,
             displayValue: displayVal,
             isCompleted: score !== null,
@@ -148,7 +148,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           result.push({
             id: examId,
             label: w.label,
-            shortLabel: `${w.shortLabel} (${w.label})`,
+            shortLabel: w.label,
             score: predicted,
             displayValue: predicted !== null ? `~${predicted}%` : "Pending",
             isCompleted: false,
@@ -373,7 +373,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-100">
           <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider block">
-            Pre Mid Term
+            Premid Term
           </span>
           <span className="text-base sm:text-lg font-bold font-mono text-navy mt-0.5 block">
             {baseline.displayValue}
@@ -382,7 +382,7 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
 
         <div className="bg-violet-50/60 rounded-xl p-3 border border-violet-100">
           <span className="text-[11px] font-mono text-violet-700 uppercase tracking-wider block">
-            Predicted Final
+            Annual Exam
           </span>
           <span className="text-base sm:text-lg font-bold font-mono text-violet-700 mt-0.5 block">
             {(points.find(p => p.id === 'exam-5') || points[points.length - 1])?.displayValue || "—"}

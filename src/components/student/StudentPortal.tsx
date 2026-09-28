@@ -217,7 +217,7 @@ export default function StudentPortal() {
                 Predictive Target Score Modeling
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Calculates precise marks required in Mid Term (/80), PT-2 (/20), and Final (/80) exams to hit institutional benchmark targets.
+                Calculates precise marks required in Half Yearly (/80), Midterm 2 (/20), and Annual Exam (/80) to hit institutional benchmark targets.
               </p>
             </div>
 
@@ -241,7 +241,7 @@ export default function StudentPortal() {
                 CBSE Weighted Distribution
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Evaluated under CBSE continuous scheme: Pre Mid Term (10%), Mid Term (10%), Half Yearly (20%), PT-2 (10%), Final Exam (50%).
+                Evaluated under CBSE continuous scheme: Premid Term (10%), Midterm (10%), Half Yearly (20%), Midterm 2 (10%), Annual Exam (50%).
               </p>
             </div>
           </div>
@@ -288,12 +288,12 @@ export default function StudentPortal() {
         {/* Top 4 Core Metric Cards */}
         <section aria-label="Core Academic Metrics">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Exam-1: Pre Mid Term (/20) */}
+            {/* Exam-1: Premid Term (/20) */}
             <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-navy p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                    E1: Pre Mid Term
+                    Premid Term
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-navy border border-blue-100">
                     Weight: 10%
@@ -309,12 +309,12 @@ export default function StudentPortal() {
               </div>
             </div>
 
-            {/* Exam-2: Mid Term (/20) */}
+            {/* Exam-2: Midterm (/20) */}
             <div className="bg-white rounded-xl border border-slate-200 border-t-2 border-t-blue-500 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                    E2: Mid Term
+                    Midterm
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
                     Weight: 10%

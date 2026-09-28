@@ -32,7 +32,7 @@ export default function ExamProgressionTimeline({ student }: ExamProgressionTime
 
       return {
         id: examId,
-        title: `${w.shortLabel} (${w.label})`,
+        title: w.label,
         subtitle: `Weight: ${Math.round(w.weight * 100)}% • Max: ${w.maxMarks}`,
         score: scoreDisplay,
         badge,
