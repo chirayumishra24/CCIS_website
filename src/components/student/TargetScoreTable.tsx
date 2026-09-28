@@ -126,6 +126,14 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                 <span className="text-sm font-bold text-navy font-mono">
                   {overall.targetDisplayValue}
                 </span>
+                {overall.recommendedTarget && (
+                  <span
+                    className="inline-flex items-center gap-1 text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200"
+                    title={overall.recommendedTarget.reason}
+                  >
+                    ⭐ Recommended Stretch: {overall.recommendedTarget.displayValue}
+                  </span>
+                )}
                 <span className="text-slate-300">•</span>
                 <span className="text-xs text-slate-500">Scored So Far:</span>
                 <span className="text-sm font-bold text-slate-800 font-mono">
@@ -321,8 +329,18 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                       })}
 
                       {/* Target Goal */}
-                      <td className="py-2.5 px-2 text-center font-mono font-bold text-navy">
-                        {subj.targetDisplayValue}
+                      <td className="py-2.5 px-2 text-center font-mono">
+                        <span className="font-bold text-navy">{subj.targetDisplayValue}</span>
+                        {subj.recommendedTarget && (
+                          <div className="mt-0.5">
+                            <span
+                              className="inline-block text-[9px] font-bold font-mono px-1 py-0.2 rounded bg-indigo-50 text-indigo-700 border border-indigo-200"
+                              title={subj.recommendedTarget.reason}
+                            >
+                              Rec: {subj.recommendedTarget.displayValue}
+                            </span>
+                          </div>
+                        )}
                       </td>
 
                       {/* Required in Remaining Exams (Hero Column) */}
@@ -448,8 +466,18 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                       </td>
                     );
                   })}
-                  <td className="py-3 px-2 text-center font-mono font-bold text-navy">
-                    {overall.targetDisplayValue}
+                  <td className="py-3 px-2 text-center font-mono">
+                    <span className="font-bold text-navy">{overall.targetDisplayValue}</span>
+                    {overall.recommendedTarget && (
+                      <div className="mt-0.5">
+                        <span
+                          className="inline-block text-[9px] font-bold font-mono px-1 py-0.2 rounded bg-indigo-50 text-indigo-700 border border-indigo-200"
+                          title={overall.recommendedTarget.reason}
+                        >
+                          Rec: {overall.recommendedTarget.displayValue}
+                        </span>
+                      </div>
+                    )}
                   </td>
                   <td className="py-3 px-2 text-center bg-amber-50/40 border-x border-amber-200/50">
                     {overall.requiredInRemaining !== null ? (
@@ -573,6 +601,11 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                       <div className="text-xs font-bold text-navy font-mono">
                         {subj.targetDisplayValue}
                       </div>
+                      {subj.recommendedTarget && (
+                        <div className="text-[8px] font-mono font-bold text-indigo-600 mt-0.5">
+                          Rec: {subj.recommendedTarget.displayValue}
+                        </div>
+                      )}
                     </div>
 
                     <div className={`rounded-lg py-1.5 px-1 border ${

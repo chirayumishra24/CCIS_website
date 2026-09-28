@@ -247,6 +247,14 @@ export interface ExamScoreEntry {
   confidence: 'high' | 'medium' | 'low' | null;
 }
 
+export interface RecommendedTarget {
+  value: number;
+  displayValue: string;
+  isAhead: boolean;
+  liftPercentagePoints: number;
+  reason: string;
+}
+
 export interface SubjectRequiredScore {
   subjectKey: string;
   subjectLabel: string;
@@ -254,6 +262,7 @@ export interface SubjectRequiredScore {
   examScores: ExamScoreEntry[];
   targetScore: number | null;       // per-subject target %
   targetDisplayValue: string;
+  recommendedTarget?: RecommendedTarget | null; // stretch target when outperforming
   weightedContribution: number;     // sum of (score% × weight) for completed exams
   completedWeight: number;          // sum of weights for completed exams
   remainingWeight: number;          // sum of weights for uncompleted exams
@@ -456,6 +465,48 @@ function distributePredictions(
   return predictions;
 }
 
+/**
+ * Calculates a realistic recommended target when a student is already outperforming their assigned target.
+ * Prevents high achievers from stagnating at a modest target and gives them a motivating, achievable stretch milestone.
+ */
+export function calculateRealisticRecommendedTarget(
+  targetScore: number | null,
+  currentAvg: number | null,
+  lastScore: number | null,
+  predictedFinal: number | null
+): RecommendedTarget | null {
+  if (targetScore === null || currentAvg === null) return null;
+
+  const peak = Math.max(currentAvg, lastScore ?? currentAvg);
+  // Student must be at or exceeding target
+  if (peak < targetScore - 0.5) return null;
+
+  // Use the projected final trajectory or current peak as capability base
+  const trajectoryBase = predictedFinal !== null ? (peak * 0.4 + predictedFinal * 0.6) : peak;
+
+  // Round up to nearest clean milestone (multiple of 5%), minimum +5% above original target
+  let recommended = Math.max(targetScore + 5, Math.ceil(trajectoryBase / 5) * 5);
+
+  // If student is already exceeding the first milestone (e.g. at 82.5% with target 70%),
+  // recommend 85% or 90%
+  if (recommended <= peak) {
+    recommended = Math.ceil((peak + 2) / 5) * 5;
+  }
+
+  // Cap at realistic academic ceiling
+  recommended = Math.min(95, recommended);
+
+  if (recommended <= targetScore) return null;
+
+  return {
+    value: recommended,
+    displayValue: `${recommended}%`,
+    isAhead: true,
+    liftPercentagePoints: recommended - targetScore,
+    reason: `Current achievement (${Math.round(peak * 10) / 10}%) exceeds assigned target (${targetScore}%). Recommended stretch target: ${recommended}%.`,
+  };
+}
+
 export function calculateRequiredScoresPerSubject(
   student: StudentRecord
 ): TargetCalculatorResult {
@@ -607,6 +658,16 @@ export function calculateRequiredScoresPerSubject(
       }
     }
 
+    const predictedFinalScore = examScores.find((es) => es.examId === 'exam-5')?.predictedPct ?? null;
+    const completedSubjectScores = examScores.filter((es) => es.isCompleted && es.normalizedPct !== null);
+    const lastSubjScore = completedSubjectScores.length > 0 ? completedSubjectScores[completedSubjectScores.length - 1].normalizedPct : null;
+    const recommendedTarget = calculateRealisticRecommendedTarget(
+      target.value,
+      currentAvg,
+      lastSubjScore,
+      predictedFinalScore
+    );
+
     return {
       subjectKey: meta.key,
       subjectLabel: label,
@@ -614,6 +675,7 @@ export function calculateRequiredScoresPerSubject(
       examScores,
       targetScore: target.value,
       targetDisplayValue: target.displayValue,
+      recommendedTarget,
       weightedContribution: Math.round(weightedContribution * 100) / 100,
       completedWeight: Math.round(completedWeight * 100) / 100,
       remainingWeight: Math.round(remainingWeight * 100) / 100,
@@ -693,10 +755,11 @@ export function calculateRequiredScoresPerSubject(
     };
   });
 
+  const completedOverallScores = overallExamScores.filter((es) => es.isCompleted && es.normalizedPct !== null);
+  const lastOverallScore = completedOverallScores.length > 0 ? completedOverallScores[completedOverallScores.length - 1].normalizedPct : null;
+
   // Generate overall predictions
   if (overallRemainingWeight > 0) {
-    const completedOverallScores = overallExamScores.filter((es) => es.isCompleted && es.normalizedPct !== null);
-    const lastOverallScore = completedOverallScores.length > 0 ? completedOverallScores[completedOverallScores.length - 1].normalizedPct : null;
     const pendingIds = overallExamScores.filter((es) => !es.isCompleted).map((es) => es.examId);
 
     let overallMomentum = 0;
@@ -726,6 +789,14 @@ export function calculateRequiredScoresPerSubject(
     }
   }
 
+  const overallPredictedFinal = overallExamScores.find((es) => es.examId === 'exam-5')?.predictedPct ?? null;
+  const overallRecommendedTarget = calculateRealisticRecommendedTarget(
+    overallTargetVal,
+    overallCurrentAvg,
+    lastOverallScore,
+    overallPredictedFinal
+  );
+
   const overall: SubjectRequiredScore = {
     subjectKey: 'overall',
     subjectLabel: 'Overall Aggregate',
@@ -733,6 +804,7 @@ export function calculateRequiredScoresPerSubject(
     examScores: overallExamScores,
     targetScore: overallTargetVal,
     targetDisplayValue: overallTargetDisplay,
+    recommendedTarget: overallRecommendedTarget,
     weightedContribution: Math.round(avgWeightedContrib * 100) / 100,
     completedWeight: overallCompletedWeight,
     remainingWeight: overallRemainingWeight,

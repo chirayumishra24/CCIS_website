@@ -269,6 +269,12 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
   const targetPoint = points.find((p) => p.id === "target");
   const targetY = targetPoint?.score !== null && targetPoint?.score !== undefined ? getY(targetPoint.score) : null;
 
+  // Recommended realistic target for outperforming students
+  const activeSubjectKey = activeSubject === "overall" ? null : (subjectIdToKey[activeSubject] || activeSubject);
+  const currentSubjectCalc = activeSubject === "overall" ? calcResult.overall : calcResult.subjects.find((s) => s.subjectKey === activeSubjectKey);
+  const recommendedTarget = currentSubjectCalc?.recommendedTarget || null;
+  const recTargetY = recommendedTarget && recommendedTarget.value !== null ? getY(recommendedTarget.value) : null;
+
   // KPI values
   const baseline = points[0];
   const latestCompleted = [...actualPoints].pop();
@@ -389,28 +395,54 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           </span>
         </div>
 
-        <div className="bg-amber-50/60 rounded-xl p-3 border border-amber-100">
-          <span className="text-[11px] font-mono text-amber-700 uppercase tracking-wider block">
-            Target
-          </span>
-          <span className="text-base sm:text-lg font-bold font-mono text-amber-700 mt-0.5 block">
-            {targetPoint?.displayValue || "—"}
-          </span>
+        <div className="bg-amber-50/60 rounded-xl p-3 border border-amber-100 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between gap-1">
+              <span className="text-[11px] font-mono text-amber-700 uppercase tracking-wider block">
+                Target
+              </span>
+              {recommendedTarget && (
+                <span
+                  className="text-[9px] font-bold font-mono px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 border border-indigo-200"
+                  title={recommendedTarget.reason}
+                >
+                  Rec: {recommendedTarget.displayValue}
+                </span>
+              )}
+            </div>
+            <span className="text-base sm:text-lg font-bold font-mono text-amber-700 mt-0.5 block">
+              {targetPoint?.displayValue || "—"}
+            </span>
+          </div>
+          {recommendedTarget && (
+            <span className="text-[10px] text-indigo-600 font-medium mt-1">
+              Stretch: +{recommendedTarget.liftPercentagePoints}% achievable
+            </span>
+          )}
         </div>
 
-        <div className="bg-emerald-50/60 rounded-xl p-3 border border-emerald-100">
-          <span className="text-[11px] font-mono text-emerald-700 uppercase tracking-wider block">
-            {latestCompleted?.score != null && targetPoint?.score != null && latestCompleted.score >= targetPoint.score
-              ? "Surplus"
-              : "Gap"}
-          </span>
-          <span className="text-base sm:text-lg font-bold font-mono text-emerald-700 mt-0.5 block truncate">
-            {latestCompleted?.score != null && targetPoint?.score != null
-              ? latestCompleted.score >= targetPoint.score
-                ? `+${Math.round((latestCompleted.score - targetPoint.score) * 10) / 10}% Ahead`
-                : `${Math.round((targetPoint.score - latestCompleted.score) * 10) / 10}% to target`
-              : "—"}
-          </span>
+        <div className="bg-emerald-50/60 rounded-xl p-3 border border-emerald-100 flex flex-col justify-between">
+          <div>
+            <span className="text-[11px] font-mono text-emerald-700 uppercase tracking-wider block">
+              {latestCompleted?.score != null && targetPoint?.score != null && latestCompleted.score >= targetPoint.score
+                ? "Surplus"
+                : "Gap"}
+            </span>
+            <span className="text-base sm:text-lg font-bold font-mono text-emerald-700 mt-0.5 block truncate">
+              {latestCompleted?.score != null && targetPoint?.score != null
+                ? latestCompleted.score >= targetPoint.score
+                  ? `+${Math.round((latestCompleted.score - targetPoint.score) * 10) / 10}% Ahead`
+                  : `${Math.round((targetPoint.score - latestCompleted.score) * 10) / 10}% to target`
+                : "—"}
+            </span>
+          </div>
+          {recommendedTarget && latestCompleted?.score != null && targetPoint?.score != null && latestCompleted.score >= targetPoint.score && (
+            <span className="text-[10px] text-emerald-700 font-medium mt-1">
+              {recommendedTarget.value > latestCompleted.score
+                ? `${Math.round((recommendedTarget.value - latestCompleted.score) * 10) / 10}% to stretch goal`
+                : "Stretch goal reached!"}
+            </span>
+          )}
         </div>
       </div>
 
@@ -480,6 +512,32 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
                 fontWeight="bold"
               >
                 TGT
+              </text>
+            </>
+          )}
+
+          {/* Recommended stretch target line (for outperforming students) */}
+          {recTargetY !== null && recommendedTarget && (
+            <>
+              <line
+                x1={paddingLeft}
+                y1={recTargetY}
+                x2={svgWidth - paddingRight}
+                y2={recTargetY}
+                stroke="#6366f1"
+                strokeDasharray="4,4"
+                strokeWidth={1.5}
+                opacity={0.8}
+              />
+              <text
+                x={svgWidth - paddingRight + 4}
+                y={recTargetY + 3}
+                fontSize={8}
+                fill="#6366f1"
+                fontFamily="monospace"
+                fontWeight="bold"
+              >
+                REC
               </text>
             </>
           )}
@@ -626,6 +684,14 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           <Target className="w-3 h-3 text-amber-600" />
           Target Line
         </span>
+        {recommendedTarget && (
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-6 h-0.5 bg-indigo-500 rounded" style={{ borderTop: "2px dashed #6366f1" }} />
+            <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
+              Rec Target ({recommendedTarget.displayValue})
+            </span>
+          </span>
+        )}
         {achievementData.some(d => d.delta !== null) && (
           <span className="inline-flex items-center gap-1.5">
             <span className="text-[9px] font-mono font-bold px-1 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-200">↑+X%</span>

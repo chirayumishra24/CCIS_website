@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { StudentRecord, EXAM_WEIGHTS } from "@/lib/academicNormalizer";
+import { calculateRequiredScoresPerSubject } from "@/lib/academicCalculations";
 import {
   fetchStudentById,
   subscribeStudentById,
@@ -273,6 +274,9 @@ export default function StudentPortal() {
   const completedWeight = completedList.reduce((sum, id) => sum + (EXAM_WEIGHTS[id]?.weight || 0), 0);
   const remainingWeightPct = Math.round((1 - completedWeight) * 100);
 
+  const calcResult = useMemo(() => calculateRequiredScoresPerSubject(student), [student]);
+  const recommendedTarget = calcResult.overall.recommendedTarget;
+
   return (
     <div className="bg-slate-50/50 min-h-screen pb-16">
       {/* Student Header with Enrollment Entry */}
@@ -335,7 +339,7 @@ export default function StudentPortal() {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                    Gap to Target
+                    {currentVal !== undefined && targetVal !== undefined && currentVal >= targetVal ? "Surplus Ahead" : "Gap to Target"}
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                     {remainingWeightPct}% weight left
@@ -344,7 +348,9 @@ export default function StudentPortal() {
                 <div className="text-2xl font-bold font-mono tracking-tight">
                   {currentVal !== undefined && targetVal !== undefined ? (
                     currentVal >= targetVal ? (
-                      <span className="text-emerald-600">On Track</span>
+                      <span className="text-emerald-600">
+                        +{Math.round((currentVal - targetVal) * 10) / 10}% Ahead
+                      </span>
                     ) : (
                       <span className="text-amber-600">{Math.round((targetVal - currentVal) * 10) / 10}% gap</span>
                     )
@@ -354,7 +360,9 @@ export default function StudentPortal() {
                 </div>
               </div>
               <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500">
-                {5 - completedList.length} exams remaining to close the gap
+                {recommendedTarget
+                  ? `Exceeding target • Aiming for ${recommendedTarget.displayValue}`
+                  : `${5 - completedList.length} exams remaining to close the gap`}
               </div>
             </div>
 
@@ -365,9 +373,18 @@ export default function StudentPortal() {
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
                     School Target
                   </span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                    End-of-Year
-                  </span>
+                  {recommendedTarget ? (
+                    <span
+                      className="text-[9px] font-bold font-mono px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200"
+                      title={recommendedTarget.reason}
+                    >
+                      Rec: {recommendedTarget.displayValue}
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                      End-of-Year
+                    </span>
+                  )}
                 </div>
                 <div className="text-2xl font-bold text-navy font-mono tracking-tight">
                   {student.schoolTarget?.overall?.displayValue && student.schoolTarget.overall.displayValue !== "Not Assigned"
@@ -377,8 +394,12 @@ export default function StudentPortal() {
               </div>
               <div className="pt-2.5 border-t border-slate-100 mt-3 text-[11px] text-slate-500 flex items-center justify-between">
                 <span>Status:</span>
-                <span className="font-semibold text-slate-700">
-                  {student.schoolTarget?.targetStatus === "ACHIEVED" ? "Met" : "In Progress"}
+                <span className={`font-semibold ${recommendedTarget ? "text-indigo-600" : "text-slate-700"}`}>
+                  {recommendedTarget
+                    ? `Ahead (+${recommendedTarget.liftPercentagePoints}% stretch)`
+                    : student.schoolTarget?.targetStatus === "ACHIEVED"
+                    ? "Met"
+                    : "In Progress"}
                 </span>
               </div>
             </div>
