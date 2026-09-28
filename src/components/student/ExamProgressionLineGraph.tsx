@@ -1,8 +1,8 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { StudentRecord, EXAM_WEIGHTS, EXAM_ORDER } from "@/lib/academicNormalizer";
 import { calculateRequiredScoresPerSubject, compareActualVsPredicted } from "@/lib/academicCalculations";
-import { TrendingUp, Layers, Sparkles, Target, CheckCircle2, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { TrendingUp, Layers, Sparkles, Target, CheckCircle2, ArrowUpRight, ArrowDownRight, ChevronDown, Check } from "lucide-react";
 
 interface DataPoint {
   id: string;
@@ -23,6 +23,29 @@ interface ExamProgressionLineGraphProps {
 
 export default function ExamProgressionLineGraph({ student }: ExamProgressionLineGraphProps) {
   const [activeSubject, setActiveSubject] = useState("overall");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsDropdownOpen(false);
+      }
+    }
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isDropdownOpen]);
 
   const targetVal: number | null = useMemo(() => {
     const t = student.schoolTarget?.overall;
@@ -268,21 +291,79 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <label htmlFor="subject-select" className="text-xs font-semibold text-slate-500 flex items-center gap-1">
-            <Layers className="w-3.5 h-3.5" />
-            <span>Metric:</span>
-          </label>
-          <select
-            id="subject-select"
-            value={activeSubject}
-            onChange={(e) => setActiveSubject(e.target.value)}
-            className="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-navy focus:outline-none focus:ring-2 focus:ring-navy/20 cursor-pointer"
-          >
-            {availableSubjects.map((s) => (
-              <option key={s.id} value={s.id}>{s.label}</option>
-            ))}
-          </select>
+        {/* Custom Styled Metric Selector Dropdown */}
+        <div className="relative" ref={dropdownRef}>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-slate-500 flex items-center gap-1.5 shrink-0">
+              <Layers className="w-3.5 h-3.5 text-navy" />
+              <span>Metric:</span>
+            </span>
+
+            <button
+              type="button"
+              id="subject-select"
+              aria-haspopup="listbox"
+              aria-expanded={isDropdownOpen}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="inline-flex items-center justify-between gap-3 px-3.5 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl text-xs font-semibold text-navy shadow-xs transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-navy/20 min-w-[180px] sm:min-w-[210px]"
+            >
+              <span className="truncate">
+                {availableSubjects.find((s) => s.id === activeSubject)?.label || "Select Metric"}
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${
+                  isDropdownOpen ? "rotate-180 text-navy" : ""
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Animated Dropdown Menu */}
+          {isDropdownOpen && (
+            <div
+              role="listbox"
+              className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-200/90 py-1.5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150"
+            >
+              <div className="px-3.5 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 flex items-center justify-between">
+                <span>Academic Disciplines</span>
+                <span className="text-[9px] text-slate-400">{availableSubjects.length} items</span>
+              </div>
+              <div className="max-h-64 overflow-y-auto py-1 divide-y divide-slate-50">
+                {availableSubjects.map((s) => {
+                  const isSelected = s.id === activeSubject;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      role="option"
+                      aria-selected={isSelected}
+                      onClick={() => {
+                        setActiveSubject(s.id);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-3.5 py-2 text-xs flex items-center justify-between transition-colors ${
+                        isSelected
+                          ? "bg-navy/5 text-navy font-bold"
+                          : "text-slate-600 hover:bg-slate-50 hover:text-navy"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                            isSelected ? "bg-navy" : "bg-slate-300"
+                          }`}
+                        />
+                        <span className="truncate">{s.label}</span>
+                      </div>
+                      {isSelected && (
+                        <Check className="w-3.5 h-3.5 text-navy shrink-0 ml-2" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
