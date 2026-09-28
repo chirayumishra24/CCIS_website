@@ -366,24 +366,55 @@ const SUBJECT_META: { key: string; code: string; label: string }[] = [
 const PREDICTION_CEILING = 95;
 
 /**
- * Distributes the required average across pending exams using momentum-adjusted weighting.
- * Earlier pending exams get a slightly lower prediction (student improves over time).
- * @param momentumBoost - adaptive offset from comparing actual vs predicted in completed exams
+ * Distributes predictions across pending exams.
+ * CRITICAL RULE: When a student's current performance (or latest exam score) is already higher
+ * than the target requirement, the trajectory NEVER dips down to meet the target.
+ * Instead, it projects forward from their actual higher achievement level with realistic momentum.
  */
 function distributePredictions(
-  requiredAvg: number,
+  requiredAvg: number | null,
   pendingExamIds: string[],
   currentAvg: number | null,
-  momentumBoost: number = 0
+  momentumBoost: number = 0,
+  latestCompletedScore: number | null = null,
+  targetScore: number | null = null
 ): Map<string, { pct: number; confidence: 'high' | 'medium' | 'low' }> {
   const predictions = new Map<string, { pct: number; confidence: 'high' | 'medium' | 'low' }>();
 
   if (pendingExamIds.length === 0) return predictions;
 
-  // Apply momentum boost (positive if beating predictions, negative if missing)
-  const boosted = requiredAvg + momentumBoost;
+  // Determine actual performance level from completed exams
+  const recentLevel = latestCompletedScore !== null && currentAvg !== null
+    ? currentAvg * 0.35 + latestCompletedScore * 0.65
+    : currentAvg !== null
+    ? currentAvg
+    : latestCompletedScore;
+
+  // Check if student is already exceeding target / required score
+  const isOutperforming = recentLevel !== null && (
+    (targetScore !== null && recentLevel >= targetScore) ||
+    (requiredAvg !== null && recentLevel >= requiredAvg) ||
+    (requiredAvg === null || requiredAvg <= 0)
+  );
+
+  let baseScore: number;
+  if (isOutperforming && recentLevel !== null) {
+    // If student is already doing well, do NOT force them down to the target!
+    // Maintain and grow from their actual strong performance level.
+    baseScore = Math.max(recentLevel, targetScore || 0, requiredAvg || 0);
+  } else if (requiredAvg !== null && requiredAvg > 0) {
+    // Student needs to catch up to target
+    baseScore = requiredAvg;
+  } else if (recentLevel !== null) {
+    baseScore = recentLevel;
+  } else {
+    baseScore = targetScore || 70;
+  }
+
+  // Apply momentum boost from recent trend
+  const boosted = baseScore + momentumBoost;
   const capped = Math.min(boosted, PREDICTION_CEILING);
-  const isUnreachable = requiredAvg > 100;
+  const isUnreachable = (requiredAvg !== null && requiredAvg > 100);
 
   if (pendingExamIds.length === 1) {
     const conf = isUnreachable ? 'low' : capped <= 75 ? 'high' : capped <= 90 ? 'medium' : 'low';
@@ -391,15 +422,17 @@ function distributePredictions(
     return predictions;
   }
 
-  // Momentum: student should improve gradually — distribute with a slight upward ramp
-  const rampFactor = 0.08;
+  // Gradual growth ramp
+  // If student is outperforming, start directly from their recent level and ramp gently upwards
+  const rampFactor = isOutperforming ? 0.04 : 0.08;
   const rampStep = (capped * rampFactor) / (pendingExamIds.length - 1);
-  const baseOffset = -(capped * rampFactor) / 2;
+  const baseOffset = isOutperforming ? 0 : -(capped * rampFactor) / 2;
 
   for (let i = 0; i < pendingExamIds.length; i++) {
     let predicted = capped + baseOffset + rampStep * i;
 
-    if (currentAvg !== null && predicted > currentAvg + 20) {
+    // Guard against unrealistic leaps above current average for struggling students
+    if (!isOutperforming && currentAvg !== null && predicted > currentAvg + 20) {
       const realisticCeiling = currentAvg + 20;
       predicted = predicted * 0.6 + realisticCeiling * 0.4;
     }
@@ -409,6 +442,8 @@ function distributePredictions(
 
     const conf: 'high' | 'medium' | 'low' = isUnreachable
       ? 'low'
+      : isOutperforming
+      ? 'high'
       : predicted <= 75
       ? 'high'
       : predicted <= 90
@@ -527,6 +562,7 @@ export function calculateRequiredScoresPerSubject(
         gap = currentAvg !== null ? Math.round((targetTotal - currentAvg) * 10) / 10 : null;
 
         if (requiredInRemaining <= 0) status = 'ACHIEVED';
+        else if (currentAvg !== null && currentAvg >= targetTotal) status = 'ON_TRACK';
         else if (requiredInRemaining <= 75) status = 'ON_TRACK';
         else if (requiredInRemaining <= 90) status = 'NEEDS_FOCUS';
         else if (requiredInRemaining <= 100) status = 'AT_RISK';
@@ -538,9 +574,26 @@ export function calculateRequiredScoresPerSubject(
       }
 
       // Generate predictions for pending exams
-      if (remainingWeight > 0 && requiredInRemaining !== null) {
+      if (remainingWeight > 0) {
+        const completedSubjectScores = examScores.filter((es) => es.isCompleted && es.normalizedPct !== null);
+        const lastScore = completedSubjectScores.length > 0 ? completedSubjectScores[completedSubjectScores.length - 1].normalizedPct : null;
         const pendingIds = examScores.filter((es) => !es.isCompleted).map((es) => es.examId);
-        const predictions = distributePredictions(requiredInRemaining, pendingIds, currentAvg);
+
+        let momentum = 0;
+        if (completedSubjectScores.length >= 2) {
+          const prevScore = completedSubjectScores[completedSubjectScores.length - 2].normalizedPct!;
+          const diff = (lastScore || 0) - prevScore;
+          momentum = Math.max(-3, Math.min(3, diff * 0.3));
+        }
+
+        const predictions = distributePredictions(
+          requiredInRemaining,
+          pendingIds,
+          currentAvg,
+          momentum,
+          lastScore,
+          targetTotal
+        );
 
         for (const es of examScores) {
           const pred = predictions.get(es.examId);
@@ -605,6 +658,7 @@ export function calculateRequiredScoresPerSubject(
       overallGap = Math.round((overallTargetVal - currentAvg) * 10) / 10;
 
       if (overallRequired <= 0) overallStatus = 'ACHIEVED';
+      else if (currentAvg >= overallTargetVal) overallStatus = 'ON_TRACK';
       else if (overallRequired <= 75) overallStatus = 'ON_TRACK';
       else if (overallRequired <= 90) overallStatus = 'NEEDS_FOCUS';
       else if (overallRequired <= 100) overallStatus = 'AT_RISK';
@@ -640,9 +694,26 @@ export function calculateRequiredScoresPerSubject(
   });
 
   // Generate overall predictions
-  if (overallRemainingWeight > 0 && overallRequired !== null && overallRequired > 0) {
+  if (overallRemainingWeight > 0) {
+    const completedOverallScores = overallExamScores.filter((es) => es.isCompleted && es.normalizedPct !== null);
+    const lastOverallScore = completedOverallScores.length > 0 ? completedOverallScores[completedOverallScores.length - 1].normalizedPct : null;
     const pendingIds = overallExamScores.filter((es) => !es.isCompleted).map((es) => es.examId);
-    const predictions = distributePredictions(overallRequired, pendingIds, overallCurrentAvg);
+
+    let overallMomentum = 0;
+    if (completedOverallScores.length >= 2) {
+      const prevScore = completedOverallScores[completedOverallScores.length - 2].normalizedPct!;
+      const diff = (lastOverallScore || 0) - prevScore;
+      overallMomentum = Math.max(-3, Math.min(3, diff * 0.3));
+    }
+
+    const predictions = distributePredictions(
+      overallRequired,
+      pendingIds,
+      overallCurrentAvg,
+      overallMomentum,
+      lastOverallScore,
+      overallTargetVal
+    );
 
     for (const es of overallExamScores) {
       const pred = predictions.get(es.examId);

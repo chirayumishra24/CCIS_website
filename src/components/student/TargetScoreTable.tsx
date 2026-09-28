@@ -332,6 +332,16 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                             <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-600">
                               ✓ Goal Met
                             </span>
+                          ) : (subj.targetScore !== null && subj.completedWeight > 0 && (subj.weightedContribution / subj.completedWeight) >= subj.targetScore) ? (
+                            <div className="flex flex-col items-center">
+                              <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-600">
+                                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                                Ahead
+                              </span>
+                              <span className="text-[9px] font-mono text-slate-400">
+                                Need {Math.round(subj.requiredInRemaining)}% to hold
+                              </span>
+                            </div>
                           ) : (
                             <span className={`inline-flex items-center gap-0.5 font-mono text-xs font-bold px-2 py-0.5 rounded-full ${
                               subj.requiredInRemaining <= 65
@@ -443,9 +453,25 @@ export default function TargetScoreTable({ student }: TargetScoreTableProps) {
                   </td>
                   <td className="py-3 px-2 text-center bg-amber-50/40 border-x border-amber-200/50">
                     {overall.requiredInRemaining !== null ? (
-                      <span className="font-mono text-xs font-bold text-amber-900">
-                        {Math.round(overall.requiredInRemaining)}% avg
-                      </span>
+                      overall.requiredInRemaining <= 0 ? (
+                        <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-600">
+                          ✓ Goal Met
+                        </span>
+                      ) : (overall.targetScore !== null && overall.completedWeight > 0 && (overall.weightedContribution / overall.completedWeight) >= overall.targetScore) ? (
+                        <div className="flex flex-col items-center">
+                          <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-600">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                            Ahead of Target
+                          </span>
+                          <span className="text-[9px] font-mono text-slate-400">
+                            Need {Math.round(overall.requiredInRemaining)}% to hold
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="font-mono text-xs font-bold text-amber-900">
+                          {Math.round(overall.requiredInRemaining)}% avg
+                        </span>
+                      )
                     ) : (
                       "—"
                     )}

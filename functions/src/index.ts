@@ -187,20 +187,49 @@ function computeStatus(requiredAvg: number): StatusTag {
 
 /**
  * Distribute predictions across pending exams with momentum ramp.
- * If student has actual scores that beat previous predictions, boost momentum.
+ * CRITICAL RULE: When a student's current performance (or latest exam score) is already higher
+ * than the target requirement, the trajectory NEVER dips down to meet the target.
+ * Instead, it projects forward from their actual higher achievement level with realistic momentum.
  */
 function distributePredictions(
-  requiredAvg: number,
+  requiredAvg: number | null,
   pendingExamIds: string[],
   currentAvg: number | null,
-  momentumBoost: number = 0
+  momentumBoost: number = 0,
+  latestCompletedScore: number | null = null,
+  targetScore: number | null = null
 ): Map<string, { pct: number; confidence: 'high' | 'medium' | 'low' }> {
   const predictions = new Map<string, { pct: number; confidence: 'high' | 'medium' | 'low' }>();
   if (pendingExamIds.length === 0) return predictions;
 
-  const boosted = requiredAvg + momentumBoost;
+  // Determine actual performance level from completed exams
+  const recentLevel = latestCompletedScore !== null && currentAvg !== null
+    ? currentAvg * 0.35 + latestCompletedScore * 0.65
+    : currentAvg !== null
+    ? currentAvg
+    : latestCompletedScore;
+
+  // Check if student is already exceeding target / required score
+  const isOutperforming = recentLevel !== null && (
+    (targetScore !== null && recentLevel >= targetScore) ||
+    (requiredAvg !== null && recentLevel >= requiredAvg) ||
+    (requiredAvg === null || requiredAvg <= 0)
+  );
+
+  let baseScore: number;
+  if (isOutperforming && recentLevel !== null) {
+    baseScore = Math.max(recentLevel, targetScore || 0, requiredAvg || 0);
+  } else if (requiredAvg !== null && requiredAvg > 0) {
+    baseScore = requiredAvg;
+  } else if (recentLevel !== null) {
+    baseScore = recentLevel;
+  } else {
+    baseScore = targetScore || 70;
+  }
+
+  const boosted = baseScore + momentumBoost;
   const capped = Math.min(boosted, PREDICTION_CEILING);
-  const isUnreachable = requiredAvg > 100;
+  const isUnreachable = (requiredAvg !== null && requiredAvg > 100);
 
   if (pendingExamIds.length === 1) {
     const conf = isUnreachable ? 'low' : capped <= 75 ? 'high' : capped <= 90 ? 'medium' : 'low';
@@ -208,14 +237,14 @@ function distributePredictions(
     return predictions;
   }
 
-  const rampFactor = 0.08;
+  const rampFactor = isOutperforming ? 0.04 : 0.08;
   const rampStep = (capped * rampFactor) / (pendingExamIds.length - 1);
-  const baseOffset = -(capped * rampFactor) / 2;
+  const baseOffset = isOutperforming ? 0 : -(capped * rampFactor) / 2;
 
   for (let i = 0; i < pendingExamIds.length; i++) {
     let predicted = capped + baseOffset + rampStep * i;
 
-    if (currentAvg !== null && predicted > currentAvg + 20) {
+    if (!isOutperforming && currentAvg !== null && predicted > currentAvg + 20) {
       const realisticCeiling = currentAvg + 20;
       predicted = predicted * 0.6 + realisticCeiling * 0.4;
     }
@@ -225,6 +254,8 @@ function distributePredictions(
 
     const conf: 'high' | 'medium' | 'low' = isUnreachable
       ? 'low'
+      : isOutperforming
+      ? 'high'
       : predicted <= 75 ? 'high' : predicted <= 90 ? 'medium' : 'low';
 
     predictions.set(pendingExamIds[i], { pct: predicted, confidence: conf });
@@ -561,9 +592,26 @@ export const syncClass9Performance = functions.https.onRequest(async (req, res) 
               }
             }
 
+            let lastScore: number | null = null;
+            if (completedExamIds.length > 0) {
+              const lastEid = completedExamIds[completedExamIds.length - 1];
+              const lastSubj = exams[lastEid]?.subjects?.[sk];
+              if (lastSubj?.type === 'exact' && lastSubj.value !== undefined) {
+                const maxM = EXAM_CONFIG[lastEid].maxMarks;
+                lastScore = lastSubj.unit === 'marks' ? (lastSubj.value / maxM) * 100 : lastSubj.value;
+              }
+            }
+
             // Generate predictions for pending exams
-            if (remainingWeight > 0 && requiredAvg !== null && pendingExamIds.length > 0) {
-              const predictions = distributePredictions(requiredAvg, pendingExamIds, currentAvg, momentum);
+            if (remainingWeight > 0 && pendingExamIds.length > 0) {
+              const predictions = distributePredictions(
+                requiredAvg,
+                pendingExamIds,
+                currentAvg,
+                momentum,
+                lastScore,
+                subjectTargetPct
+              );
 
               for (const pendingId of pendingExamIds) {
                 const pred = predictions.get(pendingId);

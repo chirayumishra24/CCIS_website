@@ -400,11 +400,15 @@ export default function ExamProgressionLineGraph({ student }: ExamProgressionLin
 
         <div className="bg-emerald-50/60 rounded-xl p-3 border border-emerald-100">
           <span className="text-[11px] font-mono text-emerald-700 uppercase tracking-wider block">
-            Gap
+            {latestCompleted?.score != null && targetPoint?.score != null && latestCompleted.score >= targetPoint.score
+              ? "Surplus"
+              : "Gap"}
           </span>
-          <span className="text-base sm:text-lg font-bold font-mono text-emerald-700 mt-0.5 block">
-            {latestCompleted?.score !== null && latestCompleted?.score !== undefined && targetPoint?.score !== null && targetPoint?.score !== undefined
-              ? `${Math.round((targetPoint.score - latestCompleted.score) * 10) / 10}%`
+          <span className="text-base sm:text-lg font-bold font-mono text-emerald-700 mt-0.5 block truncate">
+            {latestCompleted?.score != null && targetPoint?.score != null
+              ? latestCompleted.score >= targetPoint.score
+                ? `+${Math.round((latestCompleted.score - targetPoint.score) * 10) / 10}% Ahead`
+                : `${Math.round((targetPoint.score - latestCompleted.score) * 10) / 10}% to target`
               : "—"}
           </span>
         </div>
