@@ -1,7 +1,5 @@
 import { getFirestore, collection, doc, getDocs, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, where, orderBy, Timestamp, onSnapshot, writeBatch } from 'firebase/firestore';
 import { app } from './firebase';
-import type { StudentRecord } from './academicNormalizer';
-import { INITIAL_CLASS_IX_STUDENTS } from './initialClass9Data';
 
 const db = getFirestore(app);
 
