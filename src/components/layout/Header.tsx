@@ -32,7 +32,6 @@ const navStructure: NavItem[] = [
   {
     name: "Academics & Life",
     dropdown: [
-      { name: "Class IX Target Tracker", href: "/student" },
       { name: "Campus Life & Facilities", href: "/campus-life" },
       { name: "Latest News & Events", href: "/news-events" },
       { name: "Contact Us", href: "/contact" },
