@@ -19,9 +19,9 @@ const FAQ_RESPONSES: Record<string, { answer: string; actionText?: string; actio
     actionUrl: "/admissions",
   },
   fees: {
-    answer: "Our transparent fee structure is tailored to the selected curriculum (CBSE / IB PYP) and grade level. Would you like our admissions officer to share the complete fee breakdown and scholarship details on WhatsApp?",
-    actionText: "Get Fee Details on WhatsApp",
-    actionUrl: "https://wa.me/919660551977?text=Hello%20CCIS,%20please%20share%20the%20complete%20fee%20structure%20and%20scholarship%20details.",
+    answer: "For all fee-related and admissions enquiries, please connect directly with our admissions counselor or visit our school accounts office in person.",
+    actionText: "Connect with Admissions on WhatsApp",
+    actionUrl: "https://wa.me/919660551977?text=Hello%20CCIS,%20I%20would%20like%20to%20connect%20with%20an%20admissions%20counselor.",
   },
   visit: {
     answer: "We would love to welcome you to our campus in Sector-3, Mansarovar, Jaipur! Campus tours are hosted Monday through Saturday between 9:00 AM and 3:00 PM.",
@@ -132,7 +132,6 @@ export default function KhushiChatBot() {
 
   const quickChips = [
     { label: "Admissions 2026-27", query: "Tell me about admissions 2026-27" },
-    { label: "Fee Structure", query: "What is the fee structure?" },
     { label: "Book Campus Visit", query: "How do I book a campus visit?" },
     { label: "IB vs CBSE", query: "What is the difference between IB and CBSE?" },
     { label: "WhatsApp Helpline", query: "Give me the official WhatsApp and contact numbers" },

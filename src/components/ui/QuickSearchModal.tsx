@@ -5,16 +5,15 @@ import { Search, X, BookOpen, User, FileText, Compass, Sparkles, Phone, ArrowRig
 
 interface SearchItem {
   title: string;
-  category: "Pages" | "Admissions & Fees" | "Academics" | "Campus Life" | "Faculty" | "Circulars" | "Policies";
+  category: "Pages" | "Admissions" | "Academics" | "Campus Life" | "Faculty" | "Circulars" | "Policies";
   description: string;
   href: string;
   badge?: string;
 }
 
 const searchableDatabase: SearchItem[] = [
-  { title: "Admissions 2026-27 (How to Apply)", category: "Admissions & Fees", description: "Online registration, entrance criteria, interaction rounds and step-by-step onboarding", href: "/admissions", badge: "Open" },
-  { title: "Fee Structure & Scholarships", category: "Admissions & Fees", description: "Transparent installment fee schedule, sibling discounts, and merit scholarships", href: "/admissions#fees", badge: "Policy" },
-  { title: "Age & Grade Eligibility Calculator", category: "Admissions & Fees", description: "Check eligibility for Nursery through Class XI for CBSE and IB boards", href: "/admissions#calculator" },
+  { title: "Admissions 2026-27 (How to Apply)", category: "Admissions", description: "Online registration, entrance criteria, interaction rounds and step-by-step onboarding", href: "/admissions", badge: "Open" },
+  { title: "Age & Grade Eligibility Calculator", category: "Admissions", description: "Check eligibility for Nursery through Class XI for CBSE and IB boards", href: "/admissions#calculator" },
   { title: "CBSE Curriculum (Grade VI to Class XII)", category: "Academics", description: "Rigorous national board with integrated JEE/NEET/CUET coaching and science/commerce streams", href: "/admissions" },
   { title: "International Baccalaureate (IB PYP)", category: "Academics", description: "Inquiry-based international curriculum fostering self-directed query and global mindedness", href: "/admissions", badge: "IB World School" },
   { title: "AI & Robotics Studios", category: "Campus Life", description: "Drone kits, programmable microcontrollers, 3D printers, coding arenas, and tech labs", href: "/campus-life" },
@@ -27,7 +26,7 @@ const searchableDatabase: SearchItem[] = [
   { title: "Alumni Network & Verification Hub", category: "Pages", description: "Connect with 13,500+ graduates across global universities, tech firms, and leadership roles", href: "/alumni" },
   { title: "Campus Location & Map Directions", category: "Pages", description: "Sector-3, Mansarovar, Jaipur, Rajasthan 302020. Office hours Mon-Sat 8AM-3PM", href: "/contact" },
   { title: "School Bus Transport Routes & GPS", category: "Pages", description: "Safe GPS-tracked buses covering Mansarovar, Vaishali Nagar, Malviya Nagar, Jagatpura", href: "/contact" },
-  { title: "Mandatory Public Disclosures & Policies", category: "Policies", description: "CBSE Affiliation #1730867, safety guidelines, POCSO compliance, anti-bullying and fee refund", href: "/policies", badge: "CBSE" },
+  { title: "Mandatory Public Disclosures & Policies", category: "Policies", description: "CBSE Affiliation #1730867, safety guidelines, POCSO compliance, anti-bullying and campus standards", href: "/policies", badge: "CBSE" },
 ];
 
 export default function QuickSearchModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -98,7 +97,7 @@ export default function QuickSearchModal({ isOpen, onClose }: { isOpen: boolean;
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search programs, admissions, faculty, circulars, fees..."
+            placeholder="Search programs, admissions, faculty, circulars, events..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -126,7 +125,7 @@ export default function QuickSearchModal({ isOpen, onClose }: { isOpen: boolean;
             <div className="py-12 text-center flex flex-col items-center gap-2">
               <Sparkles className="w-8 h-8 text-gold/60 animate-pulse" />
               <p className="font-serif font-bold text-navy text-sm">No exact match found for &ldquo;{query}&rdquo;</p>
-              <p className="text-xs text-ink-muted max-w-xs">Try searching for keywords like &ldquo;Admissions&rdquo;, &ldquo;CBSE&rdquo;, &ldquo;Fee&rdquo;, &ldquo;Robotics&rdquo;, or &ldquo;Contact&rdquo;.</p>
+              <p className="text-xs text-ink-muted max-w-xs">Try searching for keywords like &ldquo;Admissions&rdquo;, &ldquo;CBSE&rdquo;, &ldquo;Robotics&rdquo;, or &ldquo;Contact&rdquo;.</p>
             </div>
           ) : (
             filteredItems.map((item, idx) => {
@@ -143,7 +142,7 @@ export default function QuickSearchModal({ isOpen, onClose }: { isOpen: boolean;
                   <div className="flex items-start gap-3 min-w-0">
                     <div className={`p-2 rounded-lg shrink-0 mt-0.5 ${isSelected ? "bg-gold text-navy" : "bg-cream text-navy"}`}>
                       {item.category === "Academics" && <BookOpen className="w-4 h-4" />}
-                      {item.category === "Admissions & Fees" && <Compass className="w-4 h-4" />}
+                      {item.category === "Admissions" && <Compass className="w-4 h-4" />}
                       {item.category === "Faculty" && <User className="w-4 h-4" />}
                       {item.category === "Circulars" && <FileText className="w-4 h-4" />}
                       {item.category === "Policies" && <Shield className="w-4 h-4" />}
