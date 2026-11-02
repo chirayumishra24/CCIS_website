@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Admissions & Enquiries
+    match /admissions_enquiries/{id} {
+      allow read, write: if true;
+    }
+
+    // Contact Messages
+    match /contact_messages/{id} {
+      allow read, write: if true;
+    }
+
+    // Alumni Profiles & Users
+    match /alumni_profiles/{id} {
+      allow read, write: if true;
+    }
+    match /users/{id} {
+      allow read, write: if true;
+    }
+    match /widget_testimonials/{id} {
+      allow read, write: if true;
+    }
+
+    // Site Settings, News, Faculty, Testimonials
+    match /site_settings/{id} {
+      allow read, write: if true;
+    }
+    match /news_updates/{id} {
+      allow read, write: if true;
+    }
+    match /faculty_members/{id} {
+      allow read, write: if true;
+    }
+    match /testimonials/{id} {
+      allow read, write: if true;
+    }
+
+    // Class 9 Performance & Sync
+    match /students/{id} {
+      allow read, write: if true;
+    }
+    match /sync_logs/{id} {
+      allow read, write: if true;
+    }
+  }
+}
