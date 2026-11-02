@@ -306,10 +306,18 @@ export async function submitAdmissionEnquiry(data: {
 }) {
   const applicantName = data.studentName || data.name || '';
   const parent = data.parentName || data.name || '';
+  const fallbackId = `CCIS-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
 
-  const docRef = doc(collection(db, 'admissions_enquiries'));
+  let docId = fallbackId;
+  try {
+    const docRef = doc(collection(db, 'admissions_enquiries'));
+    docId = docRef.id || fallbackId;
+  } catch {
+    docId = fallbackId;
+  }
+
   const enquiryData = {
-    id: docRef.id,
+    id: docId,
     name: applicantName,
     studentName: applicantName,
     parentName: parent,
@@ -330,16 +338,28 @@ export async function submitAdmissionEnquiry(data: {
     updatedAt: new Date().toISOString(),
   };
 
-  await setDoc(docRef, enquiryData);
+  // 1. Forward directly to Google Sheets webhook
+  const webhook = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK || 'https://script.google.com/macros/s/AKfycbwWGA-DUq5kL-iXWQ3FNwBQChQy-Y14Q_XI8pytMYR0jkfpEIwrqrBYn_jrQFJgff0y/exec';
+  try {
+    await fetch(webhook, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(enquiryData),
+    });
+  } catch (sheetErr) {
+    console.warn('Google Sheets sync warning:', sheetErr);
+  }
 
-  // Forward to Google Sheets
-  const webhook = 'https://script.google.com/macros/s/AKfycbwWGA-DUq5kL-iXWQ3FNwBQChQy-Y14Q_XI8pytMYR0jkfpEIwrqrBYn_jrQFJgff0y/exec';
-  fetch(webhook, {
-    method: 'POST',
-    redirect: 'follow',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(enquiryData),
-  }).catch((err) => console.error('Google Sheets sync error:', err));
+  // 2. Try Firestore write (best-effort)
+  try {
+    const docRef = doc(db, 'admissions_enquiries', docId);
+    await setDoc(docRef, enquiryData);
+  } catch (dbErr) {
+    console.warn('Firestore admission write notice:', dbErr);
+  }
 
   return enquiryData;
 }

@@ -2,19 +2,19 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "mock-api-key-placeholder",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyCDMTbXMpNqVFyTLAsISxKoIZMNwbh9Kcc",
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "skillizee-products.firebaseapp.com",
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "skillizee-products",
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "skillizee-products.firebasestorage.app",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "000000000000",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:000000000000:web:mockappid"
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "1011375873388",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:1011375873388:web:0c494d475173d55001e749"
 };
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const storage = getStorage(app);
 
 export async function uploadFileToStorage(file: File, path: string): Promise<string> {
-  if (firebaseConfig.apiKey === "mock-api-key-placeholder") {
+  if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "mock-api-key-placeholder") {
     console.warn("Using mock Firebase configuration. Converting to Base64...");
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
