@@ -13,7 +13,9 @@ import StatsManager, { StatItem } from "@/components/admin/StatsManager";
 import ContactMessagesManager, { ContactMessage } from "@/components/admin/ContactMessagesManager";
 import { Lock, Loader2, Plus, Trash2, Video, FileText, Calendar, Bell, Edit3, X } from "lucide-react";
 import {
-  adminAuth,
+  adminSignIn,
+  adminSignOut,
+  onAdminAuthChange,
   fetchNews,
   createNews,
   updateNews,
@@ -55,7 +57,8 @@ interface NewsItem {
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [passcode, setPasscode] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState<string | null>(null);
   const [submittingAuth, setSubmittingAuth] = useState(false);
 
@@ -104,46 +107,41 @@ export default function AdminDashboard() {
   const [submittingTestimonial, setSubmittingTestimonial] = useState(false);
 
   useEffect(() => {
-    const savedPass = localStorage.getItem("ccis_admin_passcode");
-    if (savedPass) {
-      verifyPasscode(savedPass, true);
-    } else {
+    localStorage.removeItem("ccis_admin_passcode"); // clear legacy stored passcode
+    const unsubscribe = onAdminAuthChange((isAdmin) => {
+      setIsAuthenticated(isAdmin);
       setCheckingAuth(false);
-    }
+      if (isAdmin) fetchAllData();
+    });
+    return unsubscribe;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const verifyPasscode = async (pass: string, isAuto = false) => {
-    if (!isAuto) setSubmittingAuth(true);
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) return;
+    setSubmittingAuth(true);
     setAuthError(null);
-
     try {
-      if (adminAuth(pass)) {
-        setIsAuthenticated(true);
-        localStorage.setItem("ccis_admin_passcode", pass);
-        fetchAllData();
+      await adminSignIn(email.trim(), password);
+      setPassword("");
+    } catch (err: any) {
+      const code = err?.code || "";
+      if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found" || code === "auth/invalid-email") {
+        setAuthError("Incorrect email or password.");
+      } else if (code === "auth/too-many-requests") {
+        setAuthError("Too many attempts. Please wait a few minutes and try again.");
       } else {
-        if (!isAuto) setAuthError("Incorrect passcode. Access Denied.");
-        localStorage.removeItem("ccis_admin_passcode");
+        setAuthError(err?.message || "Authentication error.");
       }
-    } catch (err) {
-      console.error(err);
-      if (!isAuto) setAuthError("Authentication error.");
     } finally {
       setSubmittingAuth(false);
-      setCheckingAuth(false);
     }
   };
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!passcode) return;
-    verifyPasscode(passcode);
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("ccis_admin_passcode");
-    setPasscode("");
+  const handleLogout = async () => {
+    await adminSignOut();
+    setPassword("");
   };
 
   const fetchAllData = async () => {
@@ -464,26 +462,43 @@ export default function AdminDashboard() {
               CCIS Administration Hub
             </h2>
             <p className="text-xs text-ink-muted leading-relaxed">
-              Enter authorized administrative passcode to access admissions, faculty, and site controls.
+              Sign in with your authorised admin account to access admissions, faculty, and site controls.
             </p>
           </div>
 
           <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label
-                htmlFor="passcode"
-                className="text-[10px] font-bold text-navy uppercase tracking-wider text-center"
+                htmlFor="admin-email"
+                className="text-[10px] font-bold text-navy uppercase tracking-wider"
               >
-                Passcode Credentials
+                Email
+              </label>
+              <input
+                type="email"
+                id="admin-email"
+                autoComplete="username"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="p-3 border border-cream-line rounded-xl font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="admin-password"
+                className="text-[10px] font-bold text-navy uppercase tracking-wider"
+              >
+                Password
               </label>
               <input
                 type="password"
-                id="passcode"
-                placeholder="••••••••••••"
+                id="admin-password"
+                autoComplete="current-password"
                 required
-                value={passcode}
-                onChange={(e) => setPasscode(e.target.value)}
-                className="p-3 border border-cream-line rounded-xl font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white text-center tracking-widest font-bold"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="p-3 border border-cream-line rounded-xl font-sans text-sm focus:outline-none focus:ring-1 focus:ring-gold bg-white"
               />
             </div>
 
@@ -499,7 +514,7 @@ export default function AdminDashboard() {
               variant="gold"
               className="uppercase font-bold tracking-wider py-3.5 mt-2 rounded-xl text-xs shadow-glow-gold"
             >
-              Verify &amp; Enter Dashboard
+              Sign In
             </Button>
           </form>
         </div>

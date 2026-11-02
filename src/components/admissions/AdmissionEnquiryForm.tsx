@@ -34,6 +34,7 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
 
   const [formData, setFormData] = useState({
     studentName: "",
+    parentName: "",
     guardianContact: "",
     selectedClass: initialGrade || paramGrade || "",
     guardianEmail: "",
@@ -58,7 +59,7 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
     e.preventDefault();
     setErrorMsg("");
 
-    if (!formData.studentName.trim() || !formData.guardianContact.trim() || !formData.selectedClass || !formData.guardianEmail.trim()) {
+    if (!formData.studentName.trim() || !formData.parentName.trim() || !formData.guardianContact.trim() || !formData.selectedClass || !formData.guardianEmail.trim()) {
       setErrorMsg("Please fill in all mandatory fields.");
       return;
     }
@@ -68,7 +69,7 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
       const data = await submitAdmissionEnquiry({
         name: formData.studentName.trim(),
         studentName: formData.studentName.trim(),
-        parentName: formData.studentName.trim(),
+        parentName: formData.parentName.trim(),
         email: formData.guardianEmail.trim(),
         phone: formData.guardianContact.trim(),
         grade: formData.selectedClass,
@@ -90,6 +91,7 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
     setSubmitted(false);
     setFormData({
       studentName: "",
+      parentName: "",
       guardianContact: "",
       selectedClass: "",
       guardianEmail: "",
@@ -179,7 +181,19 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
         />
       </div>
 
-      {/* 2. Guardian's Contact* */}
+      {/* 2. Parent / Guardian Name* */}
+      <div>
+        <input
+          type="text"
+          required
+          placeholder="Parent / Guardian Name*"
+          value={formData.parentName}
+          onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
+          className="w-full px-4 py-3 bg-white border border-gray-300 rounded text-sm text-gray-800 placeholder-gray-500 focus:border-[#172853] focus:ring-1 focus:ring-[#172853] outline-none transition-all"
+        />
+      </div>
+
+      {/* 3. Guardian's Contact* */}
       <div>
         <input
           type="tel"
@@ -191,7 +205,7 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
         />
       </div>
 
-      {/* 3. Seeking Admission in which Class * */}
+      {/* 4. Seeking Admission in which Class * */}
       <div>
         <select
           required
@@ -210,7 +224,7 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
         </select>
       </div>
 
-      {/* 4. Guardian's Email* */}
+      {/* 5. Guardian's Email* */}
       <div>
         <input
           type="email"
@@ -222,7 +236,7 @@ export default function AdmissionEnquiryForm({ isModal = false, onSuccess, initi
         />
       </div>
 
-      {/* 5. Your Message */}
+      {/* 6. Your Message */}
       <div>
         <textarea
           rows={3}

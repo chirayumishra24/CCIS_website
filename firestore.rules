@@ -1,17 +1,51 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Admissions & Enquiries
-    match /admissions_enquiries/{id} {
-      allow read, write: if true;
+    // An admin is a signed-in Firebase Auth user with a document at admins/{uid}.
+    // Admin docs are created by hand in the Firebase console; clients can't write them.
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
-    // Contact Messages
+    // Optional string field: absent, or a string no longer than max.
+    function optStr(data, field, max) {
+      return !(field in data) || (data[field] is string && data[field].size() <= max);
+    }
+
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Admissions & Enquiries: the public may submit; only admins may read/edit/delete.
+    match /admissions_enquiries/{id} {
+      allow create: if request.resource.data.size() <= 40
+        && request.resource.data.get('status', 'New') == 'New'
+        && optStr(request.resource.data, 'studentName', 200)
+        && optStr(request.resource.data, 'parentName', 200)
+        && optStr(request.resource.data, 'email', 254)
+        && optStr(request.resource.data, 'phone', 30)
+        && optStr(request.resource.data, 'grade', 100)
+        && optStr(request.resource.data, 'message', 5000);
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Contact Messages: the public may submit; only admins may read/edit/delete.
     match /contact_messages/{id} {
-      allow read, write: if true;
+      allow create: if request.resource.data.size() <= 20
+        && request.resource.data.get('status', 'unread') == 'unread'
+        && optStr(request.resource.data, 'name', 200)
+        && optStr(request.resource.data, 'email', 254)
+        && optStr(request.resource.data, 'phone', 30)
+        && optStr(request.resource.data, 'subject', 300)
+        && optStr(request.resource.data, 'message', 5000);
+      allow read, update, delete: if isAdmin();
     }
 
     // Alumni Profiles & Users
+    // TODO: still fully open. Written by public alumni registration and shared with
+    // the Alumni Dashboard; tighten together with that app.
     match /alumni_profiles/{id} {
       allow read, write: if true;
     }
@@ -22,21 +56,27 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
-    // Site Settings, News, Faculty, Testimonials
+    // Site Settings, News, Faculty, Testimonials: public read, admin write.
     match /site_settings/{id} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
     match /news_updates/{id} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
     match /faculty_members/{id} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
     match /testimonials/{id} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // Class 9 Performance & Sync
+    // TODO: still fully open (student data). Written by the syncClass9Performance
+    // function via the Admin SDK; tighten once its client readers are known.
     match /students/{id} {
       allow read, write: if true;
     }

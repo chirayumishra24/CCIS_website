@@ -1,17 +1,43 @@
 import { getFirestore, collection, doc, getDocs, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, where, orderBy, Timestamp } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, type User } from 'firebase/auth';
 import { app } from './firebase';
 
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 // ─── Constants ───
-const ADMIN_PASSCODE = 'ccis-admin-2026';
 const SCHOOL = 'CCIS';
 const ALUMNI_DASHBOARD_URL = process.env.NEXT_PUBLIC_ALUMNI_DASHBOARD_URL || 'https://alumni-dashboard-39zq.vercel.app';
 const DEFAULT_AVATAR = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120';
 
 // ─── Admin Auth ───
-export function adminAuth(passcode: string): boolean {
-  return passcode === ADMIN_PASSCODE;
+// An admin is a Firebase Auth user that also has a document at admins/{uid}
+// (created by hand in the Firebase console; Firestore rules block client writes to it).
+async function isAdminUser(user: User): Promise<boolean> {
+  try {
+    const snap = await getDoc(doc(db, 'admins', user.uid));
+    return snap.exists();
+  } catch {
+    return false;
+  }
+}
+
+export async function adminSignIn(email: string, password: string) {
+  const cred = await signInWithEmailAndPassword(auth, email, password);
+  if (!(await isAdminUser(cred.user))) {
+    await signOut(auth);
+    throw new Error('This account is not authorised for the CCIS admin dashboard.');
+  }
+}
+
+export function adminSignOut() {
+  return signOut(auth);
+}
+
+export function onAdminAuthChange(callback: (isAdmin: boolean) => void) {
+  return onAuthStateChanged(auth, async (user) => {
+    callback(user ? await isAdminUser(user) : false);
+  });
 }
 
 // ─── Announcements ───
@@ -338,30 +364,52 @@ export async function submitAdmissionEnquiry(data: {
     updatedAt: new Date().toISOString(),
   };
 
-  // 1. Forward directly to Google Sheets webhook
+  // 1. Forward directly to Google Sheets webhook.
+  // Apps Script sends Access-Control-Allow-Origin: *, so the response is readable
+  // (text/plain keeps this a simple request with no preflight).
   const webhook = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK || 'https://script.google.com/macros/s/AKfycbywoPPI9eRxJpKw6ER7SK4uuStawYVRvXee12V0kD87j6MDfON4ESqtXvGQ0OSvKFAC/exec';
+  let sheetSaved = false;
   try {
-    await fetch(webhook, {
+    const res = await fetch(webhook, {
       method: 'POST',
-      mode: 'no-cors',
       headers: {
         'Content-Type': 'text/plain;charset=utf-8',
       },
       body: JSON.stringify(enquiryData),
     });
+    sheetSaved = await isWebhookSuccess(res);
+    if (!sheetSaved) console.warn('Google Sheets sync failed: HTTP', res.status);
   } catch (sheetErr) {
     console.warn('Google Sheets sync warning:', sheetErr);
   }
 
-  // 2. Try Firestore write (best-effort)
+  // 2. Firestore write (backup copy)
+  let dbSaved = false;
   try {
     const docRef = doc(db, 'admissions_enquiries', docId);
     await setDoc(docRef, enquiryData);
+    dbSaved = true;
   } catch (dbErr) {
     console.warn('Firestore admission write notice:', dbErr);
   }
 
+  if (!sheetSaved && !dbSaved) {
+    throw new Error('We could not submit your enquiry. Please try again or call +91 9660551977.');
+  }
+
   return enquiryData;
+}
+
+// Apps Script answers HTTP 200 even when doPost throws (with an HTML error page),
+// so only a JSON body that doesn't report an error counts as success.
+export async function isWebhookSuccess(res: Response): Promise<boolean> {
+  if (!res.ok) return false;
+  try {
+    const body = await res.json();
+    return !(body?.status === 'error' || body?.success === false || body?.result === 'error');
+  } catch {
+    return false;
+  }
 }
 
 export async function fetchAdmissionEnquiries() {
