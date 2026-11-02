@@ -339,7 +339,7 @@ export async function submitAdmissionEnquiry(data: {
   };
 
   // 1. Forward directly to Google Sheets webhook
-  const webhook = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK || 'https://script.google.com/macros/s/AKfycbwWGA-DUq5kL-iXWQ3FNwBQChQy-Y14Q_XI8pytMYR0jkfpEIwrqrBYn_jrQFJgff0y/exec';
+  const webhook = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK || 'https://script.google.com/macros/s/AKfycbywoPPI9eRxJpKw6ER7SK4uuStawYVRvXee12V0kD87j6MDfON4ESqtXvGQ0OSvKFAC/exec';
   try {
     await fetch(webhook, {
       method: 'POST',
