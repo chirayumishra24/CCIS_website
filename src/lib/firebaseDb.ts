@@ -1,5 +1,6 @@
 import { getFirestore, collection, doc, getDocs, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, where, orderBy, Timestamp } from 'firebase/firestore';
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, type User } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, type User } from 'firebase/auth';
+import { initializeApp, deleteApp } from 'firebase/app';
 import { app } from './firebase';
 
 const db = getFirestore(app);
@@ -38,6 +39,53 @@ export function onAdminAuthChange(callback: (isAdmin: boolean) => void) {
   return onAuthStateChanged(auth, async (user) => {
     callback(user ? await isAdminUser(user) : false);
   });
+}
+
+export function currentAdminUid() {
+  return auth.currentUser?.uid || null;
+}
+
+export async function fetchAdmins() {
+  const snapshot = await getDocs(collection(db, 'admins'));
+  return snapshot.docs.map((d) => ({ uid: d.id, email: d.data().email || '', addedBy: d.data().addedBy || '' }));
+}
+
+// Grants admin access to an email. New emails get an account with this password;
+// for an existing account the password must be its current one (that's how we learn
+// its UID without a server). Runs on a throwaway app so the current admin stays signed in.
+export async function addAdmin(email: string, password: string) {
+  const secondary = initializeApp(app.options, `add-admin-${Date.now()}`);
+  const secondaryAuth = getAuth(secondary);
+  try {
+    let uid: string;
+    try {
+      uid = (await createUserWithEmailAndPassword(secondaryAuth, email, password)).user.uid;
+    } catch (err: any) {
+      if (err?.code !== 'auth/email-already-in-use') throw err;
+      try {
+        uid = (await signInWithEmailAndPassword(secondaryAuth, email, password)).user.uid;
+      } catch {
+        throw new Error("This email already has an account. Enter that account's current password to make it an admin.");
+      }
+    }
+    const ref = doc(db, 'admins', uid);
+    if ((await getDoc(ref)).exists()) throw new Error('This account is already an admin.');
+    await setDoc(ref, {
+      email,
+      school: SCHOOL,
+      addedBy: auth.currentUser?.email || '',
+      createdAt: new Date().toISOString(),
+    });
+    return { uid, email };
+  } finally {
+    await signOut(secondaryAuth).catch(() => {});
+    await deleteApp(secondary).catch(() => {});
+  }
+}
+
+export async function removeAdmin(uid: string) {
+  if (uid === auth.currentUser?.uid) throw new Error('You cannot remove your own admin access.');
+  await deleteDoc(doc(db, 'admins', uid));
 }
 
 // ─── Announcements ───

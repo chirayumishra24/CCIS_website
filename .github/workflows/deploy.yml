@@ -26,6 +26,9 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_APP_URL: https://ccischool.org
+          # Public Firebase web config (shipped to browsers anyway); overrides the stale values in .env
+          NEXT_PUBLIC_FIREBASE_API_KEY: AIzaSyC5MjTbXMpHgVFyTLAsISxKolDN9w0h9Kc
+          NEXT_PUBLIC_FIREBASE_APP_ID: 1:1011375873388:web:0c4946475173d55008e749
 
       - name: Deploy to Hostinger via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4

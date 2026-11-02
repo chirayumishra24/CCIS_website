@@ -15,6 +15,7 @@ import {
   ChevronRight,
   ExternalLink,
   Shield,
+  KeyRound,
 } from "lucide-react";
 
 export type AdminTab =
@@ -26,7 +27,8 @@ export type AdminTab =
   | "announcement"
   | "stats"
   | "contact"
-  | "testimonials";
+  | "testimonials"
+  | "admins";
 
 interface AdminSidebarProps {
   activeTab: AdminTab;
@@ -83,6 +85,7 @@ export default function AdminSidebar({
       badgeColor: "bg-rose-500 text-white",
     },
     { id: "testimonials", label: "Testimonials", icon: <Video className="w-4 h-4" /> },
+    { id: "admins", label: "Admin Access", icon: <KeyRound className="w-4 h-4" /> },
   ];
 
   return (

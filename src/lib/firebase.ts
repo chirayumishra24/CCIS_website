@@ -2,12 +2,12 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyCDMTbXMpNqVFyTLAsISxKoIZMNwbh9Kcc",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyC5MjTbXMpHgVFyTLAsISxKolDN9w0h9Kc",
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "skillizee-products.firebaseapp.com",
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "skillizee-products",
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "skillizee-products.firebasestorage.app",
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "1011375873388",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:1011375873388:web:0c494d475173d55001e749"
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:1011375873388:web:0c4946475173d55008e749"
 };
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();

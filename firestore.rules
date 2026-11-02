@@ -13,9 +13,14 @@ service cloud.firestore {
       return !(field in data) || (data[field] is string && data[field].size() <= max);
     }
 
+    // Admins can list admins, add new ones, and remove others (never themselves).
     match /admins/{uid} {
-      allow read: if request.auth != null && request.auth.uid == uid;
-      allow write: if false;
+      allow read: if request.auth != null && (request.auth.uid == uid || isAdmin());
+      allow create: if isAdmin()
+        && request.resource.data.keys().hasOnly(['email', 'school', 'addedBy', 'createdAt'])
+        && request.resource.data.email is string;
+      allow delete: if isAdmin() && uid != request.auth.uid;
+      allow update: if false;
     }
 
     // Admissions & Enquiries: the public may submit; only admins may read/edit/delete.

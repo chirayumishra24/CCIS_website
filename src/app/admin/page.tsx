@@ -11,6 +11,7 @@ import AlumniManager, { AlumniProfile } from "@/components/admin/AlumniManager";
 import AnnouncementManager, { AnnouncementSettings } from "@/components/admin/AnnouncementManager";
 import StatsManager, { StatItem } from "@/components/admin/StatsManager";
 import ContactMessagesManager, { ContactMessage } from "@/components/admin/ContactMessagesManager";
+import AdminUsersManager from "@/components/admin/AdminUsersManager";
 import { Lock, Loader2, Plus, Trash2, Video, FileText, Calendar, Bell, Edit3, X } from "lucide-react";
 import {
   adminSignIn,
@@ -600,6 +601,10 @@ export default function AdminDashboard() {
 
           {activeTab === "stats" && (
             <StatsManager stats={stats} onSaveStats={handleSaveStats} />
+          )}
+
+          {activeTab === "admins" && (
+            <AdminUsersManager onNotify={(message, type) => setToast({ message, type })} />
           )}
 
           {activeTab === "contact" && (
