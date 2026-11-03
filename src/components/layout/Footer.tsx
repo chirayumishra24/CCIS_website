@@ -16,6 +16,14 @@ export default function Footer() {
               <Image src="/images/logo.webp" alt="CCIS Logo" width={160} height={40} className="h-8 md:h-10 w-auto object-contain" />
             </Link>
           </div>
+          <div className="flex items-center gap-4 mt-3">
+            <div className="bg-white/10 rounded-lg p-1.5">
+              <Image src="/logo/ib-world-school-logo-2-colour.png" alt="IB World School" width={100} height={40} className="h-8 w-auto object-contain" />
+            </div>
+            <div className="bg-white/10 rounded-lg p-1.5">
+              <Image src="/logo/pyp-programme-logo-en.png" alt="IB PYP Programme" width={100} height={40} className="h-8 w-auto object-contain" />
+            </div>
+          </div>
           <p className="text-sm text-cream-dark/70 leading-relaxed mt-2">
             Where Learning Meets Life! Providing world-class academic pathways to nurture future global leaders with solid traditional Indian values.
           </p>

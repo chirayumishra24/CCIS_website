@@ -280,6 +280,40 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
       </section>
 
+      {/* ━━━ ACCREDITATIONS & AFFILIATIONS TRUST BAR ━━━ */}
+      <section className="py-6 md:py-8 bg-cream/30 border-b border-cream-line">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 md:gap-16">
+            <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-ink-muted/60 shrink-0">Accredited &amp; Affiliated</span>
+            <div className="flex items-center gap-6 sm:gap-10 md:gap-14">
+              <div className="flex items-center gap-3 group">
+                <Image
+                  src="/logo/ib-world-school-logo-2-colour.png"
+                  alt="IB World School"
+                  width={160}
+                  height={60}
+                  className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="w-px h-10 bg-cream-line/80 hidden sm:block" />
+              <div className="flex items-center gap-3 group">
+                <Image
+                  src="/logo/pyp-programme-logo-en.png"
+                  alt="IB PYP Programme"
+                  width={160}
+                  height={60}
+                  className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="w-px h-10 bg-cream-line/80 hidden sm:block" />
+              <div className="flex items-center gap-2">
+                <span className="text-navy font-serif font-bold text-sm sm:text-base">CBSE</span>
+                <span className="text-[10px] text-ink-muted/70 font-sans">Affiliation #1730867</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* ━━━ 3. ABOUT SNAPSHOT ━━━ */}
       <section className="pt-16 md:pt-24 pb-20 md:pb-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
